@@ -1,0 +1,7 @@
+{
+    "initialState": "introState",
+    "fromPlayStateIfStoryMode": "storyMenuState",
+    "fromPlayStateIfFreeplay": "freeplayState",
+    "fromEditors": "masterEditorMenu",
+    "fromOptions": "mainMenuState"
+}
