@@ -56,5 +56,5 @@
   
 #### Don't worry!
 * If you **do not have problems related to ALE Engine's own functions**, you can **ask for help** on the [Psych Engine's Discord Server](https://discord.com/invite/2ka77eMXDv).
-* If you **have problems with ALE Engine's own functions**, you can **ask for help** on the [ALE Engine's Discord Server](https://discord.com/channels/1285303468772425779/1285379301482561537/1285411023745978480).
+* If you **have problems with ALE Engine's own functions**, you can **ask for help** on the [ALE Engine's Discord Server](https://discord.gg/NP4U9CUrsH).
 </details>
