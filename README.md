@@ -30,11 +30,26 @@
 * [ALE Engine Wiki](WIKI.md)
 </details>
 
-<details><summary><h2>ALE Engine Functions</h2></summary>
+<details><summary><h2>Engine Functions</h2></summary>
 
 #### I don't have money to activate the Wiki
 * [Psych Engine Wiki](https://github.com/ShadowMario/FNF-PsychEngine/wiki)
-* [ALE Engine Wiki]
+* [ALE Engine Wiki](WIKI.md)
+</details>
+
+<details>
+  <summary><h2>What can you do or not do</h2></summary>
+
+  ### You can:
+  - Download and use the engine or install mods/modpacks to play on it
+  - Mod and fork the engine
+  - Release excutable mods that use ALE Engine as source *(Specifing that this ALE Engine)*
+  - Release modpacks
+
+  ### You can't:
+  - Create another engine unrelated to ALE Engine that uses it's code
+  - Steal code from ALE Engine without giving proper credits
+  - Publish the engine on other platforms *(You can only upload **mods** that use the engine as a source, if specified, even better)*
 </details>
 
 <details><summary><h2>Need help?</h2></summary>
