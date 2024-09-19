@@ -138,7 +138,7 @@ function onUpdate(elapsed:Float)
             canSelect = false;
         }
 
-        if (controls.UI_UP_P)
+        if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
         {
             if (weekSelInt > 0)
             {
@@ -150,7 +150,7 @@ function onUpdate(elapsed:Float)
             changeDifficulties();
             changeDifficultyShit(false);
             changeWeekShit();
-        } else if (controls.UI_DOWN_P) {
+        } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
             if (weekSelInt < (weekTexts.length - 1))
             {
                 weekSelInt += 1;

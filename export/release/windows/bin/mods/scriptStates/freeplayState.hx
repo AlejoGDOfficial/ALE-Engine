@@ -23,7 +23,7 @@ weeks.push(weekName);
 function onCreate()
 {
     var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['face', 'face'], ['909090'], ['Normal']);
+    setWeekData(testWeek, 'testWeek', ['Test'], ['face'], ['FF00FF'], ['Normal']);
     weeks.push(testWeek);
 
     showShit();
@@ -114,11 +114,24 @@ function showShit()
     
 var canSelect:Bool = true;
 
+function onBeatHit()
+{
+    for (image in images)
+    {
+        image.scale.set(1.25, 1.25);
+    }
+}
+
 function onUpdate(elapsed:Float)
 {
+    for (image in images)
+    {
+        image.scale.set(FlxMath.lerp(image.scale.x, 1, 0.33), FlxMath.lerp(image.scale.y, 1, 0.33));
+    }
+
     if (canSelect)
     {
-        if (controls.UI_UP_P)
+        if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
         {
             if (songsSelInt > 0)
             {
@@ -130,7 +143,7 @@ function onUpdate(elapsed:Float)
             changeSongShit();
             changeOtherShit();
             changeDifficulties();
-        } else if (controls.UI_DOWN_P) {
+        } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
             if (songsSelInt < (texts.length - 1))
             {
                 songsSelInt += 1;

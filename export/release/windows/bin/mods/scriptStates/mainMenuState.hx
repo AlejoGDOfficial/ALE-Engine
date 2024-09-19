@@ -79,9 +79,9 @@ function onUpdate(elapsed:Float)
             });
         }
 
-        if (controls.UI_UP_P || controls.UI_DOWN_P)
+        if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
         {
-            if (controls.UI_UP_P)
+            if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
             {
                 if (selInt > 0)
                 {
@@ -91,7 +91,7 @@ function onUpdate(elapsed:Float)
                 }
     
                 FlxG.sound.play(Paths.sound('scrollMenu'));
-            } else if (controls.UI_DOWN_P) {
+            } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
                 if (selInt < 2)
                 {
                     selInt += 1;
@@ -101,7 +101,7 @@ function onUpdate(elapsed:Float)
     
                 FlxG.sound.play(Paths.sound('scrollMenu'));
             }
-    
+
             changeShit();
         }
 
