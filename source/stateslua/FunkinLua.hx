@@ -43,7 +43,9 @@ import flixel.input.gamepad.FlxGamepadInputID;
 
 import haxe.Json;
 
-import ConsoleWinAPI;
+import sys.io.Process;
+
+import cpp.*;
 
 class FunkinLua {
 	public var lua:State = null;
@@ -170,10 +172,6 @@ class FunkinLua {
 			PlayState.storyWeek = 0;
 			LoadingState.loadAndSwitchState(new PlayState(), true);
 		});
-		Lua_helper.add_callback(lua, "showConsole", function()
-		{
-			ConsoleWinAPI.allocConsole();
-		});
 		Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
 		{
 			FlxTween.num(Lib.application.window.x, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateX);
@@ -221,6 +219,161 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "getWindowHeight", function(pos:Int)
 		{
 			return Lib.application.window.height;
+		});
+
+		//CPP
+		
+		Lua_helper.add_callback(lua, 'obtainRAM', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			return WindowsCPP.obtainRAM();
+		});
+		
+		Lua_helper.add_callback(lua, 'screenCapture', function(path:String)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.windowsScreenShot(path);
+		});
+	
+		Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:cpp.WindowsAPI.MessageBoxIcon = MSG_WARNING)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.showMessageBox(caption, message, icon);
+		});
+	
+		Lua_helper.add_callback(lua, 'getWindowsTransparent', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.getWindowsTransparent();
+		});
+	
+		Lua_helper.add_callback(lua, 'disableWindowTransparent', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.disableWindowTransparent();
+		});
+	
+		Lua_helper.add_callback(lua, 'setWindowVisible', function(mode:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowVisible(mode);
+		});
+		
+		Lua_helper.add_callback(lua, 'setWindowOppacity', function(a:Float)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowAlpha(a);
+		});
+		Lua_helper.add_callback(lua, 'getWindowOppacity', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			return WindowsCPP.getWindowAlpha();
+		});
+	
+		Lua_helper.add_callback(lua, 'setWindowLayered', function()
+		{
+			WindowsCPP.setWindowLayered();
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+		});
+	
+		Lua_helper.add_callback(lua, 'setWindowBorderColor', function(r:Int, g:Int, b:Int)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowBorderColor(r, g, b);
+		});
+	
+		Lua_helper.add_callback(lua, 'hideTaskbar', function(hide:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.hideTaskbar(hide);
+		});
+	
+		Lua_helper.add_callback(lua, 'setWallpaper', function(path:String)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWallpaper(path);
+		});
+	
+		Lua_helper.add_callback(lua, 'hideDesktopIcons', function(hide:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.hideDesktopIcons(hide);
+		});
+	
+		Lua_helper.add_callback(lua, 'setTaskBarAlpha', function(alpha:Float)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setTaskBarAlpha(alpha);
+		});
+		
+		Lua_helper.add_callback(lua, 'setWindowLayeredMode', function(window:Int)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowLayeredMode(window);
+		});
+	
+		Lua_helper.add_callback(lua, 'getCursorPositionX', function()
+		{
+			return WindowsCPP.getCursorPositionX();
+		});
+	
+		Lua_helper.add_callback(lua, 'getCursorPositionY', function()
+		{
+			return WindowsCPP.getCursorPositionY();
+		});
+	
+		Lua_helper.add_callback(lua, 'clearTerminal', function()
+		{
+			WindowsTerminalCPP.clearTerminal();
+		});
+	
+		Lua_helper.add_callback(lua, 'allocConsole', function()
+		{
+			WindowsTerminalCPP.allocConsole();
+		});
+	
+		Lua_helper.add_callback(lua, 'setConsoleTitle', function(title:String)
+		{
+			WindowsTerminalCPP.setConsoleTitle(title);
+		});
+	
+		Lua_helper.add_callback(lua, 'setConsoleWindowIcon', function(path:String)
+		{
+			WindowsTerminalCPP.setConsoleWindowIcon(path);
+		});
+	
+		Lua_helper.add_callback(lua, 'disableCloseConsoleWindow', function()
+		{
+			WindowsTerminalCPP.disableCloseConsoleWindow();
+		});
+	
+		Lua_helper.add_callback(lua, 'hideConsoleWindow', function()
+		{
+			WindowsTerminalCPP.hideConsoleWindow();
+		});
+	
+		Lua_helper.add_callback(lua, 'sendWindowsNotification', function(title:String, desc:String)
+		{
+			var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
+				+ "$title = '"
+				+ desc
+				+ "';"
+				+ "[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null;"
+				+ "$template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText01);"
+				+ "$toastXml = [xml] $template.GetXml();"
+				+ "$toastXml.GetElementsByTagName('text').AppendChild($toastXml.CreateTextNode($title)) > $null;"
+				+ "$xml = New-Object Windows.Data.Xml.Dom.XmlDocument;"
+				+ "$xml.LoadXml($toastXml.OuterXml);"
+				+ "$toast = [Windows.UI.Notifications.ToastNotification]::new($xml);"
+				+ "$toast.Tag = 'Test1';"
+				+ "$toast.Group = 'Test2';"
+				+ "$notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('"
+				+ title
+				+ "');"
+				+ "$notifier.Show($toast);}\"";
+	
+			if (title != null && title != "" && desc != null && desc != "")
+				new Process(powershellCommand);
 		});
 
 		//ALE Shit END

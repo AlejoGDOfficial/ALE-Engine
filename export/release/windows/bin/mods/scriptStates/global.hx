@@ -5,7 +5,7 @@ function onCreate()
 
 function onUpdate(elapsed:Float)
 {
-	if (FlxG.keys.justPressed.F5)
+	if (controls.RESET)
 	{
 		resetScriptState();
 	}

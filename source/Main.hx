@@ -137,8 +137,6 @@ class Main extends Sprite
 		Lib.current.stage.window.setIcon(icon);
 		#end
 
-		CoolUtil.setDarkMode(true);
-
 		#if html5
 		FlxG.autoPause = false;
 		FlxG.mouse.visible = false;

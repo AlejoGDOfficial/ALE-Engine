@@ -6,7 +6,16 @@ import backend.CoolUtil;
 
 var texts:Array<FlxText>;
 
-var textInfo:Array<String>;
+var options:Array<String> = [
+    'Chart Editor',
+    'Character Editor',
+    'Stage Editor',
+    'Menu Character Editor',
+    'Dialogue Editor',
+    'Dialogue Portrait Editor',
+    'Note Splash Editor',
+    'Show Console'
+];
 
 var bg:FlxSprite;
 
@@ -16,21 +25,10 @@ function onCreate()
     add(bg);
     bg.color = 0xFF353535;
 
-    textInfo = [
-		'Chart Editor',
-		'Character Editor',
-		'Stage Editor',
-		'Menu Character Editor',
-		'Dialogue Editor',
-		'Dialogue Portrait Editor',
-		'Note Splash Editor',
-        'Show Console'
-    ];
-
     texts = [];
 
-    for (i in 0...textInfo.length) {
-        var text = new FlxText(30, 10 + (i * 87), 0, textInfo[i]);
+    for (i in 0...options.length) {
+        var text = new FlxText(30, 10 + (i * 87), 0, options[i]);
         text.setFormat(Paths.font('emptyPhantomMuff.ttf'), 70, FlxColor.WHITE, 'left');
         add(text);
         text.borderStyle = FlxTextBorderStyle.OUTLINE;
@@ -128,7 +126,7 @@ function onUpdate(elapsed:Float)
                         switchToSomeStates('NoteSplashEditorState');
                     case 7:
                         switchToScriptState('mainMenuState', true);
-                        showConsole();
+                        allocConsole();
                 }
             });
         }

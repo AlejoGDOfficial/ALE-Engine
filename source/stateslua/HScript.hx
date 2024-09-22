@@ -11,8 +11,6 @@ import openfl.display.BitmapData;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 
-import ConsoleWinAPI;
-
 import flixel.FlxState;
 
 #if LUA_ALLOWED
@@ -23,6 +21,10 @@ import stateslua.FunkinLua;
 import tea.SScript;
 
 import openfl.Lib;
+
+import sys.io.Process;
+
+import cpp.*;
 
 class HScript extends SScript
 {
@@ -175,10 +177,6 @@ class HScript extends SScript
 			PlayState.storyWeek = 0;
 			LoadingState.loadAndSwitchState(new PlayState(), true);
 		});
-		set('showConsole', function()
-		{
-			ConsoleWinAPI.allocConsole();
-		});
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
 		{
 			FlxTween.num(Lib.application.window.x, pos, time, {ease: theEase}, windowTweenUpdateX);
@@ -226,6 +224,161 @@ class HScript extends SScript
 		set("getWindowHeight", function(pos:Int)
 		{
 			return Lib.application.window.height;
+		});
+
+		//CPP
+		
+		set('obtainRAM', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			return WindowsCPP.obtainRAM();
+		});
+		
+		set('screenCapture', function(path:String)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.windowsScreenShot(path);
+		});
+	
+		set('showMessageBox', function(message:String, caption:String, icon:cpp.WindowsAPI.MessageBoxIcon = MSG_WARNING)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.showMessageBox(caption, message, icon);
+		});
+	
+		set('getWindowsTransparent', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.getWindowsTransparent();
+		});
+	
+		set('disableWindowTransparent', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.disableWindowTransparent();
+		});
+	
+		set('setWindowVisible', function(mode:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowVisible(mode);
+		});
+		
+		set('setWindowOppacity', function(a:Float)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowAlpha(a);
+		});
+		set('getWindowOppacity', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			return WindowsCPP.getWindowAlpha();
+		});
+	
+		set('setWindowLayered', function()
+		{
+			WindowsCPP.setWindowLayered();
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+		});
+	
+		set('setWindowBorderColor', function(r:Int, g:Int, b:Int)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowBorderColor(r, g, b);
+		});
+	
+		set('hideTaskbar', function(hide:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.hideTaskbar(hide);
+		});
+	
+		set('setWallpaper', function(path:String)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWallpaper(path);
+		});
+	
+		set('hideDesktopIcons', function(hide:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.hideDesktopIcons(hide);
+		});
+	
+		set('setTaskBarAlpha', function(alpha:Float)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setTaskBarAlpha(alpha);
+		});
+		
+		set('setWindowLayeredMode', function(window:Int)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowLayeredMode(window);
+		});
+	
+		set('getCursorPositionX', function()
+		{
+			return WindowsCPP.getCursorPositionX();
+		});
+	
+		set('getCursorPositionY', function()
+		{
+			return WindowsCPP.getCursorPositionY();
+		});
+	
+		set('clearTerminal', function()
+		{
+			WindowsTerminalCPP.clearTerminal();
+		});
+	
+		set('allocConsole', function()
+		{
+			WindowsTerminalCPP.allocConsole();
+		});
+	
+		set('setConsoleTitle', function(title:String)
+		{
+			WindowsTerminalCPP.setConsoleTitle(title);
+		});
+	
+		set('setConsoleWindowIcon', function(path:String)
+		{
+			WindowsTerminalCPP.setConsoleWindowIcon(path);
+		});
+	
+		set('disableCloseConsoleWindow', function()
+		{
+			WindowsTerminalCPP.disableCloseConsoleWindow();
+		});
+	
+		set('hideConsoleWindow', function()
+		{
+			WindowsTerminalCPP.hideConsoleWindow();
+		});
+	
+		set('sendWindowsNotification', function(title:String, desc:String)
+		{
+			var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
+				+ "$title = '"
+				+ desc
+				+ "';"
+				+ "[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null;"
+				+ "$template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText01);"
+				+ "$toastXml = [xml] $template.GetXml();"
+				+ "$toastXml.GetElementsByTagName('text').AppendChild($toastXml.CreateTextNode($title)) > $null;"
+				+ "$xml = New-Object Windows.Data.Xml.Dom.XmlDocument;"
+				+ "$xml.LoadXml($toastXml.OuterXml);"
+				+ "$toast = [Windows.UI.Notifications.ToastNotification]::new($xml);"
+				+ "$toast.Tag = 'Test1';"
+				+ "$toast.Group = 'Test2';"
+				+ "$notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('"
+				+ title
+				+ "');"
+				+ "$notifier.Show($toast);}\"";
+	
+			if (title != null && title != "" && desc != null && desc != "")
+				new Process(powershellCommand);
 		});
 		
 		//ALE Shit END

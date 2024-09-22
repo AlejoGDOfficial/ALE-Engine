@@ -28,6 +28,8 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 
+import cpp.*;
+
 class TitleState extends MusicBeatState
 {
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
@@ -202,6 +204,9 @@ class TitleState extends MusicBeatState
 			switch (sickSteps)
 			{
 				case 0:
+					WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+					FlxTween.num(255, 32, 30 / Conductor.bpm, {ease: FlxEase.cubeOut}, windowColorTween);
+
 					FlxG.sound.play(Paths.sound('flixel'), 1);
 					drawTopFace();
 				case 1:
@@ -232,8 +237,8 @@ class TitleState extends MusicBeatState
 
 							new FlxTimer().start(0.2, function(tmr:FlxTimer)
 							{
+								WindowsCPP.setWindowLayered();
 								FlxG.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "initialState")));
-								trace(CoolUtil.getJsonValue("scriptStates/config", "initialState"));
 							});
 						}
 					});
@@ -243,6 +248,11 @@ class TitleState extends MusicBeatState
 		}
 
 		super.stepHit();
+	}
+
+	private function windowColorTween(value:Float)
+	{
+		WindowsCPP.setWindowBorderColor(Math.floor(value), Math.floor(value), Math.floor(value));
 	}
 
 }

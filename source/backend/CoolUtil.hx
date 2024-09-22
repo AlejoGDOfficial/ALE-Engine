@@ -157,22 +157,6 @@ class CoolUtil
 				text.borderStyle = NONE;
 		}
 	}
-	
-	public static function setDarkMode(enabled:Bool) 
-	{
-		WinAPI.setDarkMode(getWindowTitle(), enabled);
-	}
-	
-	public static function setWindowIcon(stricon:String) 
-	{
-		WinAPI.setIcon(getWindowTitle(), stricon);
-	}
-	
-	public static function getWindowTitle():String 
-	{
-		@:privateAccess var attributes = lime.app.Application.current.window.__attributes;
-		return Reflect.hasField(attributes, "title") ? attributes.title : "Lime Application";
-	}
 
     public static function getJsonValue(filePath:String, key:String):String 
 	{

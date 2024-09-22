@@ -2,15 +2,17 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
+import cpp.*;
 
 var bg:FlxSprite;
 var magentaBg:FlxSprite;
 
-var storyModeImage:FlxSprite;
-var freeplayImage:FlxSprite;
-var optionsImage:FlxSprite;
+var options:Array<String> = ['storyMode', 'freeplay', 'credits', 'options'];
+var images:Array<FlxSprite> = [];
 
-var coolVersion:FlxText;
+var selectedMenu:String;
+
+var version:FlxText;
 
 function onCreate()
 {
@@ -25,36 +27,26 @@ function onCreate()
     magentaBg.screenCenter('x');
     magentaBg.visible = false;
 
-    storyModeImage = new FlxSprite();
-    storyModeImage.frames = Paths.getSparrowAtlas('mainMenuState/storyMode');
-    storyModeImage.animation.addByPrefix('basic', 'basic', 24, true);
-    storyModeImage.animation.addByPrefix('white', 'white', 24, true);
-    storyModeImage.animation.play('basic');
-    add(storyModeImage);
-
-    freeplayImage = new FlxSprite();
-    freeplayImage.frames = Paths.getSparrowAtlas('mainMenuState/freeplay');
-    freeplayImage.animation.addByPrefix('basic', 'basic', 24, true);
-    freeplayImage.animation.addByPrefix('white', 'white', 24, true);
-    freeplayImage.animation.play('basic');
-    add(freeplayImage);
-
-    optionsImage = new FlxSprite();
-    optionsImage.frames = Paths.getSparrowAtlas('mainMenuState/options');
-    optionsImage.animation.addByPrefix('basic', 'basic', 24, true);
-    optionsImage.animation.addByPrefix('white', 'white', 24, true);
-    optionsImage.animation.play('basic');
-    add(optionsImage);
+    for (i in options)
+    {
+        var img = new FlxSprite();
+        img.frames = Paths.getSparrowAtlas('mainMenuState/' + i);
+        img.animation.addByPrefix('basic', 'basic', 24, true);
+        img.animation.addByPrefix('white', 'white', 24, true);
+        img.animation.play('basic');
+        add(img);
+        images.push(img);
+    }
 
     Type.resolveEnum('flixel.text.FlxTextBorderStyle').OUTLINE;
 
-    coolVersion = new FlxText(10, 0, 0, 'Friday Night Funkin 0.3.0\nALE Engine EXPERIMENTAL (P.E. 1.0 Pre-Release)');
-    coolVersion.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, 'left');
-    add(coolVersion);
-    coolVersion.y = FlxG.height - coolVersion.height - 10;
-    coolVersion.borderStyle = FlxTextBorderStyle.OUTLINE;
-    coolVersion.borderSize = 1;
-    coolVersion.borderColor = FlxColor.BLACK;
+    version = new FlxText(10, 0, 0, 'Friday Night Funkin 0.3.0\nALE Engine EXPERIMENTAL (P.E. 1.0 Pre-Release)');
+    version.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, 'left');
+    add(version);
+    version.y = FlxG.height - version.height - 10;
+    version.borderStyle = FlxTextBorderStyle.OUTLINE;
+    version.borderSize = 1;
+    version.borderColor = FlxColor.BLACK;
 
     changeShit();
 }
@@ -63,8 +55,14 @@ var selInt:Int = 0;
 
 var canSelect:Bool = true;
 
+var curTime:Float = 0;
+
 function onUpdate(elapsed:Float)
 {
+    curTime += elapsed;
+
+    setWindowOppacity(Math.sin(curTime) * 0.5 + 0.5);
+
     if (canSelect)
     {
         if (controls.BACK)
@@ -87,21 +85,21 @@ function onUpdate(elapsed:Float)
                 {
                     selInt -= 1;
                 } else if (selInt == 0) {
-                    selInt = 2;
+                    selInt = options.length - 1;
                 }
     
                 FlxG.sound.play(Paths.sound('scrollMenu'));
-            } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
-                if (selInt < 2)
+            } else if (controls.UI_DOWN_P ||  FlxG.mouse.wheel < 0) {
+                if (selInt < options.length - 1)
                 {
                     selInt += 1;
-                } else if (selInt == 2) {
+                } else if (selInt == options.length - 1) {
                     selInt = 0;
                 }
     
                 FlxG.sound.play(Paths.sound('scrollMenu'));
             }
-
+    
             changeShit();
         }
 
@@ -109,42 +107,31 @@ function onUpdate(elapsed:Float)
         {
             FlxFlicker.flicker(magentaBg, 1.1, 0.15, false);
 
-            switch (selInt)
-            {
-                case 0:
-                    FlxFlicker.flicker(storyModeImage, 0, 0.05);
-                case 1:
-                    FlxFlicker.flicker(freeplayImage, 0, 0.06);
-                case 2:
-                    FlxFlicker.flicker(optionsImage, 0, 0.06);
-            }
-
             canSelect = false;
 
-            if (selInt != 0)
+            for (i in 0...images.length)
             {
-                FlxTween.tween(storyModeImage, {alpha: 0}, 60 / Conductor.bpm);
-            }
-            if (selInt != 1)
-            {
-                FlxTween.tween(freeplayImage, {alpha: 0}, 60 / Conductor.bpm);
-            }
-            if (selInt != 2)
-            {
-                FlxTween.tween(optionsImage, {alpha: 0}, 60 / Conductor.bpm);
+                if (i == selInt)
+                {
+                    FlxFlicker.flicker(images[i], 0, 0.05);
+                } else {
+                    FlxTween.tween(images[i], {alpha: 0}, 60 / Conductor.bpm);
+                }
             }
 
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
         
             new FlxTimer().start(1, function(tmr:FlxTimer)
             {
-                switch (selInt)
+                switch (selectedMenu)
                 {
-                    case 0:
+                    case 'storyMode':
                         switchToScriptState('storyMenuState', true);
-                    case 1:
+                    case 'freeplay':
                         switchToScriptState('freeplayState', true);
-                    case 2:
+                    case 'credits':
+                        switchToScriptState('creditsState', true);
+                    case 'options':
                         switchToSomeStates('OptionsState', true);
                 }
             });
@@ -159,42 +146,24 @@ function onUpdate(elapsed:Float)
 
 function changeShit()
 {
-    if (selInt == 0)
+    for (i in 0...options.length)
     {
-        storyModeImage.animation.play('white');
-    } else {
-        storyModeImage.animation.play('basic');
+        if (i == selInt)
+        {
+            images[i].animation.play('white');
+            selectedMenu = options[i];
+        } else {
+            images[i].animation.play('basic');
+        }
+    
+        images[i].centerOffsets();
+        images[i].x = FlxG.width / 2 - images[i].width / 2;
+        images[i].y = FlxG.height / (images.length + 1) * (i + 1) - images[i].height / 2;
     }
-
-    storyModeImage.centerOffsets();
-    storyModeImage.x = FlxG.width / 2 - storyModeImage.width / 2;
-    storyModeImage.y = FlxG.height / 4 - storyModeImage.height / 2;
-
-    if (selInt == 1)
-    {
-        freeplayImage.animation.play('white');
-    } else {
-        freeplayImage.animation.play('basic');
-    }
-
-    freeplayImage.centerOffsets();
-    freeplayImage.x = FlxG.width / 2 - freeplayImage.width / 2;
-    freeplayImage.y = FlxG.height / 4 * 2 - freeplayImage.height / 2;
-
-    if (selInt == 2)
-    {
-        optionsImage.animation.play('white');
-    } else {
-        optionsImage.animation.play('basic');
-    }
-
-    optionsImage.centerOffsets();
-    optionsImage.x = FlxG.width / 2 - optionsImage.width / 2;
-    optionsImage.y = FlxG.height / 4 * 3 - optionsImage.height / 2;
 
     FlxTween.cancelTweensOf(bg);
-    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - 25 * (selInt)}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
+    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - (25 * (selInt)) / options.length - 1}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
 
     FlxTween.cancelTweensOf(magentaBg);
-    FlxTween.tween(magentaBg, {y: FlxG.height / 2 - bg.height / 2 - 25 * (selInt)}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
+    FlxTween.tween(magentaBg, {y: FlxG.height / 2 - magentaBg.height / 2 - (25 * (selInt)) / options.length - 1}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
 }
