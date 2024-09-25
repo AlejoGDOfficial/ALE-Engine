@@ -55,14 +55,8 @@ var selInt:Int = 0;
 
 var canSelect:Bool = true;
 
-var curTime:Float = 0;
-
 function onUpdate(elapsed:Float)
 {
-    curTime += elapsed;
-
-    setWindowOppacity(Math.sin(curTime) * 0.5 + 0.5);
-
     if (canSelect)
     {
         if (controls.BACK)
