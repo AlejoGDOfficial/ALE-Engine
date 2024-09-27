@@ -2,7 +2,7 @@
 
 >[!IMPORTANT]
 > ## This engine is still in **Alpha State**
-> * Mods created in **Psych Engine** are *(probably)* compatible with this **engine**
+> * Mods created in **Psych Engine** are compatible with **ALE Engine** (For now)
 > * Multiple editors not working
 > * There are very few new features yet
 > * The script states don't work as well as Psych hardcoded States
