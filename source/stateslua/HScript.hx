@@ -263,7 +263,7 @@ class HScript extends SScript
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.getWindowAlpha();
 		});
-		set('doWindowTweenAlpha', function(alpha:Int, time:Float, theEase:Dynamic)
+		set('doWindowTweenAlpha', function(alpha:Float, time:Float, theEase:Dynamic)
 		{
 			FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha);
 		});

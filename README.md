@@ -30,13 +30,6 @@
 * [ALE Engine Wiki](WIKI.md)
 </details>
 
-<details><summary><h2>Engine Functions</h2></summary>
-
-#### I don't have money to activate the Wiki
-* [Psych Engine Wiki](https://github.com/ShadowMario/FNF-PsychEngine/wiki)
-* [ALE Engine Wiki](WIKI.md)
-</details>
-
 <details>
   <summary><h2>What can you do or not do</h2></summary>
 

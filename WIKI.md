@@ -106,3 +106,28 @@
 * `getWindowHeight()`
 
 </details>
+
+<details><summary><h2>C++ Functions</h2></summary>
+
+> Can be used in all types of script!
+
+#### Used to change the window title.
+
+* `changeTitle()`
+
+#### Used to obtain the device RAM.
+
+* `getDeviceRAM()`
+
+#### Used to show a message box.
+
+* `showMessageBox(message, caption, icon)`
+    - Examples: </br>
+        `showMessageBox('message', 'title', 0x00000010)` <br>
+        `showMessageBox('message', 'title', 0x00000020)` <br>
+        `showMessageBox('message', 'title', 0x00000030)` <br>
+        `showMessageBox('message', 'title', 0x00000040)` <br>
+
+#### Used to obtain the device RAM.
+
+* `getDeviceRAM()`
