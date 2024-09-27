@@ -162,55 +162,12 @@ class WindowsCPP
 	@:functionCode('
 		MessageBox(GetActiveWindow(), message, caption, icon | MB_SETFOREGROUND);
 	')
-	public static function showMessageBox(caption:String, message:String, icon:WindowsAPI.MessageBoxIcon = MSG_WARNING)
-	{
-	}
+	public static function showMessageBox(caption:String, message:String, icon:WindowsAPI.MessageBoxIcon = MSG_WARNING) {}
 
 	@:functionCode('
 		globalWindowTitle = windowTitle;
 	')
-	public static function reDefineMainWindowTitle(windowTitle:String)
-	{
-	}
-
-	@:functionCode('
-		HWND hwnd = GET_MAIN_WINDOW();
-
-		if (show) {
-			ShowWindow(hwnd, SW_SHOW);
-		} else {
-			ShowWindow(hwnd, SW_HIDE);
-		}
-    ')
-	static public function setWindowVisible(show:Bool)
-	{
-	}
-
-	@:functionCode('
-        HWND hWnd = GET_MAIN_WINDOW();
-        res = SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-        if (res)
-        {
-            SetLayeredWindowAttributes(hWnd, RGB(25, 25, 25), 0, LWA_COLORKEY);
-        }
-    ')
-	static public function getWindowsTransparent(res:Int = 0)
-	{
-		return res;
-	}
-
-	@:functionCode('
-        HWND hWnd = GET_MAIN_WINDOW();
-        res = SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) ^ WS_EX_LAYERED);
-        if (res)
-        {
-            SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 1, LWA_COLORKEY);
-        }
-    ')
-	static public function disableWindowTransparent(res:Int = 0)
-	{
-		return res;
-	}
+	public static function reDefineMainWindowTitle(windowTitle:String) {}
 
 	@:functionCode('
         HWND window = GET_MAIN_WINDOW();
@@ -227,17 +184,13 @@ class WindowsCPP
 
         UpdateWindow(window);
     ')
-	public static function setWindowBorderColor(r:Int, g:Int, b:Int)
-	{
-	}
+	public static function setWindowBorderColor(r:Int, g:Int, b:Int){}
 
 	@:functionCode('
 		HWND window = GET_MAIN_WINDOW();
 		SetWindowLong(window, GWL_EXSTYLE, GetWindowLong(window, GWL_EXSTYLE) ^ WS_EX_LAYERED);
 	')
-	public static function setWindowLayered()
-	{
-	}
+	public static function setWindowLayered() {}
 
 	@:functionCode('
         HWND window = GET_MAIN_WINDOW();
@@ -253,9 +206,7 @@ class WindowsCPP
 
        	SetLayeredWindowAttributes(window, 0, (255 * (a * 100)) / 100, LWA_ALPHA);
     ')
-	public static function setWindowAlpha(alpha:Float)
-	{
-	}
+	public static function setWindowAlpha(alpha:Float) {}
 
 	@:functionCode('
 		HWND hwnd = GET_MAIN_WINDOW();
@@ -275,26 +226,6 @@ class WindowsCPP
 	public static function getWindowAlpha():Float
 	{
 		return 0;
-	}
-
-	@:functionCode('
-        HWND hwnd = GET_MAIN_WINDOW();
-        int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-        int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-        
-        RECT windowRect;
-        GetWindowRect(hwnd, &windowRect);
-        int windowWidth = windowRect.right - windowRect.left;
-        int windowHeight = windowRect.bottom - windowRect.top;
-        
-        int centerX = (screenWidth - windowWidth) / 2;
-        int centerY = (screenHeight - windowHeight) / 2;
-        
-        SetWindowPos(hwnd, NULL, centerX, centerY, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-    ')
-	@:noCompletion
-	public static function centerWindow()
-	{
 	}
 
 	@:functionCode('
@@ -320,37 +251,12 @@ class WindowsCPP
 	}
 
 	@:functionCode('
-		BOOL isAdmin = FALSE;
-		SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
-		PSID adminGroup = nullptr;
-
-		if (AllocateAndInitializeSid(&ntAuthority, 2,
-			SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS,
-			0, 0, 0, 0, 0, 0, &adminGroup)) {
-
-			if (!CheckTokenMembership(nullptr, adminGroup, &isAdmin)) {
-				isAdmin = FALSE;
-			}
-
-			FreeSid(adminGroup);
-		}
-
-		return isAdmin == TRUE;
-	')
-	public static function isRunningAsAdmin():Bool
-	{
-		return false;
-	}
-
-	@:functionCode('
 		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 		screenCapture(0, 0, screenWidth, screenHeight, path);
 	')
 	@:noCompletion
-	public static function windowsScreenShot(path:String)
-	{
-	}
+	public static function windowsScreenShot(path:String) {}
 
 	@:functionCode("
 		unsigned long long allocatedRAM = 0;
@@ -376,37 +282,7 @@ class WindowsCPP
 			ShowWindow(hwnd2, SW_SHOW);
 		}
     ')
-	public static function hideTaskbar(hide:Bool)
-	{
-	}
-
-	@:functionCode('
-		const char* filepath = path;
-	
-		int uiAction = SPIF_UPDATEINIFILE | SPIF_SENDCHANGE;
-		char filepathBuffer[MAX_PATH];
-		strcpy_s(filepathBuffer, filepath);
-	
-		SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0, filepathBuffer, uiAction);	
-    ')
-	public static function setWallpaper(path:String)
-	{
-	}
-
-	@:functionCode('
-		bool value = hide;
-		HWND hProgman = FindWindowW (L"Progman", L"Program Manager");
-		HWND hChild = GetWindow (hProgman, GW_CHILD);
-		
-		if (value == true) {
-			ShowWindow (hChild, SW_HIDE);
-		} else {
-			ShowWindow (hChild, SW_SHOW);
-		}
-    ')
-	public static function hideDesktopIcons(hide:Bool)
-	{
-	}
+	public static function hideTaskbar(hide:Bool) {}
 
 	@:functionCode('
 		HWND hd;
@@ -417,9 +293,7 @@ class WindowsCPP
 
 		SetWindowPos(hd, NULL, x, NULL, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
     ')
-	public static function moveDesktopWindowsInX(x:Int)
-	{
-	}
+	public static function moveDesktopWindowsInX(x:Int) {}
 
 	@:functionCode('
 		HWND hd;
@@ -430,99 +304,7 @@ class WindowsCPP
 
 		SetWindowPos(hd, NULL, NULL, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
     ')
-	public static function moveDesktopWindowsInY(y:Int)
-	{
-	}
-
-	@:functionCode('
-		HWND hd;
-
-		hd = FindWindowA("Progman", NULL);
-		hd = FindWindowEx(hd, 0, "SHELLDLL_DefView", NULL);
-		hd = FindWindowEx(hd, 0, "SysListView32", NULL);
-
-		SetWindowPos(hd, NULL, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-    ')
-	public static function moveDesktopWindowsInXY(x:Int, y:Int)
-	{
-	}
-
-	@:functionCode('
-		HWND hd;
-
-		hd = FindWindowA("Progman", NULL);
-		hd = FindWindowEx(hd, 0, "SHELLDLL_DefView", NULL);
-		hd = FindWindowEx(hd, 0, "SysListView32", NULL);
-		RECT rect;
-
-		GetWindowRect(hd, &rect);
-
-		int x = rect.left;
-
-		return x;
-	')
-	public static function returnDesktopWindowsX()
-	{
-		return 0;
-	}
-
-	@:functionCode('
-		HWND hd;
-
-		hd = FindWindowA("Progman", NULL);
-		hd = FindWindowEx(hd, 0, "SHELLDLL_DefView", NULL);
-		hd = FindWindowEx(hd, 0, "SysListView32", NULL);
-		RECT rect;
-
-		GetWindowRect(hd, &rect);
-
-		int y = rect.top;
-
-		return y;
-	')
-	public static function returnDesktopWindowsY()
-	{
-		return 0;
-	}
-
-	@:functionCode('
-		HWND hProgman = FindWindowW(L"Progman", L"Program Manager");
-		HWND hChild = GetWindow(hProgman, GW_CHILD);
-
-		float a = alpha;
-
-		if (alpha > 1) {
-			a = 1;
-		} 
-		if (alpha < 0) {
-			a = 0;
-		}
-
-       	SetLayeredWindowAttributes(hChild, 0, (255 * (a * 100)) / 100, LWA_ALPHA);
-    ')
-	public static function setDesktopWindowsAlpha(alpha:Float)
-	{
-	}
-
-	@:functionCode('
-		HWND hwnd = FindWindowA("Shell_traywnd", nullptr);
-		HWND hwnd2 = FindWindowA("Shell_SecondaryTrayWnd", nullptr);
-
-		float a = alpha;
-
-		if (alpha > 1) {
-			a = 1;
-		} 
-		if (alpha < 0) {
-			a = 0;
-		}
-
-       	SetLayeredWindowAttributes(hwnd, 0, (255 * (a * 100)) / 100, LWA_ALPHA);
-		SetLayeredWindowAttributes(hwnd2, 0, (255 * (a * 100)) / 100, LWA_ALPHA);
-    ')
-	public static function setTaskBarAlpha(alpha:Float)
-	{
-	}
+	public static function moveDesktopWindowsInY(y:Int) {}
 
 	@:functionCode('
 	HWND window;
@@ -545,9 +327,7 @@ class WindowsCPP
 		SetWindowLong(window2, GWL_EXSTYLE, GetWindowLong(window2, GWL_EXSTYLE) ^ WS_EX_LAYERED);
 	}
 	')
-	public static function setWindowLayeredMode(numberMode:Int)
-	{
-	}
+	public static function setWindowLayeredMode(numberMode:Int) {}
 }
 #else
 #error "Windows API supports only Windows platform"

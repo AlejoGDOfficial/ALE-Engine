@@ -264,8 +264,14 @@ class FunkinLua {
 		});
 
 		//CPP
+
+		Lua_helper.add_callback(lua, 'changeTitle', function(titleText:String)
+		{
+			lime.app.Application.current.window.title = titleText;
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+		});
 		
-		Lua_helper.add_callback(lua, 'obtainRAM', function()
+		Lua_helper.add_callback(lua, 'getDeviceRAM', function()
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.obtainRAM();
@@ -282,84 +288,40 @@ class FunkinLua {
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon);
 		});
-	
-		Lua_helper.add_callback(lua, 'getWindowsTransparent', function()
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.getWindowsTransparent();
-		});
-	
-		Lua_helper.add_callback(lua, 'disableWindowTransparent', function()
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.disableWindowTransparent();
-		});
-	
-		Lua_helper.add_callback(lua, 'setWindowVisible', function(mode:Bool)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setWindowVisible(mode);
-		});
 		
-		Lua_helper.add_callback(lua, 'setWindowOppacity', function(a:Float)
+		Lua_helper.add_callback(lua, 'setWindowAlpha', function(a:Float)
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.setWindowAlpha(a);
 		});
-		Lua_helper.add_callback(lua, 'getWindowOppacity', function()
+		Lua_helper.add_callback(lua, 'getWindowAlpha', function()
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.getWindowAlpha();
 		});
-	
-		Lua_helper.add_callback(lua, 'setWindowLayered', function()
+		Lua_helper.add_callback(lua, 'doWindowTweenAlpha', function(alpha:Int, time:Float, theEase:Dynamic)
 		{
-			WindowsCPP.setWindowLayered();
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha);
 		});
 	
-		Lua_helper.add_callback(lua, 'setWindowBorderColor', function(r:Int, g:Int, b:Int)
+		Lua_helper.add_callback(lua, 'setBorderColor', function(r:Int, g:Int, b:Int)
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.setWindowBorderColor(r, g, b);
 		});
-	
+		
 		Lua_helper.add_callback(lua, 'hideTaskbar', function(hide:Bool)
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.hideTaskbar(hide);
 		});
 	
-		Lua_helper.add_callback(lua, 'setWallpaper', function(path:String)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setWallpaper(path);
-		});
-	
-		Lua_helper.add_callback(lua, 'hideDesktopIcons', function(hide:Bool)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.hideDesktopIcons(hide);
-		});
-	
-		Lua_helper.add_callback(lua, 'setTaskBarAlpha', function(alpha:Float)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setTaskBarAlpha(alpha);
-		});
-		
-		Lua_helper.add_callback(lua, 'setWindowLayeredMode', function(window:Int)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setWindowLayeredMode(window);
-		});
-	
-		Lua_helper.add_callback(lua, 'getCursorPositionX', function()
+		Lua_helper.add_callback(lua, 'getCursorX', function()
 		{
 			return WindowsCPP.getCursorPositionX();
 		});
 	
-		Lua_helper.add_callback(lua, 'getCursorPositionY', function()
+		Lua_helper.add_callback(lua, 'getCursorY', function()
 		{
 			return WindowsCPP.getCursorPositionY();
 		});
@@ -369,7 +331,7 @@ class FunkinLua {
 			WindowsTerminalCPP.clearTerminal();
 		});
 	
-		Lua_helper.add_callback(lua, 'allocConsole', function()
+		Lua_helper.add_callback(lua, 'showConsole', function()
 		{
 			WindowsTerminalCPP.allocConsole();
 		});
@@ -379,22 +341,17 @@ class FunkinLua {
 			WindowsTerminalCPP.setConsoleTitle(title);
 		});
 	
-		Lua_helper.add_callback(lua, 'setConsoleWindowIcon', function(path:String)
-		{
-			WindowsTerminalCPP.setConsoleWindowIcon(path);
-		});
-	
-		Lua_helper.add_callback(lua, 'disableCloseConsoleWindow', function()
+		Lua_helper.add_callback(lua, 'disableCloseConsole', function()
 		{
 			WindowsTerminalCPP.disableCloseConsoleWindow();
 		});
 	
-		Lua_helper.add_callback(lua, 'hideConsoleWindow', function()
+		Lua_helper.add_callback(lua, 'hideConsole', function()
 		{
 			WindowsTerminalCPP.hideConsoleWindow();
 		});
 	
-		Lua_helper.add_callback(lua, 'sendWindowsNotification', function(title:String, desc:String)
+		Lua_helper.add_callback(lua, 'sendNotification', function(title:String, desc:String)
 		{
 			var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
 				+ "$title = '"
@@ -1892,6 +1849,11 @@ class FunkinLua {
 	private function windowTweenUpdateHeight(value:Float)
 	{
 		Lib.application.window.height = Math.floor(value);
+	}
+	
+	private function windowTweenUpdateAlpha(value:Float)
+	{
+		WindowsCPP.setWindowAlpha(value);
 	}
 
 	//ALE Shit END

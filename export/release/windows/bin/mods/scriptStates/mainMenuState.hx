@@ -40,7 +40,7 @@ function onCreate()
 
     Type.resolveEnum('flixel.text.FlxTextBorderStyle').OUTLINE;
 
-    version = new FlxText(10, 0, 0, 'Friday Night Funkin 0.3.0\nALE Engine EXPERIMENTAL (P.E. 1.0 Pre-Release)');
+    version = new FlxText(10, 0, 0, 'Friday Night Funkin 0.3.0\nALE Engine Alpha 1 (P.E. 1.0 Pre-Release)');
     version.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, 'left');
     add(version);
     version.y = FlxG.height - version.height - 10;

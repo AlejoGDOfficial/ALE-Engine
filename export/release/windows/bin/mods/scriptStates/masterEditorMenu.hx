@@ -126,7 +126,7 @@ function onUpdate(elapsed:Float)
                         switchToSomeStates('NoteSplashEditorState');
                     case 7:
                         switchToScriptState('mainMenuState', true);
-                        allocConsole();
+                        showConsole();
                 }
             });
         }

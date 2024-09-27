@@ -250,9 +250,8 @@ class TitleState extends MusicBeatState
 		super.stepHit();
 	}
 
-	private function windowColorTween(value:Float)
+	function windowColorTween(value:Float)
 	{
 		WindowsCPP.setWindowBorderColor(Math.floor(value), Math.floor(value), Math.floor(value));
 	}
-
 }

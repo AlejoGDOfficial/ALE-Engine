@@ -180,8 +180,14 @@ class HScript extends SScript
 		});
 
 		//CPP
+
+		set('changeTitle', function(titleText:String)
+		{
+			lime.app.Application.current.window.title = titleText;
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+		});
 		
-		set('obtainRAM', function()
+		set('getDeviceRAM', function()
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.obtainRAM();
@@ -198,84 +204,40 @@ class HScript extends SScript
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon);
 		});
-	
-		set('getWindowsTransparent', function()
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.getWindowsTransparent();
-		});
-	
-		set('disableWindowTransparent', function()
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.disableWindowTransparent();
-		});
-	
-		set('setWindowVisible', function(mode:Bool)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setWindowVisible(mode);
-		});
 		
-		set('setWindowOppacity', function(a:Float)
+		set('setWindowAlpha', function(a:Float)
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.setWindowAlpha(a);
 		});
-		set('getWindowOppacity', function()
+		set('getWindowAlpha', function()
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.getWindowAlpha();
 		});
-	
-		set('setWindowLayered', function()
+		set('doWindowTweenAlpha', function(alpha:Int, time:Float, theEase:Dynamic)
 		{
-			WindowsCPP.setWindowLayered();
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha);
 		});
 	
-		set('setWindowBorderColor', function(r:Int, g:Int, b:Int)
+		set('setBorderColor', function(r:Int, g:Int, b:Int)
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.setWindowBorderColor(r, g, b);
 		});
-	
+		
 		set('hideTaskbar', function(hide:Bool)
 		{
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.hideTaskbar(hide);
 		});
 	
-		set('setWallpaper', function(path:String)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setWallpaper(path);
-		});
-	
-		set('hideDesktopIcons', function(hide:Bool)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.hideDesktopIcons(hide);
-		});
-	
-		set('setTaskBarAlpha', function(alpha:Float)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setTaskBarAlpha(alpha);
-		});
-		
-		set('setWindowLayeredMode', function(window:Int)
-		{
-			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-			WindowsCPP.setWindowLayeredMode(window);
-		});
-	
-		set('getCursorPositionX', function()
+		set('getCursorX', function()
 		{
 			return WindowsCPP.getCursorPositionX();
 		});
 	
-		set('getCursorPositionY', function()
+		set('getCursorY', function()
 		{
 			return WindowsCPP.getCursorPositionY();
 		});
@@ -285,7 +247,7 @@ class HScript extends SScript
 			WindowsTerminalCPP.clearTerminal();
 		});
 	
-		set('allocConsole', function()
+		set('showConsole', function()
 		{
 			WindowsTerminalCPP.allocConsole();
 		});
@@ -295,22 +257,17 @@ class HScript extends SScript
 			WindowsTerminalCPP.setConsoleTitle(title);
 		});
 	
-		set('setConsoleWindowIcon', function(path:String)
-		{
-			WindowsTerminalCPP.setConsoleWindowIcon(path);
-		});
-	
-		set('disableCloseConsoleWindow', function()
+		set('disableCloseConsole', function()
 		{
 			WindowsTerminalCPP.disableCloseConsoleWindow();
 		});
 	
-		set('hideConsoleWindow', function()
+		set('hideConsole', function()
 		{
 			WindowsTerminalCPP.hideConsoleWindow();
 		});
 	
-		set('sendWindowsNotification', function(title:String, desc:String)
+		set('sendNotification', function(title:String, desc:String)
 		{
 			var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
 				+ "$title = '"
@@ -547,6 +504,11 @@ class HScript extends SScript
 	private function windowTweenUpdateHeight(value:Float)
 	{
 		Lib.application.window.height = Math.floor(value);
+	}
+	
+	private function windowTweenUpdateAlpha(value:Float)
+	{
+		WindowsCPP.setWindowAlpha(value);
 	}
 
 	//ALE Shit END
