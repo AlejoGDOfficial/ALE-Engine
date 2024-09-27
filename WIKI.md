@@ -113,7 +113,8 @@
 
 #### Used to change the window title.
 
-* `changeTitle()`
+* `changeTitle(text)`
+    - Example: `changeTitle('ALE Engine')`
 
 #### Used to obtain the device RAM.
 
@@ -128,6 +129,59 @@
         `showMessageBox('message', 'title', 0x00000030)` <br>
         `showMessageBox('message', 'title', 0x00000040)` <br>
 
-#### Used to obtain the device RAM.
+#### Used to change the opacity of the window.
 
-* `getDeviceRAM()`
+* `setWindowAlpha(alpha)`
+    - Example: `setWindowAlpha(0.5)`
+
+#### Used to obtain the current opacity of the window.
+
+* `getWindowAlpha()`
+
+#### Used to change the opacity of the window at a certain time.
+
+* `doWindowTweenAlpha(alpha, duration, ease)`
+    - HScript Example: `doWindowTweenAlpha(0.5, 2, FlxEase.cubeOut)`
+    - Lua Example: `doWindowTweenAlpha(0.5, 2, 'cubeOut')`
+
+#### Used to change the window border color.
+
+* `setBorderColor(red, green, blue)`
+    - Example: `setBorderColor(20, 230, 255)`
+
+#### Used to show the console window.
+
+* `showConsole()`
+
+#### Used to hide the console window.
+
+* `hideConsole()`
+
+#### Used to hide Window's taskbar.
+
+* `hideTaskbar(hide)`
+    - Example: `hideTaskbar(true)`
+
+#### Used to obtain the position of the mouse on the computer screen.
+
+* `getCursorX()`
+* `getCursorY()`
+
+#### Used to clear the console window content.
+
+* `clearTerminal()`
+
+#### Used to change the console window title.
+
+* `setConsoleTitle()`
+
+#### Used to disable the possibility of closing the console window.
+
+* `disableCloseConsole()`
+
+#### Used to send a Windows notification.
+
+* `sendNotification(title, description)`
+    - Example: `sendNotification('For HER', 'I love you :3')`
+
+</details>

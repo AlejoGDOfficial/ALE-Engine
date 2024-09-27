@@ -301,7 +301,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, 'doWindowTweenAlpha', function(alpha:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha);
+			FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateAlpha);
 		});
 	
 		Lua_helper.add_callback(lua, 'setBorderColor', function(r:Int, g:Int, b:Int)
