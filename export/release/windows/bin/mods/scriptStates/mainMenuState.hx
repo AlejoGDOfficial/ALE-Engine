@@ -1,8 +1,10 @@
+import backend.CoolUtil;
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import cpp.*;
+import backend.Language;
 
 var bg:FlxSprite;
 var magentaBg:FlxSprite;
@@ -40,13 +42,17 @@ function onCreate()
 
     Type.resolveEnum('flixel.text.FlxTextBorderStyle').OUTLINE;
 
-    version = new FlxText(10, 0, 0, 'Friday Night Funkin 0.3.0\nALE Engine Alpha 1 (P.E. 1.0 Pre-Release)');
+    version = new FlxText(10, 0, 0, '');
     version.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, 'left');
     add(version);
-    version.y = FlxG.height - version.height - 10;
     version.borderStyle = FlxTextBorderStyle.OUTLINE;
     version.borderSize = 1;
     version.borderColor = FlxColor.BLACK;
+    version.applyMarkup(
+        'Friday Night Funkin\' 0.3.0\nALE Engine *Alpha 2* (P.E. 1.0 Pre-Release)',
+        [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('FF0000')), '*')]
+    );
+    version.y = FlxG.height - version.height - 10;
 
     changeShit();
 }
