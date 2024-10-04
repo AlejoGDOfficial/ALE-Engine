@@ -2,6 +2,7 @@ import backend.CoolVars;
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
+import backend.LanguageManager;
 
 var skippedIntro:Bool = false;
 
@@ -17,7 +18,7 @@ function onCreate()
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);
     epicTexts.y = FlxG.height / 2 - epicTexts.height / 2;
-    changeShit('ALE ENGINE BY');
+    changeShit(LanguageManager.getPhrase('introStatePhrases')[0]);
 
     logo = new FlxSprite(-125, -100);
     logo.frames = Paths.getSparrowAtlas('introState/logo');
@@ -34,11 +35,16 @@ function onCreate()
     gf.alpha = 0;
 
     titleText = new FlxSprite(100, 576);
-    titleText.frames = Paths.getSparrowAtlas('introState/titleEnter');
-    titleText.animation.addByPrefix('idle', "ENTER IDLE", 24);
-    titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
+    titleText.frames = Paths.getSparrowAtlas('introState/titleEnter' + LanguageManager.getSuffix());
+    titleText.animation.addByPrefix('idle', "IDLE", 24);
+    titleText.animation.addByPrefix('press', "PRESSED", 24);
     add(titleText);
     titleText.animation.play('idle');
+    titleText.centerOffsets();
+
+    if (LanguageManager.curLanguage == 'spanish')
+        titleText.x = 50;
+
     titleText.alpha = 0;
     titleText.color = 0xFF33FFFF;
 }
@@ -131,34 +137,9 @@ function onBeatHit()
 
     if (!skippedIntro)
     {
-        switch (sickBeats)
-        {
-            case 2:
-                changeShit('ALE ENGINE BY\nALEJOGDOFFICIAL');
-            case 3:
-                changeShit('');
-            case 4:
-                changeShit('POWERED BY');
-            case 6:
-                changeShit('POWERED BY\nPSYCH ENGINE');
-            case 7:
-                changeShit('');
-            case 8:
-                changeShit('DON\'T TOUCH');
-            case 10:
-                changeShit('DON\'T TOUCH\nMY SOURCE CODE');
-            case 11:
-                changeShit('');
-            case 12:
-                changeShit('FRIDAY');
-            case 13:
-                changeShit('FRIDAY\nNIGHT');
-            case 14:
-                changeShit('FRIDAY\nNIGHT\nFUNKIN\'');
-            case 15:
-                changeShit('FRIDAY\nNIGHT\nFUNKIN\'\nALE ENGINE');
-            case 16:
-                skipIntro();
-        }
+        changeShit(LanguageManager.getPhrase('introStatePhrases')[sickBeats]);
+
+        if (sickBeats == 16)
+            skipIntro();
     }
 }
