@@ -72,10 +72,16 @@ class ScriptState extends MusicBeatState
 		add(luaDebugGroup);
 		#end
 		
-		#if LUA_ALLOWED startLuasNamed('scriptStates/' + targetFileName + '.lua'); #end
-		#if HSCRIPT_ALLOWED startHScriptsNamed('scriptStates/' + targetFileName + '.hx'); #end
-		#if LUA_ALLOWED startLuasNamed('scriptStates/global.lua'); #end
-		#if HSCRIPT_ALLOWED startHScriptsNamed('scriptStates/global.hx'); #end
+		if (targetFileName == 'configGame')
+		{
+			#if LUA_ALLOWED startLuasNamed('scripts/config/config.lua'); #end
+			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/config/config.hx'); #end
+		} else {
+			#if LUA_ALLOWED startLuasNamed('scripts/states/' + targetFileName + '.lua'); #end
+			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/states/' + targetFileName + '.hx'); #end
+			#if LUA_ALLOWED startLuasNamed('scripts/states/global.lua'); #end
+			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/states/global.hx'); #end
+		}
 
 		callOnScripts('onCreatePost');
 

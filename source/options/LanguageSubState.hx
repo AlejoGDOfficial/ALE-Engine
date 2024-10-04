@@ -4,9 +4,8 @@ class LanguageSubState extends MusicBeatSubstate
 {
 	#if TRANSLATIONS_ALLOWED
 	var grpLanguages:FlxTypedGroup<Alphabet> = new FlxTypedGroup<Alphabet>();
-	var languages:Array<String> = [];
-	var displayLanguages:Map<String, String> = [];
-	var curSelected:Int = 0;
+	public static var languages:Array<String> = [];
+	public static var curSelected:Int = 0;
 	public function new()
 	{
 		super();
@@ -18,77 +17,26 @@ class LanguageSubState extends MusicBeatSubstate
 		add(bg);
 		add(grpLanguages);
 
-		languages.push(ClientPrefs.defaultData.language); //English (US)
-		displayLanguages.set(ClientPrefs.defaultData.language, Language.defaultLangName);
-		var directories:Array<String> = Mods.directoriesWithFile(Paths.getSharedPath(), 'data/');
-		for (directory in directories)
+		for (lang in languages)
 		{
-			for (file in FileSystem.readDirectory(directory))
-			{
-				if(file.toLowerCase().endsWith('.lang'))
-				{
-					var langFile:String = file.substring(0, file.length - '.lang'.length).trim();
-					if(!languages.contains(langFile))
-						languages.push(langFile);
-
-					if(!displayLanguages.exists(langFile))
-					{
-						var path:String = '$directory/$file';
-						#if MODS_ALLOWED 
-						var txt:String = File.getContent(path);
-						#else
-						var txt:String = Assets.getText(path);
-						#end
-
-						var id:Int = txt.indexOf('\n');
-						if(id > 0) //language display name shouldnt be an empty string or null
-						{
-							var name:String = txt.substr(0, id).trim();
-							if(!name.contains(':')) displayLanguages.set(langFile, name);
-						}
-						else if(txt.trim().length > 0 && !txt.contains(':')) displayLanguages.set(langFile, txt.trim());
-					}
-				}
-			}
-		}
-
-		languages.sort(function(a:String, b:String)
-		{
-			a = (displayLanguages.exists(a) ? displayLanguages.get(a) : a).toLowerCase();
-			b = (displayLanguages.exists(b) ? displayLanguages.get(b) : b).toLowerCase();
-			if (a < b) return -1;
-			else if (a > b) return 1;
-			return 0;
-		});
-
-		//trace(ClientPrefs.data.language);
-		curSelected = languages.indexOf(ClientPrefs.data.language);
-		if(curSelected < 0)
-		{
-			//trace('Language not found: ' + ClientPrefs.data.language);
-			ClientPrefs.data.language = ClientPrefs.defaultData.language;
-			curSelected = Std.int(Math.max(0, languages.indexOf(ClientPrefs.data.language)));
-		}
-
-		for (num => lang in languages)
-		{
-			var name:String = displayLanguages.get(lang);
+			var name:String = languages[languages.indexOf(lang)];
 			if(name == null) name = lang;
 
 			var text:Alphabet = new Alphabet(0, 300, name, true);
 			text.isMenuItem = true;
-			text.targetY = num;
+			text.targetY = languages.indexOf(lang);
 			text.changeX = false;
 			text.distancePerItem.y = 100;
 			if(languages.length < 7)
 			{
 				text.changeY = false;
 				text.screenCenter(Y);
-				text.y += (100 * (num - (languages.length / 2))) + 45;
+				text.y += (100 * (languages.indexOf(lang) - (languages.length / 2))) + 45;
 			}
 			text.screenCenter(X);
 			grpLanguages.add(text);
 		}
+		
 		changeSelected();
 	}
 
@@ -123,7 +71,7 @@ class LanguageSubState extends MusicBeatSubstate
 			ClientPrefs.data.language = languages[curSelected];
 			//trace(ClientPrefs.data.language);
 			ClientPrefs.saveSettings();
-			Language.reloadPhrases();
+			LanguageManager.curLanguage = languages[curSelected];
 			changedLanguage = true;
 		}
 	}

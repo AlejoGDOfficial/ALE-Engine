@@ -76,7 +76,7 @@ import states.TitleState;
 	public var guitarHeroSustains:Bool = true;
 	public var discordRPC:Bool = true;
 	public var loadingScreen:Bool = true;
-	public var language:String = 'en-US';
+	public var language:String = 'English';
 }
 
 class ClientPrefs {
@@ -167,7 +167,7 @@ class ClientPrefs {
 		save.data.keyboard = keyBinds;
 		save.data.gamepad = gamepadBinds;
 		save.flush();
-		FlxG.log.add("Settings saved!");
+		trace("Settings saved!");
 	}
 
 	public static function loadPrefs() {
@@ -234,6 +234,8 @@ class ClientPrefs {
 			}
 			reloadVolumeKeys();
 		}
+
+		LanguageManager.curLanguage = data.language;
 	}
 
 	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic

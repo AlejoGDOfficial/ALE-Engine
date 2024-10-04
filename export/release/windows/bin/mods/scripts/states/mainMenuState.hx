@@ -4,7 +4,8 @@ import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import cpp.*;
-import backend.Language;
+import backend.LanguageManager;
+import backend.ClientPrefs;
 
 var bg:FlxSprite;
 var magentaBg:FlxSprite;
@@ -32,7 +33,7 @@ function onCreate()
     for (i in options)
     {
         var img = new FlxSprite();
-        img.frames = Paths.getSparrowAtlas('mainMenuState/' + i);
+        img.frames = Paths.getSparrowAtlas('mainMenuState/' + i + LanguageManager.getSuffix());
         img.animation.addByPrefix('basic', 'basic', 24, true);
         img.animation.addByPrefix('white', 'white', 24, true);
         img.animation.play('basic');

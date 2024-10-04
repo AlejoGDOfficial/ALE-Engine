@@ -216,7 +216,7 @@ class TitleState extends MusicBeatState
 				case 3:
 					_text.text = "ALE Engine";
 				case 4:
-					_text.text = "ALE Engine\nEXPERIMENTAL\n(Pre-Release 1.0 Fork)";
+					_text.text = "ALE Engine\nAlpha 2\n(Pre-Release 1.0 Fork)";
 
 					FlxTween.tween(_sprite, {alpha: 0}, 240 / Conductor.bpm);
 					FlxTween.tween(_text, {alpha: 0}, 240 / Conductor.bpm);
@@ -238,7 +238,7 @@ class TitleState extends MusicBeatState
 							new FlxTimer().start(0.2, function(tmr:FlxTimer)
 							{
 								WindowsCPP.setWindowLayered();
-								FlxG.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "initialState")));
+								FlxG.switchState(new ScriptState('configGame'));
 							});
 						}
 					});

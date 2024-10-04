@@ -2,7 +2,7 @@ package backend;
 
 class Language
 {
-	public static var defaultLangName:String = 'English (US)'; //en-US
+	public static var defaultLangName:String = 'English'; //en-US
 	#if TRANSLATIONS_ALLOWED
 	private static var phrases:Map<String, String> = [];
 	#end
