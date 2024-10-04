@@ -173,7 +173,6 @@ class Paths
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	static public function image(key:String, ?parentFolder:String = null, ?allowGPU:Bool = true):FlxGraphic
 	{
-		key = Language.getFileTranslation('images/$key');
 		if(key.lastIndexOf('.') < 0) key += '.png';
 
 		var bitmap:BitmapData = null;
@@ -349,7 +348,7 @@ class Paths
 	public static var currentTrackedSounds:Map<String, Sound> = [];
 	public static function returnSound(key:String, ?path:String, ?modsAllowed:Bool = true, ?beepOnNull:Bool = true)
 	{
-		var file:String = getPath(Language.getFileTranslation(key) + '.$SOUND_EXT', SOUND, path, modsAllowed);
+		var file:String = getPath(key + '.$SOUND_EXT', SOUND, path, modsAllowed);
 
 		//trace('precaching sound: $file');
 		if(!currentTrackedSounds.exists(file))

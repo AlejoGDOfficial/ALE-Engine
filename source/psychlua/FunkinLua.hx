@@ -22,9 +22,6 @@ import objects.Note;
 import objects.NoteSplash;
 import objects.Character;
 
-import states.StoryMenuState;
-import states.FreeplayState;
-
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 
@@ -928,9 +925,9 @@ class FunkinLua {
 			}
 
 			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
+				MusicBeatState.switchState(new ScriptState(fromPlayStateIfStoryMode));
 			else
-				MusicBeatState.switchState(new FreeplayState());
+				MusicBeatState.switchState(new ScriptState(fromPlayStateIfFreeplay));
 
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
@@ -1711,8 +1708,6 @@ class FunkinLua {
 		});
 
 		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(lua); #end
-		#if ACHIEVEMENTS_ALLOWED Achievements.addLuaCallbacks(lua); #end
-		#if TRANSLATIONS_ALLOWED Language.addLuaCallbacks(lua); #end
 		#if HSCRIPT_ALLOWED HScript.implement(this); #end
 		#if flxanimate FlxAnimateFunctions.implement(this); #end
 		ReflectionFunctions.implement(this);

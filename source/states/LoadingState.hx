@@ -48,7 +48,6 @@ class LoadingState extends MusicBeatState
 	var curPercent:Float = 0;
 	var canChangeState:Bool = true;
 
-	#if PSYCH_WATERMARKS
 	var logo:FlxSprite;
 	var pessy:FlxSprite;
 	var loadingText:FlxText;
@@ -60,36 +59,16 @@ class LoadingState extends MusicBeatState
 	var isSpinning:Bool = false;
 	var spawnedPessy:Bool = false;
 	var pressedTimes:Int = 0;
-	#else
-	var funkay:FlxSprite;
-	#end
 
 	override function create()
 	{
-		#if !SHOW_LOADING_SCREEN
-		while(true)
-		#end
-		{
-			if (checkLoaded())
-			{
-				dontUpdate = true;
-				super.create();
-				onLoad();
-				return;
-			}
-			#if !SHOW_LOADING_SCREEN
-			Sys.sleep(0.001);
-			#end
-		}
-
-		#if PSYCH_WATERMARKS // PSYCH LOADING SCREEN
 		var bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.setGraphicSize(Std.int(FlxG.width));
 		bg.color = 0xFFD16FFF;
 		bg.updateHitbox();
 		add(bg);
 	
-		loadingText = new FlxText(520, 600, 400, Language.getPhrase('now_loading', 'Now Loading', ['...']), 32);
+		loadingText = new FlxText(520, 600, 400, LanguageManager.getPhrase('loadingStateLoadingTxt') + '...'), 32);
 		loadingText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
 		loadingText.borderSize = 2;
 		add(loadingText);
@@ -102,20 +81,6 @@ class LoadingState extends MusicBeatState
 		logo.x -= 50;
 		logo.y -= 40;
 		add(logo);
-
-		#else // BASE GAME LOADING SCREEN
-		var bg = new FlxSprite().makeGraphic(1, 1, 0xFFCAFF4D);
-		bg.scale.set(FlxG.width, FlxG.height);
-		bg.updateHitbox();
-		bg.screenCenter();
-		add(bg);
-
-		funkay = new FlxSprite(0, 0).loadGraphic(Paths.image('funkay'));
-		funkay.antialiasing = ClientPrefs.data.antialiasing;
-		funkay.setGraphicSize(0, FlxG.height);
-		funkay.updateHitbox();
-		add(funkay);
-		#end
 
 		var bg:FlxSprite = new FlxSprite(0, 660).makeGraphic(1, 1, FlxColor.BLACK);
 		bg.scale.set(FlxG.width - 300, 25);
@@ -159,7 +124,6 @@ class LoadingState extends MusicBeatState
 			bar.updateHitbox();
 		}
 
-		#if PSYCH_WATERMARKS // PSYCH LOADING SCREEN
 		timePassed += elapsed;
 		shakeFl += elapsed * 3000;
 		var dots:String = '';
@@ -172,7 +136,7 @@ class LoadingState extends MusicBeatState
 			case 2:
 				dots = '...';
 		}
-		loadingText.text = Language.getPhrase('now_loading', 'Now Loading{1}', [dots]);
+		loadingText.text = LanguageManager.getPhrase('loadingStateLoadingTxt') + dots;
 
 		if(!spawnedPessy)
 		{
@@ -225,7 +189,6 @@ class LoadingState extends MusicBeatState
 			pessy.velocity.x = 0;
 			FlxTween.tween(pessy, {y: 10}, 0.65, {ease: FlxEase.quadOut});
 		}
-		#end
 	}
 	
 	var finishedLoading:Bool = false;
@@ -529,7 +492,6 @@ class LoadingState extends MusicBeatState
 				mutex.acquire();
 				try {
 					var requestKey:String = 'images/$image';
-					#if TRANSLATIONS_ALLOWED requestKey = Language.getFileTranslation(requestKey); #end
 					if(requestKey.lastIndexOf('.') < 0) requestKey += '.png';
 
 					if (!Paths.currentTrackedAssets.exists(requestKey))
