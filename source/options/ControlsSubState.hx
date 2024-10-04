@@ -59,6 +59,14 @@ class ControlsSubState extends MusicBeatSubstate
 	var onKeyboardMode:Bool = true;
 	
 	var controllerSpr:FlxSprite;
+
+	private function formatKeyStr(keyStr:String):String {
+		var formattedStr = keyStr.split('_').map(function(word, index) {
+			return index == 0 ? word.charAt(0).toUpperCase() + word.substr(1).toLowerCase() : StringTools.capitalize(word);
+		}).join('');
+
+		return formattedStr.replace('Ui', 'UI');
+	}
 	
 	public function new()
 	{
@@ -140,7 +148,7 @@ class ControlsSubState extends MusicBeatSubstate
 					var str:String = option[1];
 					var keyStr:String = option[2];
 					if(isDefaultKey) str = Language.getPhrase(str);
-					var text:Alphabet = new Alphabet(200, 300, !isDisplayKey ? Language.getPhrase('key_$keyStr', str) : Language.getPhrase('keygroup_$str', str), !isDisplayKey);
+					var text:Alphabet = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup' + formatKeyStr(str)), !isDisplayKey);
 					text.isMenuItem = true;
 					text.changeX = false;
 					text.distancePerItem.y = 60;

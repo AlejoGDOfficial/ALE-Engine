@@ -115,7 +115,7 @@ class NoteOffsetState extends MusicBeatState
 		repositionCombo();
 
 		// Note delay stuff
-		beatText = new Alphabet(0, 0, Language.getPhrase('delay_beat_hit', 'Beat Hit!'), true);
+		beatText = new Alphabet(0, 0, LanguageManager.getPhrase('optionsAdjustDelayAndComboBeatHit'), true);
 		beatText.setScale(0.6, 0.6);
 		beatText.x += 260;
 		beatText.alpha = 0;
@@ -499,9 +499,9 @@ class NoteOffsetState extends MusicBeatState
 		{
 			switch(i)
 			{
-				case 0: dumbTexts.members[i].text = Language.getPhrase('combo_rating_offset', 'Rating Offset:');
+				case 0: dumbTexts.members[i].text = LanguageManager.getPhrase('optionsAdjustDelayAndComboComboOffset');
 				case 1: dumbTexts.members[i].text = '[' + ClientPrefs.data.comboOffset[0] + ', ' + ClientPrefs.data.comboOffset[1] + ']';
-				case 2: dumbTexts.members[i].text = Language.getPhrase('combo_numbers_offset', 'Numbers Offset:');
+				case 2: dumbTexts.members[i].text = LanguageManager.getPhrase('optionsAdjustDelayAndComboNumbersOffset');
 				case 3: dumbTexts.members[i].text = '[' + ClientPrefs.data.comboOffset[2] + ', ' + ClientPrefs.data.comboOffset[3] + ']';
 			}
 		}
@@ -510,7 +510,7 @@ class NoteOffsetState extends MusicBeatState
 	function updateNoteDelay()
 	{
 		ClientPrefs.data.noteOffset = Math.round(barPercent);
-		timeTxt.text = Language.getPhrase('delay_current_offset', 'Current offset: {1} ms', [Math.floor(barPercent)]);
+		timeTxt.text = LanguageManager.getPhrase('optionsAdjustDelayAndComboDelayCurrentOffset')[0] + Math.floor(barPercent) + LanguageManager.getPhrase('optionsAdjustDelayAndComboDelayCurrentOffset')[1];
 	}
 
 	function updateMode()
@@ -534,14 +534,14 @@ class NoteOffsetState extends MusicBeatState
 		var str:String;
 		var str2:String;
 		if(onComboMenu)
-			str = Language.getPhrase('combo_offset', 'Combo Offset');
+			str = LanguageManager.getPhrase('optionsAdjustDelayAndComboComboOffset');
 		else
-			str = Language.getPhrase('note_delay', 'Note/Beat Delay');
+			str = LanguageManager.getPhrase('optionsAdjustDelayAndComboNoteDelay');
 
 		if(!controls.controllerMode)
-			str2 = Language.getPhrase('switch_on_accept', '(Press Accept to Switch)');
+			str2 = LanguageManager.getPhrase('optionsAdjustDelayAndComboSwithcOnAccept');
 		else
-			str2 = Language.getPhrase('switch_on_start', '(Press Start to Switch)');
+			str2 = LanguageManager.getPhrase('optionsAdjustDelayAndComboSwithcOnStart');
 
 		changeModeText.text = '< ${str.toUpperCase()} ${str2.toUpperCase()} >';
 	}

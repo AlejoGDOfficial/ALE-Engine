@@ -4,60 +4,24 @@ function onCreate()
 {
     LanguageManager.setLanguages(['english', 'spanish'], ['eng', 'span']);
 
+    setupGlobalLanguages();
     setupObjectsLanguages();
-    setupStatesLanguages();
     setupOptionsLanguages();
+    setupStatesLanguages();
 
     switchToScriptState('introState');
+}
+
+function setupGlobalLanguages()
+{
+    LanguageManager.setPhrase('difficultiesEasy', ['Easy', 'Fácil']);
+    LanguageManager.setPhrase('difficultiesNormal', ['Normal', 'Normal']);
+    LanguageManager.setPhrase('difficultiesHard', ['Hard', 'Difícil ']);
 }
 
 function setupObjectsLanguages()
 {
     LanguageManager.setPhrase('dialogueSkip', ['Press BACK to Skip', 'Presiona VOLVER para Saltar']);
-}
-
-function setupStatesLanguages()
-{
-    LanguageManager.setPhrase('introStatePhrases', [
-        [
-            'ALE ENGINE BY', 
-            'ALE ENGINE BY',
-            'ALE ENGINE BY\nALEJOGDOFFICIAL',
-            '',
-            'POWERED BY',
-            'POWERED BY',
-            'POWERED BY\nPSYCH ENGINE',
-            '',
-            'DON\'T TOUCH',
-            'DON\'T TOUCH',
-            'DON\'T TOUCH\nMY SOURCE CODE',
-            '',
-            'FRIDAY',
-            'FRIDAY\nNIGHT',
-            'FRIDAY\nNIGHT\nFUNKIN\'',
-            'FRIDAY\nNIGHT\nFUNKIN\'\nALE ENGINE'
-        ],
-        [
-            'ALE ENGINE POR', 
-            'ALE ENGINE POR',
-            'ALE ENGINE POR\nALEJOGDOFFICIAL',
-            '',
-            'POTENCIADO POR',
-            'POTENCIADO POR',
-            'POTENCIADO POR\nPSYCH ENGINE',
-            '',
-            'NO TOQUES',
-            'NO TOQUES',
-            'NO TOQUES\nMI CODIGO FUENTE',
-            '',
-            'FRIDAY',
-            'FRIDAY\nNIGHT',
-            'FRIDAY\nNIGHT\nFUNKIN\'',
-            'FRIDAY\nNIGHT\nFUNKIN\'\nALE ENGINE'
-        ]
-    ]);
-
-    LanguageManager.setPhrase('loadingStateLoadingTxt', ['Now loading', 'Cargando']);
 }
 
 function setupOptionsLanguages()
@@ -117,11 +81,12 @@ function setupOptionsLanguages()
     LanguageManager.setPhrase('optionsAdjustDelayAndComboSwithcOnAccept', ['(Press ACCEPT to Switch)', '(Presiona ACEPTAR para Cambiar)']);
     LanguageManager.setPhrase('optionsAdjustDelayAndComboSwithcOnStart', ['(Press Start to Switch)', '(Presiona Start para Cambiar)']);
 
-    LanguageManager.setPhrase('optionsAdjustDelayAndComboComboOffset', ['Combo Offset', 'Compensación del Combo']);
-    LanguageManager.setPhrase('optionsAdjustDelayAndComboRatingOffset', ['Rating Offset: ', 'Compensación de la Puntuación: ']);
-    LanguageManager.setPhrase('optionsAdjustDelayAndComboNumbersOffset', ['Numbers Offset: ', 'Compensación de los Números: ']);
+    LanguageManager.setPhrase('optionsAdjustDelayAndComboRatingOffset', ['Rating Offset: ', 'Compensación de la Puntuación:']);
+    LanguageManager.setPhrase('optionsAdjustDelayAndComboNumbersOffset', ['Numbers Offset: ', 'Compensación de los Números:']);
 
+    LanguageManager.setPhrase('optionsAdjustDelayAndComboComboOffset', ['Combo Offset', 'Compensación del Combo']);
     LanguageManager.setPhrase('optionsAdjustDelayAndComboNoteDelay', ['Note/Beat Delay', 'Retraso de las Notas']);
+    
     LanguageManager.setPhrase('optionsAdjustDelayAndComboBeatHit', ['Beat Hit!', 'Golpe de Beat!']);
     LanguageManager.setPhrase('optionsAdjustDelayAndComboDelayCurrentOffset', [['Current Offset: ', ' ms'], ['Compensación Actual: ', ' ms']]);
     
@@ -188,58 +153,124 @@ function setupOptionsLanguages()
     //Gameplay / Jugabilidad
     LanguageManager.setPhrase('optionsGameplay', ['Gameplay', 'Jugabilidad']);
     LanguageManager.setPhrase('optionsGameplayMenu', ['Gameplay Settings', 'Opciones de Jugabilidad']);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayDownscroll', ['Downscroll', 'Desplazamiento hacia abajo']);
+    LanguageManager.setPhrase('optionsGameplayDownscrollDesc', [
+        'If checked, notes go Down insted of Up, simple enough.', 
+        'Si es marcado, las notas iran hacia Abajo en vez de ir hacia Arriba, bastante simple.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayGhostTapping', ['Ghost Tapping', 'Toque Fantasma']);
+    LanguageManager.setPhrase('optionsGameplayGhostTappingDesc', [
+        'If checked, you won\'t get misses from pressing keys while there are no notes able to be hit.', 
+        'Si es marcada, no vas a tener Errores presionando las teclas mientras no hayan notas que se deban golpear.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayAutoPause', ['Auto Pause', 'Pausa Automática']);
+    LanguageManager.setPhrase('optionsGameplayAutoPauseDesc', [
+        'If checked, the game automatically pauses if the screen isn\'t on focus.', 
+        'Si es marcada, el juego automáticamente se detendrá si se desenfoca la ventana del mismo.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayDisableResetButton', ['Disable Reset Button', 'Desactivar el botón para Reiniciar']);
+    LanguageManager.setPhrase('optionsGameplayDisableResetButtonDesc', [
+        'If checked, pressing Reset won\'t do anything.', 
+        'Si es marcada, presionar Reset no hará nada'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayRatingOffset', ['Rating Offset', 'Compensación de la Puntuación']);
+    LanguageManager.setPhrase('optionsGameplayRatingOffsetDesc', [
+        'Changes how late/early you have to hit for a "Sick!!" Higher values mean you have to hit later.', 
+        'Cambia que tan tarde/temprano debes golpear una nota para un "Perfecto!!" Entre más alto sea el valor, más tarde debes golpear la nota.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplaySickHitWindow', ['Sick!! Hit Window', 'Margen de Acierto para un Perfecto!!']);
+    LanguageManager.setPhrase('optionsGameplaySickHitWindowDesc', [
+        'Changes the amount of time you have for hitting a "Sick!!" in milliseconds.', 
+        'Cambia la cantidad de tiempo que tienes para obtener un "Perfecto!!" en milisegundos.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayGoodHitWindow', ['Good! Hit Window', 'Margen de Acierto para un Bien!']);
+    LanguageManager.setPhrase('optionsGameplayGoodHitWindowDesc', [
+        'Changes the amount of time you have for hitting a "Good!" in milliseconds.', 
+        'Cambia la cantidad de tiempo que tienes para obtener un "Bien!" en milisegundos.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplayBadHitWindow', ['Bad Hit Window', 'Margen de Acierto para "Bad"']);
+    LanguageManager.setPhrase('optionsGameplayBadHitWindowDesc', [
+        'Changes the amount of time you have for hitting a "Bad" in milliseconds.', 
+        'Cambia la cantidad de tiempo que tienes para obtener un "Mal" en milisegundos.'
     ]);
-    LanguageManager.setPhrase('optionsGameplay', ['', '']);
-    LanguageManager.setPhrase('optionsGameplayDesc', [
-        '', 
-        ''
+    LanguageManager.setPhrase('optionsGameplaySafeFrames', ['Safe Frames', 'Margen de Acierto']);
+    LanguageManager.setPhrase('optionsGameplaySafeFramesDesc', [
+        'Changes how many frames you have for hitting a note earlier or late.',
+        'Cambia la cantidad de fotogramas que tienes para golpear una nota tarde o temprano.'
     ]);
     
     //Language / Idioma
     LanguageManager.setPhrase('optionsLanguage', ['Language', 'Idioma']);
+    LanguageManager.setPhrase('optionsLanguageEnglish', ['English', 'Inglés']);
+    LanguageManager.setPhrase('optionsLanguageSpanish', ['Spanish', 'Español']);
 }
-/*
-// Difficulties
-difficulty_easy: "Fácil"
-difficulty_normal: "Normal"
-difficulty_hard: "Difícil"
-*/
+
+function setupStatesLanguages()
+{
+    //Play State
+    LanguageManager.setPhrase('playStateScoreTxt', [['Score: ', 'Misses: ', 'Rating: '], ['Puntaje: ', 'Errores: ', 'Calificación: ']]);
+    LanguageManager.setPhrase('playStateBotPlay', ['BotPlay', 'Automático']);
+
+    //Intro State
+    LanguageManager.setPhrase('introStatePhrases', [
+        [
+            'ALE ENGINE BY', 
+            'ALE ENGINE BY',
+            'ALE ENGINE BY\nALEJOGDOFFICIAL',
+            '',
+            'POWERED BY',
+            'POWERED BY',
+            'POWERED BY\nPSYCH ENGINE',
+            '',
+            'DON\'T TOUCH',
+            'DON\'T TOUCH',
+            'DON\'T TOUCH\nMY SOURCE CODE',
+            '',
+            'FRIDAY',
+            'FRIDAY\nNIGHT',
+            'FRIDAY\nNIGHT\nFUNKIN\'',
+            'FRIDAY\nNIGHT\nFUNKIN\'\nALE ENGINE'
+        ],
+        [
+            'ALE ENGINE POR', 
+            'ALE ENGINE POR',
+            'ALE ENGINE POR\nALEJOGDOFFICIAL',
+            '',
+            'POTENCIADO POR',
+            'POTENCIADO POR',
+            'POTENCIADO POR\nPSYCH ENGINE',
+            '',
+            'NO TOQUES',
+            'NO TOQUES',
+            'NO TOQUES\nMI CODIGO FUENTE',
+            '',
+            'FRIDAY',
+            'FRIDAY\nNIGHT',
+            'FRIDAY\nNIGHT\nFUNKIN\'',
+            'FRIDAY\nNIGHT\nFUNKIN\'\nALE ENGINE'
+        ]
+    ]);
+
+    //Loading State
+    LanguageManager.setPhrase('loadingStateLoadingTxt', ['Now loading', 'Cargando']);
+
+    //Pause SubState
+    LanguageManager.setPhrase('pauseSubStateResume', ['Resume', 'Resumir']);
+    LanguageManager.setPhrase('pauseSubStateRestartSong', ['Restart Song', 'Reiniciar la Canción']);
+    LanguageManager.setPhrase('pauseSubStateLeaveCharting Mode', ['Leave Charting Mode', 'Salir del Modo Charter']);
+    LanguageManager.setPhrase('pauseSubStateSkipTime', ['Skip Time', 'Adelantar/Restrasar canción a']);
+    LanguageManager.setPhrase('pauseSubStateEndSong', ['End Song', 'Terminar la Canción']);
+    LanguageManager.setPhrase('pauseSubStateChangeDifficulty', ['Change Difficulty', 'Cambiar la Dificultad']);
+    LanguageManager.setPhrase('pauseSubStateTogglePractice Mode', ['Toggle Practice Mode', 'Alternar Modo Práctica']);
+    LanguageManager.setPhrase('pauseSubStateToggleBotPlay', ['Toggle BotPlay', 'Alternar Modo Automático']);
+    LanguageManager.setPhrase('pauseSubStateOptions', ['Options', 'Opciones']);
+    LanguageManager.setPhrase('pauseSubStateExitToMenu', ['Exit to Menu', 'Volver al Menú']);
+    LanguageManager.setPhrase('pauseSubStatePracticeMode', ['Practice Mode', 'Modo Práctica']);
+    LanguageManager.setPhrase('pauseSubStateChartingMode', ['Charting Mode', 'Modo Charter']);
+    LanguageManager.setPhrase('pauseSubStateBlueBalled', ['BlueBalled: ', 'Muertes: ']);
+
+    //Freeplay State
+    LanguageManager.setPhrase('freeplayStateResetScore', ['Reset the score of', 'Reiniciar el puntaje de']);
+    LanguageManager.setPhrase('freeplayStateYes', ['Yes', 'No']);
+    LanguageManager.setPhrase('freeplayStateNo', ['No', 'No']);
+}
