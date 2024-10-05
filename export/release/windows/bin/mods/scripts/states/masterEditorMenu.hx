@@ -111,19 +111,19 @@ function onUpdate(elapsed:Float)
                 switch (selInt)
                 {
                     case 0:
-                        switchToSomeStates('ChartingState');
+                        switchToSomeStates('states.editors.ChartingState');
                     case 1:
-                        switchToSomeStates('CharacterEditorState');
+                        switchToSomeStates('states.editors.CharacterEditorState');
                     case 2:
-                        switchToSomeStates('StageEditorState');
+                        switchToSomeStates('states.editors.StageEditorState');
                     case 3:
-                        switchToSomeStates('MenuCharacterEditorState');
+                        switchToSomeStates('states.editors.MenuCharacterEditorState');
                     case 4:
-                        switchToSomeStates('DialogueEditorState');
+                        switchToSomeStates('states.editors.DialogueEditorState');
                     case 5:
-                        switchToSomeStates('DialogueCharacterEditorState');
+                        switchToSomeStates('states.editors.DialogueCharacterEditorState');
                     case 6:
-                        switchToSomeStates('NoteSplashEditorState');
+                        switchToSomeStates('states.editors.NoteSplashEditorState');
                     case 7:
                         switchToScriptState('mainMenuState', true);
                         showConsole();

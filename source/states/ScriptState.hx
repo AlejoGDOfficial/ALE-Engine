@@ -1,5 +1,6 @@
 package states;
 
+import flixel.FlxState;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxSubState;
@@ -12,6 +13,14 @@ import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.events.KeyboardEvent;
 import haxe.Json;
+
+import openfl.display.Graphics;
+import openfl.display.Sprite;
+import openfl.Lib;
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+import openfl.text.TextFormatAlign;
+import openfl.display.StageScaleMode;
 
 import objects.Character;
 
@@ -34,9 +43,11 @@ import stateslua.HScript;
 import tea.SScript;
 #end
 
+import debug.FPSCounter;
+
 class ScriptState extends MusicBeatState
 {
-    var targetFileName:String; 
+    public static var targetFileName:String; 
 
     public function new(scriptName:String) 
     {
@@ -575,7 +586,7 @@ class ScriptState extends MusicBeatState
 	{
 		switch (state)
 		{
-			case 'OptionsState':
+			case 'options.OptionsState':
 				MusicBeatState.switchState(new OptionsState());
 				OptionsState.onPlayState = false;
 				if (PlayState.SONG != null)
@@ -584,22 +595,40 @@ class ScriptState extends MusicBeatState
 					PlayState.SONG.splashSkin = null;
 					PlayState.stageUI = 'normal';
 				}
-			case 'ChartingState':
+			case 'states.editors.ChartingState':
 				LoadingState.loadAndSwitchState(new ChartingState(), false);
-			case 'CharacterEditorState':
+			case 'states.editors.CharacterEditorState':
 				LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-			case 'StageEditorState':
+			case 'states.editors.StageEditorState':
 				LoadingState.loadAndSwitchState(new StageEditorState());
-			case 'WeekEditorState':
-				MusicBeatState.switchState(new WeekEditorState());
-			case 'MenuCharacterEditorState':
+			case 'states.editors.MenuCharacterEditorState':
 				MusicBeatState.switchState(new MenuCharacterEditorState());
-			case 'DialogueEditorState':
+			case 'states.editors.DialogueEditorState':
 				LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-			case 'DialogueCharacterEditorState':
+			case 'states.editors.DialogueCharacterEditorState':
 				LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
-			case 'NoteSplashEditorState':
+			case 'states.editors.NoteSplashEditorState':
 				MusicBeatState.switchState(new NoteSplashEditorState());
 		}
+	}
+	
+	public static var fpsVar:FPSCounter;
+
+	public static function modFPSText(?destroy:Bool = false)
+	{
+		#if !mobile
+		if (fpsVar == null && !destroy)
+		{
+			fpsVar = new FPSCounter();
+			FlxG.game.addChild(fpsVar);
+			Lib.current.stage.align = "tl";
+			Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+			if(fpsVar != null) {
+				fpsVar.visible = ClientPrefs.data.showFPS;
+			}
+		} else if (fpsVar != null && destroy) {
+			FlxG.game.removeChild(fpsVar);
+		}
+		#end
 	}
 }

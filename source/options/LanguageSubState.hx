@@ -2,7 +2,6 @@ package options;
 
 class LanguageSubState extends MusicBeatSubstate
 {
-	#if TRANSLATIONS_ALLOWED
 	var grpLanguages:FlxTypedGroup<Alphabet> = new FlxTypedGroup<Alphabet>();
 	public static var languages:Array<String> = [];
 	public static var curSelected:Int = 0;
@@ -87,5 +86,4 @@ class LanguageSubState extends MusicBeatSubstate
 		}
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 	}
-	#end
 }

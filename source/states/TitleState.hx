@@ -27,6 +27,7 @@ import openfl.Lib;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
+import openfl.display.StageScaleMode;
 
 import cpp.*;
 
@@ -46,6 +47,7 @@ class TitleState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 		ClientPrefs.loadPrefs();
+		AlphaCharacter.loadAlphabetData();
 
 		super.create();
 

@@ -510,7 +510,7 @@ class NoteOffsetState extends MusicBeatState
 	function updateNoteDelay()
 	{
 		ClientPrefs.data.noteOffset = Math.round(barPercent);
-		timeTxt.text = LanguageManager.getPhrase('optionsAdjustDelayAndComboDelayCurrentOffset')[0] + Math.floor(barPercent) + LanguageManager.getPhrase('optionsAdjustDelayAndComboDelayCurrentOffset')[1];
+		timeTxt.text = LanguageManager.getPhrase('optionsAdjustDelayAndComboDelayCurrentOffset')[0] + '' + Math.floor(barPercent) + '' + LanguageManager.getPhrase('optionsAdjustDelayAndComboDelayCurrentOffset')[1];
 	}
 
 	function updateMode()
@@ -539,9 +539,9 @@ class NoteOffsetState extends MusicBeatState
 			str = LanguageManager.getPhrase('optionsAdjustDelayAndComboNoteDelay');
 
 		if(!controls.controllerMode)
-			str2 = LanguageManager.getPhrase('optionsAdjustDelayAndComboSwithcOnAccept');
+			str2 = LanguageManager.getPhrase('optionsAdjustDelayAndComboSwitchOnAccept');
 		else
-			str2 = LanguageManager.getPhrase('optionsAdjustDelayAndComboSwithcOnStart');
+			str2 = LanguageManager.getPhrase('optionsAdjustDelayAndComboSwitchOnStart');
 
 		changeModeText.text = '< ${str.toUpperCase()} ${str2.toUpperCase()} >';
 	}

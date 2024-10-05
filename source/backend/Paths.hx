@@ -173,6 +173,7 @@ class Paths
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	static public function image(key:String, ?parentFolder:String = null, ?allowGPU:Bool = true):FlxGraphic
 	{
+		key = 'images/' + key;
 		if(key.lastIndexOf('.') < 0) key += '.png';
 
 		var bitmap:BitmapData = null;

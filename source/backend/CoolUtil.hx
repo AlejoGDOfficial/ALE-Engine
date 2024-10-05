@@ -172,4 +172,21 @@ class CoolUtil
 			return 'Error reading file or processing JSON';
 		}
     }
+
+	public static function getCurrentState():Array<Dynamic>
+	{
+		var curState:String = Type.getClassName(Type.getClass(FlxG.state));
+
+		if (curState == 'states.ScriptState')
+		{
+			return [true, ScriptState.targetFileName];
+		}
+
+		return [false, curState];
+	}
+
+	public static function getCurrentSubState()
+	{
+		return Type.getClassName(Type.getClass(FlxG.state.subState));
+	}
 }

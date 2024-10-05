@@ -602,7 +602,7 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 			if(FlxG.keys.justPressed.ESCAPE) {
 				if(!unsavedProgress)
 				{
-					MusicBeatState.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "fromEditors")));
+					MusicBeatState.switchState(new ScriptState(CoolVars.fromEditors));
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					transitioning = true;
 				}

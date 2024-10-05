@@ -133,7 +133,7 @@ function onUpdate(elapsed:Float)
                     case 'credits':
                         switchToScriptState('creditsState', true);
                     case 'options':
-                        switchToSomeStates('OptionsState', true);
+                        switchToSomeStates('options.OptionsState', true);
                 }
             });
         }

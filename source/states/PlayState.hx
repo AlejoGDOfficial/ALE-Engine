@@ -527,7 +527,7 @@ class PlayState extends MusicBeatState
 		updateScore(false);
 		uiGroup.add(scoreTxt);
 
-		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, Language.getPhrase("Botplay").toUpperCase(), 32);
+		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, LanguageManager.getPhrase("playStateBotPlay").toUpperCase(), 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -1103,17 +1103,16 @@ class PlayState extends MusicBeatState
 		if (ret == LuaUtils.Function_Stop)
 			return;
 
-		var str:String = Language.getPhrase('rating_$ratingName', ratingName);
+		var str:String = ratingName;
 		if(totalPlayed != 0)
 		{
 			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
-			str += ' (${percent}%) - ' + Language.getPhrase(ratingFC);
+			str += ' (${percent}%) - ' + ratingFC;
 		}
 
 		var tempScore:String;
-		if(!instakillOnMiss) tempScore = Language.getPhrase('score_text', 'Score: {1} | Misses: {2} | Rating: {3}', [songScore, songMisses, str]);
-		else tempScore = Language.getPhrase('score_text_instakill', 'Score: {1} | Rating: {2}', [songScore, str]);
-		scoreTxt.text = tempScore;
+		if(!instakillOnMiss) tempScore = LanguageManager.getPhrase('playStateScoreTxt')[0] + songScore + ' | ' + LanguageManager.getPhrase('playStateScoreTxt')[1] + songMisses + ' | ' + LanguageManager.getPhrase('playStateScoreTxt')[2] + str;
+		else tempScore = tempScore = LanguageManager.getPhrase('playStateScoreTxt')[0] + songScore + ' | ' + LanguageManager.getPhrase('playStateScoreTxt')[2] + str;
 
 		if (!miss && !cpuControlled)
 			doScoreBop();
@@ -2385,7 +2384,7 @@ class PlayState extends MusicBeatState
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					canResync = false;
-					MusicBeatState.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "fromPlayStateIfStoryMode")));
+					MusicBeatState.switchState(new ScriptState(CoolVars.fromPlayStateIfStoryMode));
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
@@ -2421,7 +2420,7 @@ class PlayState extends MusicBeatState
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				canResync = false;
-				MusicBeatState.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "fromPlayStateIfFreeplay")));
+				MusicBeatState.switchState(new ScriptState(CoolVars.fromPlayStateIfFreeplay));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 			}

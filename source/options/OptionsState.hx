@@ -103,8 +103,7 @@ class OptionsState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.sound.music.volume = 0;
 			} else {
-				FlxG.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "fromOptions")));
-				trace(CoolUtil.getJsonValue("scriptStates/config", "fromOptions"));
+				FlxG.switchState(new ScriptState(CoolVars.fromOptions));
 			}
 		}
 		else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);

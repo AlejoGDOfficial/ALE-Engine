@@ -1,7 +1,0 @@
-{
-    "initialState": "freeplayState",
-    "fromPlayStateIfStoryMode": "freeplayState",
-    "fromPlayStateIfFreeplay": "freeplayState",
-    "fromEditors": "freeplayState",
-    "fromOptions": "freeplayState"
-}

@@ -60,13 +60,25 @@ class ControlsSubState extends MusicBeatSubstate
 	
 	var controllerSpr:FlxSprite;
 
-	private function formatKeyStr(keyStr:String):String {
-		var formattedStr = keyStr.split('_').map(function(word, index) {
-			return index == 0 ? word.charAt(0).toUpperCase() + word.substr(1).toLowerCase() : StringTools.capitalize(word);
-		}).join('');
-
-		return formattedStr.replace('Ui', 'UI');
+	function formatKeyStr(keyStr:String):String 
+	{
+		var parts = keyStr.split('_');
+		var result = '';
+		
+		for (i in 0...parts.length) {
+			var word = parts[i];
+			
+			if (i == 0) {
+				result += word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+			} else {
+				result += word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+			}
+		}
+		
+		return result.replace('Ui', 'UI');
 	}
+	
+	
 	
 	public function new()
 	{
@@ -147,7 +159,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 					var str:String = option[1];
 					var keyStr:String = option[2];
-					if(isDefaultKey) str = Language.getPhrase(str);
+					if(isDefaultKey) str = LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(str));
 					var text:Alphabet = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup' + formatKeyStr(str)), !isDisplayKey);
 					text.isMenuItem = true;
 					text.changeX = false;
@@ -311,11 +323,11 @@ class ControlsSubState extends MusicBeatSubstate
 					FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 					add(bindingBlack);
 
-					bindingText = new Alphabet(FlxG.width / 2, 160, Language.getPhrase('controls_rebinding', 'Rebinding {1}', [options[curOptions[curSelected]][3]]), false);
+					bindingText = new Alphabet(FlxG.width / 2, 160, LanguageManager.getPhrase('optionsControlsRebinding1') + options[curOptions[curSelected]][3], false);
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
-					bindingText2 = new Alphabet(FlxG.width / 2, 340, Language.getPhrase('controls_rebinding2', 'Hold ESC to Cancel\nHold Backspace to Delete'), true);
+					bindingText2 = new Alphabet(FlxG.width / 2, 340, LanguageManager.getPhrase('optionsControlsRebinding2'), true);
 					bindingText2.alignment = CENTERED;
 					add(bindingText2);
 

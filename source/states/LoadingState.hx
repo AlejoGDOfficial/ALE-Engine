@@ -68,7 +68,7 @@ class LoadingState extends MusicBeatState
 		bg.updateHitbox();
 		add(bg);
 	
-		loadingText = new FlxText(520, 600, 400, LanguageManager.getPhrase('loadingStateLoadingTxt') + '...'), 32);
+		loadingText = new FlxText(520, 600, 400, LanguageManager.getPhrase('loadingStateLoadingTxt') + '...', 32);
 		loadingText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
 		loadingText.borderSize = 2;
 		add(loadingText);

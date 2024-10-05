@@ -3934,7 +3934,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		var btn:PsychUIButton = new PsychUIButton(btnX, btnY, '  Exit', function()
 		{
 			PlayState.chartingMode = false;
-			MusicBeatState.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "fromEditors")));
+			MusicBeatState.switchState(new ScriptState(CoolVars.fromEditors));
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			FlxG.mouse.visible = false;
 		}, btnWid);

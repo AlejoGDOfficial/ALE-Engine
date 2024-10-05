@@ -1,6 +1,24 @@
 import backend.LanguageManager;
+import backend.CoolVars;
+import states.ScriptState;
+
+var initialConfig:Bool = CoolVars.scriptInitialConfig;
 
 function onCreate()
+{
+    setLanguages();
+
+    CoolVars._developerMode = true;
+    CoolVars.initialState = 'introState';
+	CoolVars.fromPlayStateIfStoryMode = 'storyMenuState';
+	CoolVars.fromPlayStateIfFreeplay = 'freeplayState';
+	CoolVars.fromEditors = 'masterEditorMenu';
+	CoolVars.fromOptions = 'mainMenuState';
+
+    finishConfig();
+}
+
+function setLanguages()
 {
     LanguageManager.setLanguages(['english', 'spanish'], ['eng', 'span']);
 
@@ -8,8 +26,6 @@ function onCreate()
     setupObjectsLanguages();
     setupOptionsLanguages();
     setupStatesLanguages();
-
-    switchToScriptState('introState');
 }
 
 function setupGlobalLanguages()
@@ -22,6 +38,11 @@ function setupGlobalLanguages()
 function setupObjectsLanguages()
 {
     LanguageManager.setPhrase('dialogueSkip', ['Press BACK to Skip', 'Presiona VOLVER para Saltar']);
+
+    LanguageManager.setPhrase('fpsTxt', [
+        ['DEVELOPER MODE', 'FPS: ', 'Memory: ', 'Window Position: ', 'Window Resolution: ', 'Screen Resolution: ', 'Operating System: '],
+        ['MODO DESARROLLADOR', 'FPS: ', 'Memoria: ', 'Posición de la Ventana: ', 'Resolución de la Ventana: ', 'Resolución de la Pantalla: ', 'Sistema Operativo: ']
+    ]);
 }
 
 function setupOptionsLanguages()
@@ -34,11 +55,11 @@ function setupOptionsLanguages()
         'Presiona REINICIAR para Reiniciar la Parte seleccionada de la Nota'
     ]);
     LanguageManager.setPhrase('optionsNoteColorsHoldTip', [
-        'Hold Shift + Press RESET key to fully reset the selected Note.', 
-        'Mantén presionado Shift + presina RESET para reiniciar por completo la Note Seleccionada.'
+        ['Hold ', ' + Press RESET key to fully reset the selected Note.'], 
+        ['Mantén presionado ', ' + presiona RESET para reiniciar por completo la Note Seleccionada.']
     ]);
     
-    LanguageManager.setPhrase('optionsNoteColorsLB', ['Shift', 'Botón de Hombro Izquierdo']);
+    LanguageManager.setPhrase('optionsNoteColorsLB', ['Left Shoulder Button', 'Botón de Hombro Izquierdo']);
     
     //Controls / Controles
     LanguageManager.setPhrase('optionsControls', ['Controls', 'Controles']);
@@ -50,12 +71,12 @@ function setupOptionsLanguages()
 
     LanguageManager.setPhrase('optionsControlsKeyNoteLeft', ['Left', 'Izq.']);
     LanguageManager.setPhrase('optionsControlsKeyNoteDown', ['Down', 'Abaj.']);
-    LanguageManager.setPhrase('optionsControlsKeyNoteUP', ['Up', 'Arri.']);
+    LanguageManager.setPhrase('optionsControlsKeyNoteUp', ['Up', 'Arri.']);
     LanguageManager.setPhrase('optionsControlsKeyNoteRight', ['Right', 'Der.']);
 
     LanguageManager.setPhrase('optionsControlsKeyUILeft', ['Left', 'Izq.']);
     LanguageManager.setPhrase('optionsControlsKeyUIDown', ['Down', 'Abaj.']);
-    LanguageManager.setPhrase('optionsControlsKeyUIUP', ['Up', 'Arri.']);
+    LanguageManager.setPhrase('optionsControlsKeyUIUp', ['Up', 'Arri.']);
     LanguageManager.setPhrase('optionsControlsKeyUIRight', ['Right', 'Der.']);
 
     LanguageManager.setPhrase('optionsControlsKeyReset', ['Reset', 'Reinic.']);
@@ -70,16 +91,16 @@ function setupOptionsLanguages()
     LanguageManager.setPhrase('optionsControlsKeyDebug1', ['Cht. Ed.', 'Ed. Cht.']);
     LanguageManager.setPhrase('optionsControlsKeyDebug2', ['Ch. Ed.', 'Ed. Prs.']);
     
-    LanguageManager.setPhrase('optionsControlsRebinding1', ['Mute', 'Silen.']);
-    LanguageManager.setPhrase('optionsControlsRebinding2', ['Up', 'Subir']);
+    LanguageManager.setPhrase('optionsControlsRebinding1', ['Rebinding ', 'Re-Asignando ']);
+    LanguageManager.setPhrase('optionsControlsRebinding2', ['Hold Esc to Cancel\nHold BackSpace to Delete', 'Esc para Cancelar\nBKSP para Borrar']);
     
     LanguageManager.setPhrase('optionsControlsResetToDefaultKeys', ['Reset to Default Keys', 'Restablecer Controles']);
 
     //Adjust Delay and Combo / Ajustar Retraso y Combo
     LanguageManager.setPhrase('optionsAdjustDelayAndCombo', ['Adjust Delay and Combo', 'Ajustar Retraso y Combo']);
 
-    LanguageManager.setPhrase('optionsAdjustDelayAndComboSwithcOnAccept', ['(Press ACCEPT to Switch)', '(Presiona ACEPTAR para Cambiar)']);
-    LanguageManager.setPhrase('optionsAdjustDelayAndComboSwithcOnStart', ['(Press Start to Switch)', '(Presiona Start para Cambiar)']);
+    LanguageManager.setPhrase('optionsAdjustDelayAndComboSwitchOnAccept', ['(Press ACCEPT to Switch)', '(Presiona ACEPTAR para Cambiar)']);
+    LanguageManager.setPhrase('optionsAdjustDelayAndComboSwitchOnStart', ['(Press Start to Switch)', '(Presiona Start para Cambiar)']);
 
     LanguageManager.setPhrase('optionsAdjustDelayAndComboRatingOffset', ['Rating Offset: ', 'Compensación de la Puntuación:']);
     LanguageManager.setPhrase('optionsAdjustDelayAndComboNumbersOffset', ['Numbers Offset: ', 'Compensación de los Números:']);
@@ -273,4 +294,21 @@ function setupStatesLanguages()
     LanguageManager.setPhrase('freeplayStateResetScore', ['Reset the score of', 'Reiniciar el puntaje de']);
     LanguageManager.setPhrase('freeplayStateYes', ['Yes', 'No']);
     LanguageManager.setPhrase('freeplayStateNo', ['No', 'No']);
+}
+
+function finishConfig()
+{
+    ScriptState.modFPSText(false);
+    
+    if (initialConfig)
+    {
+        switchToScriptState(CoolVars.initialState);
+    } else {
+        if (CoolVars.reconfigureData[0])
+        {
+            switchToScriptState(CoolVars.reconfigureData[1]);
+        } else {
+            switchToSomeStates(CoolVars.reconfigureData[1]);
+        }
+    }
 }

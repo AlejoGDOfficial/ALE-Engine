@@ -597,8 +597,7 @@ class NoteSplashEditorState extends MusicBeatState
         if (!blockInput)
         {
             if (controls.BACK)
-                MusicBeatState.switchState(new ScriptState(CoolUtil.getJsonValue("scriptStates/config", "fromEditors")));
-            trace(CoolUtil.getJsonValue("scriptStates/config", "fromEditors"));
+                MusicBeatState.switchState(new ScriptState(CoolVars.fromEditors));
             if (FlxG.keys.justPressed.F1)
                 openSubState(new NoteSplashEditorHelpSubState());
         }
