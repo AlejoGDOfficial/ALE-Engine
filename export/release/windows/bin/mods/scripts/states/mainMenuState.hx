@@ -50,7 +50,7 @@ function onCreate()
     version.borderSize = 1;
     version.borderColor = FlxColor.BLACK;
     version.applyMarkup(
-        'Friday Night Funkin\' 0.3.0\nALE Engine *Alpha 2* (P.E. 1.0 Pre-Release)',
+        'Friday Night Funkin\' 0.3.0\nALE Engine *' + getGlobalVar('engineVersion') + '* (P.E. 1.0 Pre-Release)',
         [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('FF0000')), '*')]
     );
     version.y = FlxG.height - version.height - 10;

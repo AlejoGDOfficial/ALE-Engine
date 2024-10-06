@@ -49,6 +49,8 @@ class TitleState extends MusicBeatState
 		ClientPrefs.loadPrefs();
 		AlphaCharacter.loadAlphabetData();
 
+		CoolVars.globalVars.set('engineVersion', 'Alpha 2');
+
 		super.create();
 
 		/*
@@ -216,7 +218,7 @@ class TitleState extends MusicBeatState
 				case 3:
 					_text.text = "ALE Engine";
 				case 4:
-					_text.text = "ALE Engine\nAlpha 2\n(Pre-Release 1.0 Fork)";
+					_text.text = "ALE Engine\n" + CoolVars.globalVars.get("engineVersion") +"\n(Pre-Release 1.0 Fork)";
 
 					FlxTween.tween(_sprite, {alpha: 0}, 240 / Conductor.bpm);
 					FlxTween.tween(_text, {alpha: 0}, 240 / Conductor.bpm);

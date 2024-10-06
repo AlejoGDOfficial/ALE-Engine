@@ -1,5 +1,7 @@
 package options;
 
+import debug.FPSCounter;
+
 class LanguageSubState extends MusicBeatSubstate
 {
 	var grpLanguages:FlxTypedGroup<Alphabet> = new FlxTypedGroup<Alphabet>();
@@ -71,6 +73,7 @@ class LanguageSubState extends MusicBeatSubstate
 			//trace(ClientPrefs.data.language);
 			ClientPrefs.saveSettings();
 			LanguageManager.curLanguage = languages[curSelected];
+			FPSCounter.textsArray = LanguageManager.getPhrase('fpsTxt');
 			changedLanguage = true;
 		}
 	}

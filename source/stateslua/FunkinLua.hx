@@ -218,6 +218,51 @@ class FunkinLua {
 			return Lib.application.window.height;
 		});
 
+		//Global Vars
+
+		Lua_helper.add_callback(lua, "setGlobalVar", function(id:String, data:Dynamic)
+		{
+			CoolVars.globalVars.set(id, data);
+		});
+		Lua_helper.add_callback(lua, "getGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.get(id);
+		});
+		Lua_helper.add_callback(lua, "existsGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.exists(id);
+		});
+		Lua_helper.add_callback(lua, "removeGlobalVar", function(id:String)
+		{
+			CoolVars.globalVars.remove(id);
+		});
+
+		//Config
+
+		Lua_helper.add_callback(lua, "showFPSText", function()
+		{
+			ScriptState.showFPSText();
+		});
+
+		//Language Manager
+
+		Lua_helper.add_callback(lua, "setLanguages", function(names:Array<String>, abbr:Array<String>)
+		{
+			LanguageManager.setLanguages(names, abbr);
+		});
+		Lua_helper.add_callback(lua, "getSuffix", function()
+		{
+			return LanguageManager.getSuffix();
+		});
+		Lua_helper.add_callback(lua, "setPhrase", function(id:String, texts:Array<Dynamic>)
+		{
+			LanguageManager.setPhrase(id, texts);
+		});
+		Lua_helper.add_callback(lua, "getPhrase", function(funcID:String)
+		{
+			return LanguageManager.getPhrase(funcID);
+		});
+
 		//CPP
 
 		Lua_helper.add_callback(lua, 'changeTitle', function(titleText:String)

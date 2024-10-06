@@ -135,6 +135,8 @@ class HScript extends SScript
 
 		set('FlxFlicker', flixel.effects.FlxFlicker);
 
+		set('CoolVars', backend.CoolVars);
+
 		set('switchToScriptState', function(name:String, ?doTransition:Bool = false)
 		{
 			ScriptState.instance.switchToScriptState(name, doTransition);
@@ -225,6 +227,51 @@ class HScript extends SScript
 		set("getWindowHeight", function(pos:Int)
 		{
 			return Lib.application.window.height;
+		});
+
+		//Global Vars
+
+		set("setGlobalVar", function(id:String, data:Dynamic)
+		{
+			CoolVars.globalVars.set(id, data);
+		});
+		set("getGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.get(id);
+		});
+		set("existsGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.exists(id);
+		});
+		set("removeGlobalVar", function(id:String)
+		{
+			CoolVars.globalVars.remove(id);
+		});
+
+		//Config
+
+		set("showFPSText", function()
+		{
+			ScriptState.showFPSText();
+		});
+
+		//Language Manager
+
+		set("setLanguages", function(names:Array<String>, abbr:Array<String>)
+		{
+			LanguageManager.setLanguages(names, abbr);
+		});
+		set("getSuffix", function()
+		{
+			return LanguageManager.getSuffix();
+		});
+		set("setPhrase", function(id:String, texts:Array<Dynamic>)
+		{
+			LanguageManager.setPhrase(id, texts);
+		});
+		set("getPhrase", function(funcID:String)
+		{
+			return LanguageManager.getPhrase(funcID);
 		});
 
 		//CPP

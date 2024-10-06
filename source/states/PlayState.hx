@@ -2384,7 +2384,7 @@ class PlayState extends MusicBeatState
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					canResync = false;
-					MusicBeatState.switchState(new ScriptState(CoolVars.fromPlayStateIfStoryMode));
+					MusicBeatState.switchState(new ScriptState(CoolVars.globalVars.get("fromPlayStateIfStoryMode")));
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
@@ -2420,7 +2420,7 @@ class PlayState extends MusicBeatState
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				canResync = false;
-				MusicBeatState.switchState(new ScriptState(CoolVars.fromPlayStateIfFreeplay));
+				MusicBeatState.switchState(new ScriptState(CoolVars.globalVars.get("fromPlayStateIfFreeplay")));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 			}

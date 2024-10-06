@@ -260,6 +260,36 @@ class FunkinLua {
 			return Lib.application.window.height;
 		});
 
+		//Global Vars
+
+		Lua_helper.add_callback(lua, "setGlobalVar", function(id:String, data:Dynamic)
+		{
+			CoolVars.globalVars.set(id, data);
+		});
+		Lua_helper.add_callback(lua, "getGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.get(id);
+		});
+		Lua_helper.add_callback(lua, "existsGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.exists(id);
+		});
+		Lua_helper.add_callback(lua, "removeGlobalVar", function(id:String)
+		{
+			CoolVars.globalVars.remove(id);
+		});
+
+		//Language Manager
+
+		Lua_helper.add_callback(lua, "getSuffix", function()
+		{
+			return LanguageManager.getSuffix();
+		});
+		Lua_helper.add_callback(lua, "getPhrase", function(funcID:String)
+		{
+			return LanguageManager.getPhrase(funcID);
+		});
+
 		//CPP
 
 		Lua_helper.add_callback(lua, 'changeTitle', function(titleText:String)
@@ -925,9 +955,9 @@ class FunkinLua {
 			}
 
 			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new ScriptState(CoolVars.fromPlayStateIfStoryMode));
+				MusicBeatState.switchState(new ScriptState(CoolVars.globalVars.get("fromPlayStateIfStoryMode")));
 			else
-				MusicBeatState.switchState(new ScriptState(CoolVars.fromPlayStateIfFreeplay));
+				MusicBeatState.switchState(new ScriptState(CoolVars.globalVars.get("fromPlayStateIfFreeplay")));
 
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 

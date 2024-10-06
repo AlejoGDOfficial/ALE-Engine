@@ -614,20 +614,15 @@ class ScriptState extends MusicBeatState
 	
 	public static var fpsVar:FPSCounter;
 
-	public static function modFPSText(?destroy:Bool = false)
+	public static function showFPSText()
 	{
 		#if !mobile
-		if (fpsVar == null && !destroy)
-		{
-			fpsVar = new FPSCounter();
-			FlxG.game.addChild(fpsVar);
-			Lib.current.stage.align = "tl";
-			Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-			if(fpsVar != null) {
-				fpsVar.visible = ClientPrefs.data.showFPS;
-			}
-		} else if (fpsVar != null && destroy) {
-			FlxG.game.removeChild(fpsVar);
+		fpsVar = new FPSCounter();
+		FlxG.game.addChild(fpsVar);
+		Lib.current.stage.align = "tl";
+		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+		if(fpsVar != null) {
+			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 		#end
 	}
