@@ -20,27 +20,71 @@ setCategoryData(categoryName, 'Category Name', ['Dev Name 1', 'Dev Name 2', 'Dev
 categories.push(categoryName);
 */
 
+var devsSelInt:Int = 0;
+
 function onCreate()
 {
+    if (existsGlobalVar('creditsStateSelInt'))
+    {
+        devsSelInt = getGlobalVar('creditsStateSelInt');
+    }
+
+    var mainDevsNames:Array<String> = [];
+    var mainDevsIcons:Array<String> = [];
+    var mainDevsDescs:Array<String> = [];
+    var mainDevsColors:Array<String> = [];
+
+    for (devData in getPhrase('creditsStateALEEngineMainCrew'))
+    {
+        mainDevsNames.push(devData[0]);
+        mainDevsIcons.push(devData[1]);
+        mainDevsDescs.push(devData[2]);
+        mainDevsColors.push(devData[3]);
+    }
+
     var mainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(mainDevs, 'ALE Engine Team', ['AlejoGDOfficial'], ['alejo'], ['Main Programmer and Head'], ['03B1FC']);
+    setCategoryData(mainDevs, getPhrase('creditsStateALEEngineTeam'), mainDevsNames, mainDevsIcons, mainDevsDescs, mainDevsColors);
     categories.push(mainDevs);
 
+    var otherDevsNames:Array<String> = [];
+    var otherDevsIcons:Array<String> = [];
+    var otherDevsDescs:Array<String> = [];
+    var otherDevsColors:Array<String> = [];
+
+    for (devData in getPhrase('creditsStateALEEngineSecondaryCrew'))
+    {
+        otherDevsNames.push(devData[0]);
+        otherDevsIcons.push(devData[1]);
+        otherDevsDescs.push(devData[2]);
+        otherDevsColors.push(devData[3]);
+    }
+
     var otherDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(otherDevs, 'ALE Engine Contributors', ['Slushi'], ['slushi'], ['C++ Functions'], ['03F2FF']);
+    setCategoryData(otherDevs, getPhrase('creditsStateALEEngineContributors'), otherDevsNames, otherDevsIcons, otherDevsDescs, otherDevsColors);
     categories.push(otherDevs);
 
-    var psychDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(psychDevs, 'Psych Engine Team', ['Shadow Mario', 'Riveren'], ['shadowMario', 'riveren'], ['Main Programmer and Head', 'Main Artist/Animator'], ['444444', '14967B']);
-    categories.push(psychDevs);
+    var psychMainDevsNames:Array<String> = [];
+    var psychMainDevsIcons:Array<String> = [];
+    var psychMainDevsDescs:Array<String> = [];
+    var psychMainDevsColors:Array<String> = [];
+
+    for (devData in getPhrase('creditsStatePsychEngineMainCrew'))
+    {
+        psychMainDevsNames.push(devData[0]);
+        psychMainDevsIcons.push(devData[1]);
+        psychMainDevsDescs.push(devData[2]);
+        psychMainDevsColors.push(devData[3]);
+    }
+
+    var psychMainDevs:StringMap<Dynamic> = new StringMap();
+    setCategoryData(psychMainDevs, getPhrase('creditsStatePsychEngineTeam'), psychMainDevsNames, psychMainDevsIcons, psychMainDevsDescs, psychMainDevsColors);
+    categories.push(psychMainDevs);
 
     showShit();
 }
 
 var texts:Array<FlxText> = [];
 var images:Array<FlxSprite> = [];
-
-var devsSelInt:Int = 0;
 
 var texts:Array<FlxText> = [];
 var images:Array<FlxSprite> = [];
@@ -159,14 +203,16 @@ function onUpdate(elapsed:Float)
             FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
 
             canSelect = false;
+
+            setGlobalVar('creditsStateSelInt', devsSelInt);
         }
     }
 
     if (FlxG.sound.music != null)
         Conductor.devPosition = FlxG.sound.music.time;
 
-    FlxG.camera.scroll.x = FlxMath.lerp(devsSelInt * 25, FlxG.camera.scroll.x, Math.exp(-elapsed * 6));
-    FlxG.camera.scroll.y = FlxMath.lerp(devsSelInt * 105, FlxG.camera.scroll.y, Math.exp(-elapsed * 6));
+    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, devsSelInt * 25, 0.1);
+    FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, devsSelInt * 105, 0.1);
 
     for (image in images)
     {
@@ -251,6 +297,9 @@ function onBeatHit()
 {
     for (image in images)
     {
-        image.scale.set(1.25, 1.25);
+        if (images.indexOf(image) == devsSelInt)
+        {
+            image.scale.set(1.25, 1.25);
+        }
     }
 }

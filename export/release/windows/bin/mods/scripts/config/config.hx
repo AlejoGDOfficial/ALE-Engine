@@ -22,8 +22,9 @@ function setNewLanguages()
 {
     setLanguages(['english', 'spanish'], ['eng', 'span']);
 
-    setupStatesLanguages();
     setupGlobalLanguages();
+    setupStatesLanguages();
+    setupSubStatesLanguages();
     setupObjectsLanguages();
     setupOptionsLanguages();
 }
@@ -32,7 +33,7 @@ function setupGlobalLanguages()
 {
     setPhrase('difficultiesEasy', ['Easy', 'Fácil']);
     setPhrase('difficultiesNormal', ['Normal', 'Normal']);
-    setPhrase('difficultiesHard', ['Hard', 'Difícil ']);
+    setPhrase('difficultiesHard', ['Hard', 'Difícil']);
 }
 
 function setupObjectsLanguages()
@@ -93,7 +94,7 @@ function setupOptionsLanguages()
     
     setPhrase('optionsControlsRebinding1', ['Rebinding ', 'Re-Asignando ']);
     setPhrase('optionsControlsRebinding2', ['Hold Esc to Cancel\nHold BackSpace to Delete', 'Esc para Cancelar\nBKSP para Borrar']);
-    
+
     setPhrase('optionsControlsResetToDefaultKeys', ['Reset to Default Keys', 'Restablecer Controles']);
 
     //Adjust Delay and Combo / Ajustar Retraso y Combo
@@ -130,7 +131,7 @@ function setupOptionsLanguages()
         'If unchecked, disables shaders. It\'s used for some visual effects, and also CPU intensive for weaker PCs.', 
         'Si es desmarcado, desactiva los shaders. Son usados para algunos efectos visuales, y también para un uso intensivo de la CPU en las PCs más débiles.'
     ]);
-    setPhrase('optionsGraphicsGPUCaching', ['GPU Caching', 'Almacenamiento en el caché de la CPU']);
+    setPhrase('optionsGraphicsGPUCaching', ['GPU Caching', 'Almacenamiento en el caché de la GPU']);
     setPhrase('optionsGraphicsGPUCachingDesc', [
         'If checked, allows the GPU to be used for caching textures, decreasing RAM usage. Don\'t turn this on if you have a shitty Graphics Card.', 
         'Si es marcado, permite que la GPU sea usada para almacenar texturas en caché, disminuyendo el uso de RAM. No actives esto si tienes una Targeta Gráfica de mierda.'
@@ -150,12 +151,12 @@ function setupOptionsLanguages()
         'How much transparent should the Note Splashes be.', 
         'Qué tan transparentes deben ser las Salpicaduras.'
     ]);
-    setPhrase('optionsVisualsFlashingLights', ['Flashing Lights', 'Luces Interminentes']);
+    setPhrase('optionsVisualsFlashingLights', ['Flashing Lights', 'Luces Intermitentes']);
     setPhrase('optionsVisualsFlashingLightsDesc', [
         'Uncheck this if you\'re sensitive to flashing lights!', 
         'Desactiva esto si eres sensible a las luces intermitentes!'
     ]);
-    setPhrase('optionsVisualsPauseMusic', ['Flashing Lights', 'Luces Interminentes']);
+    setPhrase('optionsVisualsPauseMusic', ['Pause Music', 'Música de Pausa']);
     setPhrase('optionsVisualsPauseMusicDesc', [
         'What song do you prefer for the Pause Screen?', 
         'Qué canción prefieres que suene cuando Pausas?'
@@ -209,7 +210,7 @@ function setupOptionsLanguages()
         'Changes the amount of time you have for hitting a "Good!" in milliseconds.', 
         'Cambia la cantidad de tiempo que tienes para obtener un "Bien!" en milisegundos.'
     ]);
-    setPhrase('optionsGameplayBadHitWindow', ['Bad Hit Window', 'Margen de Acierto para "Bad"']);
+    setPhrase('optionsGameplayBadHitWindow', ['Bad Hit Window', 'Margen de Acierto para un "Mal"']);
     setPhrase('optionsGameplayBadHitWindowDesc', [
         'Changes the amount of time you have for hitting a "Bad" in milliseconds.', 
         'Cambia la cantidad de tiempo que tienes para obtener un "Mal" en milisegundos.'
@@ -231,6 +232,12 @@ function setupStatesLanguages()
     //Play State
     setPhrase('playStateScoreTxt', [['Score: ', 'Misses: ', 'Rating: '], ['Puntaje: ', 'Errores: ', 'Calificación: ']]);
     setPhrase('playStateBotPlay', ['BotPlay', 'Automático']);
+    setPhrase('playStateSFC', ['SFC', 'SFC']);
+    setPhrase('playStateGFC', ['GFC', 'GFC']);
+    setPhrase('playStateFC', ['FC', 'FC']);
+    setPhrase('playStateSDCB', ['SDCB', 'RCDI']);
+    setPhrase('playStateClear', ['Clear', 'Pasado']);
+    setPhrase('playStateNA', ['N/A', 'N/A']);
 
     //Intro State
     setPhrase('introStatePhrases', [
@@ -275,27 +282,85 @@ function setupStatesLanguages()
     //Loading State
     setPhrase('loadingStateLoadingTxt', ['Now loading', 'Cargando']);
 
+    //Freeplay State
+    setPhrase('freeplayStateResetScore', ['Reset the score of', 'Reiniciar el puntaje de']);
+    setPhrase('freeplayStateYes', ['Yes', 'No']);
+    setPhrase('freeplayStateNo', ['No', 'No']);
+    setPhrase('freeplayStateDifficulty', ['DIFFICULTY', 'DIFICULTAD']);
+
+    //Story Menu State
+    setPhrase('storyMenuStateTracks', ['TRACKS', 'TEMAS']);
+
+    //Credits State
+    setPhrase('creditsStateALEEngineTeam', ['ALE Engine Team', 'Equipo de ALE Engine']);
+    setPhrase('creditsStateALEEngineContributors', ['ALE Engine Contributors', 'Contribuidores de ALE Engine']);
+    setPhrase('creditsStatePsychEngineTeam', ['Psych Engine Team', 'Equipo de Psych Engine']);
+
+    setPhrase('creditsStateALEEngineMainCrew', [
+        [
+            ['AlejoGDOfficial', 'alejoGDOfficial', 'Main Programmer and Head', '03B1FC'],
+            ['Khorix the Inking', 'khorixTheInking', 'Main Artist/Animator', '494F75'],
+            ['Eddy Smashcraft', 'eddySmashcraft', 'Helped with the Translations into Spanish', '5D4FBC']
+        ],
+        [
+            ['AlejoGDOfficial', 'alejoGDOfficial', 'Programador Principal y Cabeza', '03B1FC'],
+            ['Khorix the Inking', 'khorixTheInking', 'Principal Artista/Animador', '494F75'],
+            ['Eddy Smashcraft', 'eddySmashcraft', 'Ayudó con las Traducciones al Español', '5D4FBC']
+        ]
+    ]);
+
+    setPhrase('creditsStateALEEngineSecondaryCrew', [
+        [
+            ['Slushi', 'slushi', 'C++ Functions', '03F2FF']
+        ],
+        [
+            ['Slushi', 'slushi', 'Funciones de C++', '03F2FF']
+        ]
+    ]);
+
+    setPhrase('creditsStatePsychEngineMainCrew', [
+        [
+            ['Shadow Mario', 'shadowMario', 'Main Programmer and Head', '444444'],
+            ['Riveren', 'riveren', 'Main Artist/Animator', '14967B']
+        ],
+        [
+            ['Shadow Mario', 'shadowMario', 'Programador Principal y Cabeza', '444444'],
+            ['Riveren', 'riveren', 'Principal Artista/Animador', '14967B']
+        ]
+    ]);
+
+    //Master Editor Menu
+    setPhrase('masterEditorMenuChartEditor', ['Chart Editor', 'Editor de Chart']);
+    setPhrase('masterEditorMenuCharacterEditor', ['Character Editor', 'Editor de Personajes']);
+    setPhrase('masterEditorMenuStageEditor', ['Stage Editor', 'Editor de Escenarios']);
+    setPhrase('masterEditorMenuDialogueEditor', ['Dialogue Editor', 'Editor de Dialogos']);
+    setPhrase('masterEditorMenuDialoguePortraitEditor', ['Dialogue Portrait Editor', 'Editor de Retratos de Dialogo']);
+    setPhrase('masterEditorMenuNoteSplashEditor', ['Note Splash Editor', 'Editor de Salpicaduras']);
+    setPhrase('masterEditorMenuShowConsole', ['Show Console', 'Mostrar Consola']);
+    setPhrase('masterEditorMenuHideConsole', ['Hide Console', 'Esconder Consola']);
+}
+
+function setupSubStatesLanguages()
+{
     //Pause SubState
     setPhrase('pauseSubStateResume', ['Resume', 'Resumir']);
     setPhrase('pauseSubStateRestartSong', ['Restart Song', 'Reiniciar la Canción']);
-    setPhrase('pauseSubStateLeaveCharting Mode', ['Leave Charting Mode', 'Salir del Modo Charter']);
-    setPhrase('pauseSubStateSkipTime', ['Skip Time', 'Adelantar/Restrasar canción a']);
+    setPhrase('pauseSubStateLeaveChartingMode', ['Leave Charting Mode', 'Salir del Modo Charter']);
+    setPhrase('pauseSubStateSkipTime', ['Skip Time', 'Reproducir Canción']);
     setPhrase('pauseSubStateEndSong', ['End Song', 'Terminar la Canción']);
     setPhrase('pauseSubStateChangeDifficulty', ['Change Difficulty', 'Cambiar la Dificultad']);
     setPhrase('pauseSubStateBack', ['Back', 'Volver']);
-    setPhrase('pauseSubStateTogglePractice Mode', ['Toggle Practice Mode', 'Alternar Modo Práctica']);
+    setPhrase('pauseSubStateTogglePracticeMode', ['Toggle Practice Mode', 'Alternar Modo Práctica']);
     setPhrase('pauseSubStateToggleBotPlay', ['Toggle BotPlay', 'Alternar Modo Automático']);
     setPhrase('pauseSubStateOptions', ['Options', 'Opciones']);
     setPhrase('pauseSubStateExitToMenu', ['Exit to Menu', 'Volver al Menú']);
     setPhrase('pauseSubStatePracticeMode', ['Practice Mode', 'Modo Práctica']);
     setPhrase('pauseSubStateChartingMode', ['Charting Mode', 'Modo Charter']);
+    setPhrase('pauseSubStateEasy', ['Easy', 'Fácil']);
+    setPhrase('pauseSubStateNormal', ['Normal', 'Normal']);
+    setPhrase('pauseSubStateHard', ['Hard', 'Difícil']);
 
     setPhrase('pauseSubStateBlueBalled', ['BlueBalled: ', 'Muertes: ']);
-
-    //Freeplay State
-    setPhrase('freeplayStateResetScore', ['Reset the score of', 'Reiniciar el puntaje de']);
-    setPhrase('freeplayStateYes', ['Yes', 'No']);
-    setPhrase('freeplayStateNo', ['No', 'No']);
 }
 
 function finishConfig()

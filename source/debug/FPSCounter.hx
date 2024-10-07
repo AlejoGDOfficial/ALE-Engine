@@ -96,8 +96,19 @@ class FPSCounter extends Sprite
 
             if (FlxG.keys.justPressed.F3)
             {
+                LanguageManager.phrases = [];
+
+                for (key in CoolVars.globalVars.keys())
+                {
+                    if (key != 'engineVersion' && key != 'consoleVisible')
+                    {
+                        CoolVars.globalVars.remove(key);
+                    }
+                }
+                
                 CoolVars.globalVars.set('initialConfig', false);
                 CoolVars.globalVars.set('reconfigureData', CoolUtil.getCurrentState());
+                
                 MusicBeatState.switchState(new ScriptState('configGame'));
             }
         } else {

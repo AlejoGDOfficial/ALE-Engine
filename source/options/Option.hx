@@ -132,7 +132,7 @@ class Option
 		if(child != null)
 		{
 			_text = newValue;
-			child.text = _translationKey;
+			child.text = _text;
 			return _text;
 		}
 		return null;

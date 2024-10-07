@@ -4,37 +4,37 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 {
 	public function new()
 	{
-		title = LanguageManager.getPhrase('optionsGameplay');
+		title = LanguageManager.getPhrase('optionsGameplayMenu');
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
 		//I'd suggest using "Downscroll" as an example for making your own option since it is the simplest here
-		var option:Option = new Option('Downscroll', //Name
-			'If checked, notes go Down instead of Up, simple enough.', //Description
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayDownscroll'), //Name
+			LanguageManager.getPhrase('optionsGameplayDownscrollDesc'), //Description
 			'downScroll', //Save data variable name
 			BOOL); //Variable type
 		addOption(option);
 
-		var option:Option = new Option('Ghost Tapping',
-			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayGhostTapping'),
+			LanguageManager.getPhrase("optionsGameplayGhostTappingDesc"),
 			'ghostTapping',
 			BOOL);
 		addOption(option);
 		
-		var option:Option = new Option('Auto Pause',
-			"If checked, the game automatically pauses if the screen isn't on focus.",
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayAutoPause'),
+			LanguageManager.getPhrase('optionsGameplayAutoPauseDesc'),
 			'autoPause',
 			BOOL);
 		addOption(option);
 		option.onChange = onChangeAutoPause;
 
-		var option:Option = new Option('Disable Reset Button',
-			"If checked, pressing Reset won't do anything.",
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayDisableResetButton'),
+			LanguageManager.getPhrase('optionsGameplayDisableResetButtonDesc'),
 			'noReset',
 			BOOL);
 		addOption(option);
 
-		var option:Option = new Option('Rating Offset',
-			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayRatingOffset'),
+			LanguageManager.getPhrase('optionsGameplayRatingOffsetDesc'),
 			'ratingOffset',
 			INT);
 		option.displayFormat = '%vms';
@@ -43,8 +43,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 30;
 		addOption(option);
 
-		var option:Option = new Option('Sick! Hit Window',
-			'Changes the amount of time you have\nfor hitting a "Sick!" in milliseconds.',
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplaySickHitWindow'),
+			LanguageManager.getPhrase('optionsGameplaySickHitWindowDesc'),
 			'sickWindow',
 			INT);
 		option.displayFormat = '%vms';
@@ -53,8 +53,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 45;
 		addOption(option);
 
-		var option:Option = new Option('Good Hit Window',
-			'Changes the amount of time you have\nfor hitting a "Good" in milliseconds.',
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayGoodHitWindow'),
+			LanguageManager.getPhrase('optionsGameplayGoodHitWindowDesc'),
 			'goodWindow',
 			INT);
 		option.displayFormat = '%vms';
@@ -63,8 +63,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 90;
 		addOption(option);
 
-		var option:Option = new Option('Bad Hit Window',
-			'Changes the amount of time you have\nfor hitting a "Bad" in milliseconds.',
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayBadHitWindow'),
+			LanguageManager.getPhrase('optionsGameplayBadHitWindowDesc'),
 			'badWindow',
 			INT);
 		option.displayFormat = '%vms';
@@ -73,8 +73,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 135;
 		addOption(option);
 
-		var option:Option = new Option('Safe Frames',
-			'Changes how many frames you have for\nhitting a note earlier or late.',
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplaySafeFrames'),
+			LanguageManager.getPhrase('optionsGameplaySafeFramesDesc'),
 			'safeFrames',
 			FLOAT);
 		option.scrollSpeed = 5;

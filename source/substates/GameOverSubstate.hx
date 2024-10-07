@@ -163,6 +163,7 @@ class GameOverSubstate extends MusicBeatSubstate
 				PlayState.chartingMode = false;
 	
 				Mods.loadTopMod();
+				
 				if (PlayState.isStoryMode)
 					MusicBeatState.switchState(new ScriptState(CoolVars.globalVars.get("fromPlayStateIfStoryMode")));
 				else

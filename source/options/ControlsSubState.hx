@@ -45,7 +45,7 @@ class ControlsSubState extends MusicBeatSubstate
 	];
 	var curOptions:Array<Int>;
 	var curOptionsValid:Array<Int>;
-	static var defaultKey:String = 'Reset to Default Keys';
+	static var defaultKey:String = 'ResetToDefaultKeys';
 
 	var bg:FlxSprite;
 	var grpDisplay:FlxTypedGroup<Alphabet>;
@@ -77,8 +77,6 @@ class ControlsSubState extends MusicBeatSubstate
 		
 		return result.replace('Ui', 'UI');
 	}
-	
-	
 	
 	public function new()
 	{
@@ -159,8 +157,13 @@ class ControlsSubState extends MusicBeatSubstate
 
 					var str:String = option[1];
 					var keyStr:String = option[2];
-					if(isDefaultKey) str = LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(str));
-					var text:Alphabet = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup' + formatKeyStr(str)), !isDisplayKey);
+					var text:Alphabet;
+					if (isDefaultKey)
+					{
+						text = new Alphabet(200, 300, LanguageManager.getPhrase('optionsControls' + str), !isDisplayKey);
+					} else {
+						text = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup' + formatKeyStr(str)), !isDisplayKey);
+					}
 					text.isMenuItem = true;
 					text.changeX = false;
 					text.distancePerItem.y = 60;

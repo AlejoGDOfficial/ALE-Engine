@@ -7,20 +7,35 @@ import backend.CoolUtil;
 var texts:Array<FlxText>;
 
 var options:Array<String> = [
-    'Chart Editor',
-    'Character Editor',
-    'Stage Editor',
-    'Menu Character Editor',
-    'Dialogue Editor',
-    'Dialogue Portrait Editor',
-    'Note Splash Editor',
-    'Show Console'
+    'ChartEditor',
+    'CharacterEditor',
+    'StageEditor',
+    'DialogueEditor',
+    'DialoguePortraitEditor',
+    'NoteSplashEditor'
 ];
 
 var bg:FlxSprite;
 
+var selInt:Int = 0;
+
+var consoleVisible:Bool = false;
+
 function onCreate()
 {
+    if (existsGlobalVar('consoleVisible') && getGlobalVar('consoleVisible'))
+    {
+        options.push('HideConsole');
+    } else {
+        options.push('ShowConsole');
+        setGlobalVar('consoleVisible', true);
+    }
+
+    if (existsGlobalVar('masterEditorMenuSelInt'))
+    {
+        selInt = getGlobalVar('masterEditorMenuSelInt');
+    }
+
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     add(bg);
     bg.color = 0xFF353535;
@@ -28,7 +43,7 @@ function onCreate()
     texts = [];
 
     for (i in 0...options.length) {
-        var text = new FlxText(30, 10 + (i * 87), 0, options[i]);
+        var text = new FlxText(30, 50 + (i * 87), 0, getPhrase('masterEditorMenu' + options[i]));
         text.setFormat(Paths.font('emptyPhantomMuff.ttf'), 70, FlxColor.WHITE, 'left');
         add(text);
         text.borderStyle = FlxTextBorderStyle.OUTLINE;
@@ -40,8 +55,6 @@ function onCreate()
 
     changeShit();
 }
-
-var selInt:Int;
 
 var canSelect:Bool = true;
 
@@ -56,6 +69,8 @@ function onUpdate(elapsed:Float)
             FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
 
             canSelect = false;
+
+            setGlobalVar('masterEditorMenuSelInt', selInt);
         }
 
         if (controls.UI_UP_P || controls.UI_DOWN_P)
@@ -105,6 +120,8 @@ function onUpdate(elapsed:Float)
             }
 
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+
+            setGlobalVar('masterEditorMenuSelInt', selInt);
         
             new FlxTimer().start(1, function(tmr:FlxTimer)
             {
@@ -117,16 +134,19 @@ function onUpdate(elapsed:Float)
                     case 2:
                         switchToSomeStates('states.editors.StageEditorState');
                     case 3:
-                        switchToSomeStates('states.editors.MenuCharacterEditorState');
-                    case 4:
                         switchToSomeStates('states.editors.DialogueEditorState');
-                    case 5:
+                    case 4:
                         switchToSomeStates('states.editors.DialogueCharacterEditorState');
-                    case 6:
+                    case 5:
                         switchToSomeStates('states.editors.NoteSplashEditorState');
-                    case 7:
+                    case 6:
                         switchToScriptState('mainMenuState', true);
-                        showConsole();
+                        if (options[6] == 'HideConsole')
+                        {
+                            hideConsole();
+                        } else if (options[6] == 'ShowConsole') {
+                            showConsole();
+                        }
                 }
             });
         }

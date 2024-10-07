@@ -193,8 +193,6 @@ class PlayState extends MusicBeatState
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
-	public var scoreTxt:FlxText;
-	var scoreTxtTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -491,22 +489,6 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y - 75;
 		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
 		uiGroup.add(iconP2);
-
-		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		scoreTxt.scrollFactor.set();
-		scoreTxt.borderSize = 1.25;
-		updateScore(false);
-		uiGroup.add(scoreTxt);
-
-		botplayTxt = new FlxText(400, 105, FlxG.width - 800, '' + LanguageManager.getPhrase('playStateBotPlay'), 32);
-		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		botplayTxt.scrollFactor.set();
-		botplayTxt.borderSize = 1.25;
-		botplayTxt.visible = cpuControlled;
-		uiGroup.add(botplayTxt);
-		if(ClientPrefs.data.downScroll)
-			botplayTxt.y = 715;
 
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
@@ -1085,17 +1067,12 @@ class PlayState extends MusicBeatState
 		var bads:Int = ratingsData[2].hits;
 		var shits:Int = ratingsData[3].hits;
 
-		ratingFC = "";
-		if(songMisses == 0)
-		{
-			if (bads > 0 || shits > 0) ratingFC = 'FC';
-			else if (goods > 0) ratingFC = 'GFC';
-			else if (sicks > 0) ratingFC = 'SFC';
-		}
-		else {
-			if (songMisses < 10) ratingFC = 'SDCB';
-			else ratingFC = 'Clear';
-		}
+		setOnScripts('sicks', sicks);
+		setOnScripts('goods', goods);
+		setOnScripts('bads', bads);
+		setOnScripts('shits', shits);
+
+		callOnScripts('onFullComboFunction');
 	}
 
 	public function setSongTime(time:Float)
@@ -3362,7 +3339,6 @@ class PlayState extends MusicBeatState
 	}
 
 	public var ratingPercent:Float;
-	public var ratingFC:String;
 	public function RecalculateRating(badHit:Bool = false) {
 		setOnScripts('score', songScore);
 		setOnScripts('misses', songMisses);
@@ -3372,11 +3348,12 @@ class PlayState extends MusicBeatState
 		var ret:Dynamic = callOnScripts('onRecalculateRating', null, true);
 		if(ret != LuaUtils.Function_Stop)
 		{
+			ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
+
 			fullComboFunction();
 		}
 		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce
 		setOnScripts('rating', ratingPercent);
-		setOnScripts('ratingFC', ratingFC);
 	}
 
 	#if (!flash && sys)

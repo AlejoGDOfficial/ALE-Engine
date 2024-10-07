@@ -7,6 +7,20 @@ class LanguageSubState extends MusicBeatSubstate
 	var grpLanguages:FlxTypedGroup<Alphabet> = new FlxTypedGroup<Alphabet>();
 	public static var languages:Array<String> = LanguageManager.languages;
 	public static var curSelected:Int = 0;
+	
+	function capitalizeAndRemoveSpaces(input:String):String {
+		var words = input.split(" ");
+		var result = "";
+		
+		for (i in 0...words.length) {
+			if (words[i] != "") {
+				result += words[i].substr(0, 1).toUpperCase() + words[i].substr(1).toLowerCase();
+			}
+		}
+	
+		return result;
+	}
+
 	public function new()
 	{
 		super();
@@ -23,7 +37,7 @@ class LanguageSubState extends MusicBeatSubstate
 			var name:String = languages[languages.indexOf(lang)];
 			if(name == null) name = lang;
 
-			var text:Alphabet = new Alphabet(0, 300, name, true);
+			var text:Alphabet = new Alphabet(0, 300, LanguageManager.getPhrase('optionsLanguage' + capitalizeAndRemoveSpaces(name)), true);
 			text.isMenuItem = true;
 			text.targetY = languages.indexOf(lang);
 			text.changeX = false;

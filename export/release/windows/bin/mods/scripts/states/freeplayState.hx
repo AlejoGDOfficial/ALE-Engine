@@ -23,7 +23,7 @@ weeks.push(weekName);
 function onCreate()
 {
     var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['face'], ['FF00FF'], ['Normal']);
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
     weeks.push(testWeek);
 
     showShit();
@@ -101,7 +101,6 @@ function showShit()
         
             var songIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image('icons/' + icons[i]));
             add(songIcon);
-            songIcon.scale.x = songIcon.scale.y = 0.75;
             songIcon.clipRect = new FlxRect(0, 0, songIcon.width * 0.5, songIcon.height);
             songIcon.x = destinationX + texts[i].width;
             songIcon.y = destinationY + songText.height / 2 - songIcon.height / 2;
@@ -118,7 +117,10 @@ function onBeatHit()
 {
     for (image in images)
     {
-        image.scale.set(1.25, 1.25);
+        if (images.indexOf(image) == songsSelInt)
+        {
+            image.scale.set(1.25, 1.25);
+        }
     }
 }
 
@@ -216,8 +218,8 @@ function onUpdate(elapsed:Float)
     if (FlxG.sound.music != null)
         Conductor.songPosition = FlxG.sound.music.time;
 
-    FlxG.camera.scroll.x = FlxMath.lerp(songsSelInt * 25, FlxG.camera.scroll.x, Math.exp(-elapsed * 6));
-    FlxG.camera.scroll.y = FlxMath.lerp(songsSelInt * 105, FlxG.camera.scroll.y, Math.exp(-elapsed * 6));
+    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, songsSelInt * 25, 0.1);
+    FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, songsSelInt * 105, 0.1);
 }
 
 function changeOtherShit()
@@ -282,9 +284,9 @@ function changeDifficultyShit(restart:Bool)
 
     if (difficulties.length == 1)
     {
-        difficultyText.text = 'DIFFICULTY\n' + difficultyName;
+        difficultyText.text = getPhrase('freeplayStateDifficulty') + '\n' + getPhrase('difficulties' + difficultyName);
     } else {
-        difficultyText.text = 'DIFFICULTY\n<' + difficultyName + '>';
+        difficultyText.text = getPhrase('freeplayStateDifficulty') + '\n<' + getPhrase('difficulties' + difficultyName) + '>';
     }
 
     difficultyText.x = FlxG.width - difficultyText.width - 10;

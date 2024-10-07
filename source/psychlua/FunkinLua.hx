@@ -135,8 +135,6 @@ class FunkinLua {
 			set('combo', 0);
 	
 			set('rating', 0);
-			set('ratingName', '');
-			set('ratingFC', '');
 
 			set('inGameOver', false);
 			set('mustHitSection', false);
@@ -1033,9 +1031,6 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "setRatingPercent", function(value:Float) {
 			game.ratingPercent = value;
-		});
-		Lua_helper.add_callback(lua, "setRatingFC", function(value:String) {
-			game.ratingFC = value;
 		});
 		Lua_helper.add_callback(lua, "getMouseX", function(camera:String = 'game') {
 			var cam:FlxCamera = LuaUtils.cameraFromString(camera);

@@ -17,8 +17,15 @@ var selectedMenu:String;
 
 var version:FlxText;
 
+var selInt:Int = 0;
+
 function onCreate()
 {
+    if (existsGlobalVar('mainMenuStateSelInt'))
+    {
+        selInt = getGlobalVar('mainMenuStateSelInt');
+    }
+
     bg = new FlxSprite().loadGraphic(Paths.image('menuBGYellow'));
     add(bg);
     bg.scale.set(1.25, 1.25);
@@ -58,8 +65,6 @@ function onCreate()
     changeShit();
 }
 
-var selInt:Int = 0;
-
 var canSelect:Bool = true;
 
 function onUpdate(elapsed:Float)
@@ -76,6 +81,8 @@ function onUpdate(elapsed:Float)
             {
                 switchToScriptState('introState', true);
             });
+
+            setGlobalVar('mainMenuStateSelInt', selInt);
         }
 
         if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
@@ -119,6 +126,8 @@ function onUpdate(elapsed:Float)
                     FlxTween.tween(images[i], {alpha: 0}, 60 / Conductor.bpm);
                 }
             }
+
+            setGlobalVar('mainMenuStateSelInt', selInt);
 
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
         
