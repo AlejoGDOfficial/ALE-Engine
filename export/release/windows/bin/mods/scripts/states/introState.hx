@@ -1,4 +1,3 @@
-import backend.CoolVars;
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
@@ -14,11 +13,13 @@ var titleText:FlxSprite;
 
 function onCreate()
 {
+    trace(getSuffix());
+
     epicTexts = new FlxText(0, 0, FlxG.width, '');
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);
     epicTexts.y = FlxG.height / 2 - epicTexts.height / 2;
-    changeShit(LanguageManager.getPhrase('introStatePhrases')[0]);
+    changeShit(getPhrase('introStatePhrases')[0]);
 
     logo = new FlxSprite(-125, -100);
     logo.frames = Paths.getSparrowAtlas('introState/logo');
@@ -35,7 +36,7 @@ function onCreate()
     gf.alpha = 0;
 
     titleText = new FlxSprite(100, 576);
-    titleText.frames = Paths.getSparrowAtlas('introState/titleEnter' + LanguageManager.getSuffix());
+    titleText.frames = Paths.getSparrowAtlas('introState/titleEnter' + getSuffix());
     titleText.animation.addByPrefix('idle', "IDLE", 24);
     titleText.animation.addByPrefix('press', "PRESSED", 24);
     add(titleText);
@@ -137,7 +138,7 @@ function onBeatHit()
 
     if (!skippedIntro)
     {
-        changeShit(LanguageManager.getPhrase('introStatePhrases')[sickBeats]);
+        changeShit(getPhrase('introStatePhrases')[sickBeats]);
 
         if (sickBeats == 16)
             skipIntro();

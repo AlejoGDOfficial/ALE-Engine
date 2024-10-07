@@ -31,6 +31,12 @@ class LanguageManager
         languages = names;
         suffixes = abbr;
         LanguageSubState.languages = names;
+        
+        if (!languages.contains(ClientPrefs.data.language))
+        {
+            ClientPrefs.data.language = names[0];
+            curLanguage = ClientPrefs.data.language;
+        }
     }
 
     public static function getSuffix()

@@ -5,7 +5,7 @@ import debug.FPSCounter;
 class LanguageSubState extends MusicBeatSubstate
 {
 	var grpLanguages:FlxTypedGroup<Alphabet> = new FlxTypedGroup<Alphabet>();
-	public static var languages:Array<String> = [];
+	public static var languages:Array<String> = LanguageManager.languages;
 	public static var curSelected:Int = 0;
 	public function new()
 	{

@@ -1,7 +1,5 @@
 function onCreate()
 {
-    showConsole();
-
     setGlobalVars();
 
     setNewLanguages();
@@ -300,14 +298,11 @@ function setupStatesLanguages()
 
 function finishConfig()
 {
-    setGlobalVar('initialConfig', true);
-    setGlobalVar('reconfigureData', [true, getGlobalVar('initialState')]);
-    trace(getGlobalVar('initialConfig'));
-
     if (getGlobalVar('initialConfig'))
     {
-        switchToScriptState(getGlobalVar('initialState'));
+        showFPSText();
         setGlobalVar('initialConfig', false);
+        switchToScriptState('introState');
     } else {
         if (getGlobalVar("reconfigureData")[0])
         {
