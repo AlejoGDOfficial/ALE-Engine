@@ -1,8 +1,8 @@
 function onCreate()
 {
-    setGlobalVars();
-
     setNewLanguages();
+
+    setGlobalVars();
 
     finishConfig();
 }
@@ -22,10 +22,10 @@ function setNewLanguages()
 {
     setLanguages(['english', 'spanish'], ['eng', 'span']);
 
+    setupStatesLanguages();
     setupGlobalLanguages();
     setupObjectsLanguages();
     setupOptionsLanguages();
-    setupStatesLanguages();
 }
 
 function setupGlobalLanguages()
@@ -40,7 +40,7 @@ function setupObjectsLanguages()
     setPhrase('dialogueSkip', ['Press BACK to Skip', 'Presiona VOLVER para Saltar']);
 
     setPhrase('fpsTxt', [
-        ['DEVELOPER MODE', 'Press F3 to reconfigure the game...', 'FPS: ', 'Memory: ', 'Window Position: ', 'Window Resolution: ', 'Screen Resolution: ', 'Operating System: '],
+        ['DEVELOPER MODE', 'Press F3 to reconfigure the game...', 'FPS: ', 'Memory: ', 'Window Position: ', 'Window Resolution: ', 'Screen Resolution: ', 'Operating System: '], 
         ['MODO DESARROLLADOR', 'Presiona F3 para reconfigurar el juego...', 'FPS: ', 'Memoria: ', 'Posición de la Ventana: ', 'Resolución de la Ventana: ', 'Resolución de la Pantalla: ', 'Sistema Operativo: ']
     ]);
 }
@@ -282,12 +282,14 @@ function setupStatesLanguages()
     setPhrase('pauseSubStateSkipTime', ['Skip Time', 'Adelantar/Restrasar canción a']);
     setPhrase('pauseSubStateEndSong', ['End Song', 'Terminar la Canción']);
     setPhrase('pauseSubStateChangeDifficulty', ['Change Difficulty', 'Cambiar la Dificultad']);
+    setPhrase('pauseSubStateBack', ['Back', 'Volver']);
     setPhrase('pauseSubStateTogglePractice Mode', ['Toggle Practice Mode', 'Alternar Modo Práctica']);
     setPhrase('pauseSubStateToggleBotPlay', ['Toggle BotPlay', 'Alternar Modo Automático']);
     setPhrase('pauseSubStateOptions', ['Options', 'Opciones']);
     setPhrase('pauseSubStateExitToMenu', ['Exit to Menu', 'Volver al Menú']);
     setPhrase('pauseSubStatePracticeMode', ['Practice Mode', 'Modo Práctica']);
     setPhrase('pauseSubStateChartingMode', ['Charting Mode', 'Modo Charter']);
+
     setPhrase('pauseSubStateBlueBalled', ['BlueBalled: ', 'Muertes: ']);
 
     //Freeplay State

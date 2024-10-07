@@ -13,7 +13,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit to Menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Options', 'Exit To Menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -52,7 +52,7 @@ class PauseSubState extends MusicBeatSubstate
 			var diff:String = Difficulty.getString(i);
 			difficultyChoices.push(diff);
 		}
-		difficultyChoices.push('BACK');
+		difficultyChoices.push('Back');
 
 
 		pauseMusic = new FlxSound();
@@ -92,7 +92,7 @@ class PauseSubState extends MusicBeatSubstate
 		blueballedTxt.updateHitbox();
 		add(blueballedTxt);
 
-		practiceText = new FlxText(20, 15 + 101, 0, LanguageManager.getPhrase("pauseSubStatePracticeMode").toUpperCase(), 32);
+		practiceText = new FlxText(20, 15 + 101, 0, LanguageManager.getPhrase('pauseSubStatePracticeMode').toUpperCase(), 32);
 		practiceText.scrollFactor.set();
 		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
 		practiceText.x = FlxG.width - (practiceText.width + 20);
@@ -100,7 +100,7 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.visible = PlayState.instance.practiceMode;
 		add(practiceText);
 
-		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, LanguageManager.getPhrase("pauseSubStateChartingMode").toUpperCase(), 32);
+		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, LanguageManager.getPhrase('pauseSubStateChartingMode').toUpperCase(), 32);
 		chartingText.scrollFactor.set();
 		chartingText.setFormat(Paths.font('vcr.ttf'), 32);
 		chartingText.x = FlxG.width - (chartingText.width + 20);
@@ -391,7 +391,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 
 		for (num => str in menuItems) {
-			var item = new Alphabet(90, 320, LanguageManager.getPhrase('pauseSubState' + str.replace(' ', '')), true);
+			var item = new Alphabet(90, 320, '' + LanguageManager.getPhrase('pauseSubState' + str.replace(' ', '')), true);
 			item.isMenuItem = true;
 			item.targetY = num;
 			grpMenuShit.add(item);

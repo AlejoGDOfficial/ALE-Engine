@@ -49,8 +49,6 @@ class FPSCounter extends Sprite
 
     var reSetupGame:FlxTimer = new FlxTimer();
 
-    public static var textsArray:Array<String> = LanguageManager.getPhrase('fpsTxt');
-
     private override function __enterFrame(deltaTime:Float):Void
     {
         if (deltaTimeout > 1000) {
@@ -100,7 +98,6 @@ class FPSCounter extends Sprite
             {
                 CoolVars.globalVars.set('initialConfig', false);
                 CoolVars.globalVars.set('reconfigureData', CoolUtil.getCurrentState());
-                textsArray = LanguageManager.getPhrase('fpsTxt');
                 MusicBeatState.switchState(new ScriptState('configGame'));
             }
         } else {
@@ -124,33 +121,33 @@ class FPSCounter extends Sprite
                 textField.text = developerModeText
                 + reSetupGameText;
             case 1:
-                textField.text = textsArray[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsTxt')[2] + currentFPS
                 + '\n' + 
-                textsArray[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsTxt')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + developerModeText
                 + reSetupGameText;
             case 2:
-                textField.text = textsArray[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsTxt')[2] + currentFPS
                 + '\n' + 
-                textsArray[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsTxt')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + '\n\n' +
-                textsArray[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
+                LanguageManager.getPhrase('fpsTxt')[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
                 + '\n' +
-                textsArray[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
+                LanguageManager.getPhrase('fpsTxt')[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
                 + developerModeText
                 + reSetupGameText;
             case 3:
-                textField.text = textsArray[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsTxt')[2] + currentFPS
                 + '\n' + 
-                textsArray[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsTxt')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + '\n\n' +
-                textsArray[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
+                LanguageManager.getPhrase('fpsTxt')[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
                 + '\n' +
-                textsArray[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
+                LanguageManager.getPhrase('fpsTxt')[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
                 + '\n\n' +
-                textsArray[6] + openfl.system.Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
+                LanguageManager.getPhrase('fpsTxt')[6] + openfl.system.Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
                 + '\n' +
-                textsArray[7] + openfl.system.Capabilities.os
+                LanguageManager.getPhrase('fpsTxt')[7] + openfl.system.Capabilities.os
                 + developerModeText
                 + reSetupGameText;
         }

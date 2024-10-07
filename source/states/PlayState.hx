@@ -159,7 +159,6 @@ class PlayState extends MusicBeatState
 	public var combo:Int = 0;
 
 	public var healthBar:Bar;
-	public var timeBar:Bar;
 	var songPercent:Float = 0;
 
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
@@ -195,7 +194,6 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
-	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
@@ -403,7 +401,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		// "SCRIPTS FOLDER" SCRIPTS
+		// "SCRIPTS/SONGS FOLDER" SCRIPTS
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/songs/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
@@ -450,31 +448,9 @@ class PlayState extends MusicBeatState
 		add(noteGroup);
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
-		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		timeTxt.scrollFactor.set();
-		timeTxt.alpha = 0;
-		timeTxt.borderSize = 2;
-		timeTxt.visible = updateTime = showTime;
-		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
-		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
-
-		timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
-		timeBar.scrollFactor.set();
-		timeBar.screenCenter(X);
-		timeBar.alpha = 0;
-		timeBar.visible = showTime;
-		uiGroup.add(timeBar);
-		uiGroup.add(timeTxt);
 
 		noteGroup.add(strumLineNotes);
 
-		if(ClientPrefs.data.timeBarType == 'Song Name')
-		{
-			timeTxt.size = 24;
-			timeTxt.y += 3;
-		}
 
 		generateSong();
 
@@ -502,20 +478,17 @@ class PlayState extends MusicBeatState
 		healthBar.screenCenter(X);
 		healthBar.leftToRight = false;
 		healthBar.scrollFactor.set();
-		healthBar.visible = !ClientPrefs.data.hideHud;
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
 		reloadHealthBarColors();
 		uiGroup.add(healthBar);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - 75;
-		iconP1.visible = !ClientPrefs.data.hideHud;
 		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
 		uiGroup.add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.y = healthBar.y - 75;
-		iconP2.visible = !ClientPrefs.data.hideHud;
 		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
 		uiGroup.add(iconP2);
 
@@ -523,18 +496,17 @@ class PlayState extends MusicBeatState
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
-		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		updateScore(false);
 		uiGroup.add(scoreTxt);
 
-		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, LanguageManager.getPhrase("playStateBotPlay").toUpperCase(), 32);
+		botplayTxt = new FlxText(400, 105, FlxG.width - 800, '' + LanguageManager.getPhrase('playStateBotPlay'), 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
 		uiGroup.add(botplayTxt);
 		if(ClientPrefs.data.downScroll)
-			botplayTxt.y = timeBar.y - 78;
+			botplayTxt.y = 715;
 
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
@@ -1103,20 +1075,6 @@ class PlayState extends MusicBeatState
 		if (ret == LuaUtils.Function_Stop)
 			return;
 
-		var str:String = ratingName;
-		if(totalPlayed != 0)
-		{
-			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
-			str += ' (${percent}%) - ' + ratingFC;
-		}
-
-		var tempScore:String;
-		if(!instakillOnMiss) tempScore = LanguageManager.getPhrase('playStateScoreTxt')[0] + songScore + ' | ' + LanguageManager.getPhrase('playStateScoreTxt')[1] + songMisses + ' | ' + LanguageManager.getPhrase('playStateScoreTxt')[2] + str;
-		else tempScore = tempScore = LanguageManager.getPhrase('playStateScoreTxt')[0] + songScore + ' | ' + LanguageManager.getPhrase('playStateScoreTxt')[2] + str;
-
-		if (!miss && !cpuControlled)
-			doScoreBop();
-
 		callOnScripts('onUpdateScore', [miss]);
 	}
 
@@ -1138,22 +1096,6 @@ class PlayState extends MusicBeatState
 			if (songMisses < 10) ratingFC = 'SDCB';
 			else ratingFC = 'Clear';
 		}
-	}
-
-	public function doScoreBop():Void {
-		if(!ClientPrefs.data.scoreZoom)
-			return;
-
-		if(scoreTxtTween != null)
-			scoreTxtTween.cancel();
-
-		scoreTxt.scale.x = 1.075;
-		scoreTxt.scale.y = 1.075;
-		scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
-			onComplete: function(twn:FlxTween) {
-				scoreTxtTween = null;
-			}
-		});
 	}
 
 	public function setSongTime(time:Float)
@@ -1218,8 +1160,6 @@ class PlayState extends MusicBeatState
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
-		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
-		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence (with Time Left)
@@ -1693,9 +1633,6 @@ class PlayState extends MusicBeatState
 
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if(secondsTotal < 0) secondsTotal = 0;
-
-			if(ClientPrefs.data.timeBarType != 'Song Name')
-				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
 		}
 
 		if (camZooming)
@@ -1814,18 +1751,12 @@ class PlayState extends MusicBeatState
 	// Health icon updaters
 	public dynamic function updateIconsScale(elapsed:Float)
 	{
-		iconP1.scale.set(FlxMath.lerp(iconP1.scale.x, 1, 0.33), FlxMath.lerp(iconP1.scale.y, 1, 0.33));
-		iconP1.updateHitbox();
-
-		iconP2.scale.set(FlxMath.lerp(iconP2.scale.x, 1, 0.33), FlxMath.lerp(iconP2.scale.y, 1, 0.33));
-		iconP2.updateHitbox();
+		callOnScripts('onUpdateIconsScale', [elapsed]);
 	}
 
 	public dynamic function updateIconsPosition()
 	{
-		var iconOffset:Int = 26;
-		iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		callOnScripts('onUpdateIconsPosition');
 	}
 
 	var iconsAnimations:Bool = true;
@@ -2343,8 +2274,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		timeBar.visible = false;
-		timeTxt.visible = false;
 		canPause = false;
 		endingSong = true;
 		camZooming = false;
@@ -3131,12 +3060,6 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
-
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
-
 		characterBopper(curBeat);
 
 		super.beatHit();
@@ -3438,7 +3361,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public var ratingName:String = '?';
 	public var ratingPercent:Float;
 	public var ratingFC:String;
 	public function RecalculateRating(badHit:Bool = false) {
@@ -3450,28 +3372,10 @@ class PlayState extends MusicBeatState
 		var ret:Dynamic = callOnScripts('onRecalculateRating', null, true);
 		if(ret != LuaUtils.Function_Stop)
 		{
-			ratingName = '?';
-			if(totalPlayed != 0) //Prevent divide by 0
-			{
-				// Rating Percent
-				ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
-				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
-
-				// Rating Name
-				ratingName = ratingStuff[ratingStuff.length-1][0]; //Uses last string
-				if(ratingPercent < 1)
-					for (i in 0...ratingStuff.length-1)
-						if(ratingPercent < ratingStuff[i][1])
-						{
-							ratingName = ratingStuff[i][0];
-							break;
-						}
-			}
 			fullComboFunction();
 		}
 		updateScore(badHit); // score will only update after rating is calculated, if it's a badHit, it shouldn't bounce
 		setOnScripts('rating', ratingPercent);
-		setOnScripts('ratingName', ratingName);
 		setOnScripts('ratingFC', ratingFC);
 	}
 

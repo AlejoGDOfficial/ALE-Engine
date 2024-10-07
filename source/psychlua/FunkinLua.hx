@@ -1034,9 +1034,6 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "setRatingPercent", function(value:Float) {
 			game.ratingPercent = value;
 		});
-		Lua_helper.add_callback(lua, "setRatingName", function(value:String) {
-			game.ratingName = value;
-		});
 		Lua_helper.add_callback(lua, "setRatingFC", function(value:String) {
 			game.ratingFC = value;
 		});
@@ -1332,15 +1329,6 @@ class FunkinLua {
 			if (right != null && right != '')
 				right_color = CoolUtil.colorFromString(right);
 			game.healthBar.setColors(left_color, right_color);
-		});
-		Lua_helper.add_callback(lua, "setTimeBarColors", function(left:String, right:String) {
-			var left_color:Null<FlxColor> = null;
-			var right_color:Null<FlxColor> = null;
-			if (left != null && left != '')
-				left_color = CoolUtil.colorFromString(left);
-			if (right != null && right != '')
-				right_color = CoolUtil.colorFromString(right);
-			game.timeBar.setColors(left_color, right_color);
 		});
 
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = 'game') {
