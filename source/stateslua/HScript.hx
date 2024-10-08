@@ -26,6 +26,8 @@ import sys.io.Process;
 
 import cpp.*;
 
+import backend.WeekData;
+
 class HScript extends SScript
 {
 	public var modFolder:String;
@@ -164,6 +166,7 @@ class HScript extends SScript
 		});
 		set('loadWeek', function(songs:Array<String>, difficulties:Array<String>, difficulty:Int ,?menuIsStoryMode:Bool = false)
 		{
+			WeekData.reloadWeekFiles(true);
 			if (difficulties[difficulty].toLowerCase() == 'normal')
 			{
 				trace(Paths.modsJson(songs[0] + '/' + songs[0]));
@@ -172,7 +175,7 @@ class HScript extends SScript
 				trace(Paths.modsJson(songs[0] + '/' + songs[0] + '-' + difficulties[difficulty]));
 				PlayState.SONG = Song.loadFromJson(songs[0] + '-' + difficulties[difficulty], songs[0]);
 			}
-
+			trace(Paths.modsJson(songs[0] + '/' + songs[0]));
 			PlayState.storyPlaylist = songs;
 			PlayState.isStoryMode = menuIsStoryMode;
 			Difficulty.list = difficulties;

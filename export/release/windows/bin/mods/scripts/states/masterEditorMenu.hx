@@ -28,7 +28,6 @@ function onCreate()
         options.push('HideConsole');
     } else {
         options.push('ShowConsole');
-        setGlobalVar('consoleVisible', true);
     }
 
     if (existsGlobalVar('masterEditorMenuSelInt'))
@@ -144,8 +143,10 @@ function onUpdate(elapsed:Float)
                         if (options[6] == 'HideConsole')
                         {
                             hideConsole();
+                            setGlobalVar('consoleVisible', false);
                         } else if (options[6] == 'ShowConsole') {
                             showConsole();
+                            setGlobalVar('consoleVisible', true);
                         }
                 }
             });

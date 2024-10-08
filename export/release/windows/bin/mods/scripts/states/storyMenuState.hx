@@ -179,7 +179,7 @@ function onUpdate(elapsed:Float)
                     
                     new FlxTimer().start(1, function(tmr:FlxTimer)
                     {
-                        loadWeek(weekSongs, difficulties, difficultiesSelInt);
+                        loadWeek(weekSongs, difficulties, difficultiesSelInt, true);
                     });
                 }
             }
@@ -218,7 +218,7 @@ function changeWeekShit()
 
         if (weekID == weekSelInt)
         {
-            songsText.text = getPhrase('storyMenuStateTracks')+ '\n' + weekSongs.join('\n');
+            songsText.text = getPhrase('storyMenuStateTracks') + '\n' + weekSongs.join('\n');
         }
     }
 

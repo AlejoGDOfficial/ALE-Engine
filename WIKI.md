@@ -185,3 +185,71 @@
     - Example: `sendNotification('For HER', 'I love you :3')`
 
 </details>
+
+<details><summary><h2>Config Functions</h2></summary>
+
+> Can only be used in Script States! (script/states/config/config.hx)
+
+#### Used to Show the FPS Counter.
+
+* `showFPSText()`
+
+</details>
+
+<details><summary><h2>Language Functions</h2></summary>
+
+> Can be used in all types of script!
+
+#### Used to get any phrase in the current language.
+
+* `getPhrase(id)`
+    - Example: `getPhrase('pauseSubStatePracticeMode')`
+
+#### Used to get the suffix for the current language.
+
+* `getSuffix()`
+
+> Can only be used in Script States! (script/states/config/config.hx)
+
+#### Used to set the Languages that will be able in the game.
+
+* `setLanguages(names, abbreviations)`
+    - Example: `setLanguages(['English', 'Spanish'], ['eng', 'span'])`
+
+#### Used to set any phrase in the able languages.
+
+* `setPhrase(id, phrases)`
+    - Example: `setPhrase('introStateWater', ['Water', 'Agua'])`
+
+</details>
+
+<details><summary><h2>Global Vars Functions</h2></summary>
+
+> Can be used in all types of script!
+
+#### Used to create/change a Global Var.
+
+* `setGlobalVar(id, data)`
+    - Example: `setGlobalVar('engineVersion', 'Alpha 2')`
+
+#### Used to obtain data from a Global Var.
+
+* `getGlobalVar(id)`
+    - Example: `getGlobalVar('engineVersion')`
+
+#### Used to verify if a Global Var exists.
+
+* `existsGlobalVar(id)`
+    - Example: `existsGlobalVar('engineVersion')`
+
+#### Used to verify if a Global Var exists.
+
+* `existsGlobalVar(id)`
+    - Example: `existsGlobalVar('engineVersion')`
+
+#### Used to remove a Global Var.
+
+* `removeGlobalVar(id)`
+    - Example: `removeGlobalVar('engineVersion')`
+
+</details>

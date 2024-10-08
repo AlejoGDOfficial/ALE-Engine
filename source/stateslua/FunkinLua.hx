@@ -153,15 +153,16 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, "loadWeek", function(songs:Array<String>, difficulties:Array<String>, difficulty:Int ,?menuIsStoryMode:Bool = false)
 		{
-			if (difficulties[difficulty] == 'normal')
+			WeekData.reloadWeekFiles(true);
+			if (difficulties[difficulty].toLowerCase() == 'normal')
 			{
 				trace(Paths.modsJson(songs[0] + '/' + songs[0]));
 				PlayState.SONG = Song.loadFromJson(songs[0], songs[0]);
 			} else {
-				trace(Paths.modsJson(songs[0] + '/' + songs[0] + difficulties[difficulty]));
-				PlayState.SONG = Song.loadFromJson(songs[0] + difficulties[difficulty], songs[0]);
+				trace(Paths.modsJson(songs[0] + '/' + songs[0] + '-' + difficulties[difficulty]));
+				PlayState.SONG = Song.loadFromJson(songs[0] + '-' + difficulties[difficulty], songs[0]);
 			}
-
+			trace(Paths.modsJson(songs[0] + '/' + songs[0]));
 			PlayState.storyPlaylist = songs;
 			PlayState.isStoryMode = menuIsStoryMode;
 			Difficulty.list = difficulties;
