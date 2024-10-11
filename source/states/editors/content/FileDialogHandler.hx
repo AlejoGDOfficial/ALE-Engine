@@ -36,7 +36,7 @@ class FileDialogHandler extends FlxBasic
 	{
 		if(!completed)
 		{
-			throw new Exception('You must finish previous operation before starting a new one.');
+			throw new Exception(LanguageManager.getPhrase('fileDialogHandlerExceptions')[0]);
 		}
 
 		this._dialogMode = SAVE;
@@ -52,7 +52,7 @@ class FileDialogHandler extends FlxBasic
 	{
 		if(!completed)
 		{
-			throw new Exception('You must finish previous operation before starting a new one.');
+			throw new Exception(LanguageManager.getPhrase('fileDialogHandlerExceptions')[0]);
 		}
 
 		this._dialogMode = OPEN;
@@ -69,7 +69,7 @@ class FileDialogHandler extends FlxBasic
 	{
 		if(!completed)
 		{
-			throw new Exception('You must finish previous operation before starting a new one.');
+			throw new Exception(LanguageManager.getPhrase('fileDialogHandlerExceptions')[0]);
 		}
 
 		this._dialogMode = OPEN_DIRECTORY;
@@ -89,7 +89,7 @@ class FileDialogHandler extends FlxBasic
 		@:privateAccess
 		this.path = _fileRef._trackSavedPath;
 		this.completed = true;
-		trace('Saved file to: $path');
+		trace(LanguageManager.getPhrase('fileDialogHandlerTraces')[0] + path);
 
 		removeEvents();
 		this.completed = true;
@@ -102,7 +102,7 @@ class FileDialogHandler extends FlxBasic
 		this.path = _fileRef.__path;
 		this.data = File.getContent(this.path);
 		this.completed = true;
-		trace('Loaded file from: $path');
+		trace(LanguageManager.getPhrase('fileDialogHandlerTraces')[1] + path);
 
 		removeEvents();
 		this.completed = true;
@@ -115,7 +115,7 @@ class FileDialogHandler extends FlxBasic
 		@:privateAccess
 		this.path = _fileRef.__path;
 		this.completed = true;
-		trace('Loaded directory: $path');
+		trace(LanguageManager.getPhrase('fileDialogHandlerTraces')[2] + path);
 
 		removeEvents();
 		this.completed = true;

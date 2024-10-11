@@ -62,9 +62,9 @@ class FPSCounter extends Sprite
         {
             if (fpsMode == 0)
             {
-                developerModeText = LanguageManager.getPhrase('fpsTxt')[0];
+                developerModeText = LanguageManager.getPhrase('fpsCounterFPSInfo')[0];
             } else {
-                developerModeText = '\n\n' + LanguageManager.getPhrase('fpsTxt')[0];
+                developerModeText = '\n\n' + LanguageManager.getPhrase('fpsCounterFPSInfo')[0];
             }
         } else {
             developerModeText = '';
@@ -94,7 +94,7 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.globalVars.get('developerMode') && CoolUtil.getCurrentState()[1] != 'states.PlayState')
         {
-            reSetupGameText = '\n\n' + LanguageManager.getPhrase('fpsTxt')[1];
+            reSetupGameText = '\n\n' + LanguageManager.getPhrase('fpsCounterFPSInfo')[1];
 
             if (FlxG.keys.justPressed.F3)
             {
@@ -138,33 +138,33 @@ class FPSCounter extends Sprite
                 textField.text = developerModeText
                 + reSetupGameText;
             case 1:
-                textField.text = '' + LanguageManager.getPhrase('fpsTxt')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounterFPSInfo')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsTxt')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + developerModeText
                 + reSetupGameText;
             case 2:
-                textField.text = '' + LanguageManager.getPhrase('fpsTxt')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounterFPSInfo')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsTxt')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + '\n\n' +
-                LanguageManager.getPhrase('fpsTxt')[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
                 + '\n' +
-                LanguageManager.getPhrase('fpsTxt')[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
                 + developerModeText
                 + reSetupGameText;
             case 3:
-                textField.text = '' + LanguageManager.getPhrase('fpsTxt')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounterFPSInfo')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsTxt')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + '\n\n' +
-                LanguageManager.getPhrase('fpsTxt')[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[4] + openfl.Lib.application.window.x + ' - ' + openfl.Lib.application.window.y
                 + '\n' +
-                LanguageManager.getPhrase('fpsTxt')[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[5] + openfl.Lib.application.window.width + ' x ' + openfl.Lib.application.window.height
                 + '\n\n' +
-                LanguageManager.getPhrase('fpsTxt')[6] + openfl.system.Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[6] + openfl.system.Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
                 + '\n' +
-                LanguageManager.getPhrase('fpsTxt')[7] + openfl.system.Capabilities.os
+                LanguageManager.getPhrase('fpsCounterFPSInfo')[7] + openfl.system.Capabilities.os
                 + developerModeText
                 + reSetupGameText;
         }

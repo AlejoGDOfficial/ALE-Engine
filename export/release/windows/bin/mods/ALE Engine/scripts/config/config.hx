@@ -25,7 +25,8 @@ function setNewLanguages()
     setupGlobalLanguages();
     setupStatesLanguages();
     setupSubStatesLanguages();
-    setupEditorsLanguages();
+    setupEditorsStatesLanguages();
+    setupEditorsSubStatesLanguages();
     setupObjectsLanguages();
     setupOptionsLanguages();
 }
@@ -39,17 +40,62 @@ function setupGlobalLanguages()
 
 function setupObjectsLanguages()
 {
-    setPhrase('dialogueSkip', ['Press BACK to Skip', 'Presiona VOLVER para Saltar']);
+    //Dialogue Box (Psych)
+    setPhrase('dialogueBoxDialogueSkip', ['Press BACK to Skip', 'Presiona VOLVER para Saltar']);
 
-    setPhrase('fpsTxt', [
-        ['DEVELOPER MODE', 
-        'Press F3 to reconfigure the game...' + '\n' +
-        'Press TAB to select the mods you want to play...', 
-        'FPS: ', 'Memory: ', 'Window Position: ', 'Window Resolution: ', 'Screen Resolution: ', 'Operating System: '], 
-        ['MODO DESARROLLADOR', 
-        'Presiona F3 para reconfigurar el juego...' + '\n' +
-        'Presiona TAB para seleccionar los mods que quieres jugar...', 'FPS: ', 'Memoria: ', 'Posición de la Ventana: ', 'Resolución de la Ventana: ', 'Resolución de la Pantalla: ', 'Sistema Operativo: ']
+    //FPS Counter
+    setPhrase('fpsCounterFPSInfo', [
+        [
+            'DEVELOPER MODE', 
+            'Press F3 to reconfigure the game...' + '\n' +
+            'Press TAB to select the mods you want to play...', 
+            'FPS: ', 
+            'Memory: ', 
+            'Window Position: ', 
+            'Window Resolution: ', 
+            'Screen Resolution: ', 
+            'Operating System: '
+        ], 
+        [
+            'MODO DESARROLLADOR', 
+            'Presiona F3 para reconfigurar el juego...' + '\n' +
+            'Presiona TAB para seleccionar los mods que quieres jugar...', 
+            'FPS: ', 'Memoria: ', 
+            'Posición de la Ventana: ', 
+            'Resolución de la Ventana: ', 'Resolución de la Pantalla: ', 
+            'Sistema Operativo: '
+        ]
     ]);
+
+    //File Dialog Handler
+    setPhrase('fileDialogHandlerExceptions', [
+        [
+            'You must finish previous operation before starting a new one.'
+        ], 
+        [
+            'Debes terminar la operación anterior antes de empezar una nueva.'
+        ]
+    ]);
+    setPhrase('fileDialogHandlerTraces', [
+        [
+            'Saved file to: ',
+            'Loaded file from: ',
+            'Loaded directory: '
+        ], 
+        [
+            'Se guardó el archivo: ',
+            'Se cargó el archivo: ',
+            'Directorio Cargado: '
+        ]
+    ]);
+
+    //Prompt
+    setPhrase('promptUnsavedProgress', [
+        'There\'s unsaved progress,\nare you sure you want to exit?',
+        'Hay progreso sin guardar,\nestás seguro de que quieres salir?'
+    ]);
+    setPhrase('promptYes', ['OK', 'Aceptar']);
+    setPhrase('promptNo', ['Cancel', 'Cancelar']);
 }
 
 function setupOptionsLanguages()
@@ -378,7 +424,7 @@ function setupSubStatesLanguages()
     setPhrase('pauseSubStateBlueBalled', ['BlueBalled: ', 'Muertes: ']);
 }
 
-function setupEditorsLanguages()
+function setupEditorsStatesLanguages()
 {
     //Charting State
     setPhrase('chartingStateFile', [
@@ -790,6 +836,27 @@ function setupEditorsLanguages()
         ]
     ]);
 
+    //Editor Play State
+    setPhrase('editorPlayStateGoBack', ['Press ESC to Go back to Chart Editor', 'Presiona ESC para Volver al Editor de Chart']);
+    setPhrase('editorPlayStateInfo', [
+        [
+            'Time: ',
+            'Section: ',
+            'Beat: ',
+            'Step: ',
+            'Hits: ',
+            'Misses: '
+        ],
+        [
+            'Segundo Actual: ',
+            'Sección: ',
+            'Beat: ',
+            'Paso: ',
+            'Golpes: ',
+            'Errores: '
+        ]
+    ]);
+
     //Character Editor State
     setPhrase('characterEditorStateZoom', ['Zoom', 'Zoom']);
     setPhrase('characterEditorStateFrames', ['Frames: ', 'Fotogramas: ']);
@@ -991,20 +1058,6 @@ function setupEditorsLanguages()
             'Oponente:',
             'Girlfriend:',
             'Player:'
-        ]
-    ]);
-    setPhrase('stageEditorStateMetaPreloadList', [
-        [
-            'Preload List',
-            'Load File',
-            'Load Folder',
-            'Save'
-        ],
-        [
-            'Lista de Precargado',
-            'Cargar Archivo',
-            'Cargar Carpeta',
-            'Guardar'
         ]
     ]);
     setPhrase('stageEditorStateData', [
@@ -1313,6 +1366,61 @@ function setupEditorsLanguages()
             'Azul:',
             'No reemplazar',
             'Color a Reemplazar'
+        ]
+    ]);
+}
+
+function setupEditorsSubStatesLanguages()
+{
+    //Preload List SubState
+    setPhrase('preloadListSubStateUI', [
+        [
+            'Preload List',
+            'Load File',
+            'Load Folder',
+            'Low Qual.',
+            'High Qual.',
+            'Story Mode',
+            'Save'
+        ],
+        [
+            'Lista de Precargado',
+            'Cargar Archivo',
+            'Cargar Carpeta',
+            'Baja Cal.',
+            'Alta Cal.',
+            'Modo Hist.',
+            'Guardar'
+        ]
+    ]);
+    setPhrase('preloadListSubStateOutputs', [
+        [
+            'File added to preload: ',
+            'File is already preloaded automatically!',
+            'File must be inside images/music/songs subfolder!',
+            'File must be inside assets/mods folder!',
+            'File is not inside ALE Engine\'s folder!',
+            'Load a .PNG/.OGG File...',
+            'Unsupported Extension: ',
+            'Load a folder...'
+        ],
+        [
+            'Archivo añadido para precargar: ',
+            'El archivo ya está precargado correctamente!',
+            'El archivo debe estar dentro de la subcarpeta images, music o songs!',
+            'El archivo debe estar dentro de la carpeta assets o mods!',
+            'El archivo no está dentro de la carpeta de ALE Engine!',
+            'Cargar un archivo PNG u OGG...',
+            'Extension no Compatible: ',
+            'Cargar una carpeta...'
+        ]
+    ]);
+    setPhrase('preloadListSubStateFileFilters', [
+        [
+            'Image/Audio'
+        ],
+        [
+            'Imagen/Audio'
         ]
     ]);
 }
