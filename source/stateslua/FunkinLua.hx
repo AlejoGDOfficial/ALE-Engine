@@ -238,13 +238,6 @@ class FunkinLua {
 			CoolVars.globalVars.remove(id);
 		});
 
-		//Config
-
-		Lua_helper.add_callback(lua, "showFPSText", function()
-		{
-			ScriptState.showFPSText();
-		});
-
 		//Language Manager
 
 		Lua_helper.add_callback(lua, "setLanguages", function(names:Array<String>, abbr:Array<String>)

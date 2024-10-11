@@ -73,9 +73,26 @@ class ScriptState extends MusicBeatState
 
 	var keysPressed:Array<Int> = [];
 	private var keysArray:Array<String>;
+	
+	public static var fpsVar:FPSCounter;
 
     override public function create()
     {
+		if (!CoolVars.globalVars.get('fpsTextWasAdded') || !CoolVars.globalVars.exists('fpsTextWasAdded'))
+		{
+			#if !mobile
+			CoolVars.globalVars.set('fpsTextWasAdded', true);
+
+			fpsVar = new FPSCounter();
+			FlxG.game.addChild(fpsVar);
+			Lib.current.stage.align = "tl";
+			Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+			if(fpsVar != null) {
+				fpsVar.visible = ClientPrefs.data.showFPS;
+			}
+			#end
+		}
+
         instance = this;
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
@@ -610,20 +627,5 @@ class ScriptState extends MusicBeatState
 			case 'states.editors.NoteSplashEditorState':
 				MusicBeatState.switchState(new NoteSplashEditorState());
 		}
-	}
-	
-	public static var fpsVar:FPSCounter;
-
-	public static function showFPSText()
-	{
-		#if !mobile
-		fpsVar = new FPSCounter();
-		FlxG.game.addChild(fpsVar);
-		Lib.current.stage.align = "tl";
-		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		if(fpsVar != null) {
-			fpsVar.visible = ClientPrefs.data.showFPS;
-		}
-		#end
 	}
 }

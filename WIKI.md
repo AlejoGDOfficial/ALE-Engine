@@ -186,16 +186,6 @@
 
 </details>
 
-<details><summary><h2>Config Functions</h2></summary>
-
-> Can only be used in Script States! (script/states/config/config.hx)
-
-#### Used to Show the FPS Counter.
-
-* `showFPSText()`
-
-</details>
-
 <details><summary><h2>Language Functions</h2></summary>
 
 > Can be used in all types of script!

@@ -8,6 +8,8 @@ import openfl.system.System;
 import openfl.display.Shape;
 import openfl.display.Sprite;
 
+import states.ModsMenuState;
+
 import states.ScriptState;
 
 class FPSCounter extends Sprite
@@ -111,6 +113,10 @@ class FPSCounter extends Sprite
                 
                 MusicBeatState.switchState(new ScriptState('configGame'));
             }
+            if (FlxG.keys.justPressed.TAB)
+            {
+				MusicBeatState.switchState(new ModsMenuState());
+            }
         } else {
             reSetupGameText = '';
         }
@@ -175,7 +181,15 @@ class FPSCounter extends Sprite
 
         background.graphics.clear();
         background.graphics.beginFill(0x000000, 0.5);
-        background.graphics.drawRect(0, 0, textField.width + textField.x * 2, textField.height + textField.y * 2);
+
+        var textFieldText:String = textField.text;
+
+        if (textFieldText.replace(' ', '') == '')
+        {
+            background.graphics.drawRect(0, 0, 0, 0);
+        } else {
+            background.graphics.drawRect(0, 0, textField.width + textField.x * 2, textField.height + textField.y * 2);
+        }
         background.graphics.endFill();
 
         background.x = 0;

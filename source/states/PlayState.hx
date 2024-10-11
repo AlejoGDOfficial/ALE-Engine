@@ -180,9 +180,6 @@ class PlayState extends MusicBeatState
 	public var practiceMode:Bool = false;
 	public var pressMissDamage:Float = 0.05;
 
-	public var botplaySine:Float = 0;
-	public var botplayTxt:FlxText;
-
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -241,6 +238,9 @@ class PlayState extends MusicBeatState
 	// Callbacks for stages
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
+
+	var scoreTxt:FlxText;
+	var botplayTxt:FlxText;
 
 	override public function create()
 	{
@@ -1553,11 +1553,6 @@ class PlayState extends MusicBeatState
 
 		setOnScripts('curDecStep', curDecStep);
 		setOnScripts('curDecBeat', curDecBeat);
-
-		if(botplayTxt != null && botplayTxt.visible) {
-			botplaySine += 180 * elapsed;
-			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
-		}
 
 		if (controls.PAUSE && startedCountdown && canPause)
 		{

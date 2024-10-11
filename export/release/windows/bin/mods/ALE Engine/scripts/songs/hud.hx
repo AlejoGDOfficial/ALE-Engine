@@ -4,31 +4,27 @@ import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 
-var scoreTxt:FlxText;
-var botplayTxt:FlxText;
-
 function onCreatePost()
 {
     iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - 25;
     iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - 25 * 2;
 
-    scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-    scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, 'center');
-    scoreTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
-    scoreTxt.borderSize = 1;
-    scoreTxt.borderColor = FlxColor.BLACK;
-    scoreTxt.borderSize = 1.25;
-    game.updateScore(false);
-    uiGroup.add(scoreTxt);
+    game.scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
+    game.scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, 'center');
+    game.scoreTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
+    game.scoreTxt.borderSize = 1;
+    game.scoreTxt.borderColor = FlxColor.BLACK;
+    game.scoreTxt.borderSize = 1.25;
+    game.uiGroup.add(game.scoreTxt);
 
-    botplayTxt = new FlxText(400, 105, FlxG.width - 800, '' + getPhrase('playStateBotPlay'), 32);
-    botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, 'center');
-    botplayTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
-    botplayTxt.borderSize = 1;
-    botplayTxt.borderColor = FlxColor.BLACK;
-    botplayTxt.borderSize = 1.25;
-    botplayTxt.visible = cpuControlled;
-    uiGroup.add(botplayTxt);
+    game.botplayTxt = new FlxText(400, 105, FlxG.width - 800, '' + getPhrase('playStateBotPlay'), 32);
+    game.botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, 'center');
+    game.botplayTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
+    game.botplayTxt.borderSize = 1;
+    game.botplayTxt.borderColor = FlxColor.BLACK;
+    game.botplayTxt.borderSize = 1.25;
+    game.botplayTxt.visible = cpuControlled;
+    game.uiGroup.add(game.botplayTxt);
 
     if(ClientPrefs.data.downScroll)
         botplayTxt.y = 715;
@@ -44,12 +40,16 @@ function onBeatHit()
 }
 
 var tempScore:String;
+var curTime:Float = 0;
 
 function onUpdate(elapsed:Float)
 {
+    curTime += elapsed;
+
     if (cpuControlled)
     {
         botplayTxt.visible = true;
+        botplayTxt.alpha = Math.sin(curTime * 2) * 0.5 + 0.5;
     } else {
         botplayTxt.visible = false;
     }

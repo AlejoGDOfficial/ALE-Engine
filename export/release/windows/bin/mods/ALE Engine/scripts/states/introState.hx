@@ -13,8 +13,6 @@ var titleText:FlxSprite;
 
 function onCreate()
 {
-    trace(getSuffix());
-
     epicTexts = new FlxText(0, 0, FlxG.width, '');
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);

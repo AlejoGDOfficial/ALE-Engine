@@ -251,13 +251,6 @@ class HScript extends SScript
 			CoolVars.globalVars.remove(id);
 		});
 
-		//Config
-
-		set("showFPSText", function()
-		{
-			ScriptState.showFPSText();
-		});
-
 		//Language Manager
 
 		set("setLanguages", function(names:Array<String>, abbr:Array<String>)

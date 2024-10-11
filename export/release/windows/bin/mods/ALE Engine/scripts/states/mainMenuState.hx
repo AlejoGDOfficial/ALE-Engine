@@ -71,6 +71,11 @@ function onUpdate(elapsed:Float)
 {
     if (canSelect)
     {
+        if (FlxG.keys.justPressed.TAB)
+        {
+        switchToSomeStates('states.ModsMenuState');
+        }
+
         if (controls.BACK)
         {
             canSelect = false;
