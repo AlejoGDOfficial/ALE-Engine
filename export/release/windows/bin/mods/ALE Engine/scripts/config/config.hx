@@ -651,7 +651,7 @@ function setupEditorsStatesLanguages()
         [
             ['', "Nothing."],
             ['Hey!', "Plays the \"Hey!\" animation from Bopeebo,\nValue 1: BF = Only Boyfriend, GF = Only Girlfriend,\nSomething else = Both.\nValue 2: Custom animation duration,\nleave it blank for 0.6s"],
-            ['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Value must be integer!"],
+            ['Set GF Speed', "Sets GF head bopping speed,\nValue 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\n\n\nWarning: Value must be integer!"],
             ['Add Camera Zoom', "Self Explanatory\nValue 1: Camera zoom add (Default: 0.015)\nValue 2: UI zoom add (Default: 0.03)\nLeave the values blank if you want to use Default."],
             ['Play Animation', "Plays an animation on a Character,\nonce the animation is completed,\nthe animation changes to Idle\n\nValue 1: Animation to play.\nValue 2: Character (Dad, BF, GF)"],
             ['Camera Follow Pos', "Value 1: X\nValue 2: Y\n\nThe camera won't change the follow point\nafter using this, for getting it back\nto normal, leave both values blank."],
@@ -665,16 +665,16 @@ function setupEditorsStatesLanguages()
         [
             ['', "Nada."],
             ['Hey!', "Corre la animación Hey!,\nValor 1: BF = Solo Boyfriend, GF = Solo Girlfriend,\nCualquier otra cosa = Ambos.\nValor 2: Duración de la Animación Personalizada,\npor defecto dura 0.6s"],
-            ['Cambiar la Velocidad de GF', "Sets GF head bopping speed,\nValor 1: 1 = Normal speed,\n2 = 1/2 speed, 4 = 1/4 speed etc.\nUsed on Fresh during the beatbox parts.\n\nWarning: Valor must be integer!"],
-            ['Añadir Zoom a la Cámara', "Se explica solo.\nValor 1: Zoom a Añadir (Por Defecto es 0.015)\nValor 2: Añadir Zoom a la Interfaz (Por Defecto es 0.03)\nDeja esto en Blanco si quieres usar el Zoom por defecto."],
-            ['Correr Animación', "Corre una animación en un Personaje,\nuna vez la animación termina,\nse quita.\n\nValor 1: Animación a correr.\nValor 2: Personaje (Dad, BF, GF)"],
-            ['Cámara sigue un Punto', "Valor 1: X\nValor 2: Y\n\nLa cámara no seguirá otro punto\ndespués de usar esto, para devolverla\na la normalidad, deja ambos valores en blanco."],
-            ['Animación de Inactivo Alterna', "Establece un sufijo específico después del nombre de la animación para inactividad.\nPuedes usar esto para activar 'idle-alt'\nsi configuras el Valor 2 en -alt\n\nValor 1: Personaje al que aplicar (Dad, BF o GF)\nValor 2: Nuevo sufijo (Déjalo en blanco para desactivar)"],
-            ['Sacudir la Pantalla', "Valor 1: Sacude la Cámara\nValor 2: Sacude la Interfaz\n\nCada valor funciona como en el Siguiente Ejemplo: \"1, 0.05\".\nEl primer número (1) es la duración.\nEl segundo número (0.05) es la Intensidad."],
-            ['Cambiar Personaje', "Valor 1: Personaje a Cambiar (Dad, BF, GF)\nValor 2: Nombre del .json del Nuevo Personaje."],
-            ['Cambiar Velocidad de las Notas', "Valor 1: Multiplicador (Por Defecto es 1)\nValor 2: Tiempo que toma el cambio en Segundos."],
-            ['Asignar Propiedad', "Valor 1: Nombre de la Variable\nValor 2: Nuevo Valor"],
-            ['Reproducir Sonido', "Valor 1: Nombre del Archivo del Sonido\nValor 2: Volumen (Por Defecto es 1), en un rango de 0 a 1"]
+            ['Set GF Speed', "Asigna la velocidad del movimiento de GF,\nValor 1: 1 = Velocidad normal,\n2 = Velocidad de 1/2, 4 = Velocidad de 1/4... etc.\n\nAviso: El valor debe ser un Número Entero!"],
+            ['Add Camera Zoom', "Se explica solo.\nValor 1: Zoom a Añadir (Por Defecto es 0.015)\nValor 2: Añadir Zoom a la Interfaz (Por Defecto es 0.03)\nDeja esto en Blanco si quieres usar el Zoom por defecto."],
+            ['Play Animation', "Corre una animación en un Personaje,\nuna vez la animación termina,\nse quita.\n\nValor 1: Animación a correr.\nValor 2: Personaje (Dad, BF, GF)"],
+            ['Camera Follow Pos', "Valor 1: X\nValor 2: Y\n\nLa cámara no seguirá otro punto\ndespués de usar esto, para devolverla\na la normalidad, deja ambos valores en blanco."],
+            ['Alt Idle Animation', "Establece un sufijo específico después del nombre de la animación para inactividad.\nPuedes usar esto para activar 'idle-alt'\nsi configuras el Valor 2 en -alt\n\nValor 1: Personaje al que aplicar (Dad, BF o GF)\nValor 2: Nuevo sufijo (Déjalo en blanco para desactivar)"],
+            ['Screen Shake', "Valor 1: Sacude la Cámara\nValor 2: Sacude la Interfaz\n\nCada valor funciona como en el Siguiente Ejemplo: \"1, 0.05\".\nEl primer número (1) es la duración.\nEl segundo número (0.05) es la Intensidad."],
+            ['Change Character', "Valor 1: Personaje a Cambiar (Dad, BF, GF)\nValor 2: Nombre del .json del Nuevo Personaje."],
+            ['Change Scroll Speed', "Valor 1: Multiplicador (Por Defecto es 1)\nValor 2: Tiempo que toma el cambio en Segundos."],
+            ['Set Property', "Valor 1: Nombre de la Variable\nValor 2: Nuevo Valor"],
+            ['Play Sound', "Valor 1: Nombre del Archivo del Sonido\nValor 2: Volumen (Por Defecto es 1), en un rango de 0 a 1"]
         ]
     ]);
     setPhrase('chartingStateNote', [
