@@ -17,6 +17,10 @@ weeks.push(weekName);
 
 function onCreate()
 {
+    var blackBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+    add(blackBg);
+    blackBg.scrollFactor.set(0, 0);
+
     var testWeek:StringMap<Dynamic> = new StringMap();
     setWeekData(testWeek, 'Test', ['Test'], ['Normal']);
     weeks.push(testWeek);

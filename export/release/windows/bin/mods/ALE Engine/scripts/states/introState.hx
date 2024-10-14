@@ -13,6 +13,10 @@ var titleText:FlxSprite;
 
 function onCreate()
 {
+    var blackBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+    add(blackBg);
+    blackBg.scrollFactor.set(0, 0);
+    
     epicTexts = new FlxText(0, 0, FlxG.width, '');
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);

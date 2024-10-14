@@ -6,5 +6,5 @@ class CoolVars
 {
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
 
-	public static var aleEngineVersion:String = 'Alpha 2';
+	public static var fpsTextWasAdded:Bool = false;
 }

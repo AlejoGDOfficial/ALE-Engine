@@ -59,6 +59,9 @@ import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
 
+import openfl.Lib;
+import openfl.system.Capabilities;
+
 using StringTools;
 
 import backend.CoolVars;

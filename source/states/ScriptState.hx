@@ -78,10 +78,11 @@ class ScriptState extends MusicBeatState
 
     override public function create()
     {
-		if (!CoolVars.globalVars.get('fpsTextWasAdded') || !CoolVars.globalVars.exists('fpsTextWasAdded'))
+		if (!CoolVars.fpsTextWasAdded)
 		{
+			CoolVars.fpsTextWasAdded = true;
+
 			#if !mobile
-			CoolVars.globalVars.set('fpsTextWasAdded', true);
 
 			fpsVar = new FPSCounter();
 			FlxG.game.addChild(fpsVar);

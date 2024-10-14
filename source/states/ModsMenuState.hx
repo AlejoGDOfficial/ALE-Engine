@@ -301,7 +301,7 @@ class ModsMenuState extends MusicBeatState
 		changeSelectedMod();
 
 		mustSelectOneMod = new FlxText(10, 0, FlxG.width, '');
-		mustSelectOneMod.setFormat(Paths.font('odinRounded.ttf'), 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		mustSelectOneMod.setFormat(Paths.font('vcr.ttf'), 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(mustSelectOneMod);
 		mustSelectOneMod.applyMarkup(
 			LanguageManager.getPhrase('modsMenuStateAtLeastOneMod'),

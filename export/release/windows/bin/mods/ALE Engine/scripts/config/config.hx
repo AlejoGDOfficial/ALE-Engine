@@ -44,13 +44,15 @@ function setupObjectsLanguages()
     setPhrase('dialogueBoxDialogueSkip', ['Press BACK to Skip', 'Presiona VOLVER para Saltar']);
 
     //FPS Counter
-    setPhrase('fpsCounterFPSInfo', [
+    setPhrase('fpsCounterInfo', [
         [
             'DEVELOPER MODE', 
             'Press F3 to reconfigure the game...' + '\n' +
             'Press TAB to select the mods you want to play...', 
             'FPS: ', 
-            'Memory: ', 
+            'Memory: ',
+            'Current State: ',
+            'Current SubState: ',
             'Window Position: ', 
             'Window Resolution: ', 
             'Screen Resolution: ', 
@@ -60,9 +62,13 @@ function setupObjectsLanguages()
             'MODO DESARROLLADOR', 
             'Presiona F3 para reconfigurar el juego...' + '\n' +
             'Presiona TAB para seleccionar los mods que quieres jugar...', 
-            'FPS: ', 'Memoria: ', 
+            'FPS: ', 
+            'Memoria: ', 
+            'Estado Actual: ',
+            'Sub-Estado Actual: ',
             'Posición de la Ventana: ', 
-            'Resolución de la Ventana: ', 'Resolución de la Pantalla: ', 
+            'Resolución de la Ventana: ', 
+            'Resolución de la Pantalla: ', 
             'Sistema Operativo: '
         ]
     ]);
@@ -384,7 +390,7 @@ function setupStatesLanguages()
     //Master Editor Menu
     setPhrase('masterEditorMenuChartEditor', ['Chart Editor', 'Editor de Chart']);
     setPhrase('masterEditorMenuCharacterEditor', ['Character Editor', 'Editor de Personajes']);
-    setPhrase('masterEditorMenustageEditor', ['Stage Editor', 'Editor de Escenarios']);
+    setPhrase('masterEditorMenuStageEditor', ['Stage Editor', 'Editor de Escenarios']);
     setPhrase('masterEditorMenuDialogueEditor', ['Dialogue Editor', 'Editor de Dialogos']);
     setPhrase('masterEditorMenuDialoguePortraitEditor', ['Dialogue Portrait Editor', 'Editor de Retratos de Dialogo']);
     setPhrase('masterEditorMenuNoteSplashEditor', ['Note Splash Editor', 'Editor de Salpicaduras']);
@@ -833,6 +839,12 @@ function setupEditorsStatesLanguages()
             'Paso: ',
             'División del Beat: ',
             'Seleccionado: '
+        ]
+    ]);
+    setPhrase('chartingStateOutputs', [
+        [
+        ],
+        [   
         ]
     ]);
 

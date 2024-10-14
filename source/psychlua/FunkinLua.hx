@@ -257,6 +257,14 @@ class FunkinLua {
 		{
 			return Lib.application.window.height;
 		});
+		Lua_helper.add_callback(lua, "getScreenWidth", function(pos:Int)
+		{
+			return Capabilities.screenResolutionX;
+		});
+		Lua_helper.add_callback(lua, "getScreenHeight", function(pos:Int)
+		{
+			return Capabilities.screenResolutionY;
+		});
 
 		//Global Vars
 

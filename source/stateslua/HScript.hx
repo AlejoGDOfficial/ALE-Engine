@@ -131,11 +131,13 @@ class HScript extends SScript
 		#if flxanimate
 		set('FlxAnimate', FlxAnimate);
 		#end
-		set('Lib', Lib);
 
 		//ALE Shit INIT
 
 		set('FlxFlicker', flixel.effects.FlxFlicker);
+		set('Lib', Lib);
+		set('Capabilities', Capabilities);
+		set('CoolVars', backend.CoolVars);
 
 		set('CoolVars', backend.CoolVars);
 
@@ -230,6 +232,14 @@ class HScript extends SScript
 		set("getWindowHeight", function(pos:Int)
 		{
 			return Lib.application.window.height;
+		});
+		set("getScreenWidth", function(pos:Int)
+		{
+			return Capabilities.screenResolutionX;
+		});
+		set("getScreenHeight", function(pos:Int)
+		{
+			return Capabilities.screenResolutionY;
 		});
 
 		//Global Vars

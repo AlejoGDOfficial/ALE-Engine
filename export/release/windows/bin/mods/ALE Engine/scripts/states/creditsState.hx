@@ -24,6 +24,10 @@ var devsSelInt:Int = 0;
 
 function onCreate()
 {
+    var blackBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+    add(blackBg);
+    blackBg.scrollFactor.set(0, 0);
+    
     if (existsGlobalVar('creditsStateSelInt'))
     {
         devsSelInt = getGlobalVar('creditsStateSelInt');

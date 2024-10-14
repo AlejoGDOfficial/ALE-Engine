@@ -50,7 +50,7 @@ class TitleState extends MusicBeatState
 		AlphaCharacter.loadAlphabetData();
 
 		CoolVars.globalVars.set('initialConfig', true);
-		CoolVars.globalVars.set('engineVersion', 'Alpha 2');
+		CoolVars.globalVars.set('engineVersion', 'Alpha 2.1');
 
 		super.create();
 
@@ -232,6 +232,11 @@ class TitleState extends MusicBeatState
 					
 						Lib.current.stage.window.resizable = true;
 
+						openfl.Lib.application.window.width = Math.floor(1280 / (1920 / openfl.system.Capabilities.screenResolutionX));
+						openfl.Lib.application.window.height = Math.floor(720 / (1080 / openfl.system.Capabilities.screenResolutionY));
+						openfl.Lib.application.window.x = Math.floor(320 / (1920 / openfl.system.Capabilities.screenResolutionX));
+						openfl.Lib.application.window.y = Math.floor(180 / (1080 / openfl.system.Capabilities.screenResolutionY));
+						
 						if (mustUpdate)
 						{
 							FlxG.switchState(new OutdatedState());

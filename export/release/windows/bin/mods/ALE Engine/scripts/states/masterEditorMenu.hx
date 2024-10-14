@@ -23,6 +23,10 @@ var consoleVisible:Bool = false;
 
 function onCreate()
 {
+    var blackBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+    add(blackBg);
+    blackBg.scrollFactor.set(0, 0);
+    
     if (existsGlobalVar('consoleVisible') && getGlobalVar('consoleVisible'))
     {
         options.push('HideConsole');
@@ -72,31 +76,31 @@ function onUpdate(elapsed:Float)
             setGlobalVar('masterEditorMenuSelInt', selInt);
         }
 
-        if (controls.UI_UP_P || controls.UI_DOWN_P)
+        if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
         {
-            if (controls.UI_UP_P)
+            if (selInt > 0)
             {
-                if (selInt > 0)
-                {
-                    selInt -= 1;
-                } else if (selInt == 0) {
-                    selInt = texts.length - 1;
-                }
-    
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-            } else if (controls.UI_DOWN_P) {
-                if (selInt < texts.length - 1)
-                {
-                    selInt += 1;
-                } else if (selInt == texts.length -1) {
-                    selInt = 0;
-                }
-    
-                FlxG.sound.play(Paths.sound('scrollMenu'));
+                selInt -= 1;
+            } else if (selInt == 0) {
+                selInt = texts.length - 1;
             }
-    
+
+            FlxG.sound.play(Paths.sound('scrollMenu'));
+
+            changeShit();
+        } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+            if (selInt < texts.length - 1)
+            {
+                selInt += 1;
+            } else if (selInt == texts.length -1) {
+                selInt = 0;
+            }
+
+            FlxG.sound.play(Paths.sound('scrollMenu'));
+
             changeShit();
         }
+    
 
         if (controls.ACCEPT)
         {

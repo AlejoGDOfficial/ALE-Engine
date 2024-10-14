@@ -105,6 +105,11 @@
 * `getWindowWidth()`
 * `getWindowHeight()`
 
+#### Used to obtain the current size of the screen.
+
+* `getScreenWidth()`
+* `getScreenHeight()`
+
 </details>
 
 <details><summary><h2>C++ Functions</h2></summary>
