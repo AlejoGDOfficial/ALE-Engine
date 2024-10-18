@@ -132,7 +132,7 @@ function onUpdate(elapsed:Float)
 {
     for (image in images)
     {
-        image.scale.set(FlxMath.lerp(image.scale.x, 1, 0.33), FlxMath.lerp(image.scale.y, 1, 0.33));
+        image.scale.set(FlxMath.lerp(image.scale.x, 1, 0.33 * elapsed * 60), FlxMath.lerp(image.scale.y, 1, 0.33 * elapsed * 60));
     }
 
     if (canSelect)
@@ -216,6 +216,11 @@ function onUpdate(elapsed:Float)
             }
 
             canSelect = false;
+        }
+        
+        if (FlxG.keys.justPressed.CONTROL)
+        {
+            openSomeSubStates('options.GameplayChangersSubstate');
         }
     }
     

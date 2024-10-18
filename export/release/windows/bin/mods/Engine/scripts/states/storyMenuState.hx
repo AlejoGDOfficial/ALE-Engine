@@ -190,6 +190,11 @@ function onUpdate(elapsed:Float)
 
             canSelect = false;
         }
+        
+        if (FlxG.keys.justPressed.CONTROL)
+        {
+            openSomeSubStates('options.GameplayChangersSubstate');
+        }
     }
 
     if (FlxG.sound.music != null)

@@ -153,6 +153,10 @@ class HScript extends SScript
 		{
 			ScriptState.instance.switchToSomeStates(state);
 		});
+		set('openSomeSubStates', function(subState:String)
+		{
+			ScriptState.instance.openSomeSubStates(subState);
+		});
 		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
 		{
 			if (difficulty == 'normal')

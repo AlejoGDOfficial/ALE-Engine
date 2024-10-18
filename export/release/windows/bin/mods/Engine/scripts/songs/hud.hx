@@ -48,7 +48,7 @@ function onUpdate(elapsed:Float)
 
     if (cpuControlled)
     {
-        botplayTxt.visible = true;
+        game.botplayTxt.visible = true;
         botplayTxt.alpha = Math.sin(curTime * 2) * 0.5 + 0.5;
     } else {
         botplayTxt.visible = false;
@@ -85,22 +85,28 @@ function onUpdateScore(miss:Bool)
     } else {
         tempScore = getPhrase('playStateScoreTxt')[0] + songScore + '   ' + getPhrase('playStateScoreTxt')[1] + misses + '   ' + getPhrase('playStateScoreTxt')[2] + accuracy;
     }
-    
-}    
+}   
 
 function onUpdateIconsScale(elapsed:Float)
 {
-    iconP1.scale.set(FlxMath.lerp(iconP1.scale.x, 1, 0.33), FlxMath.lerp(iconP1.scale.y, 1, 0.33));
+    iconP1.scale.set(FlxMath.lerp(iconP1.scale.x, 1, 0.33 * FlxG.elapsed * 60), FlxMath.lerp(iconP1.scale.y, 1, 0.33 * FlxG.elapsed * 60));
     iconP1.updateHitbox();
 
-    iconP2.scale.set(FlxMath.lerp(iconP2.scale.x, 1, 0.33), FlxMath.lerp(iconP2.scale.y, 1, 0.33));
+    iconP2.scale.set(FlxMath.lerp(iconP2.scale.x, 1, 0.33 * FlxG.elapsed * 60), FlxMath.lerp(iconP2.scale.y, 1, 0.33 * FlxG.elapsed * 60));
     iconP2.updateHitbox();
 }
 
 function onUpdateIconsPosition()
 {
-    iconP1.x = FlxMath.lerp(iconP1.x, healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - 25, 0.5);
-    iconP2.x = FlxMath.lerp(iconP2.x, healthBar.barCenter - (150 * iconP2.scale.x) / 2 - 25 * 2, 0.5);
+    game.health = 2;
+
+    iconP1.x = FlxMath.lerp(iconP1.x, healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - 25, 0.5 * FlxG.elapsed * 60);
+    iconP2.x = FlxMath.lerp(iconP2.x, healthBar.barCenter - (150 * iconP2.scale.x) / 2 - 25 * 2, 0.5 * FlxG.elapsed * 60);
+
+    game.iconP1.animation.curAnim.curFrame = (healthBar.percent < 20) ? 1 : 0;
+    game.iconP2.animation.curAnim.curFrame = (healthBar.percent > 80) ? 1 : 0;
+
+    debugPrint((game.healthBar.percent < 80));
 }
 
 function onFullComboFunction()

@@ -1384,6 +1384,10 @@ function setupEditorsStatesLanguages()
 
 function setupEditorsSubStatesLanguages()
 {
+    //Gameplay Changers Substate
+    setPhrase('gameplayChangersSubstatePracticeMode', ['Practice Mode', 'Modo Práctica']);
+    setPhrase('gameplayChangersSubstateBotplay', ['BotPlay', 'Automático']);
+
     //Preload List SubState
     setPhrase('preloadListSubStateUI', [
         [

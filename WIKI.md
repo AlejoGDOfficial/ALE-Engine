@@ -1,6 +1,6 @@
 # ALE Engine Functions
 
-<details><summary><h2>States Functions</h2></summary>
+<details><summary><h2>(Sub) States Functions</h2></summary>
 
 > Can be used in all types of script!
 
@@ -16,16 +16,20 @@
 
 * `switchToSomeStates(stateName)`
     - Examples: <br/>
-        `switchToSomeStates('OptionsState')` <br/>
-        `switchToSomeStates('ChartingState')` <br/>
-        `switchToSomeStates('CharacterEditorState')` <br/>
-        `switchToSomeStates('StageEditorState')` <br/>
-        `switchToSomeStates('WeekEditorState')` <br/>
-        `switchToSomeStates('MenuCharacterEditorState')` <br/>
-        `switchToSomeStates('DialogueEditorState')` <br/>
-        `switchToSomeStates('DialogueCharacterEditorState')` <br/>
-        `switchToSomeStates('NoteSplashEditorState')`
+        `switchToSomeStates('options.OptionsState')` <br/>
+        `switchToSomeStates('states.editors.ChartingState')` <br/>
+        `switchToSomeStates('states.editors.CharacterEditorState')` <br/>
+        `switchToSomeStates('states.editors.StageEditorState')` <br/>
+        `switchToSomeStates('states.editors.MenuCharacterEditorState')` <br/>
+        `switchToSomeStates('states.editors.DialogueEditorState')` <br/>
+        `switchToSomeStates('states.editors.DialogueCharacterEditorState')` <br/>
+        `switchToSomeStates('states.editors.NoteSplashEditorState')`
 
+#### Used to open Specific SubStates.
+
+* `openSomeSubStates(stateName)`
+    - Examples: <br/>
+        `openSomeSubStates('options.GameplayChangersSubstate')`
 
 #### Used to reload/reset the state being edited.
 
