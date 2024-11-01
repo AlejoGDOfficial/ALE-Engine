@@ -360,14 +360,14 @@ function setupStatesLanguages()
             ['Khorix the Inking', 'khorixTheInking', 'Main Artist/Animator', '494F75'],
             ['Eddy Smashcraft', 'eddySmashcraft', 'Helped with the Translations into Spanish', '5D4FBC'],
             ['Aleja', 'aleja', 'Voice Actress', '404040'],
-            ['AdrianoSH', 'adrianoSH', 'Pixelart Artist', '909090']
+            ['AdrianoSH', 'adrianoSH', 'Pixelart Artist', '02BA26']
         ],
         [
             ['AlejoGDOfficial', 'alejoGDOfficial', 'Programador Principal y Cabeza', '03B1FC'],
             ['Khorix the Inking', 'khorixTheInking', 'Principal Artista/Animador', '494F75'],
             ['Eddy Smashcraft', 'eddySmashcraft', 'Ayudó con las Traducciones al Español', '5D4FBC'],
             ['Aleja', 'aleja', 'Actriz de Voz', '404040'],
-            ['AdrianoSH', 'adrianoSH', 'Artista de Pixelart', '909090']
+            ['AdrianoSH', 'adrianoSH', 'Artista de Pixelart', '02BA26']
         ]
     ]);
 

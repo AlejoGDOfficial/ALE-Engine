@@ -6,6 +6,7 @@ import flixel.text.FlxTextBorderStyle;
 import cpp.*;
 import backend.LanguageManager;
 import backend.ClientPrefs;
+import scripting.menus.CustomSubstate;
 
 var bg:FlxSprite;
 var magentaBg:FlxSprite;

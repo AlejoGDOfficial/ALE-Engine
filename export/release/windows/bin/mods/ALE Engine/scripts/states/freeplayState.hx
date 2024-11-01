@@ -220,7 +220,7 @@ function onUpdate(elapsed:Float)
         
         if (FlxG.keys.justPressed.CONTROL)
         {
-            openSomeSubStates('options.GameplayChangersSubstate');
+            openSomeSubStates('substates.GameplayChangersSubstate');
         }
     }
     

@@ -1,4 +1,4 @@
-function onCreate()
+function onCreatePost()
 {
-    gf.alpha = 0;
+    game.gf.alpha = 0;
 }
