@@ -112,10 +112,10 @@ function onRecalculateRating()
 
 function updateIconsScale()
 {
-    iconP1.scale.set(fpsLerp(iconP1.scale.x, 1, 0.33), FlxMath.lerp(iconP1.scale.y, 1, 0.33));
+    iconP1.scale.set(fpsLerp(iconP1.scale.x, 1, 0.33), fpsLerp(iconP1.scale.y, 1, 0.33));
     iconP1.updateHitbox();
 
-    iconP2.scale.set(fpsLerp(iconP2.scale.x, 1, 0.33), FlxMath.lerp(iconP2.scale.y, 1, 0.33));
+    iconP2.scale.set(fpsLerp(iconP2.scale.x, 1, 0.33), fpsLerp(iconP2.scale.y, 1, 0.33));
     iconP2.updateHitbox();
 }
 
@@ -123,11 +123,6 @@ function updateIconsPosition(doLerp:Bool)
 {
     iconP1.x = doLerp ? fpsLerp(iconP1.x, healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - 25, 0.33) : healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - 25;
     iconP2.x = doLerp ? fpsLerp(iconP2.x, healthBar.barCenter - (150 * iconP2.scale.x) / 2 - 25 * 2, 0.33) : healthBar.barCenter - (150 * iconP2.scale.x) / 2 - 25 * 2;
-}
-
-function fpsLerp(v1, v2, ratio)
-{
-    FlxMath.lerp(v1, v2, FlxMath.bound(ratio * 60 * FlxG.elapsed, 0, 1));
 }
 
 function fullComboFunction()

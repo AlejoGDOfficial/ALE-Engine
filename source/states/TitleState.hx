@@ -50,7 +50,7 @@ class TitleState extends MusicBeatState
 		AlphaCharacter.loadAlphabetData();
 
 		CoolVars.globalVars.set('initialConfig', true);
-		CoolVars.globalVars.set('engineVersion', 'Alpha 2');
+		CoolVars.globalVars.set('engineVersion', 'Alpha 4');
 
 		super.create();
 

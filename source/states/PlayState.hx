@@ -857,18 +857,18 @@ class PlayState extends MusicBeatState
 	{
 		var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 		var introImagesArray:Array<String> = switch(stageUI) {
-			case "pixel": ['${stageUI}UI/ready-pixel', '${stageUI}UI/set-pixel', '${stageUI}UI/date-pixel'];
+			case "pixel": ['${stageUI}UI/ready-pixel' + LanguageManager.getSuffix(), '${stageUI}UI/set-pixel' + LanguageManager.getSuffix(), '${stageUI}UI/date-pixel' + LanguageManager.getSuffix()];
 			case "normal": ["ready", "set" ,"go"];
-			default: ['${stageUI}UI/ready', '${stageUI}UI/set', '${stageUI}UI/go'];
+			default: ['${stageUI}UI/ready' + LanguageManager.getSuffix(), '${stageUI}UI/set' + LanguageManager.getSuffix(), '${stageUI}UI/go' + LanguageManager.getSuffix()];
 		}
 		introAssets.set(stageUI, introImagesArray);
 		var introAlts:Array<String> = introAssets.get(stageUI);
 		for (asset in introAlts) Paths.image(asset);
 
-		Paths.sound('intro3' + introSoundsSuffix);
-		Paths.sound('intro2' + introSoundsSuffix);
-		Paths.sound('intro1' + introSoundsSuffix);
-		Paths.sound('introGo' + introSoundsSuffix);
+		Paths.sound('intro3' + introSoundsSuffix + LanguageManager.getSuffix());
+		Paths.sound('intro2' + introSoundsSuffix + LanguageManager.getSuffix());
+		Paths.sound('intro1' + introSoundsSuffix + LanguageManager.getSuffix());
+		Paths.sound('introGo' + introSoundsSuffix + LanguageManager.getSuffix());
 	}
 
 	public function startCountdown()
@@ -921,9 +921,9 @@ class PlayState extends MusicBeatState
 
 				var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 				var introImagesArray:Array<String> = switch(stageUI) {
-					case "pixel": ['${stageUI}UI/ready-pixel', '${stageUI}UI/set-pixel', '${stageUI}UI/date-pixel'];
-					case "normal": ["ready", "set" ,"go"];
-					default: ['${stageUI}UI/ready', '${stageUI}UI/set', '${stageUI}UI/go'];
+					case "pixel": ['${stageUI}UI/ready-pixel' + LanguageManager.getSuffix(), '${stageUI}UI/set-pixel' + LanguageManager.getSuffix(), '${stageUI}UI/date-pixel' + LanguageManager.getSuffix()];
+					case "normal": ["ready" + LanguageManager.getSuffix(), "set" + LanguageManager.getSuffix(), "go" + LanguageManager.getSuffix()];
+					default: ['${stageUI}UI/ready' + LanguageManager.getSuffix(), '${stageUI}UI/set' + LanguageManager.getSuffix(), '${stageUI}UI/go' + LanguageManager.getSuffix()];
 				}
 				introAssets.set(stageUI, introImagesArray);
 
@@ -934,19 +934,19 @@ class PlayState extends MusicBeatState
 				switch (swagCounter)
 				{
 					case 0:
-						FlxG.sound.play(Paths.sound('intro3' + introSoundsSuffix), 0.6);
+						FlxG.sound.play(Paths.sound('intro3' + introSoundsSuffix + LanguageManager.getSuffix()), 0.6);
 						tick = THREE;
 					case 1:
 						countdownReady = createCountdownSprite(introAlts[0], antialias);
-						FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix), 0.6);
+						FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix + LanguageManager.getSuffix()), 0.6);
 						tick = TWO;
 					case 2:
 						countdownSet = createCountdownSprite(introAlts[1], antialias);
-						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
+						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix + LanguageManager.getSuffix()), 0.6);
 						tick = ONE;
 					case 3:
 						countdownGo = createCountdownSprite(introAlts[2], antialias);
-						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
+						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix + LanguageManager.getSuffix()), 0.6);
 						tick = GO;
 					case 4:
 						tick = START;
@@ -2347,7 +2347,7 @@ class PlayState extends MusicBeatState
 		}
 
 		for (rating in ratingsData)
-			Paths.image(uiPrefix + rating.image + uiPostfix);
+			Paths.image(uiPrefix + rating.image + uiPostfix + LanguageManager.getSuffix());
 		for (i in 0...10)
 			Paths.image(uiPrefix + 'num' + i + uiPostfix);
 	}
@@ -2405,7 +2405,7 @@ class PlayState extends MusicBeatState
 			antialias = !isPixelStage;
 		}
 
-		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiPostfix));
+		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiPostfix + LanguageManager.getSuffix()));
 		rating.screenCenter();
 		rating.x = placement - 40;
 		rating.y -= 60;
@@ -2417,7 +2417,7 @@ class PlayState extends MusicBeatState
 		rating.y -= ClientPrefs.data.comboOffset[1];
 		rating.antialiasing = antialias;
 
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiPostfix));
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiPostfix + LanguageManager.getSuffix()));
 		comboSpr.screenCenter();
 		comboSpr.x = placement;
 		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;

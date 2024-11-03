@@ -211,12 +211,12 @@ function onUpdate(elapsed:Float)
     if (FlxG.sound.music != null)
         Conductor.devPosition = FlxG.sound.music.time;
 
-    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, devsSelInt * 25, 0.1);
-    FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, devsSelInt * 105, 0.1);
+    FlxG.camera.scroll.x = fpsLerp(FlxG.camera.scroll.x, devsSelInt * 25, 0.1);
+    FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, devsSelInt * 105, 0.1);
 
     for (image in images)
     {
-        image.scale.set(FlxMath.lerp(image.scale.x, 1, 0.33), FlxMath.lerp(image.scale.y, 1, 0.33));
+        image.scale.set(fpsLerp(image.scale.x, 1, 0.33), fpsLerp(image.scale.y, 1, 0.33));
     }
 }
 

@@ -186,12 +186,17 @@ function onUpdate(elapsed:Float)
 
             canSelect = false;
         }
+
+        if (FlxG.keys.justPressed.CONTROL)
+        {
+            openSomeSubStates('substates.GameplayChangersSubstate');
+        }
     }
 
     if (FlxG.sound.music != null)
         Conductor.songPosition = FlxG.sound.music.time;
 
-    FlxG.camera.scroll.y = FlxMath.lerp(weekSelInt * 105, FlxG.camera.scroll.y, Math.exp(-elapsed * 6));
+    FlxG.camera.scroll.y = fpsLerp(weekSelInt * 105, FlxG.camera.scroll.y, Math.exp(-elapsed * 6));
 }
     
 function changeWeekShit()

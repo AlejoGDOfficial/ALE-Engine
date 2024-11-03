@@ -128,7 +128,7 @@ function onUpdate(elapsed:Float)
 {
     for (image in images)
     {
-        image.scale.set(FlxMath.lerp(image.scale.x, 1, 0.33), FlxMath.lerp(image.scale.y, 1, 0.33));
+        image.scale.set(fpsLerp(image.scale.x, 1, 0.33), fpsLerp(image.scale.y, 1, 0.33));
     }
 
     if (canSelect)
@@ -213,13 +213,18 @@ function onUpdate(elapsed:Float)
 
             canSelect = false;
         }
+
+        if (FlxG.keys.justPressed.CONTROL)
+        {
+            openSomeSubStates('substates.GameplayChangersSubstate');
+        }
     }
     
     if (FlxG.sound.music != null)
         Conductor.songPosition = FlxG.sound.music.time;
 
-    FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, songsSelInt * 25, 0.1);
-    FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, songsSelInt * 105, 0.1);
+    FlxG.camera.scroll.x = fpsLerp(FlxG.camera.scroll.x, songsSelInt * 25, 0.1);
+    FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, songsSelInt * 105, 0.1);
 }
 
 function changeOtherShit()

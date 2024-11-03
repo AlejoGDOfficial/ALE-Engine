@@ -138,6 +138,10 @@ class FunkinLua {
 		{
 			ScriptState.instance.switchToSomeStates(state);
 		});
+		Lua_helper.add_callback(lua, 'openSomeSubStates', function(substate:String)
+		{
+			ScriptState.instance.openSomeSubStates(substate);
+		});
 		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
 		{
 			if (difficulty == 'normal')

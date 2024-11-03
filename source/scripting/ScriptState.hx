@@ -648,4 +648,13 @@ class ScriptState extends MusicBeatState
 				MusicBeatState.switchState(new NoteSplashEditorState());
 		}
 	}
+
+	public function openSomeSubStates(subState:String)
+	{
+		switch (subState)
+		{
+			case 'substates.GameplayChangersSubstate':
+				openSubState(new substates.GameplayChangersSubstate());
+		}
+	}
 }
