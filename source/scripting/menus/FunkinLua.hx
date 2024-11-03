@@ -369,6 +369,18 @@ class FunkinLua {
 				new Process(powershellCommand);
 		});
 
+		//Utils
+	
+		Lua_helper.add_callback(lua, 'fpsLerp', function(v1:Float, v2:Float, ratio:Float)
+		{
+			return CoolUtil.fpsLerp(v1, v2, ratio);
+		});
+	
+		Lua_helper.add_callback(lua, 'getFPSRatio', function(ratio:Float)
+		{
+			return CoolUtil.getFPSRatio(ratio);
+		});
+
 		//ALE Shit END
 
 		//

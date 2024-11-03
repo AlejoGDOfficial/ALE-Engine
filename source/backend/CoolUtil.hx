@@ -192,7 +192,7 @@ class CoolUtil
 
 	public static function fpsLerp(v1:Float, v2:Float, ratio:Float)
 	{
-		return FlxMath.lerp(v1, v2, getFPSRatio(lerp));
+		return FlxMath.lerp(v1, v2, getFPSRatio(ratio));
 	}
 
 	public static function getFPSRatio(ratio:Float)

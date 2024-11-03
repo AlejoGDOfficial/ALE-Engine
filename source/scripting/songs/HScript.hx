@@ -320,6 +320,18 @@ class HScript extends SScript
 			if (title != null && title != "" && desc != null && desc != "")
 				new Process(powershellCommand);
 		});
+
+		//Utils
+	
+		set('fpsLerp', function(v1:Float, v2:Float, ratio:Float)
+		{
+			return CoolUtil.fpsLerp(v1, v2, ratio);
+		});
+	
+		set('getFPSRatio', function(ratio:Float)
+		{
+			return CoolUtil.getFPSRatio(ratio);
+		});
 		
 		//ALE Shit END
 
