@@ -189,4 +189,14 @@ class CoolUtil
 	{
 		return Type.getClassName(Type.getClass(FlxG.state.subState));
 	}
+
+	public static function fpsLerp(v1:Float, v2:Float, ratio:Float)
+	{
+		return FlxMath.lerp(v1, v2, getFPSRatio(lerp));
+	}
+
+	public static function getFPSRatio(ratio:Float)
+	{
+		return FlxMath.bound(ratio * FlxG.elapsed * 60, 0, 1);
+	}
 }
