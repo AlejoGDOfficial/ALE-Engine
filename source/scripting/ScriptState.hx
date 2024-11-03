@@ -73,9 +73,13 @@ class ScriptState extends MusicBeatState
 	
 	public static var fpsVar:FPSCounter;
 
+	var musicState:MusicBeatState;
+
     override public function create()
     {
 		Paths.clearStoredMemory();
+
+		musicState = new MusicBeatState();
 		
 		if (!CoolVars.fpsTextWasAdded)
 		{
@@ -118,17 +122,20 @@ class ScriptState extends MusicBeatState
     {
 		callOnScripts('onUpdate', [elapsed]);
 
+		if (FlxG.sound.music != null && FlxG.sound.music.looped) FlxG.sound.music.onComplete = fixMusic.bind();
+
 		callOnScripts('onUpdatePost', [elapsed]);
 
         super.update(elapsed);
     }
 
 	var lastStepHit:Int = -1;
+
 	override function stepHit()
 	{
 		super.stepHit();
 
-		if(curStep == lastStepHit) {
+		if(curStep >= lastStepHit) {
 			return;
 		}
 
@@ -153,12 +160,27 @@ class ScriptState extends MusicBeatState
 		callOnScripts('onBeatHit');
 	}
 
+	var lastSectionHit:Int = -1;
+
 	override function sectionHit()
 	{
+		if (lastSectionHit >= curSection)
+		{
+			return;
+		}
+
 		super.sectionHit();
 
 		setOnScripts('curSection', curSection);
 		callOnScripts('onSectionHit');
+	}
+
+	function fixMusic()
+	{
+		musicState.resetMusicVars();
+		lastStepHit = -1;
+		lastBeatHit = -1;
+		lastSectionHit = -1;
 	}
 
     #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
