@@ -1,6 +1,6 @@
 # ALE Engine Functions
 
-<details><summary><h2>States Functions</h2></summary>
+<details><summary><h2>States/Sub States Functions</h2></summary>
 
 > Can be used in all types of script!
 
@@ -26,6 +26,11 @@
         `switchToSomeStates('DialogueCharacterEditorState')` <br/>
         `switchToSomeStates('NoteSplashEditorState')`
 
+#### Used to open Specific SubStates.
+
+* `openSomeSubStates(subStateName)`
+    - Examples: <br/>
+        `openSomeSubStates('substates.GameplayChangersSubstate')`
 
 #### Used to reload/reset the state being edited.
 
@@ -251,5 +256,21 @@
 
 * `removeGlobalVar(id)`
     - Example: `removeGlobalVar('engineVersion')`
+
+</details>
+
+<details><summary><h2>Cool Utils</h2></summary>
+
+> Can be used in all types of script!
+
+#### Used to interpolate smoothly between two values, adjusting for the game's frame rate.
+
+* `fpsLerp(start, ending, ratio)`
+    - Example: `fpsLerp(1.25, 1, 0.1)`
+
+#### Used to get the ratio based on the game's frame rate.
+
+* `getFPSRatio(ratio)`
+    - Example: `getFPSRatio(0.1)`
 
 </details>
