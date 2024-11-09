@@ -42,7 +42,7 @@ function onCreate()
     texts = [];
 
     for (i in 0...options.length) {
-        var text = new FlxText(30, 50 + (i * 87), 0, getPhrase('masterEditorMenu' + options[i]));
+        var text = new FlxText(30, 50 + (i * 87), 0, getPhrase('masterEditorMenu', options[i]));
         text.setFormat(Paths.font('emptyPhantomMuff.ttf'), 70, FlxColor.WHITE, 'left');
         add(text);
         text.borderStyle = FlxTextBorderStyle.OUTLINE;

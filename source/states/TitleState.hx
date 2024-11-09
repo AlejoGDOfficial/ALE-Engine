@@ -52,7 +52,7 @@ class TitleState extends MusicBeatState
 		LanguageManager.loadPhrases();
 
 		CoolVars.globalVars.set('initialConfig', true);
-		CoolVars.globalVars.set('engineVersion', 'Alpha 4');
+		CoolVars.globalVars.set('engineVersion', 'Alpha 5');
 
 		super.create();
 

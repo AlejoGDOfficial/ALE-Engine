@@ -19,7 +19,7 @@ function onCreate()
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);
     epicTexts.y = FlxG.height / 2 - epicTexts.height / 2;
-    changeShit(getPhrase('introStatePhrases')[0]);
+    changeShit(getPhrase('introState', 'Phrases')[0]);
 
     logo = new FlxSprite(-125, -100);
     logo.frames = Paths.getSparrowAtlas('introState/logo');

@@ -26,51 +26,6 @@ function onCreate()
     var testWeek:StringMap<Dynamic> = new StringMap();
     setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
     weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
 
     showShit();
     
@@ -367,9 +322,9 @@ function changeDifficultyShit(restart:Bool)
 
     if (difficulties.length == 1)
     {
-        difficultyText.text = getPhrase('freeplayStateDifficulty') + '\n' + getPhrase('difficulties' + difficultyName);
+        difficultyText.text = getPhrase('freeplayState', 'Difficulty') + '\n' + getPhrase('difficulties', difficultyName);
     } else {
-        difficultyText.text = getPhrase('freeplayStateDifficulty') + '\n<' + getPhrase('difficulties' + difficultyName) + '>';
+        difficultyText.text = getPhrase('freeplayState', 'Difficulty') + '\n<' + getPhrase('difficulties', difficultyName) + '>';
     }
 
     difficultyText.x = FlxG.width - difficultyText.width - 10;

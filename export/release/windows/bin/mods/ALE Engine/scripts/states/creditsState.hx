@@ -34,7 +34,7 @@ function onCreate()
     var mainDevsDescs:Array<String> = [];
     var mainDevsColors:Array<String> = [];
 
-    for (devData in getPhrase('creditsStateALEEngineMainCrew'))
+    for (devData in getPhrase('creditsState', 'ALEEngineMainCrew'))
     {
         mainDevsNames.push(devData[0]);
         mainDevsIcons.push(devData[1]);
@@ -43,7 +43,7 @@ function onCreate()
     }
 
     var mainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(mainDevs, getPhrase('creditsStateALEEngineTeam'), mainDevsNames, mainDevsIcons, mainDevsDescs, mainDevsColors);
+    setCategoryData(mainDevs, getPhrase('creditsState', 'ALEEngineTeam'), mainDevsNames, mainDevsIcons, mainDevsDescs, mainDevsColors);
     categories.push(mainDevs);
 
     var otherDevsNames:Array<String> = [];
@@ -51,7 +51,7 @@ function onCreate()
     var otherDevsDescs:Array<String> = [];
     var otherDevsColors:Array<String> = [];
 
-    for (devData in getPhrase('creditsStateALEEngineSecondaryCrew'))
+    for (devData in getPhrase('creditsState', 'ALEEngineSecondaryCrew'))
     {
         otherDevsNames.push(devData[0]);
         otherDevsIcons.push(devData[1]);
@@ -60,7 +60,7 @@ function onCreate()
     }
 
     var otherDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(otherDevs, getPhrase('creditsStateALEEngineContributors'), otherDevsNames, otherDevsIcons, otherDevsDescs, otherDevsColors);
+    setCategoryData(otherDevs, getPhrase('creditsState', 'ALEEngineContributors'), otherDevsNames, otherDevsIcons, otherDevsDescs, otherDevsColors);
     categories.push(otherDevs);
 
     var psychMainDevsNames:Array<String> = [];
@@ -68,7 +68,7 @@ function onCreate()
     var psychMainDevsDescs:Array<String> = [];
     var psychMainDevsColors:Array<String> = [];
 
-    for (devData in getPhrase('creditsStatePsychEngineMainCrew'))
+    for (devData in getPhrase('creditsState', 'PsychEngineMainCrew'))
     {
         psychMainDevsNames.push(devData[0]);
         psychMainDevsIcons.push(devData[1]);
@@ -77,7 +77,7 @@ function onCreate()
     }
 
     var psychMainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(psychMainDevs, getPhrase('creditsStatePsychEngineTeam'), psychMainDevsNames, psychMainDevsIcons, psychMainDevsDescs, psychMainDevsColors);
+    setCategoryData(psychMainDevs, getPhrase('creditsState', 'PsychEngineTeam'), psychMainDevsNames, psychMainDevsIcons, psychMainDevsDescs, psychMainDevsColors);
     categories.push(psychMainDevs);
 
     showShit();

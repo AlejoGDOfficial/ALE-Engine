@@ -1,18 +1,5 @@
 package backend;
 
-#if LUA_ALLOWED
-import stateslua.*;
-#else
-import stateslua.LuaUtils;
-import stateslua.HScript;
-#end
-
-#if SScript
-import tea.SScript;
-#end
-
-import haxe.ds.StringMap;
-
 import options.LanguageSubState;
 
 class LanguageManager
@@ -29,13 +16,13 @@ class LanguageManager
     public static function loadPhrases():Void
     {
         try {
-            var jsonString = File.getContent(Paths.modFolders("scripts/config/translations.json"));
+            var jsonString = Paths.modFolders("scripts/config/translations.json");
             if(!FileSystem.exists(jsonString))
             {
                 jsonString = Paths.getSharedPath("scripts/config/translations.json"); 
             }
             
-            jsonData = haxe.format.JsonParser.parse(jsonString);
+            jsonData = haxe.format.JsonParser.parse(sys.io.File.getContent(jsonString));
         } catch (e:Dynamic) {
             trace("Error loading JSON file: " + e);
             return;
@@ -64,7 +51,8 @@ class LanguageManager
         var langIndex = languages.indexOf(curLanguage);
         var sectionData = Reflect.field(jsonData, section);
         var keyData = Reflect.field(sectionData, key);
-        return keyData[langIndex];
+        if (keyData != null) return cast keyData[langIndex];
+        else return 'NO TEXT FOUND';
     }
 
     public static function getSuffix():String

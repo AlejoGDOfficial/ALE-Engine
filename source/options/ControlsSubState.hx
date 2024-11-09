@@ -162,7 +162,7 @@ class ControlsSubState extends MusicBeatSubstate
 					{
 						text = new Alphabet(200, 300, LanguageManager.getPhrase('optionsControls', str), !isDisplayKey);
 					} else {
-						text = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey', formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup', formatKeyStr(str)), !isDisplayKey);
+						text = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControls', 'Key' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControls', 'Group' + formatKeyStr(str)), !isDisplayKey);
 					}
 					text.isMenuItem = true;
 					text.changeX = false;
