@@ -28,11 +28,13 @@ function onCreate()
 
     bg = new FlxSprite().loadGraphic(Paths.image('menuBGYellow'));
     add(bg);
+    bg.scrollFactor.set(0, 0.25 * 5 / options.length);
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
 
     magentaBg = new FlxSprite().loadGraphic(Paths.image('menuBGMagenta'));
     add(magentaBg);
+    magentaBg.scrollFactor.set(0, 0.25 * 5 / options.length);
     magentaBg.scale.set(1.25, 1.25);
     magentaBg.screenCenter('x');
     magentaBg.visible = false;
@@ -45,6 +47,7 @@ function onCreate()
         img.animation.addByPrefix('white', 'white', 24, true);
         img.animation.play('basic');
         add(img);
+        img.scrollFactor.set(0, 0);
         images.push(img);
     }
 
@@ -60,6 +63,7 @@ function onCreate()
         'Friday Night Funkin\' 0.3.0\nALE Engine *' + getGlobalVar('engineVersion') + '* (P.E. 1.0 Pre-Release)',
         [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('FF0000')), '*')]
     );
+    version.scrollFactor.set(0, 0);
     version.y = FlxG.height - version.height - 10;
 
     changeShit();
@@ -152,6 +156,8 @@ function onUpdate(elapsed:Float)
             switchToScriptState('masterEditorMenu', true);
         }
     }
+
+    FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, (selInt + (options.length - 1) / 2) * 25, 0.1);
 }
 
 function changeShit()
@@ -170,10 +176,4 @@ function changeShit()
         images[i].x = FlxG.width / 2 - images[i].width / 2;
         images[i].y = FlxG.height / (images.length + 1) * (i + 1) - images[i].height / 2;
     }
-
-    FlxTween.cancelTweensOf(bg);
-    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - (25 * (selInt)) / options.length - 1}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
-
-    FlxTween.cancelTweensOf(magentaBg);
-    FlxTween.tween(magentaBg, {y: FlxG.height / 2 - magentaBg.height / 2 - (25 * (selInt)) / options.length - 1}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
 }

@@ -57,7 +57,7 @@ function onBeatHit()
     updateIconsPosition(false);
 }
 
-function onUpdate(elapsed:Float)
+function onUpdatePost(elapsed:Float)
 {
     if (cpuControlled)
     {

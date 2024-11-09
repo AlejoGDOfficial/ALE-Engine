@@ -5,6 +5,7 @@ import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import backend.CoolUtil;
 import flixel.math.FlxRect;
+import objects.HealthIcon;
 
 var bg:FlxSprite;
 var weeks:Array<StringMap<Dynamic>> = [];
@@ -22,6 +23,51 @@ weeks.push(weekName);
 
 function onCreate()
 {
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
+    var testWeek:StringMap<Dynamic> = new StringMap();
+    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
+    weeks.push(testWeek);
     var testWeek:StringMap<Dynamic> = new StringMap();
     setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
     weeks.push(testWeek);
@@ -53,7 +99,7 @@ function showShit()
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
-    add(bg);
+    //add(bg);
 
     difficultyTextBG = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
     add(difficultyTextBG);
@@ -89,7 +135,7 @@ function showShit()
             var destinationY:Float = 318 + (i - songsSelInt) * 105;    
 
             var song:String = weekSongs[i];
-
+/*
             var songText:FlxText = new FlxText(destinationX, destinationY, 0, song);
             songText.setFormat(Paths.font('emptyPhantomMuff.ttf'), 100, FlxColor.WHITE, 'left');
             add(songText);
@@ -97,6 +143,11 @@ function showShit()
             songText.borderSize = 3;
             songText.borderColor = FlxColor.BLACK;
             songText.alpha = 0.25;
+*/
+            var songText:Alphabet = new Alphabet(destinationX, destinationY, song, true);
+            songText.snapToPosition();
+            add(songText);
+
             texts.push(songText);
         
             var songIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image('icons/' + icons[i]));
@@ -124,11 +175,38 @@ function onBeatHit()
     }
 }
 
+function checkVisibility(object:Dynamic)
+{
+    var isVisible:Bool = object.x + object.width > FlxG.camera.scroll.x &&
+    object.x < FlxG.camera.scroll.x + FlxG.camera.width &&
+    object.y + object.height > FlxG.camera.scroll.y &&
+    object.y < FlxG.camera.scroll.y + FlxG.camera.height;
+
+    return isVisible;
+}
+
 function onUpdate(elapsed:Float)
 {
     for (image in images)
     {
         image.scale.set(fpsLerp(image.scale.x, 1, 0.33), fpsLerp(image.scale.y, 1, 0.33));
+
+        if (checkVisibility(image))
+        {
+            image.alpha = 1;
+        } else {
+            image.alpha = 0;
+        }
+    }
+
+    for (text in texts)
+    {
+        if (checkVisibility(text))
+        {
+            text.alpha = 1;
+        } else {
+            text.alpha = 0;
+        }
     }
 
     if (canSelect)
