@@ -7,8 +7,8 @@
         "Hard": ["Hard", "Difícil"]
     },
     
-    "dialogueBoxDialogue": {
-        "Skip": ["Press BACK to Skip", "Presiona VOLVER para Saltar"]
+    "dialogueBox": {
+        "DialogueSkip": ["Press BACK to Skip", "Presiona VOLVER para Saltar"]
     },
 
     "fpsCounter": {

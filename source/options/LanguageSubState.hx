@@ -37,7 +37,7 @@ class LanguageSubState extends MusicBeatSubstate
 			var name:String = languages[languages.indexOf(lang)];
 			if(name == null) name = lang;
 
-			var text:Alphabet = new Alphabet(0, 300, LanguageManager.getPhrase('optionsLanguage' + capitalizeAndRemoveSpaces(name)), true);
+			var text:Alphabet = new Alphabet(0, 300, LanguageManager.getPhrase('optionsLanguage', capitalizeAndRemoveSpaces(name)), true);
 			text.isMenuItem = true;
 			text.targetY = languages.indexOf(lang);
 			text.changeX = false;
@@ -45,10 +45,10 @@ class LanguageSubState extends MusicBeatSubstate
 			if(languages.length < 7)
 			{
 				text.changeY = false;
-				text.screenCenter(Y);
+				text.screenCenter(flixel.util.FlxAxes.Y);
 				text.y += (100 * (languages.indexOf(lang) - (languages.length / 2))) + 45;
 			}
-			text.screenCenter(X);
+			text.screenCenter(flixel.util.FlxAxes.X);
 			grpLanguages.add(text);
 		}
 		

@@ -62,9 +62,9 @@ class FPSCounter extends Sprite
         {
             if (fpsMode == 0)
             {
-                developerModeText = LanguageManager.getPhrase('fpsCounterInfo')[0];
+                developerModeText = LanguageManager.getPhrase('fpsCounter', 'Info')[0];
             } else {
-                developerModeText = '\n\n' + LanguageManager.getPhrase('fpsCounterInfo')[0];
+                developerModeText = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[0];
             }
         } else {
             developerModeText = '';
@@ -74,18 +74,18 @@ class FPSCounter extends Sprite
         {
             if (CoolUtil.getCurrentState()[0])
             {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounterInfo')[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')';
+                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')';
             } else {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounterInfo')[4] + CoolUtil.getCurrentState()[1];
+                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + CoolUtil.getCurrentState()[1];
             }
         } else {
             if (CoolUtil.getCurrentState()[0])
             {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounterInfo')[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' + '\n' +
-                LanguageManager.getPhrase('fpsCounterInfo')[5] + CoolUtil.getCurrentSubState();
+                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' + '\n' +
+                LanguageManager.getPhrase('fpsCounter', 'Info')[5] + CoolUtil.getCurrentSubState();
             } else {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounterInfo')[4] + CoolUtil.getCurrentState()[1] + '\n' +
-                LanguageManager.getPhrase('fpsCounterInfo')[5] + CoolUtil.getCurrentSubState();
+                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + CoolUtil.getCurrentState()[1] + '\n' +
+                LanguageManager.getPhrase('fpsCounter', 'Info')[5] + CoolUtil.getCurrentSubState();
             }
         }
 
@@ -115,13 +115,13 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.globalVars.get('developerMode') && CoolUtil.getCurrentState()[1] != 'states.PlayState')
         {
-            configTipsTxt = '\n\n' + LanguageManager.getPhrase('fpsCounterInfo')[1];
+            configTipsTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[1];
 
             if (FlxG.keys.justPressed.F3)
             {
                 this.visible = false;
                 
-                LanguageManager.phrases = [];
+                LanguageManager.loadPhrases();
 
                 for (key in CoolVars.globalVars.keys())
                 {
@@ -161,41 +161,41 @@ class FPSCounter extends Sprite
                 textField.text = developerModeText
                 + configTipsTxt;
             case 1:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounterInfo')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsCounterInfo')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounter', 'Info')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + developerModeText
                 + configTipsTxt;
             case 2:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounterInfo')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsCounterInfo')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounter', 'Info')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt
                 + developerModeText
                 + configTipsTxt;
             case 3:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounterInfo')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsCounterInfo')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounter', 'Info')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt 
                 + '\n\n' + 
-                LanguageManager.getPhrase('fpsCounterInfo')[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
+                LanguageManager.getPhrase('fpsCounter', 'Info')[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
                 + '\n' +
-                LanguageManager.getPhrase('fpsCounterInfo')[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
+                LanguageManager.getPhrase('fpsCounter', 'Info')[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
                 + developerModeText
                 + configTipsTxt;
             case 4:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounterInfo')[2] + currentFPS
+                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
                 + '\n' + 
-                LanguageManager.getPhrase('fpsCounterInfo')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                LanguageManager.getPhrase('fpsCounter', 'Info')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt + '\n\n' + 
-                LanguageManager.getPhrase('fpsCounterInfo')[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
+                LanguageManager.getPhrase('fpsCounter', 'Info')[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
                 + '\n' +
-                LanguageManager.getPhrase('fpsCounterInfo')[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
+                LanguageManager.getPhrase('fpsCounter', 'Info')[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
                 + '\n\n' +
-                LanguageManager.getPhrase('fpsCounterInfo')[8] + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
+                LanguageManager.getPhrase('fpsCounter', 'Info')[8] + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
                 + '\n' +
-                LanguageManager.getPhrase('fpsCounterInfo')[9] + Capabilities.os
+                LanguageManager.getPhrase('fpsCounter', 'Info')[9] + Capabilities.os
                 + developerModeText
                 + configTipsTxt;
         }

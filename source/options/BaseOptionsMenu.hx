@@ -167,11 +167,11 @@ class BaseOptionsMenu extends MusicBeatSubstate
 						FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 						add(bindingBlack);
 	
-						bindingText = new Alphabet(FlxG.width / 2, 160, LanguageManager.getPhrase('optionsControlsRebinding1') + curOption.name, false);
+						bindingText = new Alphabet(FlxG.width / 2, 160, LanguageManager.getPhrase('optionsControls', 'Rebinding1') + curOption.name, false);
 						bindingText.alignment = CENTERED;
 						add(bindingText);
 						
-						bindingText2 = new Alphabet(FlxG.width / 2, 340, LanguageManager.getPhrase('optionsControlsRebinding2'), true);
+						bindingText2 = new Alphabet(FlxG.width / 2, 340, LanguageManager.getPhrase('optionsControls', 'Rebinding2'), true);
 						bindingText2.alignment = CENTERED;
 						add(bindingText2);
 	

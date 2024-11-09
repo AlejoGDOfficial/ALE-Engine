@@ -259,21 +259,13 @@ class HScript extends SScript
 
 		//Language Manager
 
-		set("setLanguages", function(names:Array<String>, abbr:Array<String>)
-		{
-			LanguageManager.setLanguages(names, abbr);
-		});
 		set("getSuffix", function()
 		{
 			return LanguageManager.getSuffix();
 		});
-		set("setPhrase", function(id:String, texts:Array<Dynamic>)
+		set("getPhrase", function(section:String, key:String)
 		{
-			LanguageManager.setPhrase(id, texts);
-		});
-		set("getPhrase", function(funcID:String)
-		{
-			return LanguageManager.getPhrase(funcID);
+			return LanguageManager.getPhrase(section, key);
 		});
 
 		//CPP

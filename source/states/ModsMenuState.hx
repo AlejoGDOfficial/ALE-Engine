@@ -104,7 +104,7 @@ class ModsMenuState extends MusicBeatState
 		var buttonWidth = Std.int(bgList.width);
 		var buttonHeight = 80;
 
-		buttonReload = new MenuButton(buttonX, bgList.y + bgList.height + 20, buttonWidth, buttonHeight, LanguageManager.getPhrase('modsMenuStateReloadButton'), reload);
+		buttonReload = new MenuButton(buttonX, bgList.y + bgList.height + 20, buttonWidth, buttonHeight, LanguageManager.getPhrase('modsMenuState', 'ReloadButton'), reload);
 		add(buttonReload);
 		
 		var myY = buttonReload.y + buttonReload.bg.height + 20;
@@ -119,7 +119,7 @@ class ModsMenuState extends MusicBeatState
 		});
 		add(buttonModFolder);*/
 
-		buttonEnableAll = new MenuButton(buttonX, myY, buttonWidth, buttonHeight, LanguageManager.getPhrase('modsMenuStateEnableAllButton'), function() {
+		buttonEnableAll = new MenuButton(buttonX, myY, buttonWidth, buttonHeight, LanguageManager.getPhrase('modsMenuState', 'EnableAllButton'), function() {
 			buttonEnableAll.ignoreCheck = false;
 			for (mod in modsGroup.members)
 			{
@@ -139,7 +139,7 @@ class ModsMenuState extends MusicBeatState
 		buttonEnableAll.focusChangeCallback = function(focus:Bool) if(!focus) buttonEnableAll.bg.color = FlxColor.GREEN;
 		add(buttonEnableAll);
 
-		buttonDisableAll = new MenuButton(buttonX, myY, buttonWidth, buttonHeight, LanguageManager.getPhrase('modsMenuStateDisableAllButton'), function() {
+		buttonDisableAll = new MenuButton(buttonX, myY, buttonWidth, buttonHeight, LanguageManager.getPhrase('modsMenuState', 'DisableAllButton'), function() {
 			buttonDisableAll.ignoreCheck = false;
 			for (mod in modsGroup.members)
 			{
@@ -166,14 +166,14 @@ class ModsMenuState extends MusicBeatState
 			buttonEnableAll.visible = true;
 
 			var myX = bgList.x + bgList.width + 20;
-			noModsTxt = new FlxText(myX, 0, FlxG.width - myX - 20, LanguageManager.getPhrase('modsMenuStateNoModsInstalled'), 48);
+			noModsTxt = new FlxText(myX, 0, FlxG.width - myX - 20, LanguageManager.getPhrase('modsMenuState', 'NoModsInstalled'), 48);
 			if(FlxG.random.bool(0.1)) noModsTxt.text += '\nBITCH.'; //meanie
 			noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			noModsTxt.borderSize = 2;
 			add(noModsTxt);
 			noModsTxt.screenCenter(Y);
 
-			var txt = new FlxText(bgList.x + 15, bgList.y + 15, bgList.width - 30, LanguageManager.getPhrase('modsMenuStateNoModsFound'), 16);
+			var txt = new FlxText(bgList.x + 15, bgList.y + 15, bgList.width - 30, LanguageManager.getPhrase('modsMenuState', 'NoModsFound'), 16);
 			txt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE);
 			add(txt);
 
@@ -204,7 +204,7 @@ class ModsMenuState extends MusicBeatState
 		add(modDesc);
 
 		var myHeight = 100;
-		modRestartText = new FlxText(bgDescription.x + 15, bgDescription.y + bgDescription.height - myHeight - 25, bgDescription.width - 30, LanguageManager.getPhrase('modsMenuStateModRestart'), 16);
+		modRestartText = new FlxText(bgDescription.x + 15, bgDescription.y + bgDescription.height - myHeight - 25, bgDescription.width - 30, LanguageManager.getPhrase('modsMenuState', 'ModRestart'), 16);
 		modRestartText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
 		add(modRestartText);
 
@@ -304,7 +304,7 @@ class ModsMenuState extends MusicBeatState
 		mustSelectOneMod.setFormat(Paths.font('vcr.ttf'), 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(mustSelectOneMod);
 		mustSelectOneMod.applyMarkup(
-			LanguageManager.getPhrase('modsMenuStateAtLeastOneMod'),
+			LanguageManager.getPhrase('modsMenuState', 'AtLeastOneMod'),
 			[new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('FF0000')), '*')]
 		);
 		mustSelectOneMod.y = FlxG.height - mustSelectOneMod.height - 20;

@@ -4,37 +4,37 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 {
 	public function new()
 	{
-		title = LanguageManager.getPhrase('optionsGameplayMenu');
+		title = LanguageManager.getPhrase('optionsGameplay', 'Menu');
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
 		//I'd suggest using "Downscroll" as an example for making your own option since it is the simplest here
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayDownscroll'), //Name
-			LanguageManager.getPhrase('optionsGameplayDownscrollDesc'), //Description
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'Downscroll'), //Name
+			LanguageManager.getPhrase('optionsGameplay', 'DownscrollDesc'), //Description
 			'downScroll', //Save data variable name
 			BOOL); //Variable type
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayGhostTapping'),
-			LanguageManager.getPhrase("optionsGameplayGhostTappingDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'GhostTapping'),
+			LanguageManager.getPhrase('optionsGameplay', 'GhostTappingDesc'),
 			'ghostTapping',
 			BOOL);
 		addOption(option);
 		
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayAutoPause'),
-			LanguageManager.getPhrase('optionsGameplayAutoPauseDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'AutoPause'),
+			LanguageManager.getPhrase('optionsGameplay', 'AutoPauseDesc'),
 			'autoPause',
 			BOOL);
 		addOption(option);
 		option.onChange = onChangeAutoPause;
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayDisableResetButton'),
-			LanguageManager.getPhrase('optionsGameplayDisableResetButtonDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'DisableResetButton'),
+			LanguageManager.getPhrase('optionsGameplay', 'DisableResetButtonDesc'),
 			'noReset',
 			BOOL);
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayRatingOffset'),
-			LanguageManager.getPhrase('optionsGameplayRatingOffsetDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'RatingOffset'),
+			LanguageManager.getPhrase('optionsGameplay', 'RatingOffsetDesc'),
 			'ratingOffset',
 			INT);
 		option.displayFormat = '%vms';
@@ -43,8 +43,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 30;
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplaySickHitWindow'),
-			LanguageManager.getPhrase('optionsGameplaySickHitWindowDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'SickHitWindow'),
+			LanguageManager.getPhrase('optionsGameplay', 'SickHitWindowDesc'),
 			'sickWindow',
 			INT);
 		option.displayFormat = '%vms';
@@ -53,8 +53,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 45;
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayGoodHitWindow'),
-			LanguageManager.getPhrase('optionsGameplayGoodHitWindowDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'GoodHitWindow'),
+			LanguageManager.getPhrase('optionsGameplay', 'GoodHitWindowDesc'),
 			'goodWindow',
 			INT);
 		option.displayFormat = '%vms';
@@ -63,8 +63,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 90;
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplayBadHitWindow'),
-			LanguageManager.getPhrase('optionsGameplayBadHitWindowDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'BadHitWindow'),
+			LanguageManager.getPhrase('optionsGameplay', 'BadHitWindowDesc'),
 			'badWindow',
 			INT);
 		option.displayFormat = '%vms';
@@ -73,8 +73,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 135;
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplaySafeFrames'),
-			LanguageManager.getPhrase('optionsGameplaySafeFramesDesc'),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGameplay', 'SafeFrames'),
+			LanguageManager.getPhrase('optionsGameplay', 'SafeFramesDesc'),
 			'safeFrames',
 			FLOAT);
 		option.scrollSpeed = 5;

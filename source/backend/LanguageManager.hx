@@ -19,60 +19,58 @@ class LanguageManager
 {
     public function new() {}
 
-    public static var phrases:Array<StringMap<Dynamic>> = [];
+    public static var jsonData:Dynamic;
 
     public static var languages:Array<String> = ['english'];
     public static var suffixes:Array<String> = ['eng'];
 
     public static var curLanguage:String = ClientPrefs.data.language;
 
-    public static function setLanguages(names:Array<String>, abbr:Array<String>)
+    public static function loadPhrases():Void
     {
-        languages = names;
-        suffixes = abbr;
-        LanguageSubState.languages = names;
-        
-        if (!languages.contains(ClientPrefs.data.language))
+        try {
+            var jsonString = File.getContent(Paths.modFolders("scripts/config/translations.json"));
+            if(!FileSystem.exists(jsonString))
+            {
+                jsonString = Paths.getSharedPath("scripts/config/translations.json"); 
+            }
+            
+            jsonData = haxe.format.JsonParser.parse(jsonString);
+        } catch (e:Dynamic) {
+            trace("Error loading JSON file: " + e);
+            return;
+        }
+
+        if (jsonData.languages != null && jsonData.languages.length >= 2)
         {
-            ClientPrefs.data.language = names[0];
-            curLanguage = ClientPrefs.data.language;
+            languages = jsonData.languages[0];
+            suffixes = jsonData.languages[1];
+            LanguageSubState.languages = languages;
+
+            if (!languages.contains(ClientPrefs.data.language))
+            {
+                ClientPrefs.data.language = languages[0];
+                curLanguage = ClientPrefs.data.language;
+            }
+        }
+        else
+        {
+            trace("Error: Expected sections not found in translations.json!");
         }
     }
 
-    public static function getSuffix()
+    public static function getPhrase(section:String, key:String):Dynamic
+    {
+        var langIndex = languages.indexOf(curLanguage);
+        var sectionData = Reflect.field(jsonData, section);
+        var keyData = Reflect.field(sectionData, key);
+        return keyData[langIndex];
+    }
+
+    public static function getSuffix():String
     {
         var index:Int = languages.indexOf(curLanguage);
 
         return '_' + suffixes[index];
-    }
-
-    public static function setPhrase(id:String, texts:Array<Dynamic>)
-    {
-        var phraseData:StringMap<Dynamic> = new StringMap();
-
-        phraseData.set('id', id);
-
-        for (i in 0...texts.length)
-        {
-            phraseData.set('text_' + languages[i], texts[i]);
-        }
-        
-        phrases.push(phraseData);
-    }
-
-    public static function getPhrase(funcID:String):Dynamic
-    {
-        for (phrase in phrases)
-        {
-            var id = phrase.get('id');
-            var text = phrase.get('text_' + curLanguage);
-
-            if (id == funcID)
-            {
-                return text;
-            }
-        }
-
-        return 'No text found';
     }
 }

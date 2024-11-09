@@ -326,7 +326,7 @@ class GameplayOption
 	public function new(name:String, variable:String, type:OptionType, defaultValue:Dynamic = 'null variable value', ?options:Array<String> = null)
 	{
 		_name = name;
-		this.name = LanguageManager.getPhrase('gameplayChangersSubstate' + name);
+		this.name = LanguageManager.getPhrase('gameplayChangersSubstate', name);
 		this.variable = variable;
 		this.type = type;
 		this.defaultValue = defaultValue;
@@ -399,7 +399,7 @@ class GameplayOption
 		if(child != null)
 		{
 			_text = newValue;
-			child.text = LanguageManager.getPhrase('gameplayChangersSubstate' + name);
+			child.text = LanguageManager.getPhrase('gameplayChangersSubstate', name);
 			return _text;
 		}
 		return null;

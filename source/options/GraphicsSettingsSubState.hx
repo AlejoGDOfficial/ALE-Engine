@@ -8,7 +8,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	var boyfriend:Character = null;
 	public function new()
 	{
-		title = LanguageManager.getPhrase('optionsGraphicsMenu');
+		title = LanguageManager.getPhrase('optionsGraphics', 'Menu');
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
 		boyfriend = new Character(840, 170, 'bf', true);
@@ -18,36 +18,36 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		boyfriend.animation.finishCallback = function (name:String) boyfriend.dance();
 		boyfriend.visible = false;
 
-		//I'd suggest using "Low Quality" as an example for making your own option since it is the simplest here
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphicsLowQuality'),
-		LanguageManager.getPhrase("optionsGraphicsLowQualityDesc"),
+		//I'd suggest using 'Low Quality' as an example for making your own option since it is the simplest here
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'LowQuality'),
+		LanguageManager.getPhrase('optionsGraphics', 'LowQualityDesc'),
 			'lowQuality', //Save data variable name
 			BOOL); //Variable type
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphicsAntiAliasing'),
-			LanguageManager.getPhrase("optionsGraphicsAntiAliasingDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'AntiAliasing'),
+			LanguageManager.getPhrase('optionsGraphics', 'AntiAliasingDesc'),
 			'antialiasing',
 			BOOL);
 		option.onChange = onChangeAntiAliasing; //Changing onChange is only needed if you want to make a special interaction after it changes the value
 		addOption(option);
 		antialiasingOption = optionsArray.length-1;
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphicsShaders'),
-			LanguageManager.getPhrase("optionsGraphicsShadersDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'Shaders'),
+			LanguageManager.getPhrase('optionsGraphics', 'ShadersDesc'),
 			'shaders',
 			BOOL);
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphicsGPUCaching'),
-			LanguageManager.getPhrase("optionsGraphicsGPUCachingDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'GPUCaching'),
+			LanguageManager.getPhrase('optionsGraphics', 'GPUCachingDesc'),
 			'cacheOnGPU',
 			BOOL);
 		addOption(option);
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphicsFramerate'),
-			LanguageManager.getPhrase("optionsGraphicsFramerateDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'Framerate'),
+			LanguageManager.getPhrase('optionsGraphics', 'FramerateDesc'),
 			'framerate',
 			INT);
 		addOption(option);

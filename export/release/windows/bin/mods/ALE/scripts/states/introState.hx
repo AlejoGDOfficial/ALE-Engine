@@ -138,7 +138,7 @@ function onBeatHit()
 
     if (!skippedIntro)
     {
-        changeShit(getPhrase('introStatePhrases')[sickBeats]);
+        changeShit(getPhrase('introState', 'Phrases')[sickBeats]);
 
         if (sickBeats == 16)
             skipIntro();

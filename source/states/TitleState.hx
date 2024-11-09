@@ -49,6 +49,8 @@ class TitleState extends MusicBeatState
 		ClientPrefs.loadPrefs();
 		AlphaCharacter.loadAlphabetData();
 
+		LanguageManager.loadPhrases();
+
 		CoolVars.globalVars.set('initialConfig', true);
 		CoolVars.globalVars.set('engineVersion', 'Alpha 4');
 

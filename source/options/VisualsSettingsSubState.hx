@@ -12,7 +12,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	var noteY:Float = 90;
 	public function new()
 	{
-		title = LanguageManager.getPhrase('optionsVisualsMenu');
+		title = LanguageManager.getPhrase('optionsVisuals', 'Menu');
 		rpcTitle = 'Visuals Settings Menu'; //for Discord Rich Presence
 
 		// for note skins
@@ -28,8 +28,8 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 
 		// options
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisualsSplashOpacity'),
-			LanguageManager.getPhrase("optionsVisualsSplashOpacityDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'SplashOpacity'),
+			LanguageManager.getPhrase('optionsVisuals', 'SplashOpacityDesc'),
 			'splashAlpha',
 			PERCENT);
 		option.scrollSpeed = 1.6;
@@ -39,14 +39,14 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.decimals = 1;
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisualsFlashingLights'),
-			LanguageManager.getPhrase("optionsVisualsFlashingLightsDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'FlashingLights'),
+			LanguageManager.getPhrase('optionsVisuals', 'FlashingLightsDesc'),
 			'flashing',
 			BOOL);
 		addOption(option);
 		
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisualsPauseMusic'),
-			LanguageManager.getPhrase("optionsVisualsPauseMusicDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'PauseMusic'),
+			LanguageManager.getPhrase('optionsVisuals', 'PauseMusicDesc'),
 			'pauseMusic',
 			STRING,
 			['None', 'Breakfast', 'Breakfast (Pico)']);
@@ -54,15 +54,15 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangePauseMusic;
 
 		#if DISCORD_ALLOWED
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisualsDiscordRichPresence'),
-			LanguageManager.getPhrase("optionsVisualsDiscordRichPresenceDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'DiscordRichPresence'),
+			LanguageManager.getPhrase('optionsVisuals', 'DiscordRichPresenceDesc'),
 			'discordRPC',
 			BOOL);
 		addOption(option);
 		#end
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisualsDiscordComboStacking'),
-			LanguageManager.getPhrase("optionsVisualsDiscordComboStackingDesc"),
+		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'DiscordComboStacking'),
+			LanguageManager.getPhrase('optionsVisuals', 'DiscordComboStackingDesc'),
 			'comboStacking',
 			BOOL);
 		addOption(option);

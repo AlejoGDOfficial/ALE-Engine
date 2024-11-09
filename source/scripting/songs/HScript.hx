@@ -204,9 +204,9 @@ class HScript extends SScript
 		{
 			return LanguageManager.getSuffix();
 		});
-		set("getPhrase", function(funcID:String)
+		set("getPhrase", function(section:String, key:String)
 		{
-			return LanguageManager.getPhrase(funcID);
+			return LanguageManager.getPhrase(section, key);
 		});
 
 		//CPP

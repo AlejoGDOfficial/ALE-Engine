@@ -160,9 +160,9 @@ class ControlsSubState extends MusicBeatSubstate
 					var text:Alphabet;
 					if (isDefaultKey)
 					{
-						text = new Alphabet(200, 300, LanguageManager.getPhrase('optionsControls' + str), !isDisplayKey);
+						text = new Alphabet(200, 300, LanguageManager.getPhrase('optionsControls', str), !isDisplayKey);
 					} else {
-						text = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup' + formatKeyStr(str)), !isDisplayKey);
+						text = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControlsKey', formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControlsGroup', formatKeyStr(str)), !isDisplayKey);
 					}
 					text.isMenuItem = true;
 					text.changeX = false;
@@ -326,11 +326,11 @@ class ControlsSubState extends MusicBeatSubstate
 					FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 					add(bindingBlack);
 
-					bindingText = new Alphabet(FlxG.width / 2, 160, LanguageManager.getPhrase('optionsControlsRebinding1') + options[curOptions[curSelected]][3], false);
+					bindingText = new Alphabet(FlxG.width / 2, 160, LanguageManager.getPhrase('optionsControls', 'Rebinding1') + options[curOptions[curSelected]][3], false);
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
-					bindingText2 = new Alphabet(FlxG.width / 2, 340, LanguageManager.getPhrase('optionsControlsRebinding2'), true);
+					bindingText2 = new Alphabet(FlxG.width / 2, 340, LanguageManager.getPhrase('optionsControls', 'Rebinding2'), true);
 					bindingText2.alignment = CENTERED;
 					add(bindingText2);
 

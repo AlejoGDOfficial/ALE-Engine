@@ -1,7 +1,5 @@
 function onCreate()
 {
-    setNewLanguages();
-
     setGlobalVars();
 
     finishConfig();

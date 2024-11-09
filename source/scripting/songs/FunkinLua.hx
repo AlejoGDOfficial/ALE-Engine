@@ -283,9 +283,9 @@ class FunkinLua {
 		{
 			return LanguageManager.getSuffix();
 		});
-		Lua_helper.add_callback(lua, "getPhrase", function(funcID:String)
+		Lua_helper.add_callback(lua, "getPhrase", function(section:String, key:String)
 		{
-			return LanguageManager.getPhrase(funcID);
+			return LanguageManager.getPhrase(section, key);
 		});
 
 		//CPP
