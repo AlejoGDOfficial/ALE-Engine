@@ -88,6 +88,8 @@ class LanguageSubState extends MusicBeatSubstate
 			ClientPrefs.saveSettings();
 			LanguageManager.curLanguage = languages[curSelected];
 			changedLanguage = true;
+			
+			FPSCounter.fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
 		}
 	}
 

@@ -73,13 +73,9 @@ class ScriptState extends MusicBeatState
 	
 	public static var fpsVar:FPSCounter;
 
-	var musicState:MusicBeatState;
-
     override public function create()
     {
-		Paths.clearStoredMemory();
-
-		musicState = new MusicBeatState();
+		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
 		
 		if (!CoolVars.fpsTextWasAdded)
 		{
@@ -177,7 +173,7 @@ class ScriptState extends MusicBeatState
 
 	function fixMusic()
 	{
-		musicState.resetMusicVars();
+		MusicBeatState.instance.resetMusicVars();
 		lastStepHit = -1;
 		lastBeatHit = -1;
 		lastSectionHit = -1;
@@ -651,6 +647,8 @@ class ScriptState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 			case 'states.editors.NoteSplashEditorState':
 				MusicBeatState.switchState(new NoteSplashEditorState());
+			case 'states.editors.LanguagesEditorState':
+				MusicBeatState.switchState(new LanguagesEditorState());
 		}
 	}
 

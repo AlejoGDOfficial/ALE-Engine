@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="FNF': ALE Engine" file="ALE Engine" packageName="com.shadowmario.aleengine" package="com.shadowmario.aleengine" main="Main" version="1.0" company="AlejoGDOfficial" />
+	<app title="Friday Night Funkin': ALE Engine" file="ALE Engine" packageName="com.alejogdofficial.aleengine" package="com.alejogdofficial.aleengine" main="Main" version="1.0" company="AlejoGDOfficial" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -92,7 +92,8 @@
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" version="5.6.1"/>
-	<haxelib name="flixel-addons" version="3.2.2"/>
+	<haxelib name="flixel-addons" version="3.2.3"/>
+	<haxelib name="flixel-ui" version="2.6.1"/>
 	<haxelib name="tjson" version="1.4.0"/>
 
 	<!--Psych stuff needed-->

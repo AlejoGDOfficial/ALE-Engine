@@ -12,7 +12,8 @@ var options:Array<String> = [
     'StageEditor',
     'DialogueEditor',
     'DialoguePortraitEditor',
-    'NoteSplashEditor'
+    'NoteSplashEditor',
+    'LanguagesEditor'
 ];
 
 var bg:FlxSprite;
@@ -42,7 +43,7 @@ function onCreate()
     texts = [];
 
     for (i in 0...options.length) {
-        var text = new FlxText(30, 50 + (i * 87), 0, getPhrase('masterEditorMenu', options[i]));
+        var text = new FlxText(30, 18 + (i * 87), 0, getPhrase('masterEditorMenu', options[i]));
         text.setFormat(Paths.font('emptyPhantomMuff.ttf'), 70, FlxColor.WHITE, 'left');
         add(text);
         text.borderStyle = FlxTextBorderStyle.OUTLINE;
@@ -124,6 +125,8 @@ function onUpdate(elapsed:Float)
         
             new FlxTimer().start(1, function(tmr:FlxTimer)
             {
+                if (selInt >= 0 && selInt < 7) FlxG.mouse.visible = true;
+
                 switch (selInt)
                 {
                     case 0:
@@ -139,12 +142,14 @@ function onUpdate(elapsed:Float)
                     case 5:
                         switchToSomeStates('states.editors.NoteSplashEditorState');
                     case 6:
+                        switchToSomeStates('states.editors.LanguagesEditorState');
+                    case 7:
                         switchToScriptState('mainMenuState', true);
-                        if (options[6] == 'HideConsole')
+                        if (options[7] == 'HideConsole')
                         {
                             hideConsole();
                             setGlobalVar('consoleVisible', false);
-                        } else if (options[6] == 'ShowConsole') {
+                        } else if (options[7] == 'ShowConsole') {
                             showConsole();
                             setGlobalVar('consoleVisible', true);
                         }

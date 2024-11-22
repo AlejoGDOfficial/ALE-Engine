@@ -16,15 +16,16 @@
 
 * `switchToSomeStates(stateName)`
     - Examples: <br/>
-        `switchToSomeStates('OptionsState')` <br/>
-        `switchToSomeStates('ChartingState')` <br/>
-        `switchToSomeStates('CharacterEditorState')` <br/>
-        `switchToSomeStates('StageEditorState')` <br/>
-        `switchToSomeStates('WeekEditorState')` <br/>
-        `switchToSomeStates('MenuCharacterEditorState')` <br/>
-        `switchToSomeStates('DialogueEditorState')` <br/>
-        `switchToSomeStates('DialogueCharacterEditorState')` <br/>
-        `switchToSomeStates('NoteSplashEditorState')`
+        `switchToSomeStates('options.OptionsState')` <br/>
+        `switchToSomeStates('states.editors.ChartingState')` <br/>
+        `switchToSomeStates('states.editors.CharacterEditorState')` <br/>
+        `switchToSomeStates('states.editors.StageEditorState')` <br/>
+        `switchToSomeStates('states.editors.WeekEditorState')` <br/>
+        `switchToSomeStates('states.editors.MenuCharacterEditorState')` <br/>
+        `switchToSomeStates('states.editors.DialogueEditorState')` <br/>
+        `switchToSomeStates('states.editors.DialogueCharacterEditorState')` <br/>
+        `switchToSomeStates('states.editors.NoteSplashEditorState')` <br/>
+        `switchToSomeStates('states.editors.LanguagesEditorState')`
 
 #### Used to open Specific SubStates.
 
@@ -201,30 +202,18 @@
 
 </details>
 
-<details><summary><h2>Language Functions</h2></summary>
+<details><summary><h2>Languages Functions</h2></summary>
 
 > Can be used in all types of script!
 
 #### Used to get any phrase in the current language.
 
-* `getPhrase(id)`
-    - Example: `getPhrase('pauseSubStatePracticeMode')`
+* `getPhrase(section, key)`
+    - Example: `getPhrase('pauseSubState', 'PracticeMode')`
 
 #### Used to get the suffix for the current language.
 
 * `getSuffix()`
-
-> Can only be used in Script States! (script/states/config/config.hx)
-
-#### Used to set the Languages that will be able in the game.
-
-* `setLanguages(names, abbreviations)`
-    - Example: `setLanguages(['English', 'Spanish'], ['eng', 'span'])`
-
-#### Used to set any phrase in the able languages.
-
-* `setPhrase(id, phrases)`
-    - Example: `setPhrase('introStateWater', ['Water', 'Agua'])`
 
 </details>
 

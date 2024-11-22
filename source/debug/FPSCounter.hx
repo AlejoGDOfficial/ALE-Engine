@@ -22,6 +22,8 @@ class FPSCounter extends Sprite
     var background:Shape;
     var textField:TextField;
 
+    public static var fpsInfoShit:Array<String>;
+
     @:noCompletion private var times:Array<Float>;
 
     public function new()
@@ -42,6 +44,8 @@ class FPSCounter extends Sprite
         textField.text = "FPS: ";
         addChild(textField);
 
+        fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
+
         times = [];
     }
 
@@ -58,34 +62,37 @@ class FPSCounter extends Sprite
             return;
         }
 
-        if (CoolVars.globalVars.get('developerMode'))
+        if (fpsInfoShit != null)
         {
-            if (fpsMode == 0)
+            if (CoolVars.globalVars.get('developerMode'))
             {
-                developerModeText = LanguageManager.getPhrase('fpsCounter', 'Info')[0];
+                if (fpsMode == 0)
+                {
+                    developerModeText = fpsInfoShit[0];
+                } else {
+                    developerModeText = '\n\n' + fpsInfoShit[0];
+                }
             } else {
-                developerModeText = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[0];
+                developerModeText = '';
             }
-        } else {
-            developerModeText = '';
-        }
-        
-        if (CoolUtil.getCurrentSubState() == null)
-        {
-            if (CoolUtil.getCurrentState()[0])
+            
+            if (CoolUtil.getCurrentSubState() == null)
             {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')';
+                if (CoolUtil.getCurrentState()[0])
+                {
+                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')';
+                } else {
+                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + CoolUtil.getCurrentState()[1];
+                }
             } else {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + CoolUtil.getCurrentState()[1];
-            }
-        } else {
-            if (CoolUtil.getCurrentState()[0])
-            {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' + '\n' +
-                LanguageManager.getPhrase('fpsCounter', 'Info')[5] + CoolUtil.getCurrentSubState();
-            } else {
-                stateInfoTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[4] + CoolUtil.getCurrentState()[1] + '\n' +
-                LanguageManager.getPhrase('fpsCounter', 'Info')[5] + CoolUtil.getCurrentSubState();
+                if (CoolUtil.getCurrentState()[0])
+                {
+                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' + '\n' +
+                    fpsInfoShit[5] + CoolUtil.getCurrentSubState();
+                } else {
+                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + CoolUtil.getCurrentState()[1] + '\n' +
+                    fpsInfoShit[5] + CoolUtil.getCurrentSubState();
+                }
             }
         }
 
@@ -115,7 +122,7 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.globalVars.get('developerMode') && CoolUtil.getCurrentState()[1] != 'states.PlayState')
         {
-            configTipsTxt = '\n\n' + LanguageManager.getPhrase('fpsCounter', 'Info')[1];
+            configTipsTxt = '\n\n' + fpsInfoShit[1];
 
             if (FlxG.keys.justPressed.F3)
             {
@@ -133,6 +140,8 @@ class FPSCounter extends Sprite
                 
                 CoolVars.globalVars.set('initialConfig', false);
                 CoolVars.globalVars.set('reconfigureData', CoolUtil.getCurrentState());
+                
+                fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
                 
                 MusicBeatState.switchState(new ScriptState('configGame'));
             }
@@ -155,49 +164,52 @@ class FPSCounter extends Sprite
 
     public dynamic function updateText():Void 
     {
-        switch (fpsMode)
+        if (fpsInfoShit != null)
         {
-            case 0:
-                textField.text = developerModeText
-                + configTipsTxt;
-            case 1:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
-                + '\n' + 
-                LanguageManager.getPhrase('fpsCounter', 'Info')[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                + developerModeText
-                + configTipsTxt;
-            case 2:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
-                + '\n' + 
-                LanguageManager.getPhrase('fpsCounter', 'Info')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                + stateInfoTxt
-                + developerModeText
-                + configTipsTxt;
-            case 3:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
-                + '\n' + 
-                LanguageManager.getPhrase('fpsCounter', 'Info')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                + stateInfoTxt 
-                + '\n\n' + 
-                LanguageManager.getPhrase('fpsCounter', 'Info')[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
-                + '\n' +
-                LanguageManager.getPhrase('fpsCounter', 'Info')[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
-                + developerModeText
-                + configTipsTxt;
-            case 4:
-                textField.text = '' + LanguageManager.getPhrase('fpsCounter', 'Info')[2] + currentFPS
-                + '\n' + 
-                LanguageManager.getPhrase('fpsCounter', 'Info')[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                + stateInfoTxt + '\n\n' + 
-                LanguageManager.getPhrase('fpsCounter', 'Info')[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
-                + '\n' +
-                LanguageManager.getPhrase('fpsCounter', 'Info')[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
-                + '\n\n' +
-                LanguageManager.getPhrase('fpsCounter', 'Info')[8] + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
-                + '\n' +
-                LanguageManager.getPhrase('fpsCounter', 'Info')[9] + Capabilities.os
-                + developerModeText
-                + configTipsTxt;
+            switch (fpsMode)
+            {
+                case 0:
+                    textField.text = developerModeText
+                    + configTipsTxt;
+                case 1:
+                    textField.text = '' + fpsInfoShit[2] + currentFPS
+                    + '\n' + 
+                    fpsInfoShit[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                    + developerModeText
+                    + configTipsTxt;
+                case 2:
+                    textField.text = '' + fpsInfoShit[2] + currentFPS
+                    + '\n' + 
+                    fpsInfoShit[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                    + stateInfoTxt
+                    + developerModeText
+                    + configTipsTxt;
+                case 3:
+                    textField.text = '' + fpsInfoShit[2] + currentFPS
+                    + '\n' + 
+                    fpsInfoShit[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                    + stateInfoTxt 
+                    + '\n\n' + 
+                    fpsInfoShit[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
+                    + '\n' +
+                    fpsInfoShit[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
+                    + developerModeText
+                    + configTipsTxt;
+                case 4:
+                    textField.text = '' + fpsInfoShit[2] + currentFPS
+                    + '\n' + 
+                    fpsInfoShit[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                    + stateInfoTxt + '\n\n' + 
+                    fpsInfoShit[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
+                    + '\n' +
+                    fpsInfoShit[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
+                    + '\n\n' +
+                    fpsInfoShit[8] + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
+                    + '\n' +
+                    fpsInfoShit[9] + Capabilities.os
+                    + developerModeText
+                    + configTipsTxt;
+            }
         }
 
         if (currentFPS < FlxG.drawFramerate * 0.5)

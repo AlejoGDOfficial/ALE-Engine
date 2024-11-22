@@ -199,4 +199,71 @@ class CoolUtil
 	{
 		return FlxMath.bound(ratio * FlxG.elapsed * 60, 0, 1);
 	}
+
+    public static function getNestedValue(array:Dynamic, path:String):Dynamic 
+	{
+        var indices = path.split(' ').filter(function(s) return s != "");
+        var result:Dynamic = array;
+        for (index in indices) 
+		{
+            if (Std.isOfType(result, Array)) 
+			{
+                result = (result:Array<Dynamic>)[Std.parseInt(index)];
+            } else {
+                return null;
+            }
+        }
+        return result;
+    }
+
+	public static function setNestedValue(array:Dynamic, path:String, value:Dynamic):Bool 
+	{
+		var indices = path.split(' ').filter(function(s) return s != "");
+		var target:Dynamic = array;
+		var lastIndex = indices.length - 1;
+	
+		for (i in 0...lastIndex) 
+		{
+			var index = Std.parseInt(indices[i]);
+			if (Std.isOfType(target, Array) && index != null) 
+			{
+				target = (target:Array<Dynamic>)[index];
+			} else {
+				return false;
+			}
+		}
+
+		var finalIndex = Std.parseInt(indices[lastIndex]);
+		if (Std.isOfType(target, Array) && finalIndex != null) 
+		{
+			(target:Array<Dynamic>)[finalIndex] = value;
+			return true;
+		}
+	
+		return false;
+	}
+	
+	public static function removeNestedValue(array:Dynamic, path:String):Bool 
+	{
+		var indices = path.split(' ').filter(function(s) return s != "");
+		var target:Dynamic = array;
+		var lastIndex = indices.length - 1;
+	
+		for (i in 0...lastIndex) {
+			var index = Std.parseInt(indices[i]);
+			if (Std.isOfType(target, Array) && index != null) {
+				target = (target:Array<Dynamic>)[index];
+			} else {
+				return false;
+			}
+		}
+		
+		var finalIndex = Std.parseInt(indices[lastIndex]);
+		if (Std.isOfType(target, Array) && finalIndex != null && finalIndex >= 0 && finalIndex < target.length) {
+			(target:Array<Dynamic>).splice(finalIndex, 1);
+			return true;
+		}
+	
+		return false;
+	}	
 }
