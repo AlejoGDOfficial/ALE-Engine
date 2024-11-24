@@ -2,6 +2,7 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
+import backend.DiscordClient;
 import backend.CoolUtil;
 
 var texts:Array<FlxText>;
@@ -24,6 +25,8 @@ var consoleVisible:Bool = false;
 
 function onCreate()
 {
+    DiscordClient.changePresence('In the Menus...', 'Master Editor Menu');
+
     if (existsGlobalVar('consoleVisible') && getGlobalVar('consoleVisible'))
     {
         options.push('HideConsole');

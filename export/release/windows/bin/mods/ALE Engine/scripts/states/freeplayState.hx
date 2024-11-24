@@ -4,6 +4,7 @@ import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import backend.CoolUtil;
+import backend.DiscordClient;
 import flixel.math.FlxRect;
 import objects.HealthIcon;
 
@@ -23,6 +24,8 @@ weeks.push(weekName);
 
 function onCreate()
 {
+    DiscordClient.changePresence('In the Menus...', 'Freeplay Menu');
+
     var testWeek:StringMap<Dynamic> = new StringMap();
     setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
     weeks.push(testWeek);

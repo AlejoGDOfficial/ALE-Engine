@@ -2,6 +2,7 @@ import haxe.ds.StringMap;
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
+import backend.DiscordClient;
 import backend.CoolUtil;
 
 var weeks:Array<StringMap<Dynamic>> = [];
@@ -17,6 +18,8 @@ weeks.push(weekName);
 
 function onCreate()
 {
+    DiscordClient.changePresence('In the Menus...', 'Story Menu');
+
     var testWeek:StringMap<Dynamic> = new StringMap();
     setWeekData(testWeek, 'Test', ['Test'], ['Normal']);
     weeks.push(testWeek);

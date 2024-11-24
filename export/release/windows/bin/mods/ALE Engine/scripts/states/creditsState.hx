@@ -3,6 +3,7 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
+import backend.DiscordClient;
 import backend.CoolUtil;
 import flixel.math.FlxRect;
 
@@ -24,6 +25,8 @@ var devsSelInt:Int = 0;
 
 function onCreate()
 {
+    DiscordClient.changePresence('In the Menus...', 'Credits Menu');
+
     if (existsGlobalVar('creditsStateSelInt'))
     {
         devsSelInt = getGlobalVar('creditsStateSelInt');

@@ -1,4 +1,5 @@
 import backend.CoolUtil;
+import backend.DiscordClient;
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
@@ -21,6 +22,8 @@ var selInt:Int = 0;
 
 function onCreate()
 {
+    DiscordClient.changePresence('In the Menus...', 'Main Menu');
+
     if (existsGlobalVar('mainMenuStateSelInt'))
     {
         selInt = getGlobalVar('mainMenuStateSelInt');

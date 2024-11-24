@@ -2,6 +2,7 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import backend.LanguageManager;
+import backend.DiscordClient;
 
 var skippedIntro:Bool = false;
 
@@ -13,7 +14,7 @@ var titleText:FlxSprite;
 
 function onCreate()
 {
-    trace(getSuffix());
+    DiscordClient.changePresence('In the Menus...', 'Intro Menu');
 
     epicTexts = new FlxText(0, 0, FlxG.width, '');
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
