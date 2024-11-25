@@ -46,7 +46,7 @@ class ScriptState extends MusicBeatState
 {
     public static var targetFileName:String; 
 
-    public function new(scriptName:String) 
+    public function new(?scriptName:String = 'configGame') 
     {
         super();
 
@@ -76,18 +76,6 @@ class ScriptState extends MusicBeatState
     override public function create()
     {
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
-		
-		if (!CoolVars.fpsTextWasAdded)
-		{
-			CoolVars.fpsTextWasAdded = true;
-
-			#if !mobile
-			fpsVar = new FPSCounter();
-			FlxG.game.addChild(fpsVar);
-			Lib.current.stage.align = "tl";
-			Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-			#end
-		}
 
         instance = this;
 
@@ -98,6 +86,33 @@ class ScriptState extends MusicBeatState
 		
 		if (targetFileName == 'configGame')
 		{
+			AlphaCharacter.loadAlphabetData();
+	
+			LanguageManager.loadPhrases();
+	
+			cpp.WindowsCPP.setWindowLayered();
+			
+			cpp.WindowsCPP.setWindowBorderColor(32, 32, 32);
+
+			CoolVars.globalVars.set('initialConfig', true);
+			CoolVars.globalVars.set('engineVersion', 'Alpha 5');
+
+			ClientPrefs.loadPrefs();
+
+			Paths.clearStoredMemory();
+
+			if (!CoolVars.fpsTextWasAdded)
+			{
+				CoolVars.fpsTextWasAdded = true;
+	
+				#if !mobile
+				fpsVar = new FPSCounter();
+				FlxG.game.addChild(fpsVar);
+				Lib.current.stage.align = "tl";
+				Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+				#end
+			}
+
 			fpsVar.visible = true;
 
 			#if LUA_ALLOWED startLuasNamed('scripts/config/config.lua'); #end
