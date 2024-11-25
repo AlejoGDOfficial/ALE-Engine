@@ -217,7 +217,7 @@ function onUpdate(elapsed:Float)
 
         if (controls.BACK)
         {
-            switchToScriptState('mainMenuState', true);
+            MusicBeatState.switchState(new ScriptState('mainMenuState'));
 
             FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
 
@@ -252,7 +252,7 @@ function onUpdate(elapsed:Float)
 
         if (FlxG.keys.justPressed.CONTROL)
         {
-            openSomeSubStates('substates.GameplayChangersSubstate');
+            ScriptState.instance.openSubState(new substates.GameplayChangersSubstate());
         }
     }
     

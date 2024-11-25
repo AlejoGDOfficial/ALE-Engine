@@ -21,11 +21,11 @@ function finishConfig()
     if (getGlobalVar('initialConfig'))
     {
         setGlobalVar('initialConfig', false);
-        switchToScriptState(getGlobalVar('initialState'));
+        MusicBeatState.switchState(new ScriptState(getGlobalVar('initialState')));
     } else {
         if (getGlobalVar("reconfigureData")[0])
         {
-            switchToScriptState(getGlobalVar("reconfigureData")[1]);
+            MusicBeatState.switchState(new ScriptState(getGlobalVar("reconfigureData")[1]));
         } else {
             switchToSomeStates(getGlobalVar("reconfigureData")[1]);
         }

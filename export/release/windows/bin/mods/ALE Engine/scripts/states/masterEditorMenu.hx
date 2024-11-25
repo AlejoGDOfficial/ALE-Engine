@@ -67,7 +67,7 @@ function onUpdate(elapsed:Float)
     {
         if (controls.BACK)
         {
-            switchToScriptState('mainMenuState', true);
+            MusicBeatState.switchState(new ScriptState('mainMenuState'));
 
             FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
 
@@ -133,19 +133,19 @@ function onUpdate(elapsed:Float)
                 switch (selInt)
                 {
                     case 0:
-                        switchToSomeStates('states.editors.ChartingState');
+                        MusicBeatState.switchState(new states.editors.ChartingState());
                     case 1:
-                        switchToSomeStates('states.editors.CharacterEditorState');
+                        MusicBeatState.switchState(new states.editors.CharacterEditorState());
                     case 2:
-                        switchToSomeStates('states.editors.StageEditorState');
+                        MusicBeatState.switchState(new states.editors.StageEditorState());
                     case 3:
-                        switchToSomeStates('states.editors.DialogueEditorState');
+                        MusicBeatState.switchState(new states.editors.DialogueEditorState());
                     case 4:
-                        switchToSomeStates('states.editors.DialogueCharacterEditorState');
+                        MusicBeatState.switchState(new states.editors.DialogueCharacterEditorState());
                     case 5:
-                        switchToSomeStates('states.editors.NoteSplashEditorState');
+                        MusicBeatState.switchState(new states.editors.NoteSplashEditorState());
                     case 6:
-                        switchToSomeStates('states.editors.LanguagesEditorState');
+                        MusicBeatState.switchState(new states.editors.LanguagesEditorState());
                     case 7:
                         switchToScriptState('mainMenuState', true);
                         if (options[7] == 'HideConsole')
@@ -158,11 +158,6 @@ function onUpdate(elapsed:Float)
                         }
                 }
             });
-        }
-	
-        if (controls.justPressed('debug_1'))
-        {
-            switchToScriptState('masterEditorMenu', true);
         }
     }
 }

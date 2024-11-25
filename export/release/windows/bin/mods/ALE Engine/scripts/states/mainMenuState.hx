@@ -7,6 +7,8 @@ import flixel.text.FlxTextBorderStyle;
 import cpp.*;
 import backend.LanguageManager;
 import backend.ClientPrefs;
+import options.OptionsState;
+import states.PlayState;
 
 var bg:FlxSprite;
 var magentaBg:FlxSprite;
@@ -86,7 +88,7 @@ function onUpdate(elapsed:Float)
     
             new FlxTimer().start(0.25, function(tmr:FlxTimer)
             {
-                switchToScriptState('introState', true);
+                MusicBeatState.switchState(new ScriptState('introState', true));
             });
 
             setGlobalVar('mainMenuStateSelInt', selInt);
@@ -143,20 +145,27 @@ function onUpdate(elapsed:Float)
                 switch (selectedMenu)
                 {
                     case 'storyMode':
-                        switchToScriptState('storyMenuState', true);
+                        MusicBeatState.switchState(new ScriptState('storyMenuState', true));
                     case 'freeplay':
-                        switchToScriptState('freeplayState', true);
+                        MusicBeatState.switchState(new ScriptState('freeplayState', true));
                     case 'credits':
-                        switchToScriptState('creditsState', true);
+                        MusicBeatState.switchState(new ScriptState('creditsState', true));
                     case 'options':
-                        switchToSomeStates('options.OptionsState', true);
+                        MusicBeatState.switchState(new options.OptionsState());
+                        OptionsState.onPlayState = false;
+                        if (PlayState.SONG != null)
+                        {
+                            PlayState.SONG.arrowSkin = null;
+                            PlayState.SONG.splashSkin = null;
+                            PlayState.stageUI = 'normal';
+                        }
                 }
             });
         }
 	
         if (controls.justPressed('debug_1'))
         {
-            switchToScriptState('masterEditorMenu', true);
+            MusicBeatState.switchState(new ScriptState('masterEditorMenu', true));
         }
     }
 

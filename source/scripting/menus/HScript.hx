@@ -132,6 +132,8 @@ class HScript extends SScript
 		set('FlxAnimate', FlxAnimate);
 		#end
 		set('Lib', Lib);
+		set('CoolVars', backend.CoolVars);
+		set('MusicBeatState', backend.MusicBeatState);
 
 		//ALE Shit INIT
 

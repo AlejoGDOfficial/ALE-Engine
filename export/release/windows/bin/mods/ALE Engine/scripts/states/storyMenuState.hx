@@ -136,7 +136,7 @@ function onUpdate(elapsed:Float)
 
         if (controls.BACK)
         {
-            switchToScriptState('mainMenuState', true);
+            MusicBeatState.switchState(new ScriptState('mainMenuState'));
 
             canSelect = false;
         }

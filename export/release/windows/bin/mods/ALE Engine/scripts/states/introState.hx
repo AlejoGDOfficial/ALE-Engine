@@ -97,7 +97,7 @@ function onUpdate(elapsed:Float)
 
             new FlxTimer().start(1.2, function(tmr:FlxTimer)
             {
-                switchToScriptState('mainMenuState', true);
+                MusicBeatState.switchState(new ScriptState('mainMenuState', true));
             });
         } else {
             skipIntro();

@@ -620,14 +620,12 @@ class ScriptState extends MusicBeatState
 		return false;
 	}
 
-    public function switchToScriptState(name:String, ?doTransition:Bool = false)
+    public function switchToScriptState(name:String, ?doTransition:Bool = true)
     {
-        if (doTransition)
-        {
-            MusicBeatState.switchState(new ScriptState(name));
-        } else {
-            FlxG.switchState(new ScriptState(name));
-        }
+		FlxTransitionableState.skipNextTransIn = !doTransition;
+		FlxTransitionableState.skipNextTransOut = !doTransition;
+
+		MusicBeatState.switchState(new ScriptState(name));
     }
 
 	public function resetScriptState(?doTransition:Bool = false)
