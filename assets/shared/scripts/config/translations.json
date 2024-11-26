@@ -699,34 +699,10 @@
             "VOLUMEN"
         ]
     },
-    "modsMenuState": {
-        "AtLeastOneMod": [
-            "At least *ONE MOD* Must be Selected",
-            "Al menos *UN MOD* debe ser seleccionado"
-        ],
-        "ModRestart": [
-            "* Moving or Toggling On/Off this Mod will restart the game.",
-            "* Mover o Activar/Desactivar este Mod Reiniciará el Juego."
-        ],
-        "EnableAllButton": [
-            "ENABLE ALL",
-            "ACTIVAR TODO"
-        ],
+    "modsMenuSubState": {
         "NoModsInstalled": [
-            "NO MODS INSTALLED\nPRESS BACK TO EXIT OR INSTALL A MOD",
-            "NO HAY MODS\nPRESIONA VOLVER PARA SALIR O INSTALAR UN MOD"
-        ],
-        "ReloadButton": [
-            "RELOAD",
-            "RECARGAR"
-        ],
-        "DisableAllButton": [
-            "DISABLE ALL",
-            "DESACTIVAR TODO"
-        ],
-        "NoModsFound": [
-            "No Mods Found.",
-            "No se Encontraron Mods."
+            "No Mods Installed\nPress BACK to exit and Install a Mod",
+            "No hay Mods Instalados\nPresiona VOLVER para Salir e Instala un Mod"
         ]
     },
     "optionsGameplay": {

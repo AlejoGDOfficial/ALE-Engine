@@ -15,6 +15,8 @@ class ModsMenuSubState extends MusicBeatSubstate
 
     var texts:Array<Alphabet> = [];
 
+    var noModsInstalledText:FlxText;
+
     override public function create()
     {
         FlxG.camera.zoom = 1;
@@ -38,21 +40,35 @@ class ModsMenuSubState extends MusicBeatSubstate
             destinationX += 25;
             destinationY += 100;
         }
-
-        if (Mods.getGlobalMods().length < 1) close();
     
         changeShit();
+
+		noModsInstalledText = new FlxText(0, 0, FlxG.width, LanguageManager.getPhrase('modsMenuSubState', 'NoModsInstalled'));
+		noModsInstalledText.setFormat(Paths.font("vcr.ttf"), 35, FlxColor.WHITE, 'center');
+		noModsInstalledText.borderStyle = FlxTextBorderStyle.OUTLINE;
+		noModsInstalledText.borderSize = 1;
+		noModsInstalledText.borderColor = FlxColor.BLACK;
+		noModsInstalledText.borderSize = 1.25;
+        noModsInstalledText.y = FlxG.height / 2 - noModsInstalledText.height / 2;
+		add(noModsInstalledText);
+        noModsInstalledText.visible = Mods.getGlobalMods().length < 1;
 
         super.create();
     }
     
     var selInt:Int = 0;
     var canSelect:Bool = true;
+
+    var curTime:Float = 0;
     
     override public function update(elapsed:Float)
     {
         bg.y -= elapsed * 100;
         bg.x -= elapsed * 100;
+
+        curTime += elapsed;
+
+        if (noModsInstalledText.visible) noModsInstalledText.alpha = 0.5 + Math.sin(curTime * 2) * 0.5;
         
         if (canSelect)
         {
@@ -124,17 +140,5 @@ class ModsMenuSubState extends MusicBeatSubstate
         }
     
         if (Mods.getGlobalMods().length > 1) FlxG.sound.play(Paths.sound('scrollMenu'));
-    }
-
-    override public function beatHit()
-    {
-        if (curBeat % 2 == 1)
-        {
-            if (bg.angle >= 360) bg.angle = 0;
-    
-            FlxTween.tween(bg, {angle: bg.angle + 90}, 90 / Conductor.bpm, {ease:FlxEase.cubeOut});
-        }
-
-        super.beatHit();
     }
 }
