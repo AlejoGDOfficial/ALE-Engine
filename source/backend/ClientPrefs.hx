@@ -75,6 +75,7 @@ import flixel.input.gamepad.FlxGamepadInputID;
 	public var discordRPC:Bool = true;
 	public var loadingScreen:Bool = true;
 	public var language:String = 'english';
+	public var currentModFolder:String = 'ALE Engine';
 }
 
 class ClientPrefs {
@@ -231,6 +232,9 @@ class ClientPrefs {
 		}
 
 		LanguageManager.curLanguage = data.language;
+
+		if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder)))
+			Mods.currentModDirectory = data.currentModFolder;
 	}
 
 	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic

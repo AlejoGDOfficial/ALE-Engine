@@ -84,7 +84,6 @@ class LanguageSubState extends MusicBeatSubstate
 		{
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.6);
 			ClientPrefs.data.language = languages[curSelected];
-			//trace(ClientPrefs.data.language);
 			ClientPrefs.saveSettings();
 			LanguageManager.curLanguage = languages[curSelected];
 			changedLanguage = true;

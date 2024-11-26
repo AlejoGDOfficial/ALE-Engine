@@ -1,18 +1,14 @@
 import backend.Mods;
 import backend.DiscordClient;
 import objects.Alphabet;
+import objects.AlphaCharacter;
+import backend.LanguageManager;
+import backend.DiscordClient;
 
 var texts:Array<Alphabet> = [];
 
 function onCreate()
 {
-    objects.AlphaCharacter.loadAlphabetData();
-
-    backend.LanguageManager.loadPhrases();
-    
-    DiscordClient.changePresence('In the Menus...', 'Mods Menu');
-
-    Mods.pushGlobalMods();
 
     var destinationY:Int = 0;
 
@@ -80,7 +76,8 @@ function onUpdate(elapsed:Float)
 
         new FlxTimer().start(1, function(tmr:FlxTimer)
         {
-            ScriptState.instance.openSubState(new substates.GameplayChangersSubstate());
+            DiscordClient.shutdown();
+            FlxG.resetGame();
         });
     }
 }

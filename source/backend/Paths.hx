@@ -402,20 +402,15 @@ class Paths
 
 	static public function modFolders(key:String)
 	{
-		if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
+		if (Mods.currentModDirectory != null)
 		{
 			var fileToCheck:String = mods(Mods.currentModDirectory + '/' + key);
+
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 		}
 
-		for(mod in Mods.getGlobalMods())
-		{
-			var fileToCheck:String = mods(mod + '/' + key);
-			if(FileSystem.exists(fileToCheck))
-				return fileToCheck;
-		}
-		return 'mods/' + key;
+		return null;
 	}
 	#end
 

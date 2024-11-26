@@ -86,21 +86,6 @@ class ScriptState extends MusicBeatState
 		
 		if (targetFileName == 'configGame')
 		{
-			AlphaCharacter.loadAlphabetData();
-	
-			LanguageManager.loadPhrases();
-	
-			cpp.WindowsCPP.setWindowLayered();
-			
-			cpp.WindowsCPP.setWindowBorderColor(32, 32, 32);
-
-			CoolVars.globalVars.set('initialConfig', true);
-			CoolVars.globalVars.set('engineVersion', 'Alpha 5');
-
-			ClientPrefs.loadPrefs();
-
-			Paths.clearStoredMemory();
-
 			if (!CoolVars.fpsTextWasAdded)
 			{
 				CoolVars.fpsTextWasAdded = true;

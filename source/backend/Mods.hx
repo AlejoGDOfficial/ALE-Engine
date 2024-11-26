@@ -12,7 +12,7 @@ typedef ModsList = {
 
 class Mods
 {
-	static public var currentModDirectory:String = '';
+	static public var currentModDirectory:String = 'ALE Engine';
 
 	public static final ignoreModFolders:Array<String> = [
 		'characters',

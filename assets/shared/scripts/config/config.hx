@@ -9,7 +9,7 @@ function setGlobalVars()
 {
     setGlobalVar('developerMode', true);
 
-    setGlobalVar('initialState', 'ModsMenuState');
+    setGlobalVar('initialState', 'introState');
     setGlobalVar('fromPlayStateIfStoryMode', 'storyMenuState');
     setGlobalVar('fromPlayStateIfFreeplay', 'freeplayState');
     setGlobalVar('fromEditors', 'masterEditorMenu');
@@ -21,7 +21,6 @@ function finishConfig()
     if (getGlobalVar('initialConfig'))
     {
         setGlobalVar('initialConfig', false);
-
         MusicBeatState.switchState(new ScriptState(getGlobalVar('initialState')));
     } else {
         if (getGlobalVar("reconfigureData")[0])
