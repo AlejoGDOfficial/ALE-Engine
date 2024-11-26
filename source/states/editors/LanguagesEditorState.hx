@@ -7,6 +7,8 @@ import haxe.Json;
 
 import states.editors.content.Prompt;
 
+import openfl.net.FileReference;
+
 class LanguagesEditorState extends MusicBeatState
 {
     var defaultData:Dynamic;
@@ -64,11 +66,13 @@ class LanguagesEditorState extends MusicBeatState
     {
 		FlxG.sound.music.stop();
 
-		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
+        var jsonToLoad:String = Paths.modFolders('scripts/config/translations.json');
 
-        jsonData = haxe.Json.parse(sys.io.File.getContent(Paths.modFolders('scripts/config/translations.json')));
+		if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('scripts/config/translations.json');
 
-        defaultData = haxe.Json.parse(sys.io.File.getContent(Paths.modFolders('scripts/config/translations.json')));
+        jsonData = haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
+
+        defaultData = haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
 
 		LanguageManager.loadPhrases();
 
@@ -116,15 +120,17 @@ class LanguagesEditorState extends MusicBeatState
     function saveData()
     {
         try {
-            Json.parse(jsonData);
+            Json.parse(haxe.Json.stringify(jsonData, null, '    '));
 
-            File.saveContent(Paths.modFolders('scripts/config/translations.json'), haxe.Json.stringify(jsonData, null, '    '));
+			var fileReference:FileReference = new FileReference();
+
+			fileReference.save(haxe.Json.stringify(jsonData, null, '    '), 'translations.json');
             
             trace("JSON saved successfully.");
 
             unsavedProgress = false;
         } catch (e:Dynamic) {
-            trace("Error: JSON is not valid and was not saved.");
+            trace("Error: " + e);
         }
     }
 
