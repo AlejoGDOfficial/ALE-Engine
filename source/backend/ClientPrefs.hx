@@ -75,7 +75,7 @@ import flixel.input.gamepad.FlxGamepadInputID;
 	public var discordRPC:Bool = true;
 	public var loadingScreen:Bool = true;
 	public var language:String = 'english';
-	public var currentModFolder:String = 'ALE Engine';
+	public var currentModFolder:String = '';
 }
 
 class ClientPrefs {

@@ -2,6 +2,7 @@ package backend;
 
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
+import debug.FPSCounter;
 
 import haxe.Json;
 
@@ -266,4 +267,36 @@ class CoolUtil
 	
 		return false;
 	}	
+
+	public static function resetEngine()
+	{
+		if (FlxG.sound.music != null)
+		{
+			FlxG.sound.music.stop();
+
+			FlxG.sound.music = null;
+		}
+			
+		MusicBeatState.instance.resetMusicVars();
+
+		FPSCounter.instance.visible = false;
+                
+		LanguageManager.loadPhrases();
+
+		for (key in CoolVars.globalVars.keys())
+		{
+			if (key != 'engineVersion' && key != 'consoleVisible')
+			{
+				CoolVars.globalVars.remove(key);
+			}
+		}
+		
+		CoolVars.globalVars.set('reconfigureData', CoolUtil.getCurrentState());
+		
+		FPSCounter.fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
+
+		FlxTransitionableState.skipNextTransIn = true;
+		
+		MusicBeatState.switchState(new ScriptState('configGame'));
+	}
 }

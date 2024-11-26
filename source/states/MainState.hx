@@ -13,7 +13,6 @@ class MainState extends MusicBeatState
         cpp.WindowsCPP.setWindowLayered();
         cpp.WindowsCPP.setWindowBorderColor(32, 32, 32);
     
-        CoolVars.globalVars.set('initialConfig', true);
         CoolVars.globalVars.set('engineVersion', 'Alpha 5');
     
         Paths.clearStoredMemory();

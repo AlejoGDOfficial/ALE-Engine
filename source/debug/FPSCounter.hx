@@ -9,8 +9,6 @@ import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.system.Capabilities;
 
-import states.ModsMenuState;
-
 class FPSCounter extends Sprite
 {
     public var currentFPS(default, null):Int;
@@ -24,11 +22,15 @@ class FPSCounter extends Sprite
 
     public static var fpsInfoShit:Array<String>;
 
+    public static var instance:FPSCounter;
+
     @:noCompletion private var times:Array<Float>;
 
     public function new()
     {
         super();
+
+        instance = this;
 
         currentFPS = 0;
 
@@ -126,28 +128,9 @@ class FPSCounter extends Sprite
 
             if (FlxG.keys.justPressed.F3)
             {
-                this.visible = false;
-                
-                LanguageManager.loadPhrases();
-
-                for (key in CoolVars.globalVars.keys())
-                {
-                    if (key != 'engineVersion' && key != 'consoleVisible')
-                    {
-                        CoolVars.globalVars.remove(key);
-                    }
-                }
-                
-                CoolVars.globalVars.set('initialConfig', false);
-                CoolVars.globalVars.set('reconfigureData', CoolUtil.getCurrentState());
-                
-                fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
-                
-                MusicBeatState.switchState(new ScriptState('configGame'));
-            }
-            if (FlxG.keys.justPressed.TAB)
-            {
-				MusicBeatState.switchState(new ModsMenuState());
+                CoolUtil.resetEngine();
+            } else if (FlxG.keys.justPressed.TAB) {
+				MusicBeatState.instance.openSubState(new substates.ModsMenuSubState());
             }
         } else {
             configTipsTxt = '';

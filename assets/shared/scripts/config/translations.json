@@ -179,6 +179,10 @@
         "StageEditor": [
             "Stage Editor",
             "Editor de Escenarios"
+        ],
+        "LanguagesEditor": [
+            "Languages Editor",
+            "Editor de Idiomas"
         ]
     },
     "introState": {

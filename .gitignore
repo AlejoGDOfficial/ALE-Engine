@@ -15,20 +15,4 @@ art/build_html.bat
 art/build_html-debug.bat
 
 githubUpdateAlpha.bat
-export/release/windows/haxe/*
-export/release/windows/obj/*
-export/release/windows/bin/assets/*
-export/release/windows/bin/hrtfs/*
-export/release/windows/bin/lua/*
-export/release/windows/bin/crash/*
-export/release/windows/bin/manifest/*
-export/release/windows/bin/plugins/*
-export/release/windows/bin/ALE Engine.exe
-export/release/windows/bin/do NOT readme.txt
-export/release/windows/bin/message.txt
-export/release/windows/bin/icon.ico
-export/release/windows/bin/libvlc.dll
-export/release/windows/bin/libvlccore.dll
-export/release/windows/bin/libvlccore.dll
-export/release/windows/bin/lime.ndll
-export/release/windows/bin/modsList.txt 
+export/*

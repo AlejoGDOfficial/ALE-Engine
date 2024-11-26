@@ -298,11 +298,6 @@ class ScriptState extends MusicBeatState
 				script.destroy();
 			}
 
-		for (hxs in hscriptArray)
-		{
-			hxs.destroy();
-		}
-
 		hscriptArray = null;
 		#end
 	}
