@@ -56,7 +56,6 @@ function onCreatePost()
     if (FlxG.sound.music == null)
     {
         FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
-        Conductor.bpm = 102;
 
         FlxTween.num(255, 32, 60 / Conductor.bpm, {ease: FlxEase.cubeOut}, windowColorTween);
     } else {
