@@ -8,7 +8,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	var boyfriend:Character = null;
 	public function new()
 	{
-		title = LanguageManager.getPhrase('optionsGraphics', 'Menu');
+		title = 'Graphics Settings';
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
 		boyfriend = new Character(840, 170, 'bf', true);
@@ -19,35 +19,35 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		boyfriend.visible = false;
 
 		//I'd suggest using 'Low Quality' as an example for making your own option since it is the simplest here
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'LowQuality'),
-		LanguageManager.getPhrase('optionsGraphics', 'LowQualityDesc'),
+		var option:Option = new Option('Low Quality',
+			'If checked, disables some background details, decreases loading times and improves performance',
 			'lowQuality', //Save data variable name
 			BOOL); //Variable type
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'AntiAliasing'),
-			LanguageManager.getPhrase('optionsGraphics', 'AntiAliasingDesc'),
+		var option:Option = new Option('Anti-Aliasing',
+			'If unchecked, disables anti-aliasing, increases performance at cost of sharper visuals.',
 			'antialiasing',
 			BOOL);
 		option.onChange = onChangeAntiAliasing; //Changing onChange is only needed if you want to make a special interaction after it changes the value
 		addOption(option);
 		antialiasingOption = optionsArray.length-1;
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'Shaders'),
-			LanguageManager.getPhrase('optionsGraphics', 'ShadersDesc'),
+		var option:Option = new Option('Shaders',
+			'If unchecked, disables shaders. It\'s used for some visual effects, and also CPU intensive for weaker PCs.',
 			'shaders',
 			BOOL);
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'GPUCaching'),
-			LanguageManager.getPhrase('optionsGraphics', 'GPUCachingDesc'),
+		var option:Option = new Option('GPU Caching',
+			'If checked, allows the GPU to be used for caching textures, decreasing RAM usage. Don\'t turn this on if you have a shitty Graphics Card.',
 			'cacheOnGPU',
 			BOOL);
 		addOption(option);
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
-		var option:Option = new Option(LanguageManager.getPhrase('optionsGraphics', 'Framerate'),
-			LanguageManager.getPhrase('optionsGraphics', 'FramerateDesc'),
+		var option:Option = new Option('Framerate',
+			'Pretty self explanatorio, isn\'t it?',
 			'framerate',
 			INT);
 		addOption(option);

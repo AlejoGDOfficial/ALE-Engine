@@ -68,7 +68,7 @@ class LoadingState extends MusicBeatState
 		bg.updateHitbox();
 		add(bg);
 	
-		loadingText = new FlxText(520, 600, 400, LanguageManager.getPhrase('loadingState', 'LoadingTxt') + '...', 32);
+		loadingText = new FlxText(520, 600, 400, 'Now Loading...', 32);
 		loadingText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
 		loadingText.borderSize = 2;
 		add(loadingText);
@@ -136,7 +136,7 @@ class LoadingState extends MusicBeatState
 			case 2:
 				dots = '...';
 		}
-		loadingText.text = LanguageManager.getPhrase('loadingState', 'LoadingTxt') + dots;
+		loadingText.text = 'Now Loading' + dots;
 
 		if(!spawnedPessy)
 		{

@@ -1,7 +1,6 @@
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
-import backend.LanguageManager;
 import backend.DiscordClient;
 
 var skippedIntro:Bool = false;
@@ -20,7 +19,7 @@ function onCreate()
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);
     epicTexts.y = FlxG.height / 2 - epicTexts.height / 2;
-    changeShit(getPhrase('introState', 'Phrases')[0]);
+    changeShit('ALE ENGINE BY');
 
     logo = new FlxSprite(-125, -100);
     logo.frames = Paths.getSparrowAtlas('introState/logo');
@@ -37,15 +36,12 @@ function onCreate()
     gf.alpha = 0;
 
     titleText = new FlxSprite(100, 576);
-    titleText.frames = Paths.getSparrowAtlas('introState/titleEnter' + getSuffix());
+    titleText.frames = Paths.getSparrowAtlas('introState/titleEnter');
     titleText.animation.addByPrefix('idle', "IDLE", 24);
     titleText.animation.addByPrefix('press', "PRESSED", 24);
     add(titleText);
     titleText.animation.play('idle');
     titleText.centerOffsets();
-
-    if (LanguageManager.curLanguage == 'spanish')
-        titleText.x = 50;
 
     titleText.alpha = 0;
     titleText.color = 0xFF33FFFF;
@@ -122,6 +118,25 @@ function changeShit(text:String)
 
 var sickBeats:Float = 0;
 
+var phrases:Array<String> = [
+        "ALE ENGINE BY",
+        "ALE ENGINE BY",
+        "ALE ENGINE BY\nALEJOGDOFFICIAL",
+        "",
+        "POWERED BY",
+        "POWERED BY",
+        "POWERED BY\nPSYCH ENGINE",
+        "",
+        "DON'T TOUCH",
+        "DON'T TOUCH",
+        "DON'T TOUCH\nMY SOURCE CODE",
+        "",
+        "FRIDAY",
+        "FRIDAY\nNIGHT",
+        "FRIDAY\nNIGHT\nFUNKIN'",
+        "FRIDAY\nNIGHT\nFUNKIN'\nALE ENGINE"
+    ];
+
 function onBeatHit()
 {
     if(logo != null)
@@ -140,7 +155,7 @@ function onBeatHit()
 
     if (!skippedIntro)
     {
-        changeShit(getPhrase('introState', 'Phrases')[sickBeats]);
+        changeShit(phrases[sickBeats]);
 
         if (sickBeats == 16)
             skipIntro();

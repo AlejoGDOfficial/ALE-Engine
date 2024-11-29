@@ -290,9 +290,9 @@ function changeDifficultyShit(restart:Bool)
 
     if (difficulties.length == 1)
     {
-        difficultyText.text = getPhrase('freeplayState', 'Difficulty') + '\n' + getPhrase('difficulties', difficultyName);
+        difficultyText.text = 'DIFFICULTY\n' + difficultyName;
     } else {
-        difficultyText.text = getPhrase('freeplayState', 'Difficulty') + '\n<' + getPhrase('difficulties', difficultyName) + '>';
+        difficultyText.text = 'DIFFICULTIES\n' + '\n<' + difficultyName + '>';
     }
 
     difficultyText.x = FlxG.width - difficultyText.width - 10;

@@ -12,7 +12,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	var noteY:Float = 90;
 	public function new()
 	{
-		title = LanguageManager.getPhrase('optionsVisuals', 'Menu');
+		title = 'Visuals Settings';
 		rpcTitle = 'Visuals Settings Menu'; //for Discord Rich Presence
 
 		// for note skins
@@ -28,8 +28,8 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 
 		// options
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'SplashOpacity'),
-			LanguageManager.getPhrase('optionsVisuals', 'SplashOpacityDesc'),
+		var option:Option = new Option('Note Splash Opacity',
+			'How much transparent should the Note Splashes be.',
 			'splashAlpha',
 			PERCENT);
 		option.scrollSpeed = 1.6;
@@ -39,14 +39,14 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.decimals = 1;
 		addOption(option);
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'FlashingLights'),
-			LanguageManager.getPhrase('optionsVisuals', 'FlashingLightsDesc'),
+		var option:Option = new Option('Flashing Lights',
+			'Uncheck this if you\'re sensitive to flashing lights!',
 			'flashing',
 			BOOL);
 		addOption(option);
 		
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'PauseMusic'),
-			LanguageManager.getPhrase('optionsVisuals', 'PauseMusicDesc'),
+		var option:Option = new Option('Pause Music',
+			'What song do you prefer for the Pause Screen?',
 			'pauseMusic',
 			STRING,
 			['None', 'Breakfast', 'Breakfast (Pico)']);
@@ -54,15 +54,15 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangePauseMusic;
 
 		#if DISCORD_ALLOWED
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'DiscordRichPresence'),
-			LanguageManager.getPhrase('optionsVisuals', 'DiscordRichPresenceDesc'),
+		var option:Option = new Option('Discord Rich Presence',
+			'Uncheck this to prevent accidental leaks, it will hide the Application from your Playing box on Discord.',
 			'discordRPC',
 			BOOL);
 		addOption(option);
 		#end
 
-		var option:Option = new Option(LanguageManager.getPhrase('optionsVisuals', 'DiscordComboStacking'),
-			LanguageManager.getPhrase('optionsVisuals', 'DiscordComboStackingDesc'),
+		var option:Option = new Option('Combo Stacking',
+			'If unchecked, Ratings and Combo won\'t stack, saving on System Memory and making them easier to read.',
 			'comboStacking',
 			BOOL);
 		addOption(option);

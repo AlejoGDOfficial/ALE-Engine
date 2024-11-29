@@ -45,7 +45,7 @@ class ControlsSubState extends MusicBeatSubstate
 	];
 	var curOptions:Array<Int>;
 	var curOptionsValid:Array<Int>;
-	static var defaultKey:String = 'ResetToDefaultKeys';
+	static var defaultKey:String = 'Reset To Default Keys';
 
 	var bg:FlxSprite;
 	var grpDisplay:FlxTypedGroup<Alphabet>;
@@ -157,13 +157,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 					var str:String = option[1];
 					var keyStr:String = option[2];
-					var text:Alphabet;
-					if (isDefaultKey)
-					{
-						text = new Alphabet(200, 300, LanguageManager.getPhrase('optionsControls', str), !isDisplayKey);
-					} else {
-						text = new Alphabet(200, 300, !isDisplayKey ? LanguageManager.getPhrase('optionsControls', 'Key' + formatKeyStr(keyStr)) : LanguageManager.getPhrase('optionsControls', 'Group' + formatKeyStr(str)), !isDisplayKey);
-					}
+					var text:Alphabet = new Alphabet(200, 300, str, !isDisplayKey);
 					text.isMenuItem = true;
 					text.changeX = false;
 					text.distancePerItem.y = 60;
@@ -326,11 +320,11 @@ class ControlsSubState extends MusicBeatSubstate
 					FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 					add(bindingBlack);
 
-					bindingText = new Alphabet(FlxG.width / 2, 160, LanguageManager.getPhrase('optionsControls', 'Rebinding1') + options[curOptions[curSelected]][3], false);
+					bindingText = new Alphabet(FlxG.width / 2, 160, 'Rebinding ' + options[curOptions[curSelected]][3], false);
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
-					bindingText2 = new Alphabet(FlxG.width / 2, 340, LanguageManager.getPhrase('optionsControls', 'Rebinding2'), true);
+					bindingText2 = new Alphabet(FlxG.width / 2, 340, 'Hold Esc to Cancel\nHold BackSpace to Delete', true);
 					bindingText2.alignment = CENTERED;
 					add(bindingText2);
 

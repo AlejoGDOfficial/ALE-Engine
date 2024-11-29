@@ -14,14 +14,6 @@ import openfl.utils.Assets as OpenFlAssets;
 import openfl.events.KeyboardEvent;
 import haxe.Json;
 
-import openfl.display.Graphics;
-import openfl.display.Sprite;
-import openfl.Lib;
-import openfl.text.TextField;
-import openfl.text.TextFormat;
-import openfl.text.TextFormatAlign;
-import openfl.display.StageScaleMode;
-
 import objects.Character;
 
 import options.*;
@@ -39,8 +31,6 @@ import scripting.menus.*;
 #if SScript
 import tea.SScript;
 #end
-
-import debug.FPSCounter;
 
 class ScriptState extends MusicBeatState
 {
@@ -70,8 +60,6 @@ class ScriptState extends MusicBeatState
 
 	var keysPressed:Array<Int> = [];
 	private var keysArray:Array<String>;
-	
-	public static var fpsVar:FPSCounter;
 
     override public function create()
     {
@@ -86,20 +74,6 @@ class ScriptState extends MusicBeatState
 		
 		if (targetFileName == 'configGame')
 		{
-			if (!CoolVars.fpsTextWasAdded)
-			{
-				CoolVars.fpsTextWasAdded = true;
-	
-				#if !mobile
-				fpsVar = new FPSCounter();
-				FlxG.game.addChild(fpsVar);
-				Lib.current.stage.align = "tl";
-				Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-				#end
-			}
-
-			fpsVar.visible = true;
-
 			#if LUA_ALLOWED startLuasNamed('scripts/config/config.lua'); #end
 			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/config/config.hx'); #end
 		} else {
@@ -640,8 +614,6 @@ class ScriptState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 			case 'states.editors.NoteSplashEditorState':
 				MusicBeatState.switchState(new NoteSplashEditorState());
-			case 'states.editors.LanguagesEditorState':
-				MusicBeatState.switchState(new LanguagesEditorState());
 		}
 	}
 

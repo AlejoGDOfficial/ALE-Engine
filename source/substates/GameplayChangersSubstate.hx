@@ -19,7 +19,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	function getOptions()
 	{
-		optionsArray.push(new GameplayOption('PracticeMode', 'practice', BOOL, false));
+		optionsArray.push(new GameplayOption('Practice Mode', 'practice', BOOL, false));
 		optionsArray.push(new GameplayOption('Botplay', 'botplay', BOOL, false));
 	}
 
@@ -168,25 +168,6 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 									curOption.curOption = num;
 									curOption.setValue(curOption.options[num]); //lol
 									
-									if (curOption.name == "Scroll Type")
-									{
-										var oOption:GameplayOption = getOptionByName("Scroll Speed");
-										if (oOption != null)
-										{
-											if (curOption.getValue() == "constant")
-											{
-												oOption.displayFormat = "%v";
-												oOption.maxValue = 6;
-											}
-											else
-											{
-												oOption.displayFormat = "%vX";
-												oOption.maxValue = 3;
-												if(oOption.getValue() > 3) oOption.setValue(3);
-											}
-											updateTextFrom(oOption);
-										}
-									}
 									//trace(curOption.options[num]);
 
 								default:
@@ -232,16 +213,6 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 					{
 						if(leOption.type == STRING)
 							leOption.curOption = leOption.options.indexOf(leOption.getValue());
-
-						updateTextFrom(leOption);
-					}
-
-					if(leOption.name == 'Scroll Speed')
-					{
-						leOption.displayFormat = "%vX";
-						leOption.maxValue = 3;
-						if(leOption.getValue() > 3)
-							leOption.setValue(3);
 
 						updateTextFrom(leOption);
 					}
@@ -326,7 +297,7 @@ class GameplayOption
 	public function new(name:String, variable:String, type:OptionType, defaultValue:Dynamic = 'null variable value', ?options:Array<String> = null)
 	{
 		_name = name;
-		this.name = LanguageManager.getPhrase('gameplayChangersSubstate', name);
+		this.name = name;
 		this.variable = variable;
 		this.type = type;
 		this.defaultValue = defaultValue;
@@ -399,7 +370,7 @@ class GameplayOption
 		if(child != null)
 		{
 			_text = newValue;
-			child.text = LanguageManager.getPhrase('gameplayChangersSubstate', name);
+			child.text = name;
 			return _text;
 		}
 		return null;

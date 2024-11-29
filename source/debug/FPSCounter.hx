@@ -20,17 +20,11 @@ class FPSCounter extends Sprite
     var background:Shape;
     var textField:TextField;
 
-    public static var fpsInfoShit:Array<String>;
-
-    public static var instance:FPSCounter;
-
     @:noCompletion private var times:Array<Float>;
 
     public function new()
     {
         super();
-
-        instance = this;
 
         currentFPS = 0;
 
@@ -45,8 +39,6 @@ class FPSCounter extends Sprite
         textField.multiline = true;
         textField.text = "FPS: ";
         addChild(textField);
-
-        fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
 
         times = [];
     }
@@ -64,37 +56,34 @@ class FPSCounter extends Sprite
             return;
         }
 
-        if (fpsInfoShit != null)
+        if (CoolVars.globalVars.get('developerMode'))
         {
-            if (CoolVars.globalVars.get('developerMode'))
+            if (fpsMode == 0)
             {
-                if (fpsMode == 0)
-                {
-                    developerModeText = fpsInfoShit[0];
-                } else {
-                    developerModeText = '\n\n' + fpsInfoShit[0];
-                }
+                developerModeText = 'DEVELOPER MODE';
             } else {
-                developerModeText = '';
+                developerModeText = '\n\n' + 'DEVELOPER MODE';
             }
-            
-            if (CoolUtil.getCurrentSubState() == null)
+        } else {
+            developerModeText = '';
+        }
+        
+        if (CoolUtil.getCurrentSubState() == null)
+        {
+            if (CoolUtil.getCurrentState()[0])
             {
-                if (CoolUtil.getCurrentState()[0])
-                {
-                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')';
-                } else {
-                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + CoolUtil.getCurrentState()[1];
-                }
+                stateInfoTxt = '\n\n' + 'Current State: ' + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')';
             } else {
-                if (CoolUtil.getCurrentState()[0])
-                {
-                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' + '\n' +
-                    fpsInfoShit[5] + CoolUtil.getCurrentSubState();
-                } else {
-                    stateInfoTxt = '\n\n' + fpsInfoShit[4] + CoolUtil.getCurrentState()[1] + '\n' +
-                    fpsInfoShit[5] + CoolUtil.getCurrentSubState();
-                }
+                stateInfoTxt = '\n\n' + 'Current State: ' + CoolUtil.getCurrentState()[1];
+            }
+        } else {
+            if (CoolUtil.getCurrentState()[0])
+            {
+                stateInfoTxt = '\n\n' + 'Current State: ' + 'states.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' + '\n' +
+                'Current SubState: ' + CoolUtil.getCurrentSubState();
+            } else {
+                stateInfoTxt = '\n\n' + 'Current State: ' + CoolUtil.getCurrentState()[1] + '\n' +
+                'Current SubState: ' + CoolUtil.getCurrentSubState();
             }
         }
 
@@ -124,14 +113,9 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.globalVars.get('developerMode') && CoolUtil.getCurrentState()[1] != 'states.PlayState')
         {
-            configTipsTxt = '\n\n' + fpsInfoShit[1];
+            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play...';
 
-            if (FlxG.keys.justPressed.F3)
-            {
-                CoolUtil.resetEngine();
-            } else if (FlxG.keys.justPressed.TAB) {
-				MusicBeatState.instance.openSubState(new substates.ModsMenuSubState());
-            }
+            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new substates.ModsMenuSubState());
         } else {
             configTipsTxt = '';
         }
@@ -147,52 +131,49 @@ class FPSCounter extends Sprite
 
     public dynamic function updateText():Void 
     {
-        if (fpsInfoShit != null)
+        switch (fpsMode)
         {
-            switch (fpsMode)
-            {
-                case 0:
-                    textField.text = developerModeText
-                    + configTipsTxt;
-                case 1:
-                    textField.text = '' + fpsInfoShit[2] + currentFPS
-                    + '\n' + 
-                    fpsInfoShit[3] + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                    + developerModeText
-                    + configTipsTxt;
-                case 2:
-                    textField.text = '' + fpsInfoShit[2] + currentFPS
-                    + '\n' + 
-                    fpsInfoShit[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                    + stateInfoTxt
-                    + developerModeText
-                    + configTipsTxt;
-                case 3:
-                    textField.text = '' + fpsInfoShit[2] + currentFPS
-                    + '\n' + 
-                    fpsInfoShit[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                    + stateInfoTxt 
-                    + '\n\n' + 
-                    fpsInfoShit[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
-                    + '\n' +
-                    fpsInfoShit[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
-                    + developerModeText
-                    + configTipsTxt;
-                case 4:
-                    textField.text = '' + fpsInfoShit[2] + currentFPS
-                    + '\n' + 
-                    fpsInfoShit[3] +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
-                    + stateInfoTxt + '\n\n' + 
-                    fpsInfoShit[6] + Lib.application.window.x + ' - ' + Lib.application.window.y
-                    + '\n' +
-                    fpsInfoShit[7] + Lib.application.window.width + ' x ' + Lib.application.window.height
-                    + '\n\n' +
-                    fpsInfoShit[8] + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
-                    + '\n' +
-                    fpsInfoShit[9] + Capabilities.os
-                    + developerModeText
-                    + configTipsTxt;
-            }
+            case 0:
+                textField.text = developerModeText
+                + configTipsTxt;
+            case 1:
+                textField.text = '' + 'FPS: ' + currentFPS
+                + '\n' + 
+                'Memory: ' + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                + developerModeText
+                + configTipsTxt;
+            case 2:
+                textField.text = '' + 'FPS: ' + currentFPS
+                + '\n' + 
+                'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                + stateInfoTxt
+                + developerModeText
+                + configTipsTxt;
+            case 3:
+                textField.text = '' + 'FPS: ' + currentFPS
+                + '\n' + 
+                'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                + stateInfoTxt 
+                + '\n\n' + 
+                'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y
+                + '\n' +
+                'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height
+                + developerModeText
+                + configTipsTxt;
+            case 4:
+                textField.text = '' + 'FPS: ' + currentFPS
+                + '\n' + 
+                'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
+                + stateInfoTxt + '\n\n' + 
+                'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y
+                + '\n' +
+                'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height
+                + '\n\n' +
+                'Screen Resolution: ' + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
+                + '\n' +
+                'Operating System: ' + Capabilities.os
+                + developerModeText
+                + configTipsTxt;
         }
 
         if (currentFPS < FlxG.drawFramerate * 0.5)

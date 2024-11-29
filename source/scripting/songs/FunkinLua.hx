@@ -277,17 +277,6 @@ class FunkinLua {
 			CoolVars.globalVars.remove(id);
 		});
 
-		//Language Manager
-
-		Lua_helper.add_callback(lua, "getSuffix", function()
-		{
-			return LanguageManager.getSuffix();
-		});
-		Lua_helper.add_callback(lua, "getPhrase", function(section:String, key:String)
-		{
-			return LanguageManager.getPhrase(section, key);
-		});
-
 		//CPP
 
 		Lua_helper.add_callback(lua, 'changeTitle', function(titleText:String)

@@ -27,7 +27,6 @@ class DialogueEditorState extends MusicBeatState implements PsychUIEventHandler.
 
 	override function create() {
 		persistentUpdate = persistentDraw = true;
-		FlxG.camera.bgColor = FlxColor.fromHSL(0, 0, 0.5);
 
 		defaultLine = {
 			portrait: DialogueCharacter.DEFAULT_CHARACTER,

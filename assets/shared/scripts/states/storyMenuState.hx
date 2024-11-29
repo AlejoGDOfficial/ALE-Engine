@@ -61,7 +61,7 @@ function showShit()
     add(difficultyImage);
     difficultyImage.scrollFactor.set(0, 0);
 
-    songsText = new FlxText(0, 480, 0, getPhrase('storyMenuState', 'Tracks'));
+    songsText = new FlxText(0, 480, 0, 'TRACKS');
     songsText.setFormat(Paths.font('fullPhantomMuff.ttf'), 50, FlxColor.PINK, 'center');
     add(songsText);
     songsText.scrollFactor.set(0, 0);
@@ -226,7 +226,7 @@ function changeWeekShit()
 
         if (weekID == weekSelInt)
         {
-            songsText.text = getPhrase('storyMenuState', 'Tracks') + '\n' + weekSongs.join('\n');
+            songsText.text = 'TRACKS\n' + weekSongs.join('\n');
         }
     }
 

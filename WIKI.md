@@ -24,8 +24,7 @@
         `switchToSomeStates('states.editors.MenuCharacterEditorState')` <br/>
         `switchToSomeStates('states.editors.DialogueEditorState')` <br/>
         `switchToSomeStates('states.editors.DialogueCharacterEditorState')` <br/>
-        `switchToSomeStates('states.editors.NoteSplashEditorState')` <br/>
-        `switchToSomeStates('states.editors.LanguagesEditorState')`
+        `switchToSomeStates('states.editors.NoteSplashEditorState')`
 
 #### Used to open Specific SubStates.
 
@@ -199,21 +198,6 @@
 #### Used to Show the FPS Counter.
 
 * `showFPSText()`
-
-</details>
-
-<details><summary><h2>Languages Functions</h2></summary>
-
-> Can be used in all types of script!
-
-#### Used to get any phrase in the current language.
-
-* `getPhrase(section, key)`
-    - Example: `getPhrase('pauseSubState', 'PracticeMode')`
-
-#### Used to get the suffix for the current language.
-
-* `getSuffix()`
 
 </details>
 

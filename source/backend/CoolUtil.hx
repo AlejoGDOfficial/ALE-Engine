@@ -279,10 +279,6 @@ class CoolUtil
 			
 		MusicBeatState.instance.resetMusicVars();
 
-		FPSCounter.instance.visible = false;
-                
-		LanguageManager.loadPhrases();
-
 		for (key in CoolVars.globalVars.keys())
 		{
 			if (key != 'engineVersion' && key != 'consoleVisible')
@@ -290,10 +286,6 @@ class CoolUtil
 				CoolVars.globalVars.remove(key);
 			}
 		}
-		
-		CoolVars.globalVars.set('reconfigureData', CoolUtil.getCurrentState());
-		
-		FPSCounter.fpsInfoShit = LanguageManager.getPhrase('fpsCounter', 'Info');
 
 		FlxTransitionableState.skipNextTransIn = true;
 		

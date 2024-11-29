@@ -62,7 +62,7 @@ class Difficulty
 	{
 		var diffName:String = list[num == null ? PlayState.storyDifficulty : num];
 		if(diffName == null) diffName = defaultDifficulty;
-		return canTranslate ? LanguageManager.getPhrase('difficulties', diffName) : diffName;
+		return diffName;
 	}
 
 	inline public static function getDefault():String

@@ -17,6 +17,8 @@ class ModsMenuSubState extends MusicBeatSubstate
 
     var noModsInstalledText:FlxText;
 
+    var canSelect:Bool;
+
     override public function create()
     {
         FlxG.camera.zoom = 1;
@@ -40,10 +42,12 @@ class ModsMenuSubState extends MusicBeatSubstate
             destinationX += 25;
             destinationY += 100;
         }
+
+        canSelect = Mods.getGlobalMods().length >= 1;
     
         changeShit();
 
-		noModsInstalledText = new FlxText(0, 0, FlxG.width, LanguageManager.getPhrase('modsMenuSubState', 'NoModsInstalled'));
+		noModsInstalledText = new FlxText(0, 0, FlxG.width, 'No Mods Installed\nPress BACK to exit and Install a Mod');
 		noModsInstalledText.setFormat(Paths.font("vcr.ttf"), 35, FlxColor.WHITE, 'center');
 		noModsInstalledText.borderStyle = FlxTextBorderStyle.OUTLINE;
 		noModsInstalledText.borderSize = 1;
@@ -57,7 +61,6 @@ class ModsMenuSubState extends MusicBeatSubstate
     }
     
     var selInt:Int = 0;
-    var canSelect:Bool = true;
 
     var curTime:Float = 0;
     
@@ -124,6 +127,8 @@ class ModsMenuSubState extends MusicBeatSubstate
     
             if (controls.BACK) close();
         }
+    
+        if (Mods.getGlobalMods().length <= 0 && controls.BACK) close();
     
         FlxG.camera.scroll.y = CoolUtil.fpsLerp(FlxG.camera.scroll.y, selInt * 100, 0.1);
         FlxG.camera.scroll.x = CoolUtil.fpsLerp(FlxG.camera.scroll.x, selInt * 25, 0.1);

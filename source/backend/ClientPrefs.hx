@@ -4,6 +4,8 @@ import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
 
+import states.MainState;
+
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
 	public var downScroll:Bool = false;
@@ -74,7 +76,6 @@ import flixel.input.gamepad.FlxGamepadInputID;
 	public var guitarHeroSustains:Bool = true;
 	public var discordRPC:Bool = true;
 	public var loadingScreen:Bool = true;
-	public var language:String = 'english';
 	public var currentModFolder:String = '';
 }
 
@@ -173,8 +174,8 @@ class ClientPrefs {
 			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key))
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 		
-		if(ScriptState.fpsVar != null)
-			ScriptState.fpsVar.visible = data.showFPS;
+		if(MainState.fpsVar != null)
+			MainState.fpsVar.visible = data.showFPS;
 
 		#if (!html5 && !switch)
 		FlxG.autoPause = ClientPrefs.data.autoPause;
@@ -230,8 +231,6 @@ class ClientPrefs {
 			}
 			reloadVolumeKeys();
 		}
-
-		LanguageManager.curLanguage = data.language;
 
 		if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder)))
 			Mods.currentModDirectory = data.currentModFolder;

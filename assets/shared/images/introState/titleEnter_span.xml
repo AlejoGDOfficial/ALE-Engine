@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="titleEnter_span.png">
-	<SubTexture name="FREEZE0000" x="0" y="0" width="1250" height="68"/>
-	<SubTexture name="IDLE0000" x="0" y="72" width="1250" height="67"/>
-	<SubTexture name="PRESSED0000" x="0" y="0" width="1250" height="68"/>
-	<SubTexture name="PRESSED0001" x="0" y="72" width="1250" height="67"/>
-</TextureAtlas>

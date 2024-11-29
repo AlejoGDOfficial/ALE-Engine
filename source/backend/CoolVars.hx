@@ -11,6 +11,4 @@ class CoolVars
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 	
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
-
-	public static var fpsTextWasAdded:Bool = false;
 }

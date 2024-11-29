@@ -33,56 +33,14 @@ function onCreate()
         devsSelInt = getGlobalVar('creditsStateSelInt');
     }
 
-    var mainDevsNames:Array<String> = [];
-    var mainDevsIcons:Array<String> = [];
-    var mainDevsDescs:Array<String> = [];
-    var mainDevsColors:Array<String> = [];
-
-    for (devData in getPhrase('creditsState', 'ALEEngineMainCrew'))
-    {
-        mainDevsNames.push(devData[0]);
-        mainDevsIcons.push(devData[1]);
-        mainDevsDescs.push(devData[2]);
-        mainDevsColors.push(devData[3]);
-    }
-
     var mainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(mainDevs, getPhrase('creditsState', 'ALEEngineTeam'), mainDevsNames, mainDevsIcons, mainDevsDescs, mainDevsColors);
-    categories.push(mainDevs);
-
-    var otherDevsNames:Array<String> = [];
-    var otherDevsIcons:Array<String> = [];
-    var otherDevsDescs:Array<String> = [];
-    var otherDevsColors:Array<String> = [];
-
-    for (devData in getPhrase('creditsState', 'ALEEngineSecondaryCrew'))
-    {
-        otherDevsNames.push(devData[0]);
-        otherDevsIcons.push(devData[1]);
-        otherDevsDescs.push(devData[2]);
-        otherDevsColors.push(devData[3]);
-    }
+    setCategoryData(mainDevs, 'ALE Engine Team', ['AlejoGDOfficial', 'Khorix the Inking', 'Eddy Smashcraft', 'Aleja', 'AdrianoSH'], ['alejoGDOfficial', 'khorixTheInking', 'eddySmashcraft', 'aleja', 'adrianoSH'], ['Main Programmer and Head', 'Main Artist/Animator', 'Helped with the Translations into Spanish', 'Voice Actress', 'Pixelart Artist'], ['03B1FC', '494F75', '5D4FBC', '404040', '909090']);
 
     var otherDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(otherDevs, getPhrase('creditsState', 'ALEEngineContributors'), otherDevsNames, otherDevsIcons, otherDevsDescs, otherDevsColors);
-    categories.push(otherDevs);
-
-    var psychMainDevsNames:Array<String> = [];
-    var psychMainDevsIcons:Array<String> = [];
-    var psychMainDevsDescs:Array<String> = [];
-    var psychMainDevsColors:Array<String> = [];
-
-    for (devData in getPhrase('creditsState', 'PsychEngineMainCrew'))
-    {
-        psychMainDevsNames.push(devData[0]);
-        psychMainDevsIcons.push(devData[1]);
-        psychMainDevsDescs.push(devData[2]);
-        psychMainDevsColors.push(devData[3]);
-    }
+    setCategoryData(otherDevs, 'ALE Engine Contributors', ['Slushi'], ['slushi'], ['C++ Functions'], ['03F2FF']);
 
     var psychMainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(psychMainDevs, getPhrase('creditsState', 'PsychEngineTeam'), psychMainDevsNames, psychMainDevsIcons, psychMainDevsDescs, psychMainDevsColors);
-    categories.push(psychMainDevs);
+    setCategoryData(psychMainDevs, 'Psych Engine Team', ['Shadow Mario', 'Riveren'], ['shadowMario', 'riveren'], ['Main Programmer and Head', 'Main Artist/Animator'], ['444444', '14967B']);
 
     showShit();
 }
@@ -295,6 +253,7 @@ function setCategoryData(object:StringMap, name:String, devs:Array<String>, icon
     categoryData.set('colors', colors);
     categoryData.set('descriptions', descriptions);
     object.set("categoryData", categoryData);
+    categories.push(object);
 }
 
 function onBeatHit()

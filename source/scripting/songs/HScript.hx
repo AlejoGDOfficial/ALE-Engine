@@ -199,17 +199,6 @@ class HScript extends SScript
 			CoolVars.globalVars.remove(id);
 		});
 
-		//Language Manager
-
-		set("getSuffix", function()
-		{
-			return LanguageManager.getSuffix();
-		});
-		set("getPhrase", function(section:String, key:String)
-		{
-			return LanguageManager.getPhrase(section, key);
-		});
-
 		//CPP
 
 		set('changeTitle', function(titleText:String)

@@ -5,13 +5,12 @@ import backend.StageData;
 class OptionsState extends MusicBeatState
 {
 	var options:Array<String> = [
-		'NoteColors',
+		'Note Colors',
 		'Controls',
-		'AdjustDelayAndCombo',
+		'Adjust Delay And Combo',
 		'Graphics',
 		'Visuals',
-		'Gameplay',
-		'Language'
+		'Gameplay'
 	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
@@ -21,7 +20,7 @@ class OptionsState extends MusicBeatState
 	function openSelectedSubstate(label:String) {
 		switch(label)
 		{
-			case 'NoteColors':
+			case 'Note Colors':
 				openSubState(new options.NotesSubState());
 			case 'Controls':
 				openSubState(new options.ControlsSubState());
@@ -31,10 +30,8 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.VisualsSettingsSubState());
 			case 'Gameplay':
 				openSubState(new options.GameplaySettingsSubState());
-			case 'AdjustDelayAndCombo':
+			case 'Adjust Delay And Combo':
 				MusicBeatState.switchState(new options.NoteOffsetState());
-			case 'Language':
-				openSubState(new options.LanguageSubState());
 		}
 	}
 
@@ -60,7 +57,7 @@ class OptionsState extends MusicBeatState
 
 		for (num => option in options)
 		{
-			var optionText:Alphabet = new Alphabet(0, 0, LanguageManager.getPhrase('options' + option, 'Name'), true);
+			var optionText:Alphabet = new Alphabet(0, 0, option, true);
 			optionText.screenCenter();
 			optionText.y += (92 * (num - (options.length / 2))) + 45;
 			grpOptions.add(optionText);

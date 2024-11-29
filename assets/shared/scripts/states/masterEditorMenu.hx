@@ -8,13 +8,12 @@ import backend.CoolUtil;
 var texts:Array<FlxText>;
 
 var options:Array<String> = [
-    'ChartEditor',
-    'CharacterEditor',
-    'StageEditor',
-    'DialogueEditor',
-    'DialoguePortraitEditor',
-    'NoteSplashEditor',
-    'LanguagesEditor'
+    'Chart Editor',
+    'Character Editor',
+    'Stage Editor',
+    'Dialogue Editor',
+    'Dialogue Portrait Editor',
+    'Note Splash Editor'
 ];
 
 var bg:FlxSprite;
@@ -29,9 +28,9 @@ function onCreate()
 
     if (existsGlobalVar('consoleVisible') && getGlobalVar('consoleVisible'))
     {
-        options.push('HideConsole');
+        options.push('Hide Console');
     } else {
-        options.push('ShowConsole');
+        options.push('Show Console');
     }
 
     if (existsGlobalVar('masterEditorMenuSelInt'))
@@ -45,13 +44,15 @@ function onCreate()
 
     texts = [];
 
-    for (i in 0...options.length) {
-        var text = new FlxText(30, 18 + (i * 87), 0, getPhrase('masterEditorMenu', options[i]));
+    for (i in 0...options.length) 
+    {
+        var text = new FlxText(30, 0, 0, options[i]);
         text.setFormat(Paths.font('emptyPhantomMuff.ttf'), 70, FlxColor.WHITE, 'left');
         add(text);
         text.borderStyle = FlxTextBorderStyle.OUTLINE;
         text.borderSize = 3;
         text.borderColor = FlxColor.BLACK;
+        text.y = FlxG.height / 2 - 87 * options.length / 2 + (i * 87);
         text.alpha = 0.25;
         texts.push(text);
     }
@@ -145,14 +146,12 @@ function onUpdate(elapsed:Float)
                     case 5:
                         MusicBeatState.switchState(new states.editors.NoteSplashEditorState());
                     case 6:
-                        MusicBeatState.switchState(new states.editors.LanguagesEditorState());
-                    case 7:
                         switchToScriptState('mainMenuState', true);
-                        if (options[7] == 'HideConsole')
+                        if (options[6] == 'Hide Console')
                         {
                             hideConsole();
                             setGlobalVar('consoleVisible', false);
-                        } else if (options[7] == 'ShowConsole') {
+                        } else if (options[6] == 'Show Console') {
                             showConsole();
                             setGlobalVar('consoleVisible', true);
                         }
