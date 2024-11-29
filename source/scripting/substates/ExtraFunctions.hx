@@ -1,4 +1,4 @@
-package scripting.menus;
+package scripting.substates;
 
 import flixel.util.FlxSave;
 import openfl.utils.Assets;
@@ -61,33 +61,33 @@ class ExtraFunctions
 		Lua_helper.add_callback(lua, "keyJustPressed", function(name:String = '') {
 			name = name.toLowerCase().trim();
 			switch(name) {
-				case 'left': return ScriptState.instance.controls.NOTE_LEFT_P;
-				case 'down': return ScriptState.instance.controls.NOTE_DOWN_P;
-				case 'up': return ScriptState.instance.controls.NOTE_UP_P;
-				case 'right': return ScriptState.instance.controls.NOTE_RIGHT_P;
-				default: return ScriptState.instance.controls.justPressed(name);
+				case 'left': return ScriptSubstate.instance.controls.NOTE_LEFT_P;
+				case 'down': return ScriptSubstate.instance.controls.NOTE_DOWN_P;
+				case 'up': return ScriptSubstate.instance.controls.NOTE_UP_P;
+				case 'right': return ScriptSubstate.instance.controls.NOTE_RIGHT_P;
+				default: return ScriptSubstate.instance.controls.justPressed(name);
 			}
 			return false;
 		});
 		Lua_helper.add_callback(lua, "keyPressed", function(name:String = '') {
 			name = name.toLowerCase().trim();
 			switch(name) {
-				case 'left': return ScriptState.instance.controls.NOTE_LEFT;
-				case 'down': return ScriptState.instance.controls.NOTE_DOWN;
-				case 'up': return ScriptState.instance.controls.NOTE_UP;
-				case 'right': return ScriptState.instance.controls.NOTE_RIGHT;
-				default: return ScriptState.instance.controls.pressed(name);
+				case 'left': return ScriptSubstate.instance.controls.NOTE_LEFT;
+				case 'down': return ScriptSubstate.instance.controls.NOTE_DOWN;
+				case 'up': return ScriptSubstate.instance.controls.NOTE_UP;
+				case 'right': return ScriptSubstate.instance.controls.NOTE_RIGHT;
+				default: return ScriptSubstate.instance.controls.pressed(name);
 			}
 			return false;
 		});
 		Lua_helper.add_callback(lua, "keyReleased", function(name:String = '') {
 			name = name.toLowerCase().trim();
 			switch(name) {
-				case 'left': return ScriptState.instance.controls.NOTE_LEFT_R;
-				case 'down': return ScriptState.instance.controls.NOTE_DOWN_R;
-				case 'up': return ScriptState.instance.controls.NOTE_UP_R;
-				case 'right': return ScriptState.instance.controls.NOTE_RIGHT_R;
-				default: return ScriptState.instance.controls.justReleased(name);
+				case 'left': return ScriptSubstate.instance.controls.NOTE_LEFT_R;
+				case 'down': return ScriptSubstate.instance.controls.NOTE_DOWN_R;
+				case 'up': return ScriptSubstate.instance.controls.NOTE_UP_R;
+				case 'right': return ScriptSubstate.instance.controls.NOTE_RIGHT_R;
+				default: return ScriptSubstate.instance.controls.justReleased(name);
 			}
 			return false;
 		});

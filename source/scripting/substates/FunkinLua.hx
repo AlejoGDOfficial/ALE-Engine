@@ -1,5 +1,5 @@
 #if LUA_ALLOWED
-package scripting.menus;
+package scripting.substates;
 
 import backend.WeekData;
 import backend.Highscore;
@@ -27,13 +27,13 @@ import objects.Character;
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 
-import scripting.menus.LuaUtils;
-import scripting.menus.LuaUtils.LuaTweenOptions;
+import scripting.substates.LuaUtils;
+import scripting.substates.LuaUtils.LuaTweenOptions;
 
-import scripting.menus.HScript;
+import scripting.substates.HScript;
 
-import scripting.menus.DebugLuaText;
-import scripting.menus.ModchartSprite;
+import scripting.substates.DebugLuaText;
+import scripting.substates.ModchartSprite;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -68,7 +68,7 @@ class FunkinLua {
 		//LuaL.dostring(lua, CLENSE);
 
 		this.scriptName = scriptName.trim();
-		var game:ScriptState = ScriptState.instance;
+		var game:ScriptSubstate = ScriptSubstate.instance;
 
 		if(game != null) game.luaArray.push(this);
 
@@ -128,20 +128,33 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "switchToScriptState", function(name:String, ?doTransition:Bool = false)
 		{
-			ScriptState.instance.switchToScriptState(name, doTransition);
+			ScriptSubstate.instance.switchToScriptState(name, doTransition);
 		});
 		Lua_helper.add_callback(lua, "resetScriptState", function(?doTransition:Bool = false)
 		{
-			ScriptState.instance.resetScriptState(doTransition);
+			ScriptSubstate.instance.resetScriptState(doTransition);
 		});
 		Lua_helper.add_callback(lua, "switchToSomeStates", function(state:String)
 		{
-			ScriptState.instance.switchToSomeStates(state);
+			ScriptSubstate.instance.switchToSomeStates(state);
 		});
 		Lua_helper.add_callback(lua, 'openSomeSubStates', function(substate:String)
 		{
-			ScriptState.instance.openSomeSubStates(substate);
+			ScriptSubstate.instance.openSomeSubStates(substate);
 		});
+		Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
+		{
+			ScriptSubstate.instance.openScriptSubState(substate);
+		});
+		Lua_helper.add_callback(lua, 'closeScriptSubState', function()
+		{
+			ScriptSubstate.instance.closeScriptSubState();
+		});
+		Lua_helper.add_callback(lua, 'resetScriptSubState', function()
+		{
+			ScriptSubstate.instance.resetScriptSubState();
+		});
+
 		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
 		{
 			if (difficulty == 'normal')
@@ -562,7 +575,7 @@ class FunkinLua {
 							return;
 						}
 
-				ScriptState.instance.initHScript(foundScript);
+				ScriptSubstate.instance.initHScript(foundScript);
 				return;
 			}
 			luaTrace("addHScript: Script doesn't exist!", false, false, FlxColor.RED);
@@ -1424,7 +1437,7 @@ class FunkinLua {
 		#end
 		//
 
-		Lua_helper.add_callback(lua, "debugPrint", function(text:Dynamic = '', color:String = 'WHITE') ScriptState.instance.addTextToDebug(text, CoolUtil.colorFromString(color)));
+		Lua_helper.add_callback(lua, "debugPrint", function(text:Dynamic = '', color:String = 'WHITE') ScriptSubstate.instance.addTextToDebug(text, CoolUtil.colorFromString(color)));
 
 		addLocalCallback("close", function() {
 			closed = true;
@@ -1438,7 +1451,6 @@ class FunkinLua {
 		ReflectionFunctions.implement(this);
 		TextFunctions.implement(this);
 		ExtraFunctions.implement(this);
-		CustomSubstate.implement(this);
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
 
@@ -1491,7 +1503,7 @@ class FunkinLua {
 					onComplete: function(twn:FlxTween)
 					{
 						variables.remove(tag);
-						if(ScriptState.instance != null) ScriptState.instance.callOnLuas('onTweenCompleted', [originalTag, vars]);
+						if(ScriptSubstate.instance != null) ScriptSubstate.instance.callOnLuas('onTweenCompleted', [originalTag, vars]);
 					}
 				}));
 			}
@@ -1606,7 +1618,7 @@ class FunkinLua {
 			if(deprecated && !getBool('luaDeprecatedWarnings')) {
 				return;
 			}
-			ScriptState.instance.addTextToDebug(text, color);
+			ScriptSubstate.instance.addTextToDebug(text, color);
 		}
 	}
 

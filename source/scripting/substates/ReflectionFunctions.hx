@@ -1,4 +1,4 @@
-package scripting.menus;
+package scripting.substates;
 
 import Type.ValueType;
 import haxe.Constraints;
@@ -133,7 +133,7 @@ class ReflectionFunctions
 		});
 		
 		Lua_helper.add_callback(lua, "callMethod", function(funcToRun:String, ?args:Array<Dynamic> = null) {
-			return callMethodFromObject(ScriptState.instance, funcToRun, parseInstances(args));
+			return callMethodFromObject(ScriptSubstate.instance, funcToRun, parseInstances(args));
 			
 		});
 		Lua_helper.add_callback(lua, "callMethodFromClass", function(className:String, funcToRun:String, ?args:Array<Dynamic> = null) {
@@ -199,7 +199,7 @@ class ReflectionFunctions
 					var lastIndex:Int = myArg.lastIndexOf('::');
 
 					var split:Array<String> = myArg.split('.');
-					args[i] = (lastIndex > -1) ? Type.resolveClass(myArg.substring(0, lastIndex)) : ScriptState.instance;
+					args[i] = (lastIndex > -1) ? Type.resolveClass(myArg.substring(0, lastIndex)) : ScriptSubstate.instance;
 					for (j in 0...split.length)
 					{
 						//trace('Op2: ${Type.getClass(args[i])}, ${split[j]}');

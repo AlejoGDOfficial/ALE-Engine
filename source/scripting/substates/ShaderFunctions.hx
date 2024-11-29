@@ -1,4 +1,4 @@
-package scripting.menus;
+package scripting.substates;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;

@@ -1,4 +1,4 @@
-package scripting.menus;
+package scripting.substates;
 
 //
 // This is simply where i store deprecated functions for it to be more organized.
@@ -18,8 +18,8 @@ class DeprecatedFunctions
 
 		Lua_helper.add_callback(lua, "objectPlayAnimation", function(obj:String, name:String, forced:Bool = false, ?startFrame:Int = 0) {
 			FunkinLua.luaTrace("objectPlayAnimation is deprecated! Use playAnim instead", false, true);
-			if(ScriptState.instance.getLuaObject(obj,false) != null) {
-				ScriptState.instance.getLuaObject(obj,false).animation.play(name, forced, false, startFrame);
+			if(ScriptSubstate.instance.getLuaObject(obj,false) != null) {
+				ScriptSubstate.instance.getLuaObject(obj,false).animation.play(name, forced, false, startFrame);
 				return true;
 			}
 

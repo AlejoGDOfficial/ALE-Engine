@@ -1,5 +1,5 @@
 #if LUA_ALLOWED
-package scripting.menus;
+package scripting.substates;
 
 class CallbackHandler
 {
@@ -19,7 +19,7 @@ class CallbackHandler
 				var last:FunkinLua = FunkinLua.lastCalledScript;
 				if(last == null || last.lua != l)
 				{
-					for (script in (ScriptState.instance.luaArray))
+					for (script in (ScriptSubstate.instance.luaArray))
 						if(script != FunkinLua.lastCalledScript && script != null && script.lua == l)
 						{
 							//trace('found script');

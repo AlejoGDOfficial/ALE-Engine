@@ -20,10 +20,21 @@ class MusicBeatSubstate extends FlxSubState
 
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
-	private var controls(get, never):Controls;
 
-	inline function get_controls():Controls
+	public var controls(get, never):Controls;
+
+	private function get_controls()
+	{
 		return Controls.instance;
+	}
+
+	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
+	public static function getVariables()
+		return getSubState().variables;
+
+	public static function getSubState():MusicBeatSubstate {
+		return cast (FlxG.state.subState, MusicBeatSubstate);
+	}
 
 	override function update(elapsed:Float)
 	{

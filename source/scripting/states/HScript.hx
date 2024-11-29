@@ -1,9 +1,8 @@
-package scripting.menus;
+package scripting.states;
 
 import flixel.FlxBasic;
 import objects.Character;
-import scripting.menus.LuaUtils;
-import scripting.menus.CustomSubstate;
+import scripting.states.LuaUtils;
 import backend.Song;
 
 import openfl.utils.Assets;
@@ -14,7 +13,7 @@ import flixel.FlxObject;
 import flixel.FlxState;
 
 #if LUA_ALLOWED
-import scripting.menus.FunkinLua;
+import scripting.states.FunkinLua;
 #end
 
 #if HSCRIPT_ALLOWED
@@ -122,7 +121,6 @@ class HScript extends SScript
 		set('File', sys.io.File);
 		set('Json', haxe.Json);
 		set('Note', objects.Note);
-		set('CustomSubstate', CustomSubstate);
 		#if (!flash && sys)
 		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		#end
@@ -159,6 +157,11 @@ class HScript extends SScript
 		{
 			ScriptState.instance.openSomeSubStates(substate);
 		});
+		set('openScriptSubState', function(substate:String)
+		{
+			ScriptSubstate.instance.openScriptSubState(substate);
+		});
+
 		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
 		{
 			if (difficulty == 'normal')
@@ -554,8 +557,6 @@ class HScript extends SScript
 		set('controls', Controls.instance);
 
 		set('buildTarget', LuaUtils.getBuildTarget());
-		set('customSubstate', CustomSubstate.instance);
-		set('customSubstateName', CustomSubstate.name);
 
 		set('Function_Stop', LuaUtils.Function_Stop);
 		set('Function_Continue', LuaUtils.Function_Continue);

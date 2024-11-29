@@ -13,18 +13,18 @@ import openfl.filters.ShaderFilter;
 import objects.VideoSprite;
 
 #if LUA_ALLOWED
-import scripting.states.*;
+import scripting.substates.*;
 #end
 
 #if SScript
 import tea.SScript;
 #end
 
-class ScriptState extends MusicBeatState
+class ScriptSubstate extends MusicBeatSubstate
 {
     public static var targetFileName:String; 
 
-    public function new(?scriptName:String = 'configGame') 
+    public function new(scriptName:String) 
     {
         super();
 
@@ -33,12 +33,12 @@ class ScriptState extends MusicBeatState
 
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 
-    public static var instance:ScriptState;
+    public static var instance:ScriptSubstate;
 
     #if LUA_ALLOWED public var luaArray:Array<FunkinLua> = []; #end
     
     #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-    private var luaDebugGroup:FlxTypedGroup<scripting.states.DebugLuaText>;
+    private var luaDebugGroup:FlxTypedGroup<scripting.substates.DebugLuaText>;
     #end
 
 	#if HSCRIPT_ALLOWED
@@ -56,20 +56,14 @@ class ScriptState extends MusicBeatState
         instance = this;
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		luaDebugGroup = new FlxTypedGroup<scripting.states.DebugLuaText>();
+		luaDebugGroup = new FlxTypedGroup<scripting.substates.DebugLuaText>();
 		add(luaDebugGroup);
 		#end
 		
-		if (targetFileName == 'configGame')
-		{
-			#if LUA_ALLOWED startLuasNamed('scripts/config/config.lua'); #end
-			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/config/config.hx'); #end
-		} else {
-			#if LUA_ALLOWED startLuasNamed('scripts/states/' + targetFileName + '.lua'); #end
-			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/states/' + targetFileName + '.hx'); #end
-			#if LUA_ALLOWED startLuasNamed('scripts/states/global.lua'); #end
-			#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/states/global.hx'); #end
-		}
+		#if LUA_ALLOWED startLuasNamed('scripts/substates/' + targetFileName + '.lua'); #end
+		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/substates/' + targetFileName + '.hx'); #end
+		#if LUA_ALLOWED startLuasNamed('scripts/substates/global.lua'); #end
+		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/substates/global.hx'); #end
 
 		callOnScripts('onCreatePost');
 
@@ -144,14 +138,14 @@ class ScriptState extends MusicBeatState
     #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
     public function addTextToDebug(text:String, color:FlxColor) 
     {
-        var newText:scripting.states.DebugLuaText = luaDebugGroup.recycle(scripting.states.DebugLuaText);
+        var newText:scripting.substates.DebugLuaText = luaDebugGroup.recycle(scripting.substates.DebugLuaText);
         newText.text = text;
         newText.color = color;
         newText.disableTime = 6;
         newText.alpha = 1;
         newText.setPosition(10, 8 - newText.height);
 
-        luaDebugGroup.forEachAlive(function(spr:scripting.states.DebugLuaText) {
+        luaDebugGroup.forEachAlive(function(spr:scripting.substates.DebugLuaText) {
             spr.y += newText.height + 2;
         });
         luaDebugGroup.add(newText);
@@ -572,7 +566,7 @@ class ScriptState extends MusicBeatState
 
 	public function resetScriptState(?doTransition:Bool = false)
 	{
-		switchToScriptState(targetFileName, doTransition);
+		switchToScriptState(ScriptState.targetFileName, doTransition);
 	}
 
 	public function switchToSomeStates(state:String)
@@ -617,5 +611,15 @@ class ScriptState extends MusicBeatState
 	public function openScriptSubState(subState:String)
 	{
 		openSubState(new ScriptSubstate(subState));
+	}
+
+	public function closeScriptSubState()
+	{
+		close();
+	}
+
+	public function resetScriptSubState()
+	{
+		openScriptSubState(targetFileName);
 	}
 }

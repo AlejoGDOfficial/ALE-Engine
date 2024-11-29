@@ -18,7 +18,7 @@ class MainState extends MusicBeatState
         cpp.WindowsCPP.setWindowLayered();
         cpp.WindowsCPP.setWindowBorderColor(32, 32, 32);
     
-        CoolVars.globalVars.set('engineVersion', 'Alpha 6');
+        CoolVars.globalVars.set('engineVersion', 'Alpha 7');
     
         Paths.clearStoredMemory();
 
@@ -32,6 +32,7 @@ class MainState extends MusicBeatState
         #end
 
 		FlxTransitionableState.skipNextTransIn = true;
+		FlxTransitionableState.skipNextTransOut = true;
 
         MusicBeatState.switchState(new ScriptState());
     }

@@ -1,4 +1,4 @@
-package scripting.menus;
+package scripting.states;
 
 import backend.WeekData;
 import objects.Character;

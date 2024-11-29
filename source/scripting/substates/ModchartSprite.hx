@@ -1,4 +1,4 @@
-package scripting.menus;
+package scripting.substates;
 
 class ModchartSprite extends FlxSprite
 {
