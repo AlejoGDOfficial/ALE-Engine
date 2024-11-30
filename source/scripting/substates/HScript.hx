@@ -132,6 +132,7 @@ class HScript extends SScript
 		set('Lib', Lib);
 		set('CoolVars', backend.CoolVars);
 		set('MusicBeatState', backend.MusicBeatState);
+		set('MusicBeatSubstate', backend.MusicBeatSubstate);
 
 		//ALE Shit INIT
 
@@ -153,21 +154,9 @@ class HScript extends SScript
 		{
 			ScriptSubstate.instance.switchToSomeStates(state);
 		});
-		set('openSomeSubStates', function(substate:String)
-		{
-			ScriptSubstate.instance.openSomeSubStates(substate);
-		});
-		set('openScriptSubState', function(substate:String)
-		{
-			ScriptSubstate.instance.openScriptSubState(substate);
-		});
 		set('closeScriptSubState', function()
 		{
-			ScriptSubstate.instance.closeScriptSubState();
-		});
-		set('resetScriptSubState', function()
-		{
-			ScriptSubstate.instance.resetScriptSubState();
+			ScriptSubstate.instance.close();
 		});
 
 		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
@@ -398,19 +387,19 @@ class HScript extends SScript
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic) {
-			MusicBeatState.getVariables().set(name, value);
+			MusicBeatSubstate.getVariables().set(name, value);
 			return value;
 		});
 		set('getVar', function(name:String) {
 			var result:Dynamic = null;
-			if(MusicBeatState.getVariables().exists(name)) result = MusicBeatState.getVariables().get(name);
+			if(MusicBeatSubstate.getVariables().exists(name)) result = MusicBeatSubstate.getVariables().get(name);
 			return result;
 		});
 		set('removeVar', function(name:String)
 		{
-			if(MusicBeatState.getVariables().exists(name))
+			if(MusicBeatSubstate.getVariables().exists(name))
 			{
-				MusicBeatState.getVariables().remove(name);
+				MusicBeatSubstate.getVariables().remove(name);
 				return true;
 			}
 			return false;

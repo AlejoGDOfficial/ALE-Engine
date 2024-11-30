@@ -37,6 +37,7 @@ class MusicBeatState extends FlxState
 	var _psychCameraInitialized:Bool = false;
 
 	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
+
 	public static function getVariables()
 		return getState().variables;
 
@@ -61,6 +62,8 @@ class MusicBeatState extends FlxState
 	override function destroy()
 	{
 		instance = null;
+
+		super.destroy();
 	}
 
 	public function initPsychCamera():PsychCamera

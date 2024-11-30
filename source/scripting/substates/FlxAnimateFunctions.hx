@@ -10,7 +10,7 @@ class FlxAnimateFunctions
 		var lua:State = funk.lua;
 		Lua_helper.add_callback(lua, "makeFlxAnimateSprite", function(tag:String, ?x:Float = 0, ?y:Float = 0, ?loadFolder:String = null) {
 			tag = tag.replace('.', '');
-			var lastSprite = MusicBeatState.getVariables().get(tag);
+			var lastSprite = MusicBeatSubstate.getVariables().get(tag);
 			if(lastSprite != null)
 			{
 				lastSprite.kill();
@@ -20,18 +20,18 @@ class FlxAnimateFunctions
 
 			var mySprite:ModchartAnimateSprite = new ModchartAnimateSprite(x, y);
 			if(loadFolder != null) Paths.loadAnimateAtlas(mySprite, loadFolder);
-			MusicBeatState.getVariables().set(tag, mySprite);
+			MusicBeatSubstate.getVariables().set(tag, mySprite);
 			mySprite.active = true;
 		});
 
 		Lua_helper.add_callback(lua, "loadAnimateAtlas", function(tag:String, folderOrImg:Dynamic, ?spriteJson:Dynamic = null, ?animationJson:Dynamic = null) {
-			var spr:FlxAnimate = MusicBeatState.getVariables().get(tag);
+			var spr:FlxAnimate = MusicBeatSubstate.getVariables().get(tag);
 			if(spr != null) Paths.loadAnimateAtlas(spr, folderOrImg, spriteJson, animationJson);
 		});
 		
 		Lua_helper.add_callback(lua, "addAnimationBySymbol", function(tag:String, name:String, symbol:String, ?framerate:Float = 24, ?loop:Bool = false, ?matX:Float = 0, ?matY:Float = 0)
 		{
-			var obj:FlxAnimate = cast MusicBeatState.getVariables().get(tag);
+			var obj:FlxAnimate = cast MusicBeatSubstate.getVariables().get(tag);
 			if(obj == null) return false;
 
 			obj.anim.addBySymbol(name, symbol, framerate, loop, matX, matY);
@@ -46,7 +46,7 @@ class FlxAnimateFunctions
 
 		Lua_helper.add_callback(lua, "addAnimationBySymbolIndices", function(tag:String, name:String, symbol:String, ?indices:Any = null, ?framerate:Float = 24, ?loop:Bool = false, ?matX:Float = 0, ?matY:Float = 0)
 		{
-			var obj:FlxAnimate = cast MusicBeatState.getVariables().get(tag);
+			var obj:FlxAnimate = cast MusicBeatSubstate.getVariables().get(tag);
 			if(obj == null) return false;
 
 			if(indices == null)

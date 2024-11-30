@@ -65,18 +65,18 @@ class ScriptSubstate extends MusicBeatSubstate
 		#if LUA_ALLOWED startLuasNamed('scripts/substates/global.lua'); #end
 		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/substates/global.hx'); #end
 
-		callOnScripts('onCreatePost');
+		callOnScripts('onCreatePostSub');
 
         super.create();
     }
 
     override public function update(elapsed:Float)
     {
-		callOnScripts('onUpdate', [elapsed]);
+		callOnScripts('onUpdateSub', [elapsed]);
 
 		if (FlxG.sound.music != null && FlxG.sound.music.looped) FlxG.sound.music.onComplete = fixMusic.bind();
 
-		callOnScripts('onUpdatePost', [elapsed]);
+		callOnScripts('onUpdatePostSub', [elapsed]);
 
         super.update(elapsed);
     }
@@ -92,8 +92,8 @@ class ScriptSubstate extends MusicBeatSubstate
 		}
 
 		lastStepHit = curStep;
-		setOnScripts('curStep', curStep);
-		callOnScripts('onStepHit');
+		setOnScripts('curStepSub', curStep);
+		callOnScripts('onStepHitSub');
 	}
 
 	var lastBeatHit:Int = -1;
@@ -108,8 +108,8 @@ class ScriptSubstate extends MusicBeatSubstate
 
 		lastBeatHit = curBeat;
 
-		setOnScripts('curBeat', curBeat);
-		callOnScripts('onBeatHit');
+		setOnScripts('curBeatSub', curBeat);
+		callOnScripts('onBeatHitSub');
 	}
 
 	var lastSectionHit:Int = -1;
@@ -123,13 +123,14 @@ class ScriptSubstate extends MusicBeatSubstate
 
 		super.sectionHit();
 
-		setOnScripts('curSection', curSection);
-		callOnScripts('onSectionHit');
+		setOnScripts('curSectionSub', curSection);
+		callOnScripts('onSectionHitSub');
 	}
 
 	function fixMusic()
 	{
-		MusicBeatState.instance.resetMusicVars();
+		MusicBeatSubstate.instance.resetMusicVars();
+		
 		lastStepHit = -1;
 		lastBeatHit = -1;
 		lastSectionHit = -1;
@@ -203,20 +204,20 @@ class ScriptSubstate extends MusicBeatSubstate
 
 	private function keyPressed(key:Int)
 	{
-		var ret:Dynamic = callOnScripts('onKeyPressPre', [key]);
+		var ret:Dynamic = callOnScripts('onKeyPressPreSub', [key]);
 		if(ret == LuaUtils.Function_Stop) return;
 
 		if(!keysPressed.contains(key)) keysPressed.push(key);
 
-		callOnScripts('onKeyPress', [key]);
+		callOnScripts('onKeyPressSub', [key]);
 	}
 
 	private function keyReleased(key:Int)
 	{
-		var ret:Dynamic = callOnScripts('onKeyReleasePre', [key]);
+		var ret:Dynamic = callOnScripts('onKeyReleasePreSub', [key]);
 		if(ret == LuaUtils.Function_Stop) return;
 
-		callOnScripts('onKeyRelease', [key]);
+		callOnScripts('onKeyReleaseSub', [key]);
 	}
 
 	private function keysCheck():Void
@@ -236,6 +237,8 @@ class ScriptSubstate extends MusicBeatSubstate
 	}
 
 	override function destroy() {
+		instance = null;
+
 		#if LUA_ALLOWED
 		for (lua in luaArray)
 		{
@@ -316,9 +319,9 @@ class ScriptSubstate extends MusicBeatSubstate
 			}
 
 			hscriptArray.push(newScript);
-			if(newScript.exists('onCreate'))
+			if(newScript.exists('onCreateSub'))
 			{
-				var callValue = newScript.call('onCreate');
+				var callValue = newScript.call('onCreateSub');
 				if(!callValue.succeeded)
 				{
 					for (e in callValue.exceptions)
@@ -327,7 +330,7 @@ class ScriptSubstate extends MusicBeatSubstate
 						{
 							var len:Int = e.message.indexOf('\n') + 1;
 							if(len <= 0) len = e.message.length;
-								addTextToDebug('ERROR ($file: onCreate) - ${e.message.substr(0, len)}', FlxColor.RED);
+								addTextToDebug('ERROR ($file: onCreateSub) - ${e.message.substr(0, len)}', FlxColor.RED);
 						}
 					}
 
@@ -597,29 +600,5 @@ class ScriptSubstate extends MusicBeatSubstate
 			case 'states.editors.NoteSplashEditorState':
 				MusicBeatState.switchState(new NoteSplashEditorState());
 		}
-	}
-
-	public function openSomeSubStates(subState:String)
-	{
-		switch (subState)
-		{
-			case 'substates.GameplayChangersSubstate':
-				openSubState(new substates.GameplayChangersSubstate());
-		}
-	}
-
-	public function openScriptSubState(subState:String)
-	{
-		openSubState(new ScriptSubstate(subState));
-	}
-
-	public function closeScriptSubState()
-	{
-		close();
-	}
-
-	public function resetScriptSubState()
-	{
-		openScriptSubState(targetFileName);
 	}
 }

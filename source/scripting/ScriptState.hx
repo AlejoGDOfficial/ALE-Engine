@@ -136,6 +136,7 @@ class ScriptState extends MusicBeatState
 	function fixMusic()
 	{
 		MusicBeatState.instance.resetMusicVars();
+		
 		lastStepHit = -1;
 		lastBeatHit = -1;
 		lastSectionHit = -1;
@@ -242,6 +243,8 @@ class ScriptState extends MusicBeatState
 	}
 
 	override function destroy() {
+		instance = null;
+
 		#if LUA_ALLOWED
 		for (lua in luaArray)
 		{

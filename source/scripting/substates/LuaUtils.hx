@@ -45,9 +45,9 @@ class LuaUtils
 		if(splitProps.length > 1)
 		{
 			var target:Dynamic = null;
-			if(MusicBeatState.getVariables().exists(splitProps[0]))
+			if(MusicBeatSubstate.getVariables().exists(splitProps[0]))
 			{
-				var retVal:Dynamic = MusicBeatState.getVariables().get(splitProps[0]);
+				var retVal:Dynamic = MusicBeatSubstate.getVariables().get(splitProps[0]);
 				if(retVal != null)
 					target = retVal;
 			}
@@ -71,9 +71,9 @@ class LuaUtils
 			return value;
 		}
 
-		if(MusicBeatState.getVariables().exists(variable))
+		if(MusicBeatSubstate.getVariables().exists(variable))
 		{
-			MusicBeatState.getVariables().set(variable, value);
+			MusicBeatSubstate.getVariables().set(variable, value);
 			return value;
 		}
 		Reflect.setProperty(instance, variable, value);
@@ -85,9 +85,9 @@ class LuaUtils
 		if(splitProps.length > 1)
 		{
 			var target:Dynamic = null;
-			if(MusicBeatState.getVariables().exists(splitProps[0]))
+			if(MusicBeatSubstate.getVariables().exists(splitProps[0]))
 			{
-				var retVal:Dynamic = MusicBeatState.getVariables().get(splitProps[0]);
+				var retVal:Dynamic = MusicBeatSubstate.getVariables().get(splitProps[0]);
 				if(retVal != null)
 					target = retVal;
 			}
@@ -108,9 +108,9 @@ class LuaUtils
 			return instance.get(variable);
 		}
 
-		if(MusicBeatState.getVariables().exists(variable))
+		if(MusicBeatSubstate.getVariables().exists(variable))
 		{
-			var retVal:Dynamic = MusicBeatState.getVariables().get(variable);
+			var retVal:Dynamic = MusicBeatSubstate.getVariables().get(variable);
 			if(retVal != null)
 				return retVal;
 		}
@@ -249,8 +249,8 @@ class LuaUtils
 				return ScriptSubstate.instance;
 			
 			default:
-				var obj:Dynamic = MusicBeatState.getVariables().get(objectName);
-				if(obj == null) obj = getVarInArray(MusicBeatState.getState(), objectName, allowMaps);
+				var obj:Dynamic = MusicBeatSubstate.getVariables().get(objectName);
+				if(obj == null) obj = getVarInArray(MusicBeatSubstate.getSubState(), objectName, allowMaps);
 				return obj;
 		}
 	}
@@ -320,7 +320,7 @@ class LuaUtils
 	}
 
 	public static function destroyObject(tag:String) {
-		var variables = MusicBeatState.getVariables();
+		var variables = MusicBeatSubstate.getVariables();
 		var obj:FlxSprite = variables.get(tag);
 		if(obj == null || obj.destroy == null)
 			return;
@@ -332,7 +332,7 @@ class LuaUtils
 
 	public static function cancelTween(tag:String) {
 		if(!tag.startsWith('tween_')) tag = 'tween_' + LuaUtils.formatVariable(tag);
-		var variables = MusicBeatState.getVariables();
+		var variables = MusicBeatSubstate.getVariables();
 		var twn:FlxTween = variables.get(tag);
 		if(twn != null)
 		{
@@ -344,7 +344,7 @@ class LuaUtils
 
 	public static function cancelTimer(tag:String) {
 		if(!tag.startsWith('timer_')) tag = 'timer_' + LuaUtils.formatVariable(tag);
-		var variables = MusicBeatState.getVariables();
+		var variables = MusicBeatSubstate.getVariables();
 		var tmr:FlxTimer = variables.get(tag);
 		if(tmr != null)
 		{

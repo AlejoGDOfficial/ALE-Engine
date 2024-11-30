@@ -4,11 +4,6 @@ import flixel.FlxSubState;
 
 class MusicBeatSubstate extends FlxSubState
 {
-	public function new()
-	{
-		super();
-	}
-
 	private var curSection:Int = 0;
 	private var stepsToDo:Int = 0;
 
@@ -20,6 +15,21 @@ class MusicBeatSubstate extends FlxSubState
 
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
+
+	public function resetMusicVars()
+	{
+		curSection = 0;
+		stepsToDo = 0;
+
+		lastBeat = 0;
+		lastStep = 0;
+	
+		curStep = 0;
+		curBeat = 0;
+	
+		curDecStep = 0;
+		curDecBeat = 0;
+	}
 
 	public var controls(get, never):Controls;
 
@@ -34,6 +44,15 @@ class MusicBeatSubstate extends FlxSubState
 
 	public static function getSubState():MusicBeatSubstate {
 		return cast (FlxG.state.subState, MusicBeatSubstate);
+	}
+
+	public static var instance:MusicBeatSubstate;
+
+	override function create()
+	{
+		instance = this;
+		
+		super.create();
 	}
 
 	override function update(elapsed:Float)
@@ -60,6 +79,12 @@ class MusicBeatSubstate extends FlxSubState
 		}
 
 		super.update(elapsed);
+	}
+	override function destroy()
+	{
+		instance = null;
+
+		super.destroy();
 	}
 
 	private function updateSection():Void

@@ -144,7 +144,7 @@ class FunkinLua {
 		});
 		Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
 		{
-			ScriptSubstate.instance.openScriptSubState(substate);
+			ScriptState.instance.openScriptSubState(substate);
 		});
 
 		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)

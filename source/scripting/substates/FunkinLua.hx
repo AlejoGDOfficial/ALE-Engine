@@ -138,21 +138,9 @@ class FunkinLua {
 		{
 			ScriptSubstate.instance.switchToSomeStates(state);
 		});
-		Lua_helper.add_callback(lua, 'openSomeSubStates', function(substate:String)
-		{
-			ScriptSubstate.instance.openSomeSubStates(substate);
-		});
-		Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
-		{
-			ScriptSubstate.instance.openScriptSubState(substate);
-		});
 		Lua_helper.add_callback(lua, 'closeScriptSubState', function()
 		{
-			ScriptSubstate.instance.closeScriptSubState();
-		});
-		Lua_helper.add_callback(lua, 'resetScriptSubState', function()
-		{
-			ScriptSubstate.instance.resetScriptSubState();
+			ScriptSubstate.instance.close();
 		});
 
 		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
@@ -538,11 +526,11 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "setVar", function(varName:String, value:Dynamic) {
-			MusicBeatState.getVariables().set(varName, value);
+			MusicBeatSubstate.getVariables().set(varName, value);
 			return value;
 		});
 		Lua_helper.add_callback(lua, "getVar", function(varName:String) {
-			return MusicBeatState.getVariables().get(varName);
+			return MusicBeatSubstate.getVariables().get(varName);
 		});
 
 		Lua_helper.add_callback(lua, "addLuaScript", function(luaFile:String, ?ignoreAlreadyRunning:Bool = false) { //would be dope asf.
@@ -687,7 +675,7 @@ class FunkinLua {
 					var myOptions:LuaTweenOptions = LuaUtils.getLuaTween(options);
 					if(tag != null)
 					{
-						var variables = MusicBeatState.getVariables();
+						var variables = MusicBeatSubstate.getVariables();
 						tag = 'tween_' + LuaUtils.formatVariable(tag);
 						variables.set(tag, FlxTween.tween(penisExam, values, duration, {
 							type: myOptions.type,
@@ -739,7 +727,7 @@ class FunkinLua {
 				{
 					var originalTag:String = tag;
 					tag = LuaUtils.formatVariable('tween_$tag');
-					var variables = MusicBeatState.getVariables();
+					var variables = MusicBeatSubstate.getVariables();
 					variables.set(tag, FlxTween.color(penisExam, duration, curColor, CoolUtil.colorFromString(targetColor), {ease: LuaUtils.getTweenEaseByString(ease),
 						onComplete: function(twn:FlxTween)
 						{
@@ -790,7 +778,7 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "runTimer", function(tag:String, time:Float = 1, loops:Int = 1) {
 			LuaUtils.cancelTimer(tag);
-			var variables = MusicBeatState.getVariables();
+			var variables = MusicBeatSubstate.getVariables();
 			
 			var originalTag:String = tag;
 			tag = LuaUtils.formatVariable('timer_$tag');
@@ -910,7 +898,7 @@ class FunkinLua {
 			{
 				leSprite.loadGraphic(Paths.image(image));
 			}
-			MusicBeatState.getVariables().set(tag, leSprite);
+			MusicBeatSubstate.getVariables().set(tag, leSprite);
 			leSprite.active = true;
 		});
 		Lua_helper.add_callback(lua, "makeAnimatedLuaSprite", function(tag:String, ?image:String = null, ?x:Float = 0, ?y:Float = 0, ?spriteType:String = "sparrow") {
@@ -919,7 +907,7 @@ class FunkinLua {
 			var leSprite:ModchartSprite = new ModchartSprite(x, y);
 
 			LuaUtils.loadFrames(leSprite, image, spriteType);
-			MusicBeatState.getVariables().set(tag, leSprite);
+			MusicBeatSubstate.getVariables().set(tag, leSprite);
 		});
 
 		Lua_helper.add_callback(lua, "makeGraphic", function(obj:String, width:Int = 256, height:Int = 256, color:String = 'FFFFFF') {
@@ -1000,7 +988,7 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "addLuaSprite", function(tag:String, front:Bool = false) {
-			var mySprite:FlxSprite = MusicBeatState.getVariables().get(tag);
+			var mySprite:FlxSprite = MusicBeatSubstate.getVariables().get(tag);
 			if(mySprite == null) return false;
 
 			var instance = LuaUtils.getTargetInstance();
@@ -1084,21 +1072,21 @@ class FunkinLua {
 			groupObj.remove(obj, true);
 			if(destroy)
 			{
-				MusicBeatState.getVariables().remove(tag);
+				MusicBeatSubstate.getVariables().remove(tag);
 				obj.destroy();
 			}
 		});
 
 		Lua_helper.add_callback(lua, "luaSpriteExists", function(tag:String) {
-			var obj:FlxSprite = MusicBeatState.getVariables().get(tag);
+			var obj:FlxSprite = MusicBeatSubstate.getVariables().get(tag);
 			return (obj != null && Std.isOfType(obj, FlxSprite));
 		});
 		Lua_helper.add_callback(lua, "luaTextExists", function(tag:String) {
-			var obj:FlxSprite = MusicBeatState.getVariables().get(tag);
+			var obj:FlxSprite = MusicBeatSubstate.getVariables().get(tag);
 			return (obj != null && Std.isOfType(obj, FlxText));
 		});
 		Lua_helper.add_callback(lua, "luaSoundExists", function(tag:String) {
-			var obj:FlxSprite = MusicBeatState.getVariables().get(tag);
+			var obj:FlxSprite = MusicBeatSubstate.getVariables().get(tag);
 			return (obj != null && Std.isOfType(obj, FlxSound));
 		});
 
@@ -1227,7 +1215,7 @@ class FunkinLua {
 			{
 				var originalTag:String = tag;
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var variables = MusicBeatState.getVariables();
+				var variables = MusicBeatSubstate.getVariables();
 				var oldSnd = variables.get(tag);
 				if(oldSnd != null)
 				{
@@ -1250,7 +1238,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var variables = MusicBeatState.getVariables();
+				var variables = MusicBeatSubstate.getVariables();
 				var snd:FlxSound = variables.get(tag);
 				if(snd != null)
 				{
@@ -1265,7 +1253,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null) snd.pause();
 			}
 		});
@@ -1275,7 +1263,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null) snd.play();
 			}
 		});
@@ -1288,7 +1276,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null)
 					snd.fadeIn(duration, fromValue, toValue);
 			}
@@ -1302,7 +1290,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null)
 					snd.fadeOut(duration, toValue);
 			}
@@ -1316,7 +1304,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null && snd.fadeTween != null)
 					snd.fadeTween.cancel();
 			}
@@ -1330,7 +1318,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null) return snd.volume;
 			}
 			return 0;
@@ -1348,7 +1336,7 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null) snd.volume = value;
 			}
 		});
@@ -1358,7 +1346,7 @@ class FunkinLua {
 				return FlxG.sound.music != null ? FlxG.sound.music.time : 0;
 			}
 			tag = LuaUtils.formatVariable('sound_$tag');
-			var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+			var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 			return snd != null ? snd.time : 0;
 		});
 
@@ -1374,19 +1362,19 @@ class FunkinLua {
 			else
 			{
 				tag = LuaUtils.formatVariable('sound_$tag');
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null) snd.time = value;
 			}
 		});
 		#if FLX_PITCH
 		Lua_helper.add_callback(lua, "getSoundPitch", function(tag:String) {
 			tag = LuaUtils.formatVariable('sound_$tag');
-			var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+			var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 			return snd != null ? snd.pitch : 0;
 		});
 		Lua_helper.add_callback(lua, "setSoundPitch", function(tag:String, value:Float, doPause:Bool = false) {
 			tag = LuaUtils.formatVariable('sound_$tag');
-			var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+			var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 			if(snd != null)
 			{
 				var wasResumed:Bool = snd.playing;
@@ -1408,7 +1396,7 @@ class FunkinLua {
 			}
 			else
 			{
-				var snd:FlxSound = MusicBeatState.getVariables().get(tag);
+				var snd:FlxSound = MusicBeatSubstate.getVariables().get(tag);
 				if(snd != null)
 				{
 					var wasResumed:Bool = snd.playing;
@@ -1486,13 +1474,13 @@ class FunkinLua {
 		}
 		trace('lua file loaded succesfully:' + scriptName);
 
-		call('onCreate', []);
+		call('onCreateSub', []);
 	}
 
 	function oldTweenFunction(tag:String, vars:String, tweenValue:Any, duration:Float, ease:String, funcName:String)
 	{
 		var target:Dynamic = LuaUtils.tweenPrepare(tag, vars);
-		var variables = MusicBeatState.getVariables();
+		var variables = MusicBeatSubstate.getVariables();
 		if(target != null)
 		{
 			if(tag != null)

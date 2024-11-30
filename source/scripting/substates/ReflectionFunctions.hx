@@ -142,7 +142,7 @@ class ReflectionFunctions
 
 		Lua_helper.add_callback(lua, "createInstance", function(variableToSave:String, className:String, ?args:Array<Dynamic> = null) {
 			variableToSave = variableToSave.trim().replace('.', '');
-			if(!MusicBeatState.getVariables().exists(variableToSave))
+			if(!MusicBeatSubstate.getVariables().exists(variableToSave))
 			{
 				if(args == null) args = [];
 				var myType:Dynamic = Type.resolveClass(className);
@@ -155,7 +155,7 @@ class ReflectionFunctions
 
 				var obj:Dynamic = Type.createInstance(myType, args);
 				if(obj != null)
-					MusicBeatState.getVariables().set(variableToSave, obj);
+					MusicBeatSubstate.getVariables().set(variableToSave, obj);
 				else
 					FunkinLua.luaTrace('createInstance: Failed to create $variableToSave, arguments are possibly wrong.', false, false, FlxColor.RED);
 
@@ -165,9 +165,9 @@ class ReflectionFunctions
 			return false;
 		});
 		Lua_helper.add_callback(lua, "addInstance", function(objectName:String, ?inFront:Bool = false) {
-			if(MusicBeatState.getVariables().exists(objectName))
+			if(MusicBeatSubstate.getVariables().exists(objectName))
 			{
-				var obj:Dynamic = MusicBeatState.getVariables().get(objectName);
+				var obj:Dynamic = MusicBeatSubstate.getVariables().get(objectName);
 				if (inFront)
 					LuaUtils.getTargetInstance().add(obj);
 				else

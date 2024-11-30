@@ -94,7 +94,7 @@ class ExtraFunctions
 
 		// Save data management
 		Lua_helper.add_callback(lua, "initSaveData", function(name:String, ?folder:String = 'psychenginemods') {
-			var variables = MusicBeatState.getVariables();
+			var variables = MusicBeatSubstate.getVariables();
 			if(!variables.exists('save_$name'))
 			{
 				var save:FlxSave = new FlxSave();
@@ -106,7 +106,7 @@ class ExtraFunctions
 			FunkinLua.luaTrace('initSaveData: Save file already initialized: ' + name);
 		});
 		Lua_helper.add_callback(lua, "flushSaveData", function(name:String) {
-			var variables = MusicBeatState.getVariables();
+			var variables = MusicBeatSubstate.getVariables();
 			if(variables.exists('save_$name'))
 			{
 				variables.get('save_$name').flush();
@@ -115,7 +115,7 @@ class ExtraFunctions
 			FunkinLua.luaTrace('flushSaveData: Save file not initialized: ' + name, false, false, FlxColor.RED);
 		});
 		Lua_helper.add_callback(lua, "getDataFromSave", function(name:String, field:String, ?defaultValue:Dynamic = null) {
-			var variables = MusicBeatState.getVariables();
+			var variables = MusicBeatSubstate.getVariables();
 			if(variables.exists('save_$name'))
 			{
 				var saveData = variables.get('save_$name').data;
@@ -128,7 +128,7 @@ class ExtraFunctions
 			return defaultValue;
 		});
 		Lua_helper.add_callback(lua, "setDataFromSave", function(name:String, field:String, value:Dynamic) {
-			var variables = MusicBeatState.getVariables();
+			var variables = MusicBeatSubstate.getVariables();
 			if(variables.exists('save_$name'))
 			{
 				Reflect.setField(variables.get('save_$name').data, field, value);
@@ -138,7 +138,7 @@ class ExtraFunctions
 		});
 		Lua_helper.add_callback(lua, "eraseSaveData", function(name:String)
 		{
-			var variables = MusicBeatState.getVariables();
+			var variables = MusicBeatSubstate.getVariables();
 			if (variables.exists('save_$name'))
 			{
 				variables.get('save_$name').erase();
