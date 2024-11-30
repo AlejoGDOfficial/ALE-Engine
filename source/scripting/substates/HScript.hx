@@ -156,7 +156,7 @@ class HScript extends SScript
 		});
 		set('closeScriptSubState', function()
 		{
-			ScriptSubstate.instance.close();
+			FlxG.state.subState.close();
 		});
 
 		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
