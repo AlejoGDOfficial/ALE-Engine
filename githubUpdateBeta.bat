@@ -1,8 +1,6 @@
 @echo off
 
-color 0b
-
-title GitHub Update (alpha)
+title GitHub Update (beta)
 
 echo Add all changes to git
 
@@ -14,9 +12,9 @@ echo Running git commit with the provided name...
 
 git commit -m "%commitMessage%"
 
-echo Pushing to the 'alpha' branch...
+echo Pushing to the 'beta' branch...
 
-git push origin alpha
+git push origin beta
 
 echo Finished!
 
