@@ -1,45 +1,27 @@
 #if !macro
-//Discord API
+import core.config.ClientPrefs;
 #if DISCORD_ALLOWED
-import backend.Discord;
+import core.config.Discord;
 #end
+import core.gameplay.Conductor;
+import core.backend.BaseStage;
+import core.backend.Controls;
+import core.backend.MusicBeatState;
+import core.backend.MusicBeatSubstate;
 
-//Psych
-#if LUA_ALLOWED
-import llua.*;
-import llua.Lua;
-#end
+import gameplay.states.game.PlayState;
+import gameplay.states.game.LoadingState;
+import gameplay.camera.CustomFadeTransition;
 
-#if sys
-import sys.*;
-import sys.io.*;
-#elseif js
-import js.html.*;
-#end
+import utils.helpers.CoolUtil;
+import utils.helpers.CoolVars;
+import utils.helpers.Paths;
+import utils.helpers.Difficulty;
+import utils.mods.Mods;
 
-import backend.Paths;
-import backend.Controls;
-import backend.CoolUtil;
-import backend.MusicBeatState;
-import backend.MusicBeatSubstate;
-import backend.CustomFadeTransition;
-import backend.ClientPrefs;
-import backend.Conductor;
-import backend.BaseStage;
-import backend.Difficulty;
-import backend.Mods;
+import visuals.objects.Alphabet;
+import visuals.objects.BGSprite;
 
-import objects.Alphabet;
-import objects.BGSprite;
-
-import states.PlayState;
-import states.LoadingState;
-
-#if flxanimate
-import flxanimate.*;
-#end
-
-//Flixel
 import flixel.sound.FlxSound;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -53,6 +35,23 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.addons.transition.FlxTransitionableState;
+
+#if LUA_ALLOWED
+import llua.*;
+import llua.Lua;
+#end
+
+#if sys
+import sys.*;
+import sys.io.*;
+#elseif js
+import js.html.*;
+#end
+
+#if flxanimate
+import flxanimate.*;
+#end
 
 using StringTools;
 #end
