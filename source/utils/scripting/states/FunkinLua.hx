@@ -1108,6 +1108,7 @@ class FunkinLua {
 		ExtraFunctions.implement(this);
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
+		ALEFunctions.implement(this);
 
 		try{
 			var isString:Bool = !FileSystem.exists(scriptName);

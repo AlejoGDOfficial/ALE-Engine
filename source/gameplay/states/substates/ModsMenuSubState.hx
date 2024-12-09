@@ -120,6 +120,7 @@ class ModsMenuSubState extends MusicBeatSubstate
                 new FlxTimer().start(1, function(tmr:FlxTimer)
                 {
                     Mods.currentModDirectory = texts[selInt].text;
+                    
                     ClientPrefs.data.currentModFolder = Mods.currentModDirectory;
                     ClientPrefs.saveSettings();
     

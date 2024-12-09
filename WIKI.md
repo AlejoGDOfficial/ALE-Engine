@@ -17,14 +17,13 @@
 * `switchToSomeStates(stateName)`
     - Examples: <br/>
         `switchToSomeStates('options.OptionsState')` <br/>
-        `switchToSomeStates('states.editors.ChartingState')` <br/>
-        `switchToSomeStates('states.editors.CharacterEditorState')` <br/>
-        `switchToSomeStates('states.editors.StageEditorState')` <br/>
-        `switchToSomeStates('states.editors.WeekEditorState')` <br/>
-        `switchToSomeStates('states.editors.MenuCharacterEditorState')` <br/>
-        `switchToSomeStates('states.editors.DialogueEditorState')` <br/>
-        `switchToSomeStates('states.editors.DialogueCharacterEditorState')` <br/>
-        `switchToSomeStates('states.editors.NoteSplashEditorState')`
+        `switchToSomeStates('gameplay.states.substates.ChartingState')` <br/>
+        `switchToSomeStates('gameplay.states.substates.CharacterEditorState')` <br/>
+        `switchToSomeStates('gameplay.states.substates.WeekEditorState')` <br/>
+        `switchToSomeStates('gameplay.states.substates.MenuCharacterEditorState')` <br/>
+        `switchToSomeStates('gameplay.states.substates.DialogueEditorState')` <br/>
+        `switchToSomeStates('gameplay.states.substates.DialogueCharacterEditorState')` <br/>
+        `switchToSomeStates('gameplay.states.substates.NoteSplashEditorState')`
 
 #### Used to open Specific SubStates.
 

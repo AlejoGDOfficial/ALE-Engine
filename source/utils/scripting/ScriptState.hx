@@ -595,27 +595,27 @@ class ScriptState extends MusicBeatState
 		{
 			case 'options.OptionsState':
 				MusicBeatState.switchState(new OptionsState());
-				OptionsState.onPlayState = false;
+				options.OptionsState.onPlayState = false;
 				if (PlayState.SONG != null)
 				{
 					PlayState.SONG.arrowSkin = null;
 					PlayState.SONG.splashSkin = null;
 					PlayState.stageUI = 'normal';
 				}
-			case 'states.editors.ChartingState':
-				LoadingState.loadAndSwitchState(new ChartingState(), false);
-			case 'states.editors.CharacterEditorState':
-				LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-			case 'states.editors.WeekEditorState':
-				LoadingState.loadAndSwitchState(new WeekEditorState());
-			case 'states.editors.MenuCharacterEditorState':
-				MusicBeatState.switchState(new MenuCharacterEditorState());
-			case 'states.editors.DialogueEditorState':
-				LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
-			case 'states.editors.DialogueCharacterEditorState':
-				LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
-			case 'states.editors.NoteSplashEditorState':
-				MusicBeatState.switchState(new NoteSplashEditorState());
+			case 'gameplay.states.editors.ChartingState':
+				LoadingState.loadAndSwitchState(new gameplay.states.editors.ChartingState(), false);
+			case 'gameplay.states.editors.CharacterEditorState':
+				LoadingState.loadAndSwitchState(new gameplay.states.editors.CharacterEditorState(Character.DEFAULT_CHARACTER, false));
+			case 'gameplay.states.editors.WeekEditorState':
+				LoadingState.loadAndSwitchState(new gameplay.states.editors.WeekEditorState());
+			case 'gameplay.states.editors.MenuCharacterEditorState':
+				MusicBeatState.switchState(new gameplay.states.editors.MenuCharacterEditorState());
+			case 'gameplay.states.editors.DialogueEditorState':
+				LoadingState.loadAndSwitchState(new gameplay.states.editors.DialogueEditorState(), false);
+			case 'gameplay.states.editors.DialogueCharacterEditorState':
+				LoadingState.loadAndSwitchState(new gameplay.states.editors.DialogueCharacterEditorState(), false);
+			case 'gameplay.states.editors.NoteSplashEditorState':
+				MusicBeatState.switchState(new gameplay.states.editors.NoteSplashEditorState());
 		}
 	}
 
@@ -623,7 +623,7 @@ class ScriptState extends MusicBeatState
 	{
 		switch (subState)
 		{
-			case 'substates.GameplayChangersSubstate':
+			case 'gameplay.states.substates.GameplayChangersSubstate':
 				openSubState(new gameplay.states.substates.GameplayChangersSubstate());
 		}
 	}

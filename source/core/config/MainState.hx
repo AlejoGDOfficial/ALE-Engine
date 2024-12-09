@@ -19,6 +19,7 @@ class MainState extends MusicBeatState
         WindowsCPP.setWindowBorderColor(32, 32, 32);
     
         Paths.clearStoredMemory();
+        Paths.clearUnusedMemory();
 
 		Mods.pushGlobalMods();
 

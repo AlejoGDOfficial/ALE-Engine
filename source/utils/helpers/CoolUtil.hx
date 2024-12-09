@@ -5,6 +5,8 @@ import lime.utils.Assets as LimeAssets;
 
 import haxe.Json;
 
+import core.config.MainState;
+
 class CoolUtil
 {
 	inline public static function quantize(f:Float, snap:Float){
@@ -178,12 +180,12 @@ class CoolUtil
 	public static function getCurrentState():Array<Dynamic>
 	{
 		var curState:String = Type.getClassName(Type.getClass(FlxG.state));
-/*
+
 		if (curState == 'scripting.ScriptState')
 		{
 			return [true, ScriptState.targetFileName];
 		}
-*/
+
 		return [false, curState];
 	}
 
@@ -278,19 +280,9 @@ class CoolUtil
 
 	public static function resetEngine()
 	{
-		if (FlxG.sound.music != null)
-		{
-			FlxG.sound.music.stop();
+		FlxG.game.removeChild(MainState.fpsVar);
+		MainState.fpsVar = null;
 
-			FlxG.sound.music = null;
-		}
-			
-		MusicBeatState.instance.resetMusicVars();
-
-		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
-
-		FlxTransitionableState.skipNextTransIn = true;
-		
-		MusicBeatState.switchState(new ScriptState('configGame'));
+		FlxG.resetGame();
 	}
 }

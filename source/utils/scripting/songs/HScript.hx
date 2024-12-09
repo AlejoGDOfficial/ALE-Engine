@@ -5,6 +5,13 @@ import visuals.objects.Character;
 import utils.scripting.songs.LuaUtils;
 import utils.scripting.songs.CustomSubstate;
 
+import core.backend.Song;
+import core.gameplay.stages.WeekData;
+
+import openfl.Lib;
+
+import cpp.*;
+
 #if LUA_ALLOWED
 import utils.scripting.songs.FunkinLua;
 #end
@@ -45,6 +52,35 @@ class HScript extends SScript
 		}
 	}
 	#end
+
+	//ALE Shit INIT
+
+	private function windowTweenUpdateX(value:Float)
+	{
+		Lib.application.window.x = Math.floor(value);
+	}
+	
+	private function windowTweenUpdateY(value:Float)
+	{
+		Lib.application.window.y = Math.floor(value);
+	}
+	
+	private function windowTweenUpdateWidth(value:Float)
+	{
+		Lib.application.window.width = Math.floor(value);
+	}
+	
+	private function windowTweenUpdateHeight(value:Float)
+	{
+		Lib.application.window.height = Math.floor(value);
+	}
+	
+	private function windowTweenUpdateAlpha(value:Float)
+	{
+		WindowsCPP.setWindowAlpha(value);
+	}
+
+	//ALE Shit END
 
 	public var origin:String;
 	override public function new(?parent:Dynamic, ?file:String, ?varsToBring:Any = null)
@@ -87,6 +123,7 @@ class HScript extends SScript
 		set('FlxG', flixel.FlxG);
 		set('FlxMath', flixel.math.FlxMath);
 		set('FlxSprite', flixel.FlxSprite);
+		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
 		set('PsychCamera', gameplay.camera.PsychCamera);
 		set('FlxTimer', flixel.util.FlxTimer);
@@ -110,6 +147,212 @@ class HScript extends SScript
 		#if flxanimate
 		set('FlxAnimate', FlxAnimate);
 		#end
+		set('Lib', Lib);
+		set('CoolVars', utils.helpers.CoolVars);
+		set('CoolUtil', utils.helpers.CoolUtil);
+		set('MusicBeatState', core.backend.MusicBeatState);
+
+		//ALE Shit INIT
+
+		set('FlxBackdrop', flixel.addons.display.FlxBackdrop);
+
+		set('switchToScriptState', function(name:String, ?doTransition:Bool = false)
+		{
+			ScriptState.instance.switchToScriptState(name, doTransition);
+		});
+		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.num(Lib.application.window.x, pos, time, {ease: theEase}, windowTweenUpdateX);
+		});
+		set('doWindowTweenY', function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.num(Lib.application.window.y, pos, time, {ease: theEase}, windowTweenUpdateY);
+		});
+		set('doWindowTweenWidth', function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.num(Lib.application.window.width, pos, time, {ease: theEase}, windowTweenUpdateWidth);
+		});
+		set('doWindowTweenHeight', function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.num(Lib.application.window.height, pos, time, {ease: theEase}, windowTweenUpdateHeight);
+		});
+		set("setWindowX", function(pos:Int)
+		{
+			Lib.application.window.x = pos;
+		});
+		set("setWindowY", function(pos:Int)
+		{
+			Lib.application.window.y = pos;
+		});
+		set("setWindowWidth", function(pos:Int)
+		{
+			Lib.application.window.width = pos;
+		});
+		set("setWindowHeight", function(pos:Int)
+		{
+			Lib.application.window.height = pos;
+		});
+		set("getWindowX", function(pos:Int)
+		{
+			return Lib.application.window.x;
+		});
+		set("getWindowY", function(pos:Int)
+		{
+			return Lib.application.window.y;
+		});
+		set("getWindowWidth", function(pos:Int)
+		{
+			return Lib.application.window.width;
+		});
+		set("getWindowHeight", function(pos:Int)
+		{
+			return Lib.application.window.height;
+		});
+
+		//Global Vars
+
+		set("setGlobalVar", function(id:String, data:Dynamic)
+		{
+			CoolVars.globalVars.set(id, data);
+		});
+		set("getGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.get(id);
+		});
+		set("existsGlobalVar", function(id:String)
+		{
+			return CoolVars.globalVars.exists(id);
+		});
+		set("removeGlobalVar", function(id:String)
+		{
+			CoolVars.globalVars.remove(id);
+		});
+
+		//CPP
+
+		set('changeTitle', function(titleText:String)
+		{
+			lime.app.Application.current.window.title = titleText;
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+		});
+		
+		set('getDeviceRAM', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			return WindowsCPP.obtainRAM();
+		});
+		
+		set('screenCapture', function(path:String)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.windowsScreenShot(path);
+		});
+	
+		set('showMessageBox', function(message:String, caption:String, icon:cpp.WindowsAPI.MessageBoxIcon = MSG_WARNING)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.showMessageBox(caption, message, icon);
+		});
+		
+		set('setWindowAlpha', function(a:Float)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowAlpha(a);
+		});
+		set('getWindowAlpha', function()
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			return WindowsCPP.getWindowAlpha();
+		});
+		set('doWindowTweenAlpha', function(alpha:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha);
+		});
+	
+		set('setBorderColor', function(r:Int, g:Int, b:Int)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.setWindowBorderColor(r, g, b);
+		});
+		
+		set('hideTaskbar', function(hide:Bool)
+		{
+			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			WindowsCPP.hideTaskbar(hide);
+		});
+	
+		set('getCursorX', function()
+		{
+			return WindowsCPP.getCursorPositionX();
+		});
+	
+		set('getCursorY', function()
+		{
+			return WindowsCPP.getCursorPositionY();
+		});
+	
+		set('clearTerminal', function()
+		{
+			WindowsTerminalCPP.clearTerminal();
+		});
+	
+		set('showConsole', function()
+		{
+			WindowsTerminalCPP.allocConsole();
+		});
+	
+		set('setConsoleTitle', function(title:String)
+		{
+			WindowsTerminalCPP.setConsoleTitle(title);
+		});
+	
+		set('disableCloseConsole', function()
+		{
+			WindowsTerminalCPP.disableCloseConsoleWindow();
+		});
+	
+		set('hideConsole', function()
+		{
+			WindowsTerminalCPP.hideConsoleWindow();
+		});
+	
+		set('sendNotification', function(title:String, desc:String)
+		{
+			var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
+				+ "$title = '"
+				+ desc
+				+ "';"
+				+ "[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null;"
+				+ "$template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText01);"
+				+ "$toastXml = [xml] $template.GetXml();"
+				+ "$toastXml.GetElementsByTagName('text').AppendChild($toastXml.CreateTextNode($title)) > $null;"
+				+ "$xml = New-Object Windows.Data.Xml.Dom.XmlDocument;"
+				+ "$xml.LoadXml($toastXml.OuterXml);"
+				+ "$toast = [Windows.UI.Notifications.ToastNotification]::new($xml);"
+				+ "$toast.Tag = 'Test1';"
+				+ "$toast.Group = 'Test2';"
+				+ "$notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('"
+				+ title
+				+ "');"
+				+ "$notifier.Show($toast);}\"";
+	
+			if (title != null && title != "" && desc != null && desc != "")
+				new Process(powershellCommand);
+		});
+
+		//Utils
+	
+		set('fpsLerp', function(v1:Float, v2:Float, ratio:Float)
+		{
+			return CoolUtil.fpsLerp(v1, v2, ratio);
+		});
+	
+		set('getFPSRatio', function(ratio:Float)
+		{
+			return CoolUtil.getFPSRatio(ratio);
+		});
+		
+		//ALE Shit END
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic) {
