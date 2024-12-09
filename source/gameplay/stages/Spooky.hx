@@ -1,4 +1,4 @@
-package states.stages;
+package gameplay.stages;
 
 class Spooky extends BaseStage
 {

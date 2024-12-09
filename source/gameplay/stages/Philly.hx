@@ -1,7 +1,7 @@
-package states.stages;
+package gameplay.stages;
 
-import states.stages.objects.*;
-import objects.Character;
+import gameplay.stages.objects.*;
+import visuals.objects.Character;
 
 class Philly extends BaseStage
 {
@@ -48,7 +48,7 @@ class Philly extends BaseStage
 		phillyStreet = new BGSprite('philly/street', -40, 50);
 		add(phillyStreet);
 	}
-	override function eventPushed(event:objects.Note.EventNote)
+	override function eventPushed(event:visuals.objects.Note.EventNote)
 	{
 		switch(event.event)
 		{

@@ -1,9 +1,9 @@
 package visuals.objects;
 
-import backend.animation.PsychAnimationController;
+import visuals.animation.PsychAnimationController;
 
-import shaders.RGBPalette;
-import shaders.RGBPalette.RGBShaderReference;
+import visuals.shaders.RGBPalette;
+import visuals.shaders.RGBPalette.RGBShaderReference;
 
 class StrumNote extends FlxSprite
 {

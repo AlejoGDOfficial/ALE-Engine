@@ -1,6 +1,6 @@
-package states.stages;
+package gameplay.stages;
 
-import states.stages.objects.*;
+import gameplay.stages.objects.*;
 
 enum HenchmenKillState
 {

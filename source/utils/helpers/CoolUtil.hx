@@ -278,7 +278,6 @@ class CoolUtil
 
 	public static function resetEngine()
 	{
-		/*
 		if (FlxG.sound.music != null)
 		{
 			FlxG.sound.music.stop();
@@ -288,17 +287,10 @@ class CoolUtil
 			
 		MusicBeatState.instance.resetMusicVars();
 
-		for (key in CoolVars.globalVars.keys())
-		{
-			if (key != 'engineVersion' && key != 'consoleVisible')
-			{
-				CoolVars.globalVars.remove(key);
-			}
-		}
+		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
 
 		FlxTransitionableState.skipNextTransIn = true;
 		
 		MusicBeatState.switchState(new ScriptState('configGame'));
-		*/
 	}
 }

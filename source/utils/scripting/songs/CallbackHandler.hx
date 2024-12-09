@@ -1,5 +1,5 @@
 #if LUA_ALLOWED
-package psychlua;
+package utils.scripting.songs;
 
 class CallbackHandler
 {

@@ -1,12 +1,12 @@
 package visuals.objects;
 
-import backend.animation.PsychAnimationController;
-import backend.NoteTypesConfig;
+import visuals.animation.PsychAnimationController;
+import utils.mods.NoteTypesConfig;
 
-import shaders.RGBPalette;
-import shaders.RGBPalette.RGBShaderReference;
+import visuals.shaders.RGBPalette;
+import visuals.shaders.RGBPalette.RGBShaderReference;
 
-import objects.StrumNote;
+import visuals.objects.StrumNote;
 
 import flixel.math.FlxRect;
 

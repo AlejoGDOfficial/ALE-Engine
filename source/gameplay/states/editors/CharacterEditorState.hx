@@ -1,4 +1,4 @@
-package states.editors;
+package gameplay.states.editors;
 
 import flixel.FlxObject;
 import flixel.graphics.FlxGraphic;
@@ -16,9 +16,9 @@ import openfl.events.IOErrorEvent;
 import openfl.utils.Assets;
 import lime.system.Clipboard;
 
-import objects.Character;
-import objects.HealthIcon;
-import objects.Bar;
+import visuals.objects.Character;
+import visuals.objects.HealthIcon;
+import visuals.objects.Bar;
 
 class CharacterEditorState extends MusicBeatState
 {
@@ -1034,7 +1034,7 @@ class CharacterEditorState extends MusicBeatState
 			FlxG.mouse.visible = false;
 			if(!_goToPlayState)
 			{
-				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromEditors));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 			else MusicBeatState.switchState(new PlayState());

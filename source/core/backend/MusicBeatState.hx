@@ -3,7 +3,7 @@ package core.backend;
 import flixel.addons.ui.FlxUIState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxState;
-import backend.PsychCamera;
+import gameplay.camera.PsychCamera;
 
 class MusicBeatState extends FlxUIState
 {
@@ -15,6 +15,19 @@ class MusicBeatState extends FlxUIState
 
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
+
+	public function resetMusicVars()
+	{
+		curSection = 0;
+		stepsToDo = 0;
+	
+		curStep = 0;
+		curBeat = 0;
+	
+		curDecStep = 0;
+		curDecBeat = 0;
+	}
+
 	public var controls(get, never):Controls;
 	private function get_controls()
 	{

@@ -1,9 +1,9 @@
-package states.stages;
+package gameplay.stages;
 
 import flixel.addons.effects.FlxTrail;
-import states.stages.objects.*;
-import substates.GameOverSubstate;
-import cutscenes.DialogueBox;
+import gameplay.stages.objects.*;
+import gameplay.states.substates.GameOverSubstate;
+import visuals.cutscenes.DialogueBox;
 import openfl.utils.Assets as OpenFlAssets;
 
 class SchoolEvil extends BaseStage
@@ -58,7 +58,7 @@ class SchoolEvil extends BaseStage
 				}
 		}
 	}
-	override function eventPushed(event:objects.Note.EventNote)
+	override function eventPushed(event:visuals.objects.Note.EventNote)
 	{
 		// used for preloading assets used on events
 		switch(event.event)

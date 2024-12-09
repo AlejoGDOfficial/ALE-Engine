@@ -1,4 +1,4 @@
-package states.editors;
+package gameplay.states.editors;
 
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
@@ -14,10 +14,10 @@ import flash.net.FileFilter;
 import haxe.Json;
 import lime.system.Clipboard;
 
-import objects.TypedAlphabet;
+import visuals.objects.TypedAlphabet;
 
-import cutscenes.DialogueBoxPsych;
-import cutscenes.DialogueCharacter;
+import visuals.cutscenes.DialogueBoxPsych;
+import visuals.cutscenes.DialogueCharacter;
 
 class DialogueCharacterEditorState extends MusicBeatState
 {
@@ -647,7 +647,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 			}
 
 			if(FlxG.keys.justPressed.ESCAPE) {
-				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromEditors));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 				transitioning = true;
 			}

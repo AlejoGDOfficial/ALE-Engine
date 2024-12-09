@@ -1,12 +1,12 @@
-package psychlua;
+package utils.scripting.songs;
 
-import backend.WeekData;
-import objects.Character;
+import core.gameplay.stages.WeekData;
+import visuals.objects.Character;
 
 import openfl.display.BlendMode;
 import Type.ValueType;
 
-import substates.GameOverSubstate;
+import gameplay.states.substates.GameOverSubstate;
 
 typedef LuaTweenOptions = {
 	type:FlxTweenType,

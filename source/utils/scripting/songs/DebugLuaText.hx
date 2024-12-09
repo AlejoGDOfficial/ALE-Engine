@@ -1,4 +1,4 @@
-package psychlua;
+package utils.scripting.songs;
 
 class DebugLuaText extends FlxText
 {

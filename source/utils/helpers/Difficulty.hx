@@ -1,5 +1,7 @@
 package utils.helpers;
 
+import core.gameplay.stages.WeekData;
+
 class Difficulty
 {
 	public static var defaultList(default, never):Array<String> = [

@@ -1,6 +1,6 @@
-package states.editors;
+package gameplay.states.editors;
 
-import backend.WeekData;
+import core.gameplay.stages.WeekData;
 
 import openfl.utils.Assets;
 import flixel.addons.ui.FlxInputText;
@@ -19,11 +19,9 @@ import flash.net.FileFilter;
 import lime.system.Clipboard;
 import haxe.Json;
 
-import objects.HealthIcon;
-import objects.MenuCharacter;
-import objects.MenuItem;
-
-import states.editors.MasterEditorMenu;
+import visuals.objects.HealthIcon;
+import visuals.objects.MenuCharacter;
+import visuals.objects.MenuItem;
 
 class WeekEditorState extends MusicBeatState
 {
@@ -432,7 +430,7 @@ class WeekEditorState extends MusicBeatState
 		if(!blockInput) {
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE) {
-				MusicBeatState.switchState(new MasterEditorMenu());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromEditors));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 		}
@@ -791,7 +789,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		} else {
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE) {
-				MusicBeatState.switchState(new MasterEditorMenu());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromEditors));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 

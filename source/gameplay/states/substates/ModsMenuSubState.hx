@@ -1,8 +1,8 @@
-package substates;
+package gameplay.states.substates;
 
-import backend.Mods;
+import utils.mods.Mods;
 
-import objects.Alphabet;
+import visuals.objects.Alphabet;
 
 import flixel.effects.FlxFlicker;
 

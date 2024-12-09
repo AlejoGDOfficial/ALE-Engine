@@ -1,8 +1,8 @@
-package backend;
+package core.gameplay.stages;
 
 import openfl.utils.Assets;
 import haxe.Json;
-import backend.Song;
+import core.backend.Song;
 
 typedef StageFile = {
 	var directory:String;

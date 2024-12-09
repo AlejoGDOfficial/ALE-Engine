@@ -1,6 +1,6 @@
 package utils.mods;
 
-import objects.Note;
+import visuals.objects.Note;
 
 typedef NoteTypeProperty = {
 	property:Array<String>,

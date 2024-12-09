@@ -1,9 +1,9 @@
-package psychlua;
+package utils.scripting.songs;
 
 import Type.ValueType;
 import haxe.Constraints;
 
-import substates.GameOverSubstate;
+import gameplay.states.substates.GameOverSubstate;
 
 //
 // Functions that use a high amount of Reflections, which are somewhat CPU intensive

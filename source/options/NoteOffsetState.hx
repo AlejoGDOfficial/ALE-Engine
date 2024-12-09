@@ -1,11 +1,11 @@
 package options;
 
-import backend.StageData;
-import objects.Character;
-import objects.Bar;
+import core.gameplay.stages.StageData;
+import visuals.objects.Character;
+import visuals.objects.Bar;
 import flixel.addons.display.shapes.FlxShapeCircle;
 
-import states.stages.StageWeek1 as BackgroundStage;
+import gameplay.stages.StageWeek1 as BackgroundStage;
 
 class NoteOffsetState extends MusicBeatState
 {

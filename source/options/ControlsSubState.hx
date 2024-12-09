@@ -1,9 +1,9 @@
 package options;
 
-import backend.InputFormatter;
+import core.backend.InputFormatter;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
-import objects.AttachedSprite;
+import visuals.objects.AttachedSprite;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepad;

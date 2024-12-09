@@ -1,4 +1,4 @@
-package states.stages.objects;
+package gameplay.stages.objects;
 
 class DadBattleFog extends FlxSpriteGroup
 {

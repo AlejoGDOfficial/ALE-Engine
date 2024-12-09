@@ -1,10 +1,10 @@
-package substates;
+package gameplay.states.substates;
 
-import backend.WeekData;
-import backend.Highscore;
+import gameplay.stages.backend.WeekData;
+import utils.helpers.Highscore;
 
 import flixel.FlxSubState;
-import objects.HealthIcon;
+import visuals.objects.HealthIcon;
 
 class ResetScoreSubState extends MusicBeatSubstate
 {

@@ -4,8 +4,6 @@ package core;
 import android.content.Context;
 #end
 
-import debug.FPSCounter;
-
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -16,7 +14,7 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
-import states.MainState;
+import core.config.MainState;
 
 #if linux
 import lime.graphics.Image;
@@ -30,7 +28,7 @@ import haxe.io.Path;
 #end
 
 #if linux
-@:cppInclude('./external/gamemode_client.h')
+@:cppInclude('./cpp/gamemode_client.h')
 @:cppFileCode('
 	#define GAMEMODE_AUTO
 ')
@@ -100,7 +98,11 @@ class Main extends Sprite
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 	
-		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
+		#if LUA_ALLOWED
+		Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(utils.scripting.songs.CallbackHandler.call));
+		Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(utils.scripting.songs.CallbackHandler.call)); 
+		#end
+		
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));

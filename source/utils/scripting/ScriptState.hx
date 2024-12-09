@@ -1,11 +1,12 @@
-package scripting;
+package utils.scripting;
 
 import openfl.utils.Assets as OpenFlAssets;
+import flixel.util.FlxSave;
 
-import objects.Character;
+import visuals.objects.Character;
 
 import options.*;
-import states.editors.*;
+import gameplay.states.editors.*;
 
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
@@ -18,7 +19,7 @@ import openfl.filters.ShaderFilter;
 #end
 
 #if LUA_ALLOWED
-import scripting.states.*;
+import utils.scripting.states.*;
 #end
 
 #if SScript
@@ -43,13 +44,24 @@ class ScriptState extends MusicBeatState
     #if LUA_ALLOWED public var luaArray:Array<FunkinLua> = []; #end
     
     #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-    private var luaDebugGroup:FlxTypedGroup<scripting.states.DebugLuaText>;
+    private var luaDebugGroup:FlxTypedGroup<utils.scripting.states.DebugLuaText>;
     #end
+
+	#if LUA_ALLOWED
+	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
+	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
+	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
+	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
+	public var modchartTexts:Map<String, FlxText> = new Map<String, FlxText>();
+	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
+	#end
 
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
 	public var instancesExclude:Array<String> = [];
 	#end
+
+	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
 
 	var keysPressed:Array<Int> = [];
 	private var keysArray:Array<String>;
@@ -61,7 +73,7 @@ class ScriptState extends MusicBeatState
         instance = this;
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		luaDebugGroup = new FlxTypedGroup<scripting.states.DebugLuaText>();
+		luaDebugGroup = new FlxTypedGroup<utils.scripting.states.DebugLuaText>();
 		add(luaDebugGroup);
 		#end
 		
@@ -144,14 +156,14 @@ class ScriptState extends MusicBeatState
     #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
     public function addTextToDebug(text:String, color:FlxColor) 
     {
-        var newText:scripting.states.DebugLuaText = luaDebugGroup.recycle(scripting.states.DebugLuaText);
+        var newText:utils.scripting.states.DebugLuaText = luaDebugGroup.recycle(utils.scripting.states.DebugLuaText);
         newText.text = text;
         newText.color = color;
         newText.disableTime = 6;
         newText.alpha = 1;
         newText.setPosition(10, 8 - newText.height);
 
-        luaDebugGroup.forEachAlive(function(spr:scripting.states.DebugLuaText) {
+        luaDebugGroup.forEachAlive(function(spr:utils.scripting.states.DebugLuaText) {
             spr.y += newText.height + 2;
         });
         luaDebugGroup.add(newText);
@@ -162,6 +174,8 @@ class ScriptState extends MusicBeatState
 
     public function getLuaObject(tag:String, text:Bool=true):FlxSprite
         return variables.get(tag);
+
+	public static var inCutscene:Bool;
 
 	public function startVideo(name:String)
 	{
@@ -176,7 +190,6 @@ class ScriptState extends MusicBeatState
 		#end
 		{
 			FlxG.log.warn('Couldnt find video file: ' + name);
-			startAndEnd();
 			return;
 		}
 
@@ -187,7 +200,7 @@ class ScriptState extends MusicBeatState
 			video.onEndReached.add(function()
 			{
 				video.dispose();
-				startAndEnd();
+				inCutscene = false;
 				return;
 			}, true);
 			#else
@@ -195,7 +208,7 @@ class ScriptState extends MusicBeatState
 			video.playVideo(filepath);
 			video.finishCallback = function()
 			{
-				startAndEnd();
+				inCutscene = false;
 				return;
 			}
 			#end
@@ -204,14 +217,6 @@ class ScriptState extends MusicBeatState
 		startAndEnd();
 		return;
 		#end
-	}
-
-	function startAndEnd()
-	{
-		if(endingSong)
-			endSong();
-		else
-			startCountdown();
 	}
 
 	private function keyPressed(key:Int)
@@ -601,8 +606,8 @@ class ScriptState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new ChartingState(), false);
 			case 'states.editors.CharacterEditorState':
 				LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-			case 'states.editors.StageEditorState':
-				LoadingState.loadAndSwitchState(new StageEditorState());
+			case 'states.editors.WeekEditorState':
+				LoadingState.loadAndSwitchState(new WeekEditorState());
 			case 'states.editors.MenuCharacterEditorState':
 				MusicBeatState.switchState(new MenuCharacterEditorState());
 			case 'states.editors.DialogueEditorState':
@@ -619,12 +624,14 @@ class ScriptState extends MusicBeatState
 		switch (subState)
 		{
 			case 'substates.GameplayChangersSubstate':
-				openSubState(new substates.GameplayChangersSubstate());
+				openSubState(new gameplay.states.substates.GameplayChangersSubstate());
 		}
 	}
 
+	/*
 	public function openScriptSubState(subState:String)
 	{
 		openSubState(new ScriptSubstate(subState));
 	}
+	*/
 }

@@ -1,7 +1,6 @@
 package options;
 
-import states.MainMenuState;
-import backend.StageData;
+import core.gameplay.stages.StageData;
 
 class OptionsState extends MusicBeatState
 {
@@ -92,7 +91,7 @@ class OptionsState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.sound.music.volume = 0;
 			}
-			else MusicBeatState.switchState(new MainMenuState());
+			else MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromOptions));
 		}
 		else if (controls.ACCEPT) openSelectedSubstate(options[curSelected]);
 	}

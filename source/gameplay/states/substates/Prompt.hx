@@ -1,4 +1,4 @@
-package substates;
+package gameplay.states.substates;
 
 import flixel.*;
 import flixel.FlxSubState;

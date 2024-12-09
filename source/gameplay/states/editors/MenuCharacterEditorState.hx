@@ -1,4 +1,4 @@
-package states.editors;
+package gameplay.states.editors;
 
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
@@ -12,7 +12,7 @@ import openfl.events.IOErrorEvent;
 import flash.net.FileFilter;
 import haxe.Json;
 
-import objects.MenuCharacter;
+import visuals.objects.MenuCharacter;
 
 class MenuCharacterEditorState extends MusicBeatState
 {
@@ -264,7 +264,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		if(!blockInput) {
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE) {
-				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromEditors));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 

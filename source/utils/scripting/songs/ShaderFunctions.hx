@@ -1,4 +1,4 @@
-package psychlua;
+package utils.scripting.songs;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;

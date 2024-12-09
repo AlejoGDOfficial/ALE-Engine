@@ -1,6 +1,6 @@
 package gameplay.states.game;
 
-import backend.ClientPrefs;
+import core.config.ClientPrefs;
 
 class Rating
 {

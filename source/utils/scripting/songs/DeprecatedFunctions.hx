@@ -1,4 +1,4 @@
-package psychlua;
+package utils.scripting.songs;
 
 //
 // This is simply where i store deprecated functions for it to be more organized.

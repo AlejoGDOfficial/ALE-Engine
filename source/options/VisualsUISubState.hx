@@ -1,8 +1,8 @@
 package options;
 
-import objects.Note;
-import objects.StrumNote;
-import objects.Alphabet;
+import visuals.objects.Note;
+import visuals.objects.StrumNote;
+import visuals.objects.Alphabet;
 
 class VisualsUISubState extends BaseOptionsMenu
 {
@@ -213,8 +213,8 @@ class VisualsUISubState extends BaseOptionsMenu
 	#if !mobile
 	function onChangeFPSCounter()
 	{
-		if(Main.fpsVar != null)
-			Main.fpsVar.visible = ClientPrefs.data.showFPS;
+		if(core.config.MainState.fpsVar != null)
+			core.config.MainState.fpsVar.visible = ClientPrefs.data.showFPS;
 	}
 	#end
 }

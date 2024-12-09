@@ -1,10 +1,10 @@
-package cutscenes;
+package visuals.cutscenes;
 
 import haxe.Json;
 import openfl.utils.Assets;
 
-import objects.TypedAlphabet;
-import cutscenes.DialogueCharacter;
+import visuals.objects.TypedAlphabet;
+import visuals.cutscenes.DialogueCharacter;
 
 // Gonna try to kind of make it compatible to Forever Engine,
 // love u Shubs no homo :flushedh4:

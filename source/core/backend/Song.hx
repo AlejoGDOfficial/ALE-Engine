@@ -3,7 +3,10 @@ package core.backend;
 import haxe.Json;
 import lime.utils.Assets;
 
-import backend.Section;
+import core.backend.Section;
+import core.backend.Section.SwagSection;
+
+import core.gameplay.stages.StageData;
 
 typedef SwagSong =
 {

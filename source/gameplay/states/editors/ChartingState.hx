@@ -1,4 +1,4 @@
-package states.editors;
+package gameplay.states.editors;
 
 import flash.geom.Rectangle;
 import haxe.Json;
@@ -26,17 +26,17 @@ import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.Assets as OpenFlAssets;
 
-import backend.Song;
-import backend.Section;
-import backend.StageData;
+import core.backend.Song;
+import core.backend.Section;
+import core.gameplay.stages.StageData;
 
-import objects.Note;
-import objects.StrumNote;
-import objects.NoteSplash;
-import objects.HealthIcon;
-import objects.AttachedSprite;
-import objects.Character;
-import substates.Prompt;
+import visuals.objects.Note;
+import visuals.objects.StrumNote;
+import visuals.objects.NoteSplash;
+import visuals.objects.HealthIcon;
+import visuals.objects.AttachedSprite;
+import visuals.objects.Character;
+import gameplay.states.substates.Prompt;
 
 
 #if sys
@@ -1841,7 +1841,7 @@ class ChartingState extends MusicBeatState
 				playtesting = true;
 				playtestingTime = Conductor.songPosition;
 				playtestingOnComplete = FlxG.sound.music.onComplete;
-				openSubState(new states.editors.EditorPlayState(playbackSpeed));
+				openSubState(new gameplay.states.editors.EditorPlayState(playbackSpeed));
 			}
 			else if (FlxG.keys.justPressed.ENTER)
 			{
@@ -1873,7 +1873,7 @@ class ChartingState extends MusicBeatState
 				// Protect against lost data when quickly leaving the chart editor.
 				autosaveSong();
 				PlayState.chartingMode = false;
-				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromEditors));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				FlxG.mouse.visible = false;
 				return;
@@ -2239,7 +2239,7 @@ class ChartingState extends MusicBeatState
 	override function destroy()
 	{
 		Note.globalRgbShaders = [];
-		backend.NoteTypesConfig.clearNoteTypesData();
+		utils.mods.NoteTypesConfig.clearNoteTypesData();
 		super.destroy();
 	}
 

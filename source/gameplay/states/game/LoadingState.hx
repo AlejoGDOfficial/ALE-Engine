@@ -10,7 +10,7 @@ import lime.utils.Assets as LimeAssets;
 import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
 
-import core.backend.StageData;
+import core.gameplay.stages.StageData;
 
 import haxe.io.Path;
 

@@ -1,4 +1,4 @@
-package debug;
+package utils.debug;
 
 import flixel.FlxG;
 import openfl.text.TextField;
@@ -58,7 +58,7 @@ class FPSCounter extends Sprite
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         
-        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + '\n' + (CoolUtil.getCurrentSubState()[1] == null ? '' : (CoolUtil.getCurrentSubState()[0] ? 'scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
+        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + (CoolUtil.getCurrentSubState()[0] ? 'scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
 
         if (FlxG.keys.justPressed.F3 && canChangeFPSType && !FlxG.keys.pressed.CONTROL && !FlxG.keys.pressed.SHIFT)
         {
@@ -88,7 +88,7 @@ class FPSCounter extends Sprite
         {
             configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play...';
 
-            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new substates.ModsMenuSubState());
+            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
         } else {
             configTipsTxt = '';
         }

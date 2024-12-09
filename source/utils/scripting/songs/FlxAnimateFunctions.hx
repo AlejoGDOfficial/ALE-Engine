@@ -1,4 +1,4 @@
-package psychlua;
+package utils.scripting.songs;
 
 import openfl.utils.Assets;
 

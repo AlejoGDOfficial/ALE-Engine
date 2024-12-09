@@ -1,7 +1,7 @@
-package states.stages;
+package gameplay.stages;
 
-import states.stages.objects.*;
-import objects.Character;
+import gameplay.stages.objects.*;
+import visuals.objects.Character;
 
 class StageWeek1 extends BaseStage
 {
@@ -34,7 +34,7 @@ class StageWeek1 extends BaseStage
 			add(stageCurtains);
 		}
 	}
-	override function eventPushed(event:objects.Note.EventNote)
+	override function eventPushed(event:visuals.objects.Note.EventNote)
 	{
 		switch(event.event)
 		{

@@ -1,12 +1,12 @@
-package states.editors;
+package gameplay.states.editors;
 
-import backend.Song;
-import backend.Section;
-import backend.Rating;
+import core.backend.Song;
+import core.backend.Section;
+import gameplay.states.game.Rating;
 
-import objects.Note;
-import objects.NoteSplash;
-import objects.StrumNote;
+import visuals.objects.Note;
+import visuals.objects.NoteSplash;
+import visuals.objects.StrumNote;
 
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
@@ -15,7 +15,7 @@ import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
 
 import haxe.Json;
-import objects.Character;
+import visuals.objects.Character;
 import openfl.utils.Assets as OpenFlAssets;
 
 class EditorPlayState extends MusicBeatSubstate

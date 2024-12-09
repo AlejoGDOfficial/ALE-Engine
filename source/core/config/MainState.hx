@@ -1,24 +1,21 @@
-package states;
+package core.config;
 
 import openfl.Lib;
 import openfl.display.StageScaleMode;
 
-import debug.FPSCounter;
+import utils.debug.FPSCounter;
 
 import cpp.WindowsCPP;
 
 class MainState extends MusicBeatState
 {
-    fpsVar:FPSCounter;
+    public static var fpsVar:FPSCounter;
 
     override public function create()
     {
         ClientPrefs.loadPrefs();
-
-        AlphaCharacter.loadAlphabetData();
     
         WindowsCPP.setWindowLayered();
-
         WindowsCPP.setWindowBorderColor(32, 32, 32);
     
         Paths.clearStoredMemory();
@@ -51,6 +48,12 @@ class MainState extends MusicBeatState
             CoolVars.scriptFromPlayStateIfFreeplay = jsonData.fromPlayStateIfFreeplay;
             CoolVars.scriptFromEditors = jsonData.fromEditors;
             CoolVars.scriptFromOptions = jsonData.fromOptions;
+
+            trace('Initial State: ' + CoolVars.scriptFromInitialState);
+            trace('From PlayState if Story Mode: ' + CoolVars.scriptFromPlayStateIfStoryMode);
+            trace('From PlayState if Freeplay: ' + CoolVars.scriptFromPlayStateIfFreeplay);
+            trace('From Editors: ' + CoolVars.scriptFromEditors);
+            trace('From Options: ' + CoolVars.scriptFromOptions);
         } catch(error:Dynamic) {
             trace(error);
         }

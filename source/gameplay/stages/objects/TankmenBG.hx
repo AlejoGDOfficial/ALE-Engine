@@ -1,4 +1,4 @@
-package states.stages.objects;
+package gameplay.stages.objects;
 
 import flixel.graphics.frames.FlxAtlasFrames;
 

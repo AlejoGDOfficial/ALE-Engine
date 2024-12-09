@@ -1,9 +1,9 @@
 #if LUA_ALLOWED
-package psychlua;
+package utils.scripting.songs;
 
-import backend.WeekData;
-import backend.Highscore;
-import backend.Song;
+import core.gameplay.stages.WeekData;
+import utils.helpers.Highscore;
+import core.backend.Song;
 
 import openfl.Lib;
 import openfl.utils.Assets;
@@ -16,27 +16,23 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.display.FlxRuntimeShader;
 #end
 
-import cutscenes.DialogueBoxPsych;
+import visuals.cutscenes.DialogueBoxPsych;
 
-import objects.StrumNote;
-import objects.Note;
-import objects.NoteSplash;
-import objects.Character;
+import visuals.objects.StrumNote;
+import visuals.objects.Note;
+import visuals.objects.NoteSplash;
+import visuals.objects.Character;
 
-import states.MainMenuState;
-import states.StoryMenuState;
-import states.FreeplayState;
+import gameplay.states.substates.PauseSubState;
+import gameplay.states.substates.GameOverSubstate;
 
-import substates.PauseSubState;
-import substates.GameOverSubstate;
-
-import psychlua.LuaUtils;
-import psychlua.LuaUtils.LuaTweenOptions;
+import utils.scripting.songs.LuaUtils;
+import utils.scripting.songs.LuaUtils.LuaTweenOptions;
 #if SScript
-import psychlua.HScript;
+import utils.scripting.songs.HScript;
 #end
-import psychlua.DebugLuaText;
-import psychlua.ModchartSprite;
+import utils.scripting.songs.DebugLuaText;
+import utils.scripting.songs.ModchartSprite;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -131,7 +127,7 @@ class FunkinLua {
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
-		set('version', MainMenuState.psychEngineVersion.trim());
+		set('version', CoolVars.engineVersion.trim());
 
 		set('inGameOver', false);
 		set('mustHitSection', false);
@@ -822,9 +818,9 @@ class FunkinLua {
 			}
 
 			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfStoryMode));
 			else
-				MusicBeatState.switchState(new FreeplayState());
+				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfFreeplay));
 
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 

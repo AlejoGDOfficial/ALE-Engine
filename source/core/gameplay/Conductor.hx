@@ -1,8 +1,9 @@
 package core.gameplay;
 
-import backend.Song;
-import backend.Section;
-import objects.Note;
+import core.backend.Song;
+import core.backend.Section;
+import visuals.objects.Note;
+import gameplay.states.game.Rating;
 
 typedef BPMChangeEvent =
 {

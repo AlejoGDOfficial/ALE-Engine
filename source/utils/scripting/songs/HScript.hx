@@ -1,12 +1,12 @@
-package psychlua;
+package utils.scripting.songs;
 
 import flixel.FlxBasic;
-import objects.Character;
-import psychlua.LuaUtils;
-import psychlua.CustomSubstate;
+import visuals.objects.Character;
+import utils.scripting.songs.LuaUtils;
+import utils.scripting.songs.CustomSubstate;
 
 #if LUA_ALLOWED
-import psychlua.FunkinLua;
+import utils.scripting.songs.FunkinLua;
 #end
 
 #if HSCRIPT_ALLOWED
@@ -88,19 +88,19 @@ class HScript extends SScript
 		set('FlxMath', flixel.math.FlxMath);
 		set('FlxSprite', flixel.FlxSprite);
 		set('FlxCamera', flixel.FlxCamera);
-		set('PsychCamera', backend.PsychCamera);
+		set('PsychCamera', gameplay.camera.PsychCamera);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
 		set('FlxColor', CustomFlxColor);
-		set('Countdown', backend.BaseStage.Countdown);
+		set('Countdown', core.backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
 		set('Character', Character);
 		set('Alphabet', Alphabet);
-		set('Note', objects.Note);
+		set('Note', visuals.objects.Note);
 		set('CustomSubstate', CustomSubstate);
 		#if (!flash && sys)
 		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);

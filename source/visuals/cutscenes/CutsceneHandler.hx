@@ -1,4 +1,4 @@
-package cutscenes;
+package visuals.cutscenes;
 
 import flixel.FlxBasic;
 import flixel.util.FlxSort;

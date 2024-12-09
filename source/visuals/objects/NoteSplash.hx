@@ -1,8 +1,8 @@
 package visuals.objects;
 
-import backend.animation.PsychAnimationController;
+import visuals.animation.PsychAnimationController;
 
-import shaders.RGBPalette;
+import visuals.shaders.RGBPalette;
 
 import flixel.system.FlxAssets.FlxShader;
 import flixel.graphics.frames.FlxFrame;

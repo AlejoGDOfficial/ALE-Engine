@@ -3,10 +3,10 @@ package core.backend;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxSubState;
-import backend.MusicBeatState;
+import core.backend.MusicBeatState;
 
-import objects.Note.EventNote;
-import objects.Character;
+import visuals.objects.Note.EventNote;
+import visuals.objects.Character;
 
 enum Countdown
 {
@@ -140,7 +140,7 @@ class BaseStage extends FlxBasic
 	inline private function get_members() return game.members;
 	inline private function set_game(value:MusicBeatState)
 	{
-		onPlayState = (Std.isOfType(value, states.PlayState));
+		onPlayState = (Std.isOfType(value, gameplay.states.game.PlayState));
 		game = value;
 		return value;
 	}

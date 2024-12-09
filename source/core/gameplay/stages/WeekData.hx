@@ -1,4 +1,4 @@
-package backend;
+package core.gameplay.stages;
 
 import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;

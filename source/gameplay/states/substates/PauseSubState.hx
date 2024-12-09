@@ -1,15 +1,13 @@
-package substates;
+package gameplay.states.substates;
 
-import backend.WeekData;
-import backend.Highscore;
-import backend.Song;
+import core.gameplay.stages.WeekData;
+import utils.helpers.Highscore;
+import core.backend.Song;
 
 import flixel.addons.transition.FlxTransitionableState;
 
 import flixel.util.FlxStringUtil;
 
-import states.StoryMenuState;
-import states.FreeplayState;
 import options.OptionsState;
 
 class PauseSubState extends MusicBeatSubstate
@@ -311,9 +309,9 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.seenCutscene = false;
 
 					if(PlayState.isStoryMode)
-						MusicBeatState.switchState(new StoryMenuState());
+						MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfStoryMode));
 					else 
-						MusicBeatState.switchState(new FreeplayState());
+						MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfFreeplay));
 
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;
