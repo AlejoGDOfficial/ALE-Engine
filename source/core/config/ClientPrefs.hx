@@ -233,7 +233,14 @@ class ClientPrefs {
 			reloadVolumeKeys();
 		}
 
-		if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder))) Mods.currentModDirectory = data.currentModFolder;
+		if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder)))
+		{
+			Mods.currentModDirectory = data.currentModFolder;
+		} else {
+			data.currentModFolder = '';
+			
+			saveSettings();
+		}
 	}
 
 	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic
