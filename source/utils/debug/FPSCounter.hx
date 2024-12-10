@@ -84,7 +84,7 @@ class FPSCounter extends Sprite
             });
         }
 
-        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.developerMode && CoolUtil.getCurrentState()[1] != 'states.PlayState')
+        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.developerMode && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
         {
             configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play...';
 

@@ -10,7 +10,7 @@ typedef ModsList = {
 
 class Mods
 {
-	static public var currentModDirectory:String = '';
+	static public var currentModDirectory:String = '<No Mods>';
 	public static var ignoreModFolders:Array<String> = [
 		'characters',
 		'custom_events',
@@ -43,8 +43,9 @@ class Mods
 
             var folders = items.filter(item -> FileSystem.isDirectory(Paths.mods(item)));
 
-            for (folder in folders) {
-                globalMods.push(folder);
+            for (folder in folders)
+			{
+                if (!ignoreModFolders.contains(folder.toLowerCase())) globalMods.push(folder);
             }
         }
 	}
@@ -52,17 +53,19 @@ class Mods
 	inline public static function getModDirectories():Array<String>
 	{
 		var list:Array<String> = [];
+
 		#if MODS_ALLOWED
 		var modsFolder:String = Paths.mods();
-		if(FileSystem.exists(modsFolder)) {
+		if(FileSystem.exists(modsFolder))
+		{
 			for (folder in FileSystem.readDirectory(modsFolder))
 			{
-				var path = haxe.io.Path.join([modsFolder, folder]);
-				if (FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
-					list.push(folder);
+				if (folder == currentModDirectory) list = [folder];
+				else list = ['<No Mods>'];
 			}
 		}
 		#end
+
 		return list;
 	}
 	
@@ -110,10 +113,6 @@ class Mods
 				var folder:String = Paths.mods(mod + '/' + fileToFind);
 				if(FileSystem.exists(folder) && !foldersToCheck.contains(folder)) foldersToCheck.push(folder);
 			}
-
-			// Then "PsychEngine/mods/" main folder
-			var folder:String = Paths.mods(fileToFind);
-			if(FileSystem.exists(folder) && !foldersToCheck.contains(folder)) foldersToCheck.push(Paths.mods(fileToFind));
 
 			// And lastly, the loaded mod's folder
 			if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)

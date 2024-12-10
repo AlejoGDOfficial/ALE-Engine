@@ -233,11 +233,15 @@ class ClientPrefs {
 			reloadVolumeKeys();
 		}
 
-		if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder)))
+		if (data.currentModFolder == '')
 		{
+			data.currentModFolder = '<No Mods>';
+			
+			saveSettings();
+		} else if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder))) {
 			Mods.currentModDirectory = data.currentModFolder;
 		} else {
-			data.currentModFolder = '';
+			data.currentModFolder = '<No Mods>';
 			
 			saveSettings();
 		}

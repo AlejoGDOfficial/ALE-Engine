@@ -329,6 +329,4 @@ class WindowsCPP
 	')
 	public static function setWindowLayeredMode(numberMode:Int) {}
 }
-#else
-#error "Windows API supports only Windows platform"
 #end

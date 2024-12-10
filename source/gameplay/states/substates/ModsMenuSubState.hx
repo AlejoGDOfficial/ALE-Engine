@@ -41,6 +41,15 @@ class ModsMenuSubState extends MusicBeatSubstate
             destinationX += 25;
             destinationY += 100;
         }
+
+        if (Mods.getGlobalMods().length > 0)
+        {
+            var noModsText:Alphabet = new Alphabet(destinationX, destinationY, '<No Mods>', true);
+            noModsText.snapToPosition();
+            add(noModsText);
+            noModsText.scrollFactor.set(0, 0);
+            texts.push(noModsText);
+        }
     
         canSelect = Mods.getGlobalMods().length >= 1;
     
@@ -121,8 +130,6 @@ class ModsMenuSubState extends MusicBeatSubstate
                     ClientPrefs.saveSettings();
     
                     CoolUtil.resetEngine();
-    
-                    close();
                 });
             }
     

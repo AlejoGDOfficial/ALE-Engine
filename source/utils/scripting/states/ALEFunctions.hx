@@ -5,7 +5,7 @@ import core.gameplay.stages.WeekData;
 
 import openfl.Lib;
 
-import cpp.*;
+#if windows import cpp.*; #end
 
 class ALEFunctions
 {
@@ -169,93 +169,93 @@ class ALEFunctions
     
         Lua_helper.add_callback(lua, 'changeTitle', function(titleText:String)
         {
-            lime.app.Application.current.window.title = titleText;
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            #if windows lime.app.Application.current.window.title = titleText;
+            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
         });
         
         Lua_helper.add_callback(lua, 'getDeviceRAM', function()
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            return WindowsCPP.obtainRAM();
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            return WindowsCPP.obtainRAM(); #end
         });
         
         Lua_helper.add_callback(lua, 'screenCapture', function(path:String)
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            WindowsCPP.windowsScreenShot(path);
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            WindowsCPP.windowsScreenShot(path); #end
         });
     
         Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:cpp.WindowsAPI.MessageBoxIcon = MSG_WARNING)
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            WindowsCPP.showMessageBox(caption, message, icon);
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            WindowsCPP.showMessageBox(caption, message, icon); #end
         });
         
         Lua_helper.add_callback(lua, 'setWindowAlpha', function(a:Float)
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            WindowsCPP.setWindowAlpha(a);
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            WindowsCPP.setWindowAlpha(a); #end
         });
         Lua_helper.add_callback(lua, 'getWindowAlpha', function()
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            return WindowsCPP.getWindowAlpha();
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            return WindowsCPP.getWindowAlpha(); #end
         });
         Lua_helper.add_callback(lua, 'doWindowTweenAlpha', function(alpha:Int, time:Float, theEase:Dynamic)
         {
-            FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateAlpha);
+            #if windows FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateAlpha); #end
         });
     
         Lua_helper.add_callback(lua, 'setBorderColor', function(r:Int, g:Int, b:Int)
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            WindowsCPP.setWindowBorderColor(r, g, b);
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            WindowsCPP.setWindowBorderColor(r, g, b); #end
         });
         
         Lua_helper.add_callback(lua, 'hideTaskbar', function(hide:Bool)
         {
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
-            WindowsCPP.hideTaskbar(hide);
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+            WindowsCPP.hideTaskbar(hide); #end
         });
     
         Lua_helper.add_callback(lua, 'getCursorX', function()
         {
-            return WindowsCPP.getCursorPositionX();
+            #if windows return WindowsCPP.getCursorPositionX(); #end
         });
     
         Lua_helper.add_callback(lua, 'getCursorY', function()
         {
-            return WindowsCPP.getCursorPositionY();
+            #if windows return WindowsCPP.getCursorPositionY(); #end
         });
     
         Lua_helper.add_callback(lua, 'clearTerminal', function()
         {
-            WindowsTerminalCPP.clearTerminal();
+            #if windows WindowsTerminalCPP.clearTerminal(); #end
         });
     
         Lua_helper.add_callback(lua, 'showConsole', function()
         {
-            WindowsTerminalCPP.allocConsole();
+            #if windows WindowsTerminalCPP.allocConsole(); #end
         });
     
         Lua_helper.add_callback(lua, 'setConsoleTitle', function(title:String)
         {
-            WindowsTerminalCPP.setConsoleTitle(title);
+            #if windows WindowsTerminalCPP.setConsoleTitle(title); #end
         });
     
         Lua_helper.add_callback(lua, 'disableCloseConsole', function()
         {
-            WindowsTerminalCPP.disableCloseConsoleWindow();
+            #if windows WindowsTerminalCPP.disableCloseConsoleWindow(); #end
         });
     
         Lua_helper.add_callback(lua, 'hideConsole', function()
         {
-            WindowsTerminalCPP.hideConsoleWindow();
+            #if windows WindowsTerminalCPP.hideConsoleWindow(); #end
         });
     
         Lua_helper.add_callback(lua, 'sendNotification', function(title:String, desc:String)
         {
-            var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
+            #if windows var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
                 + "$title = '"
                 + desc
                 + "';"
@@ -274,7 +274,7 @@ class ALEFunctions
                 + "$notifier.Show($toast);}\"";
     
             if (title != null && title != "" && desc != null && desc != "")
-                new Process(powershellCommand);
+                new Process(powershellCommand); #end
         });
     
         //Utils

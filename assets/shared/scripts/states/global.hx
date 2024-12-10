@@ -5,7 +5,7 @@ function onCreate()
 
 function onUpdate(elapsed:Float)
 {
-	if (!ClientPrefs.data.noReset && controls.RESET)
+	if (controls.RESET)
 	{
 		resetScriptState();
 	}

@@ -5,7 +5,7 @@ import openfl.display.StageScaleMode;
 
 import utils.debug.FPSCounter;
 
-import cpp.WindowsCPP;
+#if windows import cpp.WindowsCPP; #end
 
 class MainState extends MusicBeatState
 {
@@ -15,8 +15,7 @@ class MainState extends MusicBeatState
     {
         ClientPrefs.loadPrefs();
     
-        WindowsCPP.setWindowLayered();
-        WindowsCPP.setWindowBorderColor(32, 32, 32);
+        #if windows WindowsCPP.setWindowLayered(); #end
     
         Paths.clearStoredMemory();
         Paths.clearUnusedMemory();

@@ -181,7 +181,7 @@ class CoolUtil
 	{
 		var curState:String = Type.getClassName(Type.getClass(FlxG.state));
 
-		if (curState == 'scripting.ScriptState')
+		if (FlxG.state is utils.scripting.ScriptState)
 		{
 			return [true, ScriptState.targetFileName];
 		}
@@ -193,7 +193,7 @@ class CoolUtil
 	{
 		var curSubState:String = Type.getClassName(Type.getClass(FlxG.state.subState));
 /*
-		if (curSubState == 'scripting.ScriptSubState')
+		if (FlxG.states.substate is utils.scripting.ScriptSubState)
 		{
 			return [true, ScriptSubState.targetFileName];
 		}
@@ -282,6 +282,8 @@ class CoolUtil
 	{
 		FlxG.game.removeChild(MainState.fpsVar);
 		MainState.fpsVar = null;
+
+        #if windows cpp.WindowsCPP.setWindowBorderColor(255, 255, 255); #end
 
 		FlxG.resetGame();
 	}
