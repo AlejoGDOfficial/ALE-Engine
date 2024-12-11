@@ -50,9 +50,12 @@ function parseJsons(items:Array)
 
         jsonDiff = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.split(' ').join('').split(',') : null;
 
-        var week:StringMap<Dynamic> = new StringMap();
-        setWeekData(week, items[1][items[0].indexOf(json)].substr(0, items[1][items[0].indexOf(json)].length - 5), jsonSongs, jsonDiff == null ? ['Easy', 'Normal', 'Hard'] : jsonDiff, jsonData.weekBackground, jsonData.storyName, jsonData.weekCharacters);
-        weeks.push(week);
+        if (!jsonData.hideStoryMode)
+        {
+            var week:StringMap<Dynamic> = new StringMap();
+            setWeekData(week, items[1][items[0].indexOf(json)].substr(0, items[1][items[0].indexOf(json)].length - 5), jsonSongs, jsonDiff == null ? ['Easy', 'Normal', 'Hard'] : jsonDiff, jsonData.weekBackground, jsonData.storyName, jsonData.weekCharacters);
+            weeks.push(week);
+        }
     }
 }
 
