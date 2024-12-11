@@ -3,6 +3,8 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import core.config.DiscordClient;
+import flixel.group.FlxTypedGroup;
+import visuals.objects.MenuCharacter;
 import tjson.TJSON as Json;
 
 var weeks:Array<StringMap<Dynamic>> = [];
@@ -14,8 +16,6 @@ var difficultiesSelInt:Int = existsGlobalVar('storyMenuStateDifficultiesSelInt')
 
 function onCreate()
 {
-    debugPrint('xd: ' + weekSelInt);
-
     DiscordClient.changePresence('In the Menus...', 'Story Menu');
 
     if (FileSystem.exists(Paths.modFolders('weeks'))) parseJsons(createPath(FileSystem.readDirectory(Paths.modFolders('weeks')).filter(function(file) return StringTools.endsWith(file, '.json')), true));
@@ -49,15 +49,16 @@ function parseJsons(items:Array)
         for (i in jsonData.songs) jsonSongs.push(i[0]);
 
         jsonDiff = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.split(' ').join('').split(',') : null;
-        
 
         var week:StringMap<Dynamic> = new StringMap();
-        setWeekData(week, items[1][items[0].indexOf(json)].substr(0, items[1][items[0].indexOf(json)].length - 5), jsonSongs, jsonDiff == null ? ['Easy', 'Normal', 'Hard'] : jsonDiff, jsonData.weekBackground, jsonData.storyName);
+        setWeekData(week, items[1][items[0].indexOf(json)].substr(0, items[1][items[0].indexOf(json)].length - 5), jsonSongs, jsonDiff == null ? ['Easy', 'Normal', 'Hard'] : jsonDiff, jsonData.weekBackground, jsonData.storyName, jsonData.weekCharacters);
         weeks.push(week);
     }
 }
 
 var weekTexts:Array<FlxSprite> = [];
+
+var characters:FlxTypedGroup<MenuCharacter>;
 
 var bg:FlxSprite;
 var difficultyImage:FlxSprite;
@@ -127,6 +128,18 @@ function showShit()
     add(bg);
     bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.scrollFactor.set(0, 0);
+
+    characters = new FlxTypedGroup<MenuCharacter>();
+    add(characters);
+
+    for (i in 1...4)
+    {
+        var character:MenuCharacter = new MenuCharacter(FlxG.width * 0.25 * i - 150, '');
+        characters.add(character);
+        character.antialiasing = ClientPrefs.data.antialiasing;
+        character.scrollFactor.set(0, 0);
+        character.y += 65;
+    }
     
     changeDifficulties(true);
     changeDifficultyShit(false);
@@ -273,6 +286,7 @@ function changeWeekShit()
         var weekSongs:Array<String> = weekData.get("songs");
         var weekBackground:String = weekData.get("background");
         var weekText:String = weekData.get("phrase");
+        var weekCharArray:Array = weekData.get("charArray");
 
         if (weekID == weekSelInt)
         {
@@ -283,6 +297,8 @@ function changeWeekShit()
             weekPhrase.x = FlxG.width - weekPhrase.width - 10;
 
             bg.loadGraphic(Paths.image('storyMenuState/backgrounds/' + weekBackground));
+
+            for (i in 0...3) characters.members[i].changeCharacter(weekCharArray[i]);
         }
     }
 
@@ -338,7 +354,7 @@ function changeDifficulties(?init:Bool = false)
     }
 }
 
-function setWeekData(object:StringMap, name:String, songs:Array<String>, difficulties:Array<String>, weekBackground:String, phrase:String)
+function setWeekData(object:StringMap, name:String, songs:Array<String>, difficulties:Array<String>, weekBackground:String, phrase:String, charArray:Array)
 {
     var weekData:StringMap<Dynamic> = new StringMap();
     weekData.set('id', globalWeekID);
@@ -347,6 +363,7 @@ function setWeekData(object:StringMap, name:String, songs:Array<String>, difficu
     weekData.set('difficulties', difficulties);
     weekData.set('background', weekBackground);
     weekData.set('phrase', phrase);
+    weekData.set('charArray', charArray);
     object.set('weekData', weekData);
 
     globalWeekID++;
