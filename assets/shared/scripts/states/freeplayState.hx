@@ -5,7 +5,7 @@ import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import core.config.DiscordClient;
 import flixel.math.FlxRect;
-import visuals.objects.AttachedSprite;
+import tjson.TJSON as Json;
 
 var bg:FlxSprite;
 var weeks:Array<StringMap<Dynamic>> = [];
@@ -14,40 +14,71 @@ var difficultyTextBG:FlxSprite;
 var difficultyText:FlxText;
 var songs:Array<StringMap<Dynamic>> = [];
 
-/*
-HOW TO ADD WEEKS:
-var weekName:StringMap<Dynamic> = new StringMap();
-setWeekData(weekName, weekName, ['songName0', 'songName1', 'songName2'], ['songIcon1', 'songIcon2', 'songIcon3'], ['songColor1', 'songColor2', 'songColor3'], ["difficulty1", "difficulty2", "difficulty3"]);
-weeks.push(weekName);
-*/
+var songsSelInt:Int = existsGlobalVar('freeplayStateSongsSelInt') ? getGlobalVar('freeplayStateSongsSelInt') : 0;
+var difficultiesSelInt:Int = existsGlobalVar('freeplayStateDifficultiesSelInt') ? getGlobalVar('freeplayStateDifficultiesSelInt') : 0;
 
 function onCreate()
 {
     DiscordClient.changePresence('In the Menus...', 'Freeplay Menu');
-
-    var testWeek:StringMap<Dynamic> = new StringMap();
-    setWeekData(testWeek, 'testWeek', ['Test'], ['bf-pixel'], ['5060FF'], ['Normal']);
-    weeks.push(testWeek);
+		
+    if (FileSystem.exists(Paths.modFolders('weeks'))) parseJsons(createPath(FileSystem.readDirectory(Paths.modFolders('weeks')).filter(function(file) return StringTools.endsWith(file, '.json')), true));
+    if (FileSystem.exists(Paths.getSharedPath('weeks'))) parseJsons(createPath(FileSystem.readDirectory(Paths.getSharedPath('weeks')).filter(function(file) return StringTools.endsWith(file, '.json')), false));
 
     showShit();
     
     changeOtherShit();
     changeSongShit();
     
-    changeDifficulties();
+    changeDifficulties(true);
     changeDifficultyShit(false);
+}
+
+function createPath(objects:Array<String>, isModFolder:Bool)
+{
+    var result:Array = [];
+    for (i in objects) result.push(isModFolder ? Paths.modFolders('weeks/' + i) : Paths.getSharedPath('weeks/' + i));
+    return result;
+}
+
+function parseJsons(items:Array<String>)
+{
+    for (json in items)
+    {
+        if (json != null) var jsonData = Json.parse(File.getContent(json));
+
+        var jsonSongs:Array = [];
+        for (i in jsonData.songs) jsonSongs.push(i[0]);
+
+        var jsonIcons:Array = [];
+        for (i in jsonData.songs)
+        {
+            var name:String = i[1];
+            if (!Paths.fileExists('images/icons/' + name + '.png')) name = 'icon-' + i[1];
+            if (!Paths.fileExists('images/icons/' + name + '.png')) name = 'icon-face';
+            if (!Paths.fileExists('images/icons/' + name + '.png')) name = 'face';
+
+            jsonIcons.push(name);
+        }
+
+        var jsonColors:Array = [];
+        for (i in jsonData.songs) jsonColors.push(FlxColor.fromRGB(i[2][0], i[2][1], i[2][2]));
+
+        var jsonDiff:Array = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.split(' ').join('').split(',') : null;
+
+        if (!jsonData.hideFreeplay)
+        {
+            var testWeek:StringMap<Dynamic> = new StringMap();
+            setWeekData(testWeek, json, jsonSongs, jsonIcons, jsonColors, jsonDiff == null ? ['Easy', 'Normal', 'Hard'] : jsonDiff);
+            weeks.push(testWeek);
+        }
+    }
 }
 
 var texts:Array<FlxText> = [];
 var images:Array<FlxSprite> = [];
 
-var songsSelInt:Int = 0;
-
 var texts:Array<FlxText> = [];
 var images:Array<FlxSprite> = [];
-
-var songsSelInt:Int = 0;
-var difficultiesSelInt:Int = 0;
 
 var globalSongID:Int = 0; 
 
@@ -88,24 +119,25 @@ function showShit()
 
             globalSongID++;
 
-            var destinationX:Float = 100 - (i - songsSelInt) * 25;
-            var destinationY:Float = 318 + (i - songsSelInt) * 105;    
+            var destinationX:Float = 100 - (i) * 25;
+            var destinationY:Float = 318 + (i) * 105;    
 
             var song:String = weekSongs[i];
 
-            var songText:Alphabet = new Alphabet(destinationX, destinationY, song, true);
+            var songText:Alphabet = new Alphabet(100, 318, song, true);
             songText.snapToPosition();
             add(songText);
             songText.alpha = 0.25;
+            songText.scaleX = songText.scaleY = 1.1;
+            songText.antialiasing = ClientPrefs.data.antialiasing;
             texts.push(songText);
         
-            var songIcon:AttachedSprite = new AttachedSprite().loadGraphic(Paths.image('icons/' + icons[i]));
+            var songIcon:FlxSprite = new FlxSprite(songText.width + 110).loadGraphic(Paths.image('icons/' + icons[i]));
             add(songIcon);
+            songIcon.y = 318 + songText.height / 2 - songIcon.height / 2;
             songIcon.clipRect = new FlxRect(0, 0, songIcon.width * 0.5, songIcon.height);
-            songIcon.xAdd = songText.width + 10;
-            songIcon.yAdd = songText.height / 2 - songIcon.height / 2;
-            songIcon.sprTracker = songText;
             songIcon.alpha = 0.25;
+            songIcon.antialiasing = ClientPrefs.data.antialiasing;
             images.push(songIcon);
         }
     }
@@ -131,7 +163,6 @@ function onUpdate(elapsed:Float)
     for (image in images)
     {
         image.scale.set(fpsLerp(image.scale.x, 1, 0.33), fpsLerp(image.scale.y, 1, 0.33));
-
     }
 
     if (canSelect)
@@ -184,6 +215,9 @@ function onUpdate(elapsed:Float)
 
         if (controls.BACK)
         {
+            setGlobalVar('freeplayStateSongsSelInt', songsSelInt);
+            setGlobalVar('freeplayStateDifficultiesSelInt', difficultiesSelInt);
+
             MusicBeatState.switchState(new ScriptState('mainMenuState'));
 
             FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
@@ -193,6 +227,9 @@ function onUpdate(elapsed:Float)
 
         if (controls.ACCEPT)
         {
+            setGlobalVar('freeplayStateSongsSelInt', songsSelInt);
+            setGlobalVar('freeplayStateDifficultiesSelInt', difficultiesSelInt);
+
             for (song in songs)
             {
                 var id = song.get('id');
@@ -225,9 +262,6 @@ function onUpdate(elapsed:Float)
     
     if (FlxG.sound.music != null)
         Conductor.songPosition = FlxG.sound.music.time;
-
-    FlxG.camera.scroll.x = fpsLerp(FlxG.camera.scroll.x, songsSelInt * 25, 0.1);
-    FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, songsSelInt * 105, 0.1);
 }
 
 function changeOtherShit()
@@ -244,7 +278,7 @@ function changeOtherShit()
 
         if (id == songsSelInt)
         {
-            FlxTween.color(bg, 1, bg.color, CoolUtil.colorFromString(color));
+            FlxTween.color(bg, 1, bg.color, color);
         }
     }
 }
@@ -253,17 +287,17 @@ function changeSongShit()
 {
     for (i in 0...texts.length)
     {
-        var destinationX:Float = 100 + i * 25;
-        var destinationY:Float = 318 + i * 105;
-    
         if (i == songsSelInt) {
             texts[i].alpha = 1;
         } else {
             texts[i].alpha = 0.5;
         }
-        
-        texts[i].x = destinationX;
-        texts[i].y = destinationY;
+
+        FlxTween.cancelTweensOf(texts[i]);
+        FlxTween.cancelTweensOf(images[i]);
+
+        FlxTween.tween(texts[i], {x: 100 + (i - songsSelInt) * 25, y: 318 + (i - songsSelInt) * 120}, 45 / Conductor.bpm, {ease: FlxEase.cubeOut});
+        FlxTween.tween(images[i], {x: texts[i].width + 10 + 100 + (i - songsSelInt) * 25, y: 318 + (i - songsSelInt) * 120 + texts[i].height / 2 - images[i].height / 2}, 45 / Conductor.bpm, {ease: FlxEase.cubeOut});
 
         if (i == songsSelInt && images[i].alpha != 1) {
             images[i].alpha = 1;
@@ -278,11 +312,11 @@ function changeSongShit()
     }
 }
 
-function changeDifficultyShit(restart:Bool)
+function changeDifficultyShit(restart:Bool, ?init:Bool = false)
 {
     if (restart)
     {
-        difficultiesSelInt = 0;
+        difficultiesSelInt = init && existsGlobalVar('freeplayStateDifficultiesSelInt') ? getGlobalVar('freeplayStateDifficultiesSelInt') : 0;
     }
 
     var difficultyName:String = difficulties[difficultiesSelInt].charAt(0).toUpperCase() + difficulties[difficultiesSelInt].substr(1);
@@ -291,7 +325,7 @@ function changeDifficultyShit(restart:Bool)
     {
         difficultyText.text = 'DIFFICULTY\n' + difficultyName;
     } else {
-        difficultyText.text = 'DIFFICULTIES\n' + '\n<' + difficultyName + '>';
+        difficultyText.text = 'DIFFICULTIES\n' + '<' + difficultyName + '>';
     }
 
     difficultyText.x = FlxG.width - difficultyText.width - 10;
@@ -301,7 +335,7 @@ function changeDifficultyShit(restart:Bool)
     difficultyTextBG.x = FlxG.width - difficultyTextBG.width;
 }
 
-function changeDifficulties()
+function changeDifficulties(?init:Bool = false)
 {
     for (week in weeks)
     {
@@ -314,7 +348,7 @@ function changeDifficulties()
             if (difficulties != weekDifficulties)
             {
                 difficulties = weekDifficulties;
-                changeDifficultyShit(true);
+                changeDifficultyShit(true, init);
             }
         }
     }
@@ -324,7 +358,8 @@ function getCurWeek()
 {
     var curWeek:String;
 
-    for (song in songs) {
+    for (song in songs) 
+    {
         var id = song.get('id');
         var week = song.get('week');
         var name = song.get('song');
@@ -338,7 +373,7 @@ function getCurWeek()
     return curWeek;
 }
 
-function setWeekData(object:StringMap, name:String, songs:Array<String>, icons:Array<String>, colors:Array<String>, difficulties:Array<String>)
+function setWeekData(object:StringMap, name:String, songs:Array<String>, icons:Array<String>, colors:Array<FlxColor>, difficulties:Array<String>)
 {
     var weekData:StringMap<Dynamic> = new StringMap();
     weekData.set('name', name);

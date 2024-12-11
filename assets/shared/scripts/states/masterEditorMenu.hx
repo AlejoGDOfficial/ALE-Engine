@@ -11,7 +11,8 @@ var options:Array<String> = [
     'Character Editor',
     'Dialogue Editor',
     'Dialogue Portrait Editor',
-    'Note Splash Editor'
+    'Note Splash Editor',
+    'Week Editor'
 ];
 
 var bg:FlxSprite;
@@ -34,6 +35,7 @@ function onCreate()
 
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     add(bg);
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.color = 0xFF353535;
 
     texts = [];
@@ -43,6 +45,7 @@ function onCreate()
         var text:Alphabet = new Alphabet(30, 0, options[i], true);
         text.snapToPosition();
         add(text);
+        text.antialiasing = ClientPrefs.data.antialiasing;
         text.alpha = 0.25;
         text.y = FlxG.height / 2 - (text.height + 15) * options.length / 2 + (i * (text.height + 15));
         texts.push(text);
@@ -134,6 +137,8 @@ function onUpdate(elapsed:Float)
                         MusicBeatState.switchState(new gameplay.states.editors.DialogueCharacterEditorState());
                     case 'Note Splash Editor':
                         MusicBeatState.switchState(new gameplay.states.editors.NoteSplashEditorState());
+                    case 'Week Editor':
+                        MusicBeatState.switchState(new gameplay.states.editors.WeekEditorState());
                     case 'Show Console':
                         showConsole();
                         MusicBeatState.switchState(new ScriptState('mainMenuState'));

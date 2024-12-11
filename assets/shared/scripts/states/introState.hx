@@ -26,6 +26,7 @@ function onCreate()
     logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
     logo.animation.play('bump');
     add(logo);
+    logo.antialiasing = ClientPrefs.data.antialiasing;
     logo.alpha = 0;
 
     gf = new FlxSprite(550, 40);
@@ -33,6 +34,7 @@ function onCreate()
     gf.animation.addByIndices('danceLeft', 'gf', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
     gf.animation.addByIndices('danceRight', 'gf', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
     add(gf);
+    gf.antialiasing = ClientPrefs.data.antialiasing;
     gf.alpha = 0;
 
     titleText = new FlxSprite(100, 576);
@@ -40,6 +42,7 @@ function onCreate()
     titleText.animation.addByPrefix('idle', "IDLE", 24);
     titleText.animation.addByPrefix('press', "PRESSED", 24);
     add(titleText);
+    titleText.antialiasing = ClientPrefs.data.antialiasing;
     titleText.animation.play('idle');
     titleText.centerOffsets();
 

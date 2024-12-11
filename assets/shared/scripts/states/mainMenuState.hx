@@ -30,12 +30,14 @@ function onCreate()
 
     bg = new FlxSprite().loadGraphic(Paths.image('menuBGYellow'));
     add(bg);
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.scrollFactor.set(0, 0.25 * 5 / options.length);
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
 
     magentaBg = new FlxSprite().loadGraphic(Paths.image('menuBGMagenta'));
     add(magentaBg);
+    magentaBg.antialiasing = ClientPrefs.data.antialiasing;
     magentaBg.scrollFactor.set(0, 0.25 * 5 / options.length);
     magentaBg.scale.set(1.25, 1.25);
     magentaBg.screenCenter('x');
@@ -49,6 +51,7 @@ function onCreate()
         img.animation.addByPrefix('white', 'white', 24, true);
         img.animation.play('basic');
         add(img);
+        img.antialiasing = ClientPrefs.data.antialiasing;
         img.scrollFactor.set(0, 0);
         images.push(img);
     }

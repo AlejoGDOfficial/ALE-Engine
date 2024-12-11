@@ -283,6 +283,8 @@ class CoolUtil
 		FlxG.game.removeChild(MainState.fpsVar);
 		MainState.fpsVar = null;
 
+		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
+
         #if windows cpp.WindowsCPP.setWindowBorderColor(255, 255, 255); #end
 
 		FlxG.resetGame();

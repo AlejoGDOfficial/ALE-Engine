@@ -7,6 +7,7 @@ import core.config.DiscordClient;
 import utils.helpers.CoolUtil;
 import flixel.math.FlxRect;
 import visuals.objects.AttachedSprite;
+import tjson.TJSON as Json;
 
 var bg:FlxSprite;
 var categories:Array<StringMap<Dynamic>> = [];
@@ -14,13 +15,6 @@ var difficulties:Array<String> = [];
 var difficultyTextBG:FlxSprite;
 var difficultyText:FlxText;
 var devs:Array<StringMap<Dynamic>> = [];
-
-/*
-HOW TO ADD CREDITS:
-var categoryName:StringMap<Dynamic> = new StringMap();
-setCategoryData(categoryName, 'Category Name', ['Dev Name 1', 'Dev Name 2', 'Dev Name 3'], ['Dev Icon 1', 'Dev Icon 2', 'Dev Icon 3'], ['Dev Description 1', 'Dev Description 2', 'Dev Description 3'], ['Dev Color 1', 'Dev Color 2', 'Dev Color 3']);
-categories.push(categoryName);
-*/
 
 var devsSelInt:Int = 0;
 
@@ -33,14 +27,29 @@ function onCreate()
         devsSelInt = getGlobalVar('creditsStateSelInt');
     }
 
-    var mainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(mainDevs, 'ALE Engine Team', ['AlejoGDOfficial', 'Khorix the Inking', 'Eddy Smashcraft', 'Aleja', 'AdrianoSH'], ['alejoGDOfficial', 'khorixTheInking', 'eddySmashcraft', 'aleja', 'adrianoSH'], ['Main Programmer and Head', 'Main Artist/Animator', 'Helped with the Translations into Spanish', 'Voice Actress', 'Pixelart Artist'], ['03B1FC', '494F75', '5D4FBC', '404040', '909090']);
+    var jsonToLoad:String = Paths.modFolders('credits.json');
+    if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('credits.json');
 
-    var otherDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(otherDevs, 'ALE Engine Contributors', ['Slushi'], ['slushi'], ['C++ Functions'], ['03F2FF']);
+    var jsonData = Json.parse(File.getContent(jsonToLoad));
+    
+    for (group in jsonData.groups)
+    {
+        var devs:Array<String> = [];
+        var icons:Array<String> = [];
+        var descriptions:Array<String> = [];
+        var colors:Array<String> = [];
 
-    var psychMainDevs:StringMap<Dynamic> = new StringMap();
-    setCategoryData(psychMainDevs, 'Psych Engine Team', ['Shadow Mario', 'Riveren'], ['shadowMario', 'riveren'], ['Main Programmer and Head', 'Main Artist/Animator'], ['444444', '14967B']);
+        for (member in group.members)
+        {
+            devs.push(member.name);
+            icons.push(member.icon);
+            descriptions.push(member.description);
+            colors.push(member.color);
+        }
+
+        var categoryObject:StringMap<Dynamic> = new StringMap();
+        setCategoryData(categoryObject, group.name, devs, icons, descriptions, colors);
+    }
 
     showShit();
 }
@@ -61,6 +70,7 @@ function showShit()
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     add(bg);
 
     for (category in categories)
@@ -89,11 +99,13 @@ function showShit()
             var devText:Alphabet = new Alphabet(100, 90, dev, true);
             devText.snapToPosition();
             add(devText);
+            devText.antialiasing = ClientPrefs.data.antialiasing;
             devText.alpha = 0.25;
             texts.push(devText);
         
             var devIcon:AttachedSprite = new AttachedSprite().loadGraphic(Paths.image('credits/' + icons[i]));
             add(devIcon);
+            devIcon.antialiasing = ClientPrefs.data.antialiasing;
             devIcon.xAdd = devText.width + 10;
             devIcon.yAdd = devText.height / 2 - devIcon.height / 2;
             devIcon.sprTracker = devText;
