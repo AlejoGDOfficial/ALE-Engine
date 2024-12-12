@@ -58,7 +58,7 @@ class FPSCounter extends Sprite
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         
-        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + (CoolUtil.getCurrentSubState()[0] ? 'scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
+        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
 
         if (FlxG.keys.justPressed.F3 && canChangeFPSType && !FlxG.keys.pressed.CONTROL && !FlxG.keys.pressed.SHIFT)
         {
@@ -104,6 +104,8 @@ class FPSCounter extends Sprite
 
     public dynamic function updateText():Void 
     {
+        var deviceShit = {x: Capabilities.screenResolutionX, y: Capabilities.screenResolutionY, os: Capabilities.os};
+
         switch (fpsMode)
         {
             case 0:
@@ -142,9 +144,9 @@ class FPSCounter extends Sprite
                 + '\n' +
                 'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height
                 + '\n\n' +
-                'Screen Resolution: ' + Capabilities.screenResolutionX + ' x ' + openfl.system.Capabilities.screenResolutionY
+                'Screen Resolution: ' + deviceShit.x + ' x ' + deviceShit.y
                 + '\n' +
-                'Operating System: ' + Capabilities.os
+                'Operating System: ' + deviceShit.os
                 + developerModeText
                 + configTipsTxt;
         }

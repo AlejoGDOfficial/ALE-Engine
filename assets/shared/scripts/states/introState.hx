@@ -37,14 +37,16 @@ function onCreate()
     gf.antialiasing = ClientPrefs.data.antialiasing;
     gf.alpha = 0;
 
-    titleText = new FlxSprite(100, 576);
+    titleText = new FlxSprite(150, 576);
     titleText.frames = Paths.getSparrowAtlas('introState/titleEnter');
     titleText.animation.addByPrefix('idle', "IDLE", 24);
     titleText.animation.addByPrefix('press', "PRESSED", 24);
+    titleText.animation.addByPrefix('freeze', "FREEZE", 24);
     add(titleText);
     titleText.antialiasing = ClientPrefs.data.antialiasing;
     titleText.animation.play('idle');
     titleText.centerOffsets();
+    titleText.updateHitbox();
 
     titleText.alpha = 0;
     titleText.color = 0xFF33FFFF;
@@ -65,7 +67,7 @@ function onCreatePost()
 function skipIntro()
 {
     skippedIntro = true;
-    FlxG.camera.flash(FlxColor.WHITE, 3);
+    FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);
     changeShit('');
     gf.alpha = 1;
     logo.alpha = 1;
@@ -84,15 +86,16 @@ function onUpdate(elapsed:Float)
     {
         if (skippedIntro)
         {
-            titleText.animation.play('press');
-
+            titleText.animation.play(ClientPrefs.data.flashing ? 'press' : 'freeze');
+            
             changingState = true;
 
             titleText.color = FlxColor.WHITE;
             titleText.alpha = 1;
-            FlxTween.tween(titleText, {alpha: 0.75}, 120 / Conductor.bpm);
 
-            FlxG.camera.flash(FlxColor.WHITE, 1);
+            if (ClientPrefs.data.flashing) FlxG.camera.flash(FlxColor.WHITE, 1);
+            else FlxTween.tween(titleText, {y: FlxG.height}, 60 / Conductor.bpm, {ease: FlxEase.cubeIn});
+
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
             new FlxTimer().start(1.2, function(tmr:FlxTimer)
@@ -104,12 +107,9 @@ function onUpdate(elapsed:Float)
         }
     }
 
-    if (skippedIntro)
+    if (skippedIntro && !changingState)
     {  
-        if (!changingState)
-        {
-            titleText.alpha = 0.64 + Math.sin(curTime * 2) * 0.36;
-        }
+        titleText.alpha = 0.64 + Math.sin(curTime * 2) * 0.36;
     }
 }
 

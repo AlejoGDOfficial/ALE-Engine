@@ -327,10 +327,6 @@ class Paths
 		#if MODS_ALLOWED
 		if(!ignoreMods)
 		{
-			for(mod in Mods.getGlobalMods())
-				if (FileSystem.exists(mods('$mod/$key')))
-					return true;
-
 			if (FileSystem.exists(mods(Mods.currentModDirectory + '/' + key)) || FileSystem.exists(mods(key)))
 				return true;
 			

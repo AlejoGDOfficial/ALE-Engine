@@ -3,5 +3,7 @@
     "fromPlayStateIfStoryMode": "storyMenuState",
     "fromPlayStateIfFreeplay": "freeplayState",
     "fromEditors": "masterEditorMenu",
-    "fromOptions": "mainMenuState"
+    "fromOptions": "mainMenuState",
+
+    "bpm": 102
 }

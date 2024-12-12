@@ -239,8 +239,11 @@ function onUpdate(elapsed:Float)
         
                 if (id == songsSelInt)
                 {
-                    FlxFlicker.flicker(texts[id], 0, 0.05);
-                    FlxFlicker.flicker(images[id], 0, 0.05);
+                    if (ClientPrefs.data.flashing)
+                    {
+                        FlxFlicker.flicker(texts[id], 0, 0.05);
+                        FlxFlicker.flicker(images[id], 0, 0.05);
+                    }
 
                     FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
                     
@@ -248,6 +251,9 @@ function onUpdate(elapsed:Float)
                     {
                         loadSong(name, difficulties[difficultiesSelInt].toLowerCase());
                     });
+                } else {
+                    FlxTween.tween(texts[id], {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
+                    FlxTween.tween(images[id], {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                 }
             }
 

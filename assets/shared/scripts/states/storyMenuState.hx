@@ -240,7 +240,7 @@ function onUpdate(elapsed:Float)
         
                 if (weekID == weekSelInt)
                 {
-                    FlxFlicker.flicker(weekTexts[weekID], 0, 0.05);
+                    if (ClientPrefs.data.flashing) FlxFlicker.flicker(weekTexts[weekID], 0, 0.05);
 
                     FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
                     
@@ -248,6 +248,8 @@ function onUpdate(elapsed:Float)
                     {
                         loadWeek(weekSongs, difficulties, difficultiesSelInt, true);
                     });
+                } else {
+                    FlxTween.tween(weekTexts[weekID], {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                 }
             }
 

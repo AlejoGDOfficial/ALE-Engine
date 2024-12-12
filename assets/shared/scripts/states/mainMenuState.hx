@@ -122,7 +122,7 @@ function onUpdate(elapsed:Float)
 
         if (controls.ACCEPT)
         {
-            FlxFlicker.flicker(magentaBg, 1.1, 0.15, false);
+            if (ClientPrefs.data.flashing) FlxFlicker.flicker(magentaBg, 1.1, 0.15, false);
 
             canSelect = false;
 
@@ -130,9 +130,9 @@ function onUpdate(elapsed:Float)
             {
                 if (i == selInt)
                 {
-                    FlxFlicker.flicker(images[i], 0, 0.05);
+                    if (ClientPrefs.data.flashing) FlxFlicker.flicker(images[i], 0, 0.05);
                 } else {
-                    FlxTween.tween(images[i], {alpha: 0}, 60 / Conductor.bpm);
+                    FlxTween.tween(images[i], {alpha: 0}, 60 / Conductor.bpm, {ease: FlxEase.cubeIn});
                 }
             }
 

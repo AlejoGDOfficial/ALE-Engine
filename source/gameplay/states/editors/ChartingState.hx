@@ -485,9 +485,7 @@ class ChartingState extends MusicBeatState
 		stepperSpeed.name = 'song_speed';
 		blockPressWhileTypingOnStepper.push(stepperSpeed);
 		#if MODS_ALLOWED
-		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Mods.currentModDirectory + '/characters/'), Paths.getSharedPath('characters/')];
-		for(mod in Mods.getGlobalMods())
-			directories.push(Paths.mods(mod + '/characters/'));
+		var directories:Array<String> = [Paths.mods(Mods.currentModDirectory + '/characters/'), Paths.getSharedPath('characters/')];
 		#else
 		var directories:Array<String> = [Paths.getSharedPath('characters/')];
 		#end
@@ -547,9 +545,7 @@ class ChartingState extends MusicBeatState
 		blockPressWhileScrolling.push(player2DropDown);
 
 		#if MODS_ALLOWED
-		var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Mods.currentModDirectory + '/stages/'), Paths.getSharedPath('stages/')];
-		for(mod in Mods.getGlobalMods())
-			directories.push(Paths.mods(mod + '/stages/'));
+		var directories:Array<String> = [Paths.mods(Mods.currentModDirectory + '/stages/'), Paths.getSharedPath('stages/')];
 		#else
 		var directories:Array<String> = [Paths.getSharedPath('stages/')];
 		#end
@@ -977,8 +973,6 @@ class ChartingState extends MusicBeatState
 		#if MODS_ALLOWED
 		directories.push(Paths.mods('custom_events/'));
 		directories.push(Paths.mods(Mods.currentModDirectory + '/custom_events/'));
-		for(mod in Mods.getGlobalMods())
-			directories.push(Paths.mods(mod + '/custom_events/'));
 		#end
 
 		for (i in 0...directories.length) {

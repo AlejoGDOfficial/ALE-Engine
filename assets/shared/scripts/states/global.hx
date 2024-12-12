@@ -1,6 +1,14 @@
+import tjson.TJSON as Json;
+
 function onCreate()
 {
-    Conductor.bpm = 102;
+    var jsonToLoad:String = Paths.modFolders('data.json');
+    if(!FileSystem.exists(jsonToLoad))
+        jsonToLoad = Paths.getSharedPath('data.json');
+
+    var jsonData = Json.parse(File.getContent(jsonToLoad));
+
+    Conductor.bpm = jsonData.bpm;
 }
 
 function onUpdate(elapsed:Float)
@@ -18,5 +26,5 @@ function onUpdate(elapsed:Float)
 
 function onBeatHit()
 {
-    FlxG.camera.zoom += 0.01;
+    if (ClientPrefs.data.camZooms) FlxG.camera.zoom += 0.01;
 }

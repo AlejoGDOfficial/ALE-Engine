@@ -45,6 +45,7 @@ class ResetScoreSubState extends MusicBeatSubstate
 		alphabetArray.push(text);
 		text.alpha = 0;
 		add(text);
+		text.scrollFactor.set();
 		var text:Alphabet = new Alphabet(0, text.y + 90, name, true);
 		text.scaleX = tooLong;
 		text.screenCenter(X);
@@ -52,6 +53,7 @@ class ResetScoreSubState extends MusicBeatSubstate
 		alphabetArray.push(text);
 		text.alpha = 0;
 		add(text);
+		text.scrollFactor.set();
 		if(week == -1) {
 			icon = new HealthIcon(character);
 			icon.setGraphicSize(Std.int(icon.width * tooLong));
@@ -65,10 +67,12 @@ class ResetScoreSubState extends MusicBeatSubstate
 		yesText.screenCenter(X);
 		yesText.x -= 200;
 		add(yesText);
+		yesText.scrollFactor.set();
 		noText = new Alphabet(0, text.y + 150, 'No', true);
 		noText.screenCenter(X);
 		noText.x += 200;
 		add(noText);
+		noText.scrollFactor.set();
 		updateOptions();
 	}
 
