@@ -20,7 +20,7 @@ class CoolVars
 
 	public static var isConsoleVisible:Bool = false;
 
-	public static var engineVersion:String = 'Beta 2';
+	public static var engineVersion:String = 'Beta 3';
 	
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
 }

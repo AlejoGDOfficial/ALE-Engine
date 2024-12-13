@@ -532,7 +532,7 @@ class PlayState extends MusicBeatState
 		
 		scoreTxt.applyMarkup(tempScore, [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('909090')), '*')]);
 
-		botplayTxt = new FlxText(0, ClientPrefs.data.downScroll ? 715 : 150, FlxG.width, 'Botplay', 32);
+		botplayTxt = new FlxText(0, ClientPrefs.data.downScroll ? 605 : 85, FlxG.width, 'BOTPLAY', 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, 'center');
 		botplayTxt.borderStyle = FlxTextBorderStyle.OUTLINE;
 		botplayTxt.borderSize = 1;
@@ -2674,6 +2674,8 @@ class PlayState extends MusicBeatState
 					var canHit:Bool = (n != null && !strumsBlocked[n.noteData] && n.canBeHit
 						&& n.mustPress && !n.tooLate && !n.wasGoodHit && !n.blockHit);
 
+					canHit = canHit && n.parent != null && n.parent.wasGoodHit;
+
 					if (canHit && n.isSustainNote) {
 						var released:Bool = !holdArray[n.noteData];
 
@@ -2720,6 +2722,44 @@ class PlayState extends MusicBeatState
 		// score and data
 		var subtract:Float = 0.05;
 		if(note != null) subtract = note.missHealth;
+
+		if (note != null && note.parent == null) {
+			if(note.tail.length > 0) {
+				note.alpha = 0.35;
+				for(childNote in note.tail) {
+					childNote.alpha = note.alpha;
+					childNote.missed = true;
+					childNote.canBeHit = false;
+					childNote.ignoreNote = true;
+					childNote.tooLate = true;
+				}
+				note.missed = true;
+				note.canBeHit = false;
+
+				//subtract += 0.385; // you take more damage if playing with this gameplay changer enabled.
+				// i mean its fair :p -Crow
+				subtract *= note.tail.length + 1;
+				// i think it would be fair if damage multiplied based on how long the sustain is -Tahir
+			}
+
+			if (note.missed)
+				return;
+		}
+
+		if (note != null && note.parent != null && note.isSustainNote) {
+			if (note.missed)
+				return;
+
+			var parentNote:Note = note.parent;
+			if (parentNote.wasGoodHit && parentNote.tail.length > 0) {
+				for (child in parentNote.tail) if (child != note) {
+					child.missed = true;
+					child.canBeHit = false;
+					child.ignoreNote = true;
+					child.tooLate = true;
+				}
+			}
+		}
 
 		if(instakillOnMiss)
 		{
@@ -2869,8 +2909,8 @@ class PlayState extends MusicBeatState
 			if(combo > 9999) combo = 9999;
 			popUpScore(note);
 		}
-		var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
-		if (gainHealth) health += note.hitHealth * healthGain;
+
+		health += note.hitHealth * healthGain;
 
 		var result:Dynamic = callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('goodNoteHit', [note]);
