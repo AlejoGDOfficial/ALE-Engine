@@ -5,5 +5,8 @@
     "fromEditors": "masterEditorMenu",
     "fromOptions": "mainMenuState",
 
+    "title": "Friday Night Funkin': ALE Engine",
+    "icon": "appIcon",
+
     "bpm": 102
 }

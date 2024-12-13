@@ -8,7 +8,7 @@ function onCreate()
 
     var jsonData = Json.parse(File.getContent(jsonToLoad));
 
-    Conductor.bpm = jsonData.bpm;
+    Conductor.bpm = Reflect.hasField(jsonData, 'bpm') ? jsonData.bpm : 102;
 }
 
 function onUpdate(elapsed:Float)

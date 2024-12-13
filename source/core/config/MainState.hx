@@ -43,17 +43,20 @@ class MainState extends MusicBeatState
     
             var jsonData = haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
     
-            CoolVars.scriptFromInitialState = jsonData.initialState;
-            CoolVars.scriptFromPlayStateIfStoryMode = jsonData.fromPlayStateIfStoryMode;
-            CoolVars.scriptFromPlayStateIfFreeplay = jsonData.fromPlayStateIfFreeplay;
-            CoolVars.scriptFromEditors = jsonData.fromEditors;
-            CoolVars.scriptFromOptions = jsonData.fromOptions;
+            CoolVars.scriptFromInitialState = Reflect.hasField(jsonData, 'initialState') ? jsonData.initialState : 'introState';
+            CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(jsonData, 'fromPlayStateIfStoryMode') ? jsonData.fromPlayStateIfStoryMode : 'storyMenuState';
+            CoolVars.scriptFromPlayStateIfFreeplay = Reflect.hasField(jsonData, 'fromPlayStateIfFreeplay') ? jsonData.fromPlayStateIfFreeplay : 'freeplayState';
+            CoolVars.scriptFromEditors = Reflect.hasField(jsonData, 'fromEditors') ? jsonData.fromEditors : 'masterEditorMenu';
+            CoolVars.scriptFromOptions = Reflect.hasField(jsonData, 'fromOptions') ? jsonData.fromOptions : 'mainMenuState';
 
             trace('Initial State: ' + CoolVars.scriptFromInitialState);
             trace('From PlayState if Story Mode: ' + CoolVars.scriptFromPlayStateIfStoryMode);
             trace('From PlayState if Freeplay: ' + CoolVars.scriptFromPlayStateIfFreeplay);
             trace('From Editors: ' + CoolVars.scriptFromEditors);
             trace('From Options: ' + CoolVars.scriptFromOptions);
+
+            if (Reflect.hasField(jsonData, 'title')) lime.app.Application.current.window.title = jsonData.title;
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
         } catch(error:Dynamic) {
             trace(error);
         }

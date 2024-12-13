@@ -34,6 +34,7 @@ package cpp;
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "Shell32.lib")
 #pragma comment(lib, "gdi32.lib")
+#pragma comment(lib, "Gdiplus.lib")
 
 std::string globalWindowTitle = "Not Set";
 HWND GET_MAIN_WINDOW() {
@@ -307,25 +308,25 @@ class WindowsCPP
 	public static function moveDesktopWindowsInY(y:Int) {}
 
 	@:functionCode('
-	HWND window;
-	HWND window2;
+		HWND window;
+		HWND window2;
 
-	switch (numberMode) {
-		case 0:
-			window = FindWindowW(L"Progman", L"Program Manager");
-			window = GetWindow(window, GW_CHILD);
-		case 1:
-			window = FindWindowA("Shell_traywnd", nullptr);
-			window2 = FindWindowA("Shell_SecondaryTrayWnd", nullptr);
-	}
+		switch (numberMode) {
+			case 0:
+				window = FindWindowW(L"Progman", L"Program Manager");
+				window = GetWindow(window, GW_CHILD);
+			case 1:
+				window = FindWindowA("Shell_traywnd", nullptr);
+				window2 = FindWindowA("Shell_SecondaryTrayWnd", nullptr);
+		}
 
-	if (numberMode != 1) {
-		SetWindowLong(window, GWL_EXSTYLE, GetWindowLong(window, GWL_EXSTYLE) ^ WS_EX_LAYERED);
-	}
-	else {
-		SetWindowLong(window, GWL_EXSTYLE, GetWindowLong(window, GWL_EXSTYLE) ^ WS_EX_LAYERED);
-		SetWindowLong(window2, GWL_EXSTYLE, GetWindowLong(window2, GWL_EXSTYLE) ^ WS_EX_LAYERED);
-	}
+		if (numberMode != 1) {
+			SetWindowLong(window, GWL_EXSTYLE, GetWindowLong(window, GWL_EXSTYLE) ^ WS_EX_LAYERED);
+		}
+		else {
+			SetWindowLong(window, GWL_EXSTYLE, GetWindowLong(window, GWL_EXSTYLE) ^ WS_EX_LAYERED);
+			SetWindowLong(window2, GWL_EXSTYLE, GetWindowLong(window2, GWL_EXSTYLE) ^ WS_EX_LAYERED);
+		}
 	')
 	public static function setWindowLayeredMode(numberMode:Int) {}
 }

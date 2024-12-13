@@ -169,8 +169,8 @@ class ALEFunctions
     
         Lua_helper.add_callback(lua, 'changeTitle', function(titleText:String)
         {
-            #if windows lime.app.Application.current.window.title = titleText;
-            WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
+            lime.app.Application.current.window.title = titleText;
+            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
         });
         
         Lua_helper.add_callback(lua, 'getDeviceRAM', function()
