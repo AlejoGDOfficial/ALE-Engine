@@ -167,50 +167,53 @@ function onUpdate(elapsed:Float)
 
     if (canSelect)
     {
-        if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
+        if (songs.length > 1)
         {
-            if (songsSelInt > 0)
+            if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
             {
-                songsSelInt -= 1;
-            } else if (songsSelInt == 0) {
-                songsSelInt = texts.length - 1;
+                if (songsSelInt > 0)
+                {
+                    songsSelInt -= 1;
+                } else if (songsSelInt == 0) {
+                    songsSelInt = texts.length - 1;
+                }
+        
+                changeSongShit();
+                changeOtherShit();
+                changeDifficulties();
+            } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+                if (songsSelInt < (texts.length - 1))
+                {
+                    songsSelInt += 1;
+                } else if (songsSelInt == texts.length - 1) {
+                    songsSelInt = 0;
+                }
+        
+                changeSongShit();
+                changeOtherShit();
+                changeDifficulties();
             }
     
-            changeSongShit();
-            changeOtherShit();
-            changeDifficulties();
-        } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
-            if (songsSelInt < (texts.length - 1))
+            if (controls.UI_LEFT_P)
             {
-                songsSelInt += 1;
-            } else if (songsSelInt == texts.length - 1) {
-                songsSelInt = 0;
-            }
+                if (difficultiesSelInt > 0)
+                {
+                    difficultiesSelInt -= 1;
+                } else if (difficultiesSelInt == 0) {
+                    difficultiesSelInt = difficulties.length - 1;
+                }
+        
+                changeDifficultyShit(false);
+            } else if (controls.UI_RIGHT_P) {
+                if (difficultiesSelInt < (difficulties.length - 1))
+                {
+                    difficultiesSelInt += 1;
+                } else if (difficultiesSelInt == difficulties.length - 1) {
+                    difficultiesSelInt = 0;
+                }
     
-            changeSongShit();
-            changeOtherShit();
-            changeDifficulties();
-        }
-
-        if (controls.UI_LEFT_P)
-        {
-            if (difficultiesSelInt > 0)
-            {
-                difficultiesSelInt -= 1;
-            } else if (difficultiesSelInt == 0) {
-                difficultiesSelInt = difficulties.length - 1;
+                changeDifficultyShit(false);
             }
-    
-            changeDifficultyShit(false);
-        } else if (controls.UI_RIGHT_P) {
-            if (difficultiesSelInt < (difficulties.length - 1))
-            {
-                difficultiesSelInt += 1;
-            } else if (difficultiesSelInt == difficulties.length - 1) {
-                difficultiesSelInt = 0;
-            }
-
-            changeDifficultyShit(false);
         }
 
         if (controls.BACK)

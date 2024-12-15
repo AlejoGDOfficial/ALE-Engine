@@ -12,6 +12,7 @@ class Mods
 {
 	static public var currentModDirectory:String = '<No Mods>';
 	public static var ignoreModFolders:Array<String> = [
+		'.git',
 		'characters',
 		'custom_events',
 		'custom_notetypes',

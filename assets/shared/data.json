@@ -1,4 +1,6 @@
 {
+    "developerMode" : true,
+
     "initialState": "introState",
     "fromPlayStateIfStoryMode": "storyMenuState",
     "fromPlayStateIfFreeplay": "freeplayState",
@@ -6,7 +8,7 @@
     "fromOptions": "mainMenuState",
 
     "title": "Friday Night Funkin': ALE Engine",
-    "icon": "appIcon",
+    "icon": "images/appIcon",
 
     "bpm": 102
 }

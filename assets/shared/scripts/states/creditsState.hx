@@ -148,27 +148,30 @@ function onUpdate(elapsed:Float)
 {
     if (canSelect)
     {
-        if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
+        if (devs.length > 1)
         {
-            if (devsSelInt > 0)
+            if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
             {
-                devsSelInt -= 1;
-            } else if (devsSelInt == 0) {
-                devsSelInt = texts.length - 1;
+                if (devsSelInt > 0)
+                {
+                    devsSelInt -= 1;
+                } else if (devsSelInt == 0) {
+                    devsSelInt = texts.length - 1;
+                }
+        
+                changeDevsShit();
+                changeOtherShit();
+            } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+                if (devsSelInt < (texts.length - 1))
+                {
+                    devsSelInt += 1;
+                } else if (devsSelInt == texts.length - 1) {
+                    devsSelInt = 0;
+                }
+        
+                changeDevsShit();
+                changeOtherShit();
             }
-    
-            changeDevsShit();
-            changeOtherShit();
-        } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
-            if (devsSelInt < (texts.length - 1))
-            {
-                devsSelInt += 1;
-            } else if (devsSelInt == texts.length - 1) {
-                devsSelInt = 0;
-            }
-    
-            changeDevsShit();
-            changeOtherShit();
         }
         
         if (controls.BACK)

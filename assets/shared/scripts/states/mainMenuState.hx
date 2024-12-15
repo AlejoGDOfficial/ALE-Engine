@@ -94,30 +94,33 @@ function onUpdate(elapsed:Float)
             setGlobalVar('mainMenuStateSelInt', selInt);
         }
 
-        if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
+        if (options.length > 1)
         {
-            if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
+            if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
             {
-                if (selInt > 0)
+                if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
                 {
-                    selInt -= 1;
-                } else if (selInt == 0) {
-                    selInt = options.length - 1;
+                    if (selInt > 0)
+                    {
+                        selInt -= 1;
+                    } else if (selInt == 0) {
+                        selInt = options.length - 1;
+                    }
+        
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
+                } else if (controls.UI_DOWN_P ||  FlxG.mouse.wheel < 0) {
+                    if (selInt < options.length - 1)
+                    {
+                        selInt += 1;
+                    } else if (selInt == options.length - 1) {
+                        selInt = 0;
+                    }
+        
+                    FlxG.sound.play(Paths.sound('scrollMenu'));
                 }
-    
-                FlxG.sound.play(Paths.sound('scrollMenu'));
-            } else if (controls.UI_DOWN_P ||  FlxG.mouse.wheel < 0) {
-                if (selInt < options.length - 1)
-                {
-                    selInt += 1;
-                } else if (selInt == options.length - 1) {
-                    selInt = 0;
-                }
-    
-                FlxG.sound.play(Paths.sound('scrollMenu'));
+        
+                changeShit();
             }
-    
-            changeShit();
         }
 
         if (controls.ACCEPT)

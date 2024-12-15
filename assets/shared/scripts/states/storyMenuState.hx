@@ -156,42 +156,44 @@ function onUpdate(elapsed:Float)
 {
     if (canSelect)
     {
-        if (controls.UI_LEFT_P)
+        if (weeks.length > 1)
         {
-            if (difficultiesSelInt > 0)
+            if (controls.UI_LEFT_P)
             {
-                difficultiesSelInt -= 1;
-            } else if (difficultiesSelInt == 0) {
-                difficultiesSelInt = difficulties.length - 1;
+                if (difficultiesSelInt > 0)
+                {
+                    difficultiesSelInt -= 1;
+                } else if (difficultiesSelInt == 0) {
+                    difficultiesSelInt = difficulties.length - 1;
+                }
+    
+                changeDifficultyShit(false);
+    
+                uiLeft.animation.play('push');
+                uiLeft.centerOffsets();
+            } else if (controls.UI_LEFT_R) {
+                uiLeft.animation.play('left');
+                uiLeft.centerOffsets();
             }
-
-            changeDifficultyShit(false);
-
-            uiLeft.animation.play('push');
-            uiLeft.centerOffsets();
-        } else if (controls.UI_LEFT_R) {
-            uiLeft.animation.play('left');
-            uiLeft.centerOffsets();
+    
+            if (controls.UI_RIGHT_P) {
+                if (difficultiesSelInt < (difficulties.length - 1))
+                {
+                    difficultiesSelInt += 1;
+                } else if (difficultiesSelInt == difficulties.length - 1) {
+                    difficultiesSelInt = 0;
+                }
+    
+                changeDifficultyShit(false);
+    
+                uiRight.animation.play('push');
+                uiRight.centerOffsets();
+            } else if (controls.UI_RIGHT_R) {
+                uiRight.animation.play('right');
+                uiRight.centerOffsets();
+            }    
         }
-
-        if (controls.UI_RIGHT_P) {
-            if (difficultiesSelInt < (difficulties.length - 1))
-            {
-                difficultiesSelInt += 1;
-            } else if (difficultiesSelInt == difficulties.length - 1) {
-                difficultiesSelInt = 0;
-            }
-
-            changeDifficultyShit(false);
-
-            uiRight.animation.play('push');
-            uiRight.centerOffsets();
-        } else if (controls.UI_RIGHT_R) {
-            uiRight.animation.play('right');
-            uiRight.centerOffsets();
-
-        }
-
+        
         if (controls.BACK)
         {
             setGlobalVar('storyMenuStateSongsSelInt', weekSelInt);
