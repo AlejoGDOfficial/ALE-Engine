@@ -2,7 +2,7 @@
 
 >[!IMPORTANT]
 > ## This engine is still in **Beta State**
-> * Mods created in **Psych  0.7.3** are compatible with **ALE Engine** (For now)
+> * Mods created in **Psych  0.7.3** aren't fully compatible with **ALE Engine** (For now)
 > * Multiple editors not working
 > * There are very few new features yet
 > * The script states don't work as well as Psych hardcoded States
