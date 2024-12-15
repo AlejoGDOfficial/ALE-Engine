@@ -2,7 +2,7 @@
 
 ✅ Correct Structure (Required): 
 mods/
-└── modName/  
+└── Mod Name/  
     ├── images/
     ├── songs/
     ├── data/
