@@ -82,7 +82,7 @@ class MainState extends MusicBeatState
         {
 			trace('Checking for Update...');
 
-			var http = new haxe.Http("https://raw.githubusercontent.com/AlejoGDOfficial/ALE-Engine/refs/heads/beta/githubVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/AlejoGDOfficial/ALE-Engine/refs/heads/main/githubVersion.txt");
 
 			http.onData = function (data:String)
 			{
