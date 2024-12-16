@@ -11,7 +11,12 @@
 ## ALE Engine
 **ALE Engine** is a new **Friday Night Funkin' Engine** based on **Psych Engine 0.7.3** originally used for [Weekend Afternoon Extended (WIP)](https://gamebanana.com/mods/379624), intended to be **easier to use** in **some aspects** and **improve others**, as well as **improve performance**.
 
-    
+<details><summary><h2>How to install mods</h2></summary>
+  
+1. **Put** the **mod folder** in the **"mods" folder**.
+2. **Choose the mod** by **pressing Ctrl + Shift + TAB** in **any of the menus or editors**.
+</details>
+
 <details><summary><h2>How to Build</h2></summary>
   
 ##### Tested on Windows 11
