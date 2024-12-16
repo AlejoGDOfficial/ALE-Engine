@@ -6,7 +6,6 @@
 > * **Holding down Ctrl + Shift** in *some* **menus** or **editors** will **display** *some* **functions/options** in the **FPS text**, they *can* be **useful**!
 
 >[!IMPORTANT]
-> ### This engine is still in **Beta State**
 > * Mods created in **Psych  0.7.3** aren't fully compatible with **ALE Engine**
 > * There are very few new features yet
 > * The script states don't work as well as Psych hardcoded States

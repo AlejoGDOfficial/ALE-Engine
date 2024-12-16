@@ -88,7 +88,7 @@ class FPSCounter extends Sprite
             });
         }
 
-        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.developerMode && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
+        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
         {
             configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
 
