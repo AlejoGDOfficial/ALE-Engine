@@ -2,10 +2,10 @@
 
 **ALE Engine** is a new **Friday Night Funkin' Engine** based on **Psych Engine 0.7.3** originally used for [Weekend Afternoon Extended (WIP)](https://gamebanana.com/mods/379624), intended to be **easier to use** in **some aspects** and **improve others**, as well as **improve performance**.
 
->[!NOTE] <br/>
+>[!NOTE]
 > * **Holding down Ctrl + Shift** in *some* **menus** or **editors** will **display** *some* **functions/options** in the **FPS text**, they *can* be **useful**!
 
->[!IMPORTANT] <br/>
+>[!IMPORTANT]
 > ### This engine is still in **Beta State**
 > * Mods created in **Psych  0.7.3** aren't fully compatible with **ALE Engine**
 > * There are very few new features yet
