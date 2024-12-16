@@ -74,5 +74,37 @@ class MainState extends MusicBeatState
 		FlxTransitionableState.skipNextTransOut = true;
 
         MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromInitialState));
+
+        CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
+
+		#if CHECK_FOR_UPDATES
+		if (ClientPrefs.data.checkForUpdates) 
+        {
+			trace('Checking for Update...');
+
+			var http = new haxe.Http("https://raw.githubusercontent.com/AlejoGDOfficial/ALE-Engine/refs/heads/beta/githubVersion.txt");
+
+			http.onData = function (data:String)
+			{
+				CoolVars.onlineVersion = data.split('\n')[0].trim();
+
+				trace('Current Version: ' + CoolVars.onlineVersion);
+                trace('Your Version: ' + CoolVars.engineVersion);
+
+				if (CoolVars.onlineVersion != CoolVars.engineVersion) 
+                {
+                    trace('Versions aren\'t matching!');
+                    
+					CoolVars.outdated = true;
+				}
+			}
+
+			http.onError = function (error) {
+				trace('Error: $error');
+			}
+
+			http.request();
+		}
+		#end
     }
 }

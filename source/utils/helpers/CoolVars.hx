@@ -20,7 +20,9 @@ class CoolVars
 
 	public static var isConsoleVisible:Bool = false;
 
-	public static var engineVersion:String = 'Beta 4';
+	public static var engineVersion:String = '';
+	public static var onlineVersion:String = '';
+	public static var outdated:Bool = false;
 	
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
 }

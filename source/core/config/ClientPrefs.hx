@@ -35,7 +35,7 @@ import flixel.input.gamepad.FlxGamepadInputID;
 	public var pauseMusic:String = 'Tea Time';
 	public var discordRPC:Bool = true;
 	public var comboStacking:Bool = true;
-	//public var checkForUpdates:Bool = true;
+	public var checkForUpdates:Bool = true;
 
 	public var downScroll:Bool = false;
 	public var ghostTapping:Bool = true;

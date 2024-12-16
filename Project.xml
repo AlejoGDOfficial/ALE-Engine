@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': ALE Engine" file="ALE Engine" packageName="com.alejogdofficial.aleengine" package="com.alejogdofficial.aleengine" main="core.Main" version="0.2.8" company="AlejoGDOfficial" />
+	<app title="Friday Night Funkin': ALE Engine" file="ALE Engine" packageName="com.alejogdofficial.aleengine" package="com.alejogdofficial.aleengine" main="core.Main" version="0.1.0" company="AlejoGDOfficial" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -52,7 +52,7 @@
 	<!-- __________________________ Game Assets & Etc. __________________________ -->
 	
 	<!-- Turn on Crash Handler -->
-	<define name="CRASH_HANDLER" if="desktop release" />
+	<define name="CRASH_HANDLER"/>
 
 	<!-- Assets -->
 	<assets path="assets/fonts" />
@@ -72,7 +72,7 @@
 	<library name="songs"         preload="true" />
 	<library name="week_assets"   preload="true" />
 
-	<define name="CHECK_FOR_UPDATES" if="desktop officialBuild"/>
+	<define name="CHECK_FOR_UPDATES"/>
 
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
 

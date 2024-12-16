@@ -65,8 +65,8 @@ function onCreate()
     version.borderSize = 1;
     version.borderColor = FlxColor.BLACK;
     version.applyMarkup(
-        'Friday Night Funkin\' 0.3.0\nALE Engine *' + CoolVars.engineVersion + '* (P.E. 1.0 Pre-Release)',
-        [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('FF00FF')), '*')]
+        'Friday Night Funkin\' 0.2.8\nALE Engine *' + CoolVars.engineVersion + '* (P.E. 0.7.3)',
+        [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('00FFFF')), '*')]
     );
     version.scrollFactor.set(0, 0);
     version.y = FlxG.height - version.height - 10;

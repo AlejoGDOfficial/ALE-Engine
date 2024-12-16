@@ -14,9 +14,6 @@ class FPSCounter extends Sprite
     public var currentFPS(default, null):Int;
     public var memoryMegas(get, never):Float;
 
-    var developerModeText:String;
-    var stateInfoTxt:String = '';
-    var configTipsTxt:String = '';
     var background:Shape;
     var textField:TextField;
 
@@ -49,12 +46,19 @@ class FPSCounter extends Sprite
 
     var reSetupGame:FlxTimer = new FlxTimer();
 
+    var developerModeText:String;
+    var stateInfoTxt:String = '';
+    var configTipsTxt:String = '';
+    var outdatedTxt:String = '';
+
     private override function __enterFrame(deltaTime:Float):Void
     {
         if (deltaTimeout > 1000) {
             deltaTimeout = 0.0;
             return;
         }
+
+        outdatedTxt = CoolVars.outdated && ClientPrefs.data.checkForUpdates ? '\n\n' + 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion : '';
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         
@@ -86,9 +90,10 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && CoolVars.developerMode && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
         {
-            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play...';
+            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
 
             if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+            else if (FlxG.keys.justPressed.F4) CoolUtil.browserLoad("https://github.com/AlejoGDOfficial/ALE-Engine/releases");
         } else {
             configTipsTxt = '';
         }
@@ -110,20 +115,23 @@ class FPSCounter extends Sprite
         {
             case 0:
                 textField.text = developerModeText
-                + configTipsTxt;
+                + configTipsTxt
+                + outdatedTxt;
             case 1:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
                 'Memory: ' + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + developerModeText
-                + configTipsTxt;
+                + configTipsTxt
+                + outdatedTxt;
             case 2:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
                 'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt
                 + developerModeText
-                + configTipsTxt;
+                + configTipsTxt
+                + outdatedTxt;
             case 3:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
@@ -134,7 +142,8 @@ class FPSCounter extends Sprite
                 + '\n' +
                 'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height
                 + developerModeText
-                + configTipsTxt;
+                + configTipsTxt
+                + outdatedTxt;
             case 4:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
@@ -148,7 +157,8 @@ class FPSCounter extends Sprite
                 + '\n' +
                 'Operating System: ' + deviceShit.os
                 + developerModeText
-                + configTipsTxt;
+                + configTipsTxt
+                + outdatedTxt;
         }
 
         if (currentFPS < FlxG.drawFramerate * 0.5)
