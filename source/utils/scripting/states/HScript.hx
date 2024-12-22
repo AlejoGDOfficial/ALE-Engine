@@ -158,21 +158,21 @@ class HScript extends SScript
 
 		set('FlxBackdrop', flixel.addons.display.FlxBackdrop);
 
-		set('switchToScriptState', function(name:String, ?doTransition:Bool = false)
+        set("switchToScriptState", function(name:String, ?doTransition:Bool = false)
 		{
 			ScriptState.instance.switchToScriptState(name, doTransition);
 		});
-		set('resetScriptState', function(?doTransition:Bool = false)
+		set("resetScriptState", function(?doTransition:Bool = false)
 		{
 			ScriptState.instance.resetScriptState(doTransition);
 		});
-		set('switchToSomeStates', function(state:String)
+		set("switchState", function(fullClassPath:String, ?params:Array<Dinamic> = [])
 		{
-			ScriptState.instance.switchToSomeStates(state);
+			FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
-		set('openSomeSubStates', function(substate:String)
+		set('openSubState', function(fullClassPath:String, params:Array)
 		{
-			ScriptState.instance.openSomeSubStates(substate);
+			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
 		/*
 		set('openScriptSubState', function(substate:String)

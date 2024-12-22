@@ -41,10 +41,25 @@ class ALEFunctions
     {
 		var lua:State = funk.lua;
         
-		Lua_helper.add_callback(lua, "switchToScriptState", function(name:String, ?doTransition:Bool = false)
+        Lua_helper.add_callback(lua, "switchToScriptState", function(name:String, ?doTransition:Bool = false)
 		{
 			ScriptState.instance.switchToScriptState(name, doTransition);
 		});
+		Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, ?params:Array<Dinamic> = [])
+		{
+			FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+		});
+		Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array)
+		{
+			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+		});
+		/*
+		Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
+		{
+			ScriptState.instance.openScriptSubState(substate);
+		});
+		*/
+			
 		Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
 		{
 			FlxTween.num(Lib.application.window.x, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateX);

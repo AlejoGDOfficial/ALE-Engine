@@ -9,29 +9,19 @@
 * `switchToScriptState(scriptName, doTransition)`
     - Example: `switchToScriptState(mainMenuState, true)`
 
+#### Used to switch to States.
+
+* `switchState(fullClassPath, params)`
+    - Example: `switchState('core.config.MainState', [])`
+
+#### Used to open SubStates.
+
+* `openSubState(fullClassPath, params)`
+    - Example: `openSubState('gameplay.states.substates.ModsMenuSubstate', [])`
 
 > Can only be used in Script States!
 
-#### Used to switch to Specific States.
-
-* `switchToSomeStates(stateName)`
-    - Examples: <br/>
-        `switchToSomeStates('options.OptionsState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.ChartingState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.CharacterEditorState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.WeekEditorState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.MenuCharacterEditorState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.DialogueEditorState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.DialogueCharacterEditorState')` <br/>
-        `switchToSomeStates('gameplay.states.substates.NoteSplashEditorState')`
-
-#### Used to open Specific SubStates.
-
-* `openSomeSubStates(subStateName)`
-    - Examples: <br/>
-        `openSomeSubStates('substates.GameplayChangersSubstate')`
-
-#### Used to reload/reset the state being edited.
+#### Used to reload/reset the ScriptState being edited.
 
 * `resetScriptState(doTransition)`
     - Example: `resetScriptState(true)`

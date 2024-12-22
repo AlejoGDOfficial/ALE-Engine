@@ -3,6 +3,8 @@ package core.config;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
+import haxe.Json;
+import sys.io.File;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
@@ -62,6 +64,9 @@ import flixel.input.gamepad.FlxGamepadInputID;
 }
 
 class ClientPrefs {
+	public static var jsonDefaultData:Dynamic = {};
+	public static var jsonCustomData:Dynamic = {};
+
 	public static var data:SaveVariables = {};
 	public static var defaultData:SaveVariables = {};
 
@@ -247,5 +252,36 @@ class ClientPrefs {
 		FlxG.sound.muteKeys = turnOn ? CoolVars.muteKeys : [];
 		FlxG.sound.volumeDownKeys = turnOn ? CoolVars.volumeDownKeys : [];
 		FlxG.sound.volumeUpKeys = turnOn ? CoolVars.volumeUpKeys : [];
+	}
+
+	public static function loadJsonPrefs()
+	{
+		if (FileSystem.exists(Paths.getSharedPath('preferences/defaultData.json')))
+		{
+			jsonDefaultData = Json.parse(File.getContent(Paths.getSharedPath('preferences/defaultData.json')));
+		} else if (FileSystem.exists(Paths.getSharedPath('defaultOptions.json'))) {
+			var jsonData = Json.parse(File.getContent(Paths.getSharedPath('defaultOptions.json')));
+			for (menu in jsonData.menus)
+			{
+                for (option in menu.options)
+                {
+					Reflect.setField(jsonDefaultData, option.variable, Reflect.field(option, option.variable));
+				}
+			}
+		}
+
+		if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/preferences/customData.json')))
+		{
+			jsonCustomData = Json.parse(File.getContent(Paths.mods(Mods.currentModDirectory + '/preferences/customData.json')));
+		} else if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + 'customOptions.json'))) {
+			var jsonData = Json.parse(File.getContent(Paths.mods(Mods.currentModDirectory + 'customOptions.json')));
+			for (menu in jsonData.menus)
+			{
+                for (option in menu.options)
+                {
+					Reflect.setField(jsonCustomData, option.variable, Reflect.field(option, option.variable));
+				}
+			}
+		}
 	}
 }

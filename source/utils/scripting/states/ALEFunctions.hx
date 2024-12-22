@@ -50,13 +50,13 @@ class ALEFunctions
         {
             ScriptState.instance.resetScriptState(doTransition);
         });
-        Lua_helper.add_callback(lua, "switchToSomeStates", function(state:String)
+        Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, ?params:Array<Dinamic> = [])
         {
-            ScriptState.instance.switchToSomeStates(state);
+            FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });
-        Lua_helper.add_callback(lua, 'openSomeSubStates', function(substate:String)
+        Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array)
         {
-            ScriptState.instance.openSomeSubStates(substate);
+            FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });
         /*
         Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
@@ -97,6 +97,7 @@ class ALEFunctions
             PlayState.storyWeek = 0;
             LoadingState.loadAndSwitchState(new PlayState(), true);
         });
+        
         Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
         {
             FlxTween.num(Lib.application.window.x, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateX);
