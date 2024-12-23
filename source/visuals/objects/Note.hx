@@ -95,7 +95,7 @@ class Note extends FlxSprite
 		r: -1,
 		g: -1,
 		b: -1,
-		a: ClientPrefs.data.splashAlpha
+		a: ClientPrefs.getJsonPref('noteSplashOpacity')
 	};
 
 	public var offsetX:Float = 0;
@@ -210,7 +210,7 @@ class Note extends FlxSprite
 
 		animation = new PsychAnimationController(this);
 
-		antialiasing = ClientPrefs.data.antialiasing;
+		antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		if(createdFrom == null) createdFrom = PlayState.instance;
 
 		if (prevNote == null)
@@ -252,7 +252,7 @@ class Note extends FlxSprite
 			alpha = 0.6;
 			multAlpha = 0.6;
 			hitsoundDisabled = true;
-			if(ClientPrefs.data.downScroll) flipY = true;
+			if(ClientPrefs.getJsonPref('downscroll')) flipY = true;
 
 			offsetX += width / 2;
 			copyAngle = false;

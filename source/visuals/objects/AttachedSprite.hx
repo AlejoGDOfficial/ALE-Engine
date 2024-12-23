@@ -1,5 +1,6 @@
 package visuals.objects;
 
+@:keep
 class AttachedSprite extends FlxSprite
 {
 	public var sprTracker:FlxSprite;
@@ -22,7 +23,7 @@ class AttachedSprite extends FlxSprite
 		} else if(file != null) {
 			loadGraphic(Paths.image(file));
 		}
-		antialiasing = ClientPrefs.data.antialiasing;
+		antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		scrollFactor.set();
 	}
 

@@ -50,11 +50,11 @@ class ALEFunctions
         {
             ScriptState.instance.resetScriptState(doTransition);
         });
-        Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, ?params:Array<Dinamic> = [])
+        Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, params:Array<Dynamic>)
         {
             FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });
-        Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array)
+        Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array<Dynamic>)
         {
             FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });

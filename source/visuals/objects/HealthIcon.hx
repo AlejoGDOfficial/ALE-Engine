@@ -1,5 +1,6 @@
 package visuals.objects;
 
+@:keep
 class HealthIcon extends FlxSprite
 {
 	public var sprTracker:FlxSprite;
@@ -44,7 +45,7 @@ class HealthIcon extends FlxSprite
 			if(char.endsWith('-pixel'))
 				antialiasing = false;
 			else
-				antialiasing = ClientPrefs.data.antialiasing;
+				antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		}
 	}
 

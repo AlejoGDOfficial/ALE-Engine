@@ -54,7 +54,7 @@ class CoolUtil
 		return daList;
 	}
 
-	public static function floorDecimal(value:Float, decimals:Int) FlxMath.roundDecimal(value, decimals);
+	public static function floorDecimal(value:Float, decimals:Int) return FlxMath.roundDecimal(value, decimals);
 
 	inline public static function dominantColor(sprite:flixel.FlxSprite):Int
 	{

@@ -1,5 +1,6 @@
 package visuals.objects;
 
+@:keep
 class TypedAlphabet extends Alphabet
 {
 	public var onFinish:Void->Void = null;

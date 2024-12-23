@@ -1,5 +1,6 @@
 package visuals.objects;
 
+@:keep
 class BGSprite extends FlxSprite
 {
 	private var idleAnim:String;
@@ -23,7 +24,7 @@ class BGSprite extends FlxSprite
 			active = false;
 		}
 		scrollFactor.set(scrollX, scrollY);
-		antialiasing = ClientPrefs.data.antialiasing;
+		antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 	}
 
 	public function dance(?forceplay:Bool = false) {

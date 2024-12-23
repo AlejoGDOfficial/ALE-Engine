@@ -160,11 +160,11 @@ class HScript extends SScript
 		{
 			ScriptState.instance.switchToScriptState(name, doTransition);
 		});
-		set("switchState", function(fullClassPath:String, ?params:Array<Dinamic> = [])
+		set("switchState", function(fullClassPath:String, params:Array<Dynamic>)
 		{
 			FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
-		set('openSubState', function(fullClassPath:String, params:Array)
+		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
 			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});

@@ -169,20 +169,20 @@ class FunkinLua {
 		set('gfName', PlayState.SONG.gfVersion);
 
 		// Other settings
-		set('downscroll', ClientPrefs.data.downScroll);
-		set('framerate', ClientPrefs.data.framerate);
-		set('ghostTapping', ClientPrefs.data.ghostTapping);
-		set('cameraZoomOnBeat', ClientPrefs.data.camZooms);
-		set('flashingLights', ClientPrefs.data.flashing);
+		set('downscroll', ClientPrefs.getJsonPref('downscroll'));
+		set('framerate', ClientPrefs.getJsonPref("framerate"));
+		set('ghostTapping', ClientPrefs.getJsonPref('ghostTapping'));
+		set('cameraZoomOnBeat', ClientPrefs.getJsonPref('cameraZooms'));
+		set('flashingLights', ClientPrefs.getJsonPref('flashingLights'));
 		set('noteOffset', ClientPrefs.data.noteOffset);
-		set('noResetButton', ClientPrefs.data.noReset);
-		set('lowQuality', ClientPrefs.data.lowQuality);
-		set('shadersEnabled', ClientPrefs.data.shaders);
+		set('noResetButton', ClientPrefs.getJsonPref('disableResetButton'));
+		set('lowQuality', ClientPrefs.getJsonPref('lowQuality'));
+		set('shadersEnabled', ClientPrefs.getJsonPref("shaders"));
 		set('scriptName', scriptName);
 		set('currentModDirectory', Mods.currentModDirectory);
 
 		// Noteskin/Splash
-		set('splashAlpha', ClientPrefs.data.splashAlpha);
+		set('splashAlpha', ClientPrefs.getJsonPref('noteSplashOpacity'));
 
 		// build target (windows, mac, linux, etc.)
 		set('buildTarget', LuaUtils.getBuildTarget());
@@ -1679,7 +1679,7 @@ class FunkinLua {
 
 	public function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
-		if(!ClientPrefs.data.shaders) return false;
+		if(!ClientPrefs.getJsonPref("shaders")) return false;
 
 		#if (MODS_ALLOWED && !flash && sys)
 		if(runtimeShaders.exists(name))

@@ -7,6 +7,7 @@ import visuals.shaders.RGBPalette;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.graphics.frames.FlxFrame;
 
+@:keep
 typedef NoteSplashConfig = {
 	anim:String,
 	minFps:Int,
@@ -78,12 +79,12 @@ class NoteSplash extends FlxSprite
 			else tempShader = Note.globalRgbShaders[direction];
 		}
 
-		alpha = ClientPrefs.data.splashAlpha;
+		alpha = ClientPrefs.getJsonPref('noteSplashOpacity');
 		if(note != null) alpha = note.noteSplashData.a;
 		rgbShader.copyValues(tempShader);
 
 		if(note != null) antialiasing = note.noteSplashData.antialiasing;
-		if(PlayState.isPixelStage || !ClientPrefs.data.antialiasing) antialiasing = false;
+		if(PlayState.isPixelStage || !ClientPrefs.getJsonPref('antiAliasing')) antialiasing = false;
 
 		_textureLoaded = texture;
 		offset.set(10, 10);

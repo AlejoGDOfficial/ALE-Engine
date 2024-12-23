@@ -5,6 +5,7 @@ import visuals.animation.PsychAnimationController;
 import visuals.shaders.RGBPalette;
 import visuals.shaders.RGBPalette.RGBShaderReference;
 
+@:keep
 class StrumNote extends FlxSprite
 {
 	public var rgbShader:RGBShaderReference;
@@ -108,7 +109,7 @@ class StrumNote extends FlxSprite
 			animation.addByPrefix('purple', 'arrowLEFT');
 			animation.addByPrefix('red', 'arrowRIGHT');
 
-			antialiasing = ClientPrefs.data.antialiasing;
+			antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 			setGraphicSize(Std.int(width * 0.7));
 
 			switch (Math.abs(noteData) % 4)

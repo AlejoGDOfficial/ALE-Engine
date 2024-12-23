@@ -35,6 +35,8 @@ class NoteOffsetState extends MusicBeatState
 	var controllerPointer:FlxSprite;
 	var _lastControllerMode:Bool = false;
 
+	public function new() super();
+
 	override public function create()
 	{
 		#if DISCORD_ALLOWED
@@ -79,7 +81,7 @@ class NoteOffsetState extends MusicBeatState
 
 		rating = new FlxSprite().loadGraphic(Paths.image('sick'));
 		rating.cameras = [camHUD];
-		rating.antialiasing = ClientPrefs.data.antialiasing;
+		rating.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		rating.setGraphicSize(Std.int(rating.width * 0.7));
 		rating.updateHitbox();
 		
@@ -100,7 +102,7 @@ class NoteOffsetState extends MusicBeatState
 		{
 			var numScore:FlxSprite = new FlxSprite(43 * daLoop).loadGraphic(Paths.image('num' + i));
 			numScore.cameras = [camHUD];
-			numScore.antialiasing = ClientPrefs.data.antialiasing;
+			numScore.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 			numScore.setGraphicSize(Std.int(numScore.width * 0.5));
 			numScore.updateHitbox();
 			comboNums.add(numScore);
@@ -405,11 +407,11 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
-			MusicBeatState.switchState(new options.OptionsState());
-			if(OptionsState.onPlayState)
+			MusicBeatState.switchState(new ScriptState(CoolVars.scriptOptionsState));
+			if(gameplay.states.game.PlayState.onOptionsState)
 			{
-				if(ClientPrefs.data.pauseMusic != 'None')
-					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
+				if(ClientPrefs.getJsonPref("pauseScreenSong") != 'None')
+					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.getJsonPref("pauseScreenSong"))));
 				else
 					FlxG.sound.music.volume = 0;
 			}

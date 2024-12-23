@@ -13,6 +13,7 @@ class MainState extends MusicBeatState
 
     override public function create()
     {
+        ClientPrefs.loadJsonPrefs();
         ClientPrefs.loadPrefs();
     
         #if windows WindowsCPP.setWindowLayered(); #end
@@ -51,13 +52,13 @@ class MainState extends MusicBeatState
             CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(jsonData, 'fromPlayStateIfStoryMode') ? jsonData.fromPlayStateIfStoryMode : 'storyMenuState';
             CoolVars.scriptFromPlayStateIfFreeplay = Reflect.hasField(jsonData, 'fromPlayStateIfFreeplay') ? jsonData.fromPlayStateIfFreeplay : 'freeplayState';
             CoolVars.scriptFromEditors = Reflect.hasField(jsonData, 'fromEditors') ? jsonData.fromEditors : 'masterEditorMenu';
-            CoolVars.scriptFromOptions = Reflect.hasField(jsonData, 'fromOptions') ? jsonData.fromOptions : 'mainMenuState';
+            CoolVars.scriptOptionsState = Reflect.hasField(jsonData, 'optionsState') ? jsonData.optionsState : 'optionsState';
 
             trace('Initial State: ' + CoolVars.scriptFromInitialState);
             trace('From PlayState if Story Mode: ' + CoolVars.scriptFromPlayStateIfStoryMode);
             trace('From PlayState if Freeplay: ' + CoolVars.scriptFromPlayStateIfFreeplay);
             trace('From Editors: ' + CoolVars.scriptFromEditors);
-            trace('From Options: ' + CoolVars.scriptFromOptions);
+            trace('Options State: ' + CoolVars.scriptOptionsState);
 
             if (Reflect.hasField(jsonData, 'title')) lime.app.Application.current.window.title = jsonData.title;
             #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
@@ -78,7 +79,7 @@ class MainState extends MusicBeatState
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
 
 		#if CHECK_FOR_UPDATES
-		if (ClientPrefs.data.checkForUpdates) 
+		if (ClientPrefs.getJsonPref('checkForUpdates')) 
         {
 			trace('Checking for Update...');
 
@@ -106,5 +107,18 @@ class MainState extends MusicBeatState
 			http.request();
 		}
 		#end
+
+		var classesShit:Array<Dynamic> = [];
+		classesShit.push(Type.resolveClass('visuals.objects.AttachedText'));
+		classesShit.push(Type.resolveClass('visuals.objects.MenuCharacter'));
+		classesShit.push(Type.resolveClass('gameplay.states.editors.DialogueCharacterEditorState'));
+		classesShit.push(Type.resolveClass('gameplay.states.editors.DialogueEditorState'));
+		classesShit.push(Type.resolveClass('gameplay.states.editors.MenuCharacterEditorState'));
+		classesShit.push(Type.resolveClass('gameplay.states.editors.NoteSplashEditorState'));
+		classesShit.push(Type.resolveClass('gameplay.states.editors.WeekEditorState'));
+		classesShit.push(Type.resolveClass('gameplay.states.substates.GameplayChangersSubstate'));
+		classesShit.push(Type.resolveClass('options.ControlsSubState'));
+		classesShit.push(Type.resolveClass('options.NoteOffsetState'));
+		classesShit.push(Type.resolveClass('options.NotesSubState'));
     }
 }

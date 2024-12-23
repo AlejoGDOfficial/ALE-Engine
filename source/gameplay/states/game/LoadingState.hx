@@ -43,13 +43,13 @@ class LoadingState extends MusicBeatState
 	override function create()
 	{
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
-		bg.antialiasing = ClientPrefs.data.antialiasing;
+		bg.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		add(bg);
 		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
 		funkay.setGraphicSize(0, FlxG.height);
 		funkay.updateHitbox();
 		add(funkay);
-		funkay.antialiasing = ClientPrefs.data.antialiasing;
+		funkay.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		funkay.scrollFactor.set();
 		funkay.screenCenter();
 

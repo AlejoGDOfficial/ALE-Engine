@@ -60,7 +60,7 @@ class FPSCounter extends Sprite
             return;
         }
 
-        outdatedTxt = CoolVars.outdated && ClientPrefs.data.checkForUpdates ? '\n\n' + 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion : '';
+        outdatedTxt = CoolVars.outdated && ClientPrefs.getJsonPref('checkForUpdates') ? '\n\n' + 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion : '';
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         

@@ -3,6 +3,7 @@ package visuals.objects;
 import openfl.utils.Assets;
 import haxe.Json;
 
+@:keep
 typedef MenuCharacterFile = {
 	var image:String;
 	var scale:Float;
@@ -12,6 +13,7 @@ typedef MenuCharacterFile = {
 	var flipX:Bool;
 }
 
+@:keep
 class MenuCharacter extends FlxSprite
 {
 	public var character:String;
@@ -22,7 +24,7 @@ class MenuCharacter extends FlxSprite
 	{
 		super(x);
 
-		antialiasing = ClientPrefs.data.antialiasing;
+		antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		changeCharacter(character);
 	}
 

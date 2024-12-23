@@ -14,13 +14,13 @@ class DiscordClient
 
 	public static function check()
 	{
-		if(ClientPrefs.data.discordRPC) initialize();
+		if(ClientPrefs.getJsonPref('discordRichPresence')) initialize();
 		else if(isInitialized) shutdown();
 	}
 	
 	public static function prepare()
 	{
-		if (!isInitialized && ClientPrefs.data.discordRPC)
+		if (!isInitialized && ClientPrefs.getJsonPref('discordRichPresence'))
 			initialize();
 
 		Application.current.window.onClose.add(function() {

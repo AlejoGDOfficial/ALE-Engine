@@ -1,5 +1,6 @@
 package visuals.objects;
 
+@:keep
 class CheckboxThingie extends FlxSprite
 {
 	public var sprTracker:FlxSprite;
@@ -16,7 +17,7 @@ class CheckboxThingie extends FlxSprite
 		animation.addByPrefix("checking", "checkbox anim0", 24, false);
 		animation.addByPrefix("checked", "checkbox finish", 24, false);
 
-		antialiasing = ClientPrefs.data.antialiasing;
+		antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		setGraphicSize(Std.int(0.9 * width));
 		updateHitbox();
 

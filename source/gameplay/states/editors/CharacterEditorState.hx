@@ -66,7 +66,7 @@ class CharacterEditorState extends MusicBeatState
 
 	override function create()
 	{
-		if(ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
+		if(ClientPrefs.getJsonPref('gpuCaching')) Paths.clearStoredMemory();
 
 		FlxG.sound.music.stop();
 		camEditor = initPsychCamera();
@@ -82,13 +82,13 @@ class CharacterEditorState extends MusicBeatState
 		add(silhouettes);
 
 		var dad:FlxSprite = new FlxSprite(dadPosition.x, dadPosition.y).loadGraphic(Paths.image('editors/silhouetteDad'));
-		dad.antialiasing = ClientPrefs.data.antialiasing;
+		dad.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		dad.active = false;
 		dad.offset.set(-4, 1);
 		silhouettes.add(dad);
 
 		var boyfriend:FlxSprite = new FlxSprite(bfPosition.x, bfPosition.y + 350).loadGraphic(Paths.image('editors/silhouetteBF'));
-		boyfriend.antialiasing = ClientPrefs.data.antialiasing;
+		boyfriend.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		boyfriend.active = false;
 		boyfriend.offset.set(-6, 2);
 		silhouettes.add(boyfriend);
@@ -155,7 +155,7 @@ class CharacterEditorState extends MusicBeatState
 		updateHealthBar();
 		character.finishAnimation();
 
-		if(ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
+		if(ClientPrefs.getJsonPref('gpuCaching')) Paths.clearUnusedMemory();
 
 		super.create();
 	}
@@ -657,7 +657,7 @@ class CharacterEditorState extends MusicBeatState
 		noAntialiasingCheckBox.checked = character.noAntialiasing;
 		noAntialiasingCheckBox.callback = function() {
 			character.antialiasing = false;
-			if(!noAntialiasingCheckBox.checked && ClientPrefs.data.antialiasing) {
+			if(!noAntialiasingCheckBox.checked && ClientPrefs.getJsonPref('antiAliasing')) {
 				character.antialiasing = true;
 			}
 			character.noAntialiasing = noAntialiasingCheckBox.checked;
@@ -1198,7 +1198,8 @@ class CharacterEditorState extends MusicBeatState
 	var characterList:Array<String> = [];
 	function reloadCharacterDropDown() {
 		characterList = Mods.mergeAllTextsNamed('data/characterList.txt', Paths.getSharedPath());
-		var foldersToCheck:Array<String> = [Paths.getSharedPath('characters'), Paths.modFolders('characters')];
+		var foldersToCheck:Array<String> = [Paths.getSharedPath('characters')];
+		if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/characters'))) foldersToCheck.push(Paths.mods(Mods.currentModDirectory + '/characters'));
 		for (folder in foldersToCheck)
 			for (file in FileSystem.readDirectory(folder))
 				if(file.toLowerCase().endsWith('.json'))

@@ -7,6 +7,7 @@ enum Alignment
 	RIGHT;
 }
 
+@:keep
 class Alphabet extends FlxSpriteGroup
 {
 	public var text(default, set):String;
@@ -346,7 +347,7 @@ class AlphaCharacter extends FlxSprite
 	{
 		super(x, y);
 		image = 'alphabet';
-		antialiasing = ClientPrefs.data.antialiasing;
+		antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 	}
 	
 	public var curLetter:Letter = null;

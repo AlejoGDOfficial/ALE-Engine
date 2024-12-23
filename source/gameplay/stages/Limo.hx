@@ -32,7 +32,7 @@ class Limo extends BaseStage
 		var skyBG:BGSprite = new BGSprite('limo/limoSunset', -120, -50, 0.1, 0.1);
 		add(skyBG);
 
-		if(!ClientPrefs.data.lowQuality) {
+		if(!ClientPrefs.getJsonPref('lowQuality')) {
 			limoMetalPole = new BGSprite('gore/metalPole', -500, 220, 0.4, 0.4);
 			add(limoMetalPole);
 
@@ -87,7 +87,7 @@ class Limo extends BaseStage
 	var limoSpeed:Float = 0;
 	override function update(elapsed:Float)
 	{
-		if(!ClientPrefs.data.lowQuality) {
+		if(!ClientPrefs.getJsonPref('lowQuality')) {
 			grpLimoParticles.forEach(function(spr:BGSprite) {
 				if(spr.animation.curAnim.finished) {
 					spr.kill();
@@ -171,7 +171,7 @@ class Limo extends BaseStage
 
 	override function beatHit()
 	{
-		if(!ClientPrefs.data.lowQuality) {
+		if(!ClientPrefs.getJsonPref('lowQuality')) {
 			grpLimoDancers.forEach(function(dancer:BackgroundDancer)
 			{
 				dancer.dance();
@@ -253,7 +253,7 @@ class Limo extends BaseStage
 
 	function killHenchmen():Void
 	{
-		if(!ClientPrefs.data.lowQuality) {
+		if(!ClientPrefs.getJsonPref('lowQuality')) {
 			if(limoKillingState == WAIT) {
 				limoMetalPole.x = -400;
 				limoMetalPole.visible = true;

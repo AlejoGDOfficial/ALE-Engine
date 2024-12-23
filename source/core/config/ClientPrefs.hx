@@ -23,30 +23,6 @@ import sys.io.File;
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var noteOffset:Int = 0;
-
-	public var lowQuality:Bool = false;
-	public var antialiasing:Bool = true;
-	public var shaders:Bool = true;
-	public var cacheOnGPU:Bool = #if !switch false #else true #end;
-	public var framerate:Int = 60;
-
-	public var splashAlpha:Float = 0.6;
-	public var flashing:Bool = true;
-	public var camZooms:Bool = true;
-	public var showFPS:Bool = true;
-	public var pauseMusic:String = 'Tea Time';
-	public var discordRPC:Bool = true;
-	public var comboStacking:Bool = true;
-	public var checkForUpdates:Bool = true;
-
-	public var downScroll:Bool = false;
-	public var ghostTapping:Bool = true;
-	public var noReset:Bool = false;
-	public var ratingOffset:Int = 0;
-	public var sickWindow:Int = 45;
-	public var goodWindow:Int = 90;
-	public var badWindow:Int = 135;
-	public var safeFrames:Float = 10;
 	
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -163,24 +139,24 @@ class ClientPrefs {
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 		
 		if(MainState.fpsVar != null)
-			MainState.fpsVar.visible = data.showFPS;
+			MainState.fpsVar.visible = getJsonPref('fpsCounter');
 
 		#if (!html5 && !switch)
-		if(FlxG.save.data.framerate == null) {
+		if(getJsonPref('framerate') == null)
+		{
 			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
-			data.framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
 		}
 		#end
 
-		if(data.framerate > FlxG.drawFramerate)
+		if(getJsonPref('framerate') > FlxG.drawFramerate)
 		{
-			FlxG.updateFramerate = data.framerate;
-			FlxG.drawFramerate = data.framerate;
+			FlxG.updateFramerate = getJsonPref('framerate');
+			FlxG.drawFramerate = getJsonPref('framerate');
 		}
 		else
 		{
-			FlxG.drawFramerate = data.framerate;
-			FlxG.updateFramerate = data.framerate;
+			FlxG.drawFramerate = getJsonPref('framerate');
+			FlxG.updateFramerate = getJsonPref('framerate');
 		}
 
 		if(FlxG.save.data.gameplaySettings != null)
@@ -261,11 +237,11 @@ class ClientPrefs {
 			jsonDefaultData = Json.parse(File.getContent(Paths.getSharedPath('preferences/defaultData.json')));
 		} else if (FileSystem.exists(Paths.getSharedPath('defaultOptions.json'))) {
 			var jsonData = Json.parse(File.getContent(Paths.getSharedPath('defaultOptions.json')));
-			for (menu in jsonData.menus)
+			for (menu in (jsonData.menus : Array<Dynamic>)) 
 			{
-                for (option in menu.options)
-                {
-					Reflect.setField(jsonDefaultData, option.variable, Reflect.field(option, option.variable));
+				for (option in (menu.options : Array<Dynamic>)) 
+				{
+					Reflect.setField(jsonDefaultData, Reflect.field(option, "variable"), Reflect.field(option, "default"));
 				}
 			}
 		}
@@ -275,13 +251,21 @@ class ClientPrefs {
 			jsonCustomData = Json.parse(File.getContent(Paths.mods(Mods.currentModDirectory + '/preferences/customData.json')));
 		} else if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + 'customOptions.json'))) {
 			var jsonData = Json.parse(File.getContent(Paths.mods(Mods.currentModDirectory + 'customOptions.json')));
-			for (menu in jsonData.menus)
+			for (menu in (jsonData.menus : Array<Dynamic>)) 
 			{
-                for (option in menu.options)
-                {
-					Reflect.setField(jsonCustomData, option.variable, Reflect.field(option, option.variable));
+				for (option in (menu.options : Array<Dynamic>)) 
+				{
+					Reflect.setField(jsonCustomData, Reflect.field(option, "variable"), Reflect.field(option, "default"));
 				}
 			}
 		}
+	}
+
+	public static function getJsonPref(variable:String):Dynamic
+	{
+		if (Reflect.hasField(jsonDefaultData, variable)) return Reflect.field(jsonDefaultData, variable);
+		else if (Reflect.hasField(jsonCustomData, variable)) return Reflect.field(jsonCustomData, variable);
+
+		return null;
 	}
 }

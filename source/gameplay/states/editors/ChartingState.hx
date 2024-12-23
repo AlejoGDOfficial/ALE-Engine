@@ -221,7 +221,7 @@ class ChartingState extends MusicBeatState
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.antialiasing = ClientPrefs.data.antialiasing;
+		bg.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		bg.scrollFactor.set();
 		bg.color = 0xFF222222;
 		add(bg);
@@ -233,7 +233,7 @@ class ChartingState extends MusicBeatState
 		add(waveformSprite);
 
 		var eventIcon:FlxSprite = new FlxSprite(-GRID_SIZE - 5, -90).loadGraphic(Paths.image('eventArrow'));
-		eventIcon.antialiasing = ClientPrefs.data.antialiasing;
+		eventIcon.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		leftIcon = new HealthIcon('bf');
 		rightIcon = new HealthIcon('dad');
 		eventIcon.scrollFactor.set(1, 1);
@@ -303,7 +303,7 @@ class ChartingState extends MusicBeatState
 		camPos.setPosition(strumLine.x + CAM_OFFSET, strumLine.y);
 
 		dummyArrow = new FlxSprite().makeGraphic(GRID_SIZE, GRID_SIZE);
-		dummyArrow.antialiasing = ClientPrefs.data.antialiasing;
+		dummyArrow.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
 		add(dummyArrow);
 
 		var tabs = [

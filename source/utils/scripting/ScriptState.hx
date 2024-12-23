@@ -26,6 +26,8 @@ import utils.scripting.states.*;
 import tea.SScript;
 #end
 
+import haxe.Json;
+
 class ScriptState extends MusicBeatState
 {
     public static var targetFileName:String; 
@@ -66,9 +68,13 @@ class ScriptState extends MusicBeatState
 	var keysPressed:Array<Int> = [];
 	private var keysArray:Array<String>;
 
+	public var camGame:FlxCamera;
+
     override public function create()
     {
 		Paths.clearUnusedMemory();
+		
+		camGame = initPsychCamera();
 
         instance = this;
 
@@ -511,7 +517,7 @@ class ScriptState extends MusicBeatState
 
 	public function createRuntimeShader(name:String):FlxRuntimeShader
 	{
-		if(!ClientPrefs.data.shaders) return new FlxRuntimeShader();
+		if(!ClientPrefs.getJsonPref("shaders")) return new FlxRuntimeShader();
 
 		#if (!flash && MODS_ALLOWED && sys)
 		if(!runtimeShaders.exists(name) && !initLuaShader(name))
@@ -530,7 +536,7 @@ class ScriptState extends MusicBeatState
 
 	public function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
-		if(!ClientPrefs.data.shaders) return false;
+		if(!ClientPrefs.getJsonPref("shaders")) return false;
 
 		#if (MODS_ALLOWED && !flash && sys)
 		if(runtimeShaders.exists(name))
@@ -587,45 +593,6 @@ class ScriptState extends MusicBeatState
 	public function resetScriptState(?doTransition:Bool = false)
 	{
 		switchToScriptState(targetFileName, doTransition);
-	}
-
-	public function switchToSomeStates(state:String)
-	{
-		switch (state)
-		{
-			case 'options.OptionsState':
-				MusicBeatState.switchState(new OptionsState());
-				options.OptionsState.onPlayState = false;
-				if (PlayState.SONG != null)
-				{
-					PlayState.SONG.arrowSkin = null;
-					PlayState.SONG.splashSkin = null;
-					PlayState.stageUI = 'normal';
-				}
-			case 'gameplay.states.editors.ChartingState':
-				LoadingState.loadAndSwitchState(new gameplay.states.editors.ChartingState(), false);
-			case 'gameplay.states.editors.CharacterEditorState':
-				LoadingState.loadAndSwitchState(new gameplay.states.editors.CharacterEditorState(Character.DEFAULT_CHARACTER, false));
-			case 'gameplay.states.editors.WeekEditorState':
-				LoadingState.loadAndSwitchState(new gameplay.states.editors.WeekEditorState());
-			case 'gameplay.states.editors.MenuCharacterEditorState':
-				MusicBeatState.switchState(new gameplay.states.editors.MenuCharacterEditorState());
-			case 'gameplay.states.editors.DialogueEditorState':
-				LoadingState.loadAndSwitchState(new gameplay.states.editors.DialogueEditorState(), false);
-			case 'gameplay.states.editors.DialogueCharacterEditorState':
-				LoadingState.loadAndSwitchState(new gameplay.states.editors.DialogueCharacterEditorState(), false);
-			case 'gameplay.states.editors.NoteSplashEditorState':
-				MusicBeatState.switchState(new gameplay.states.editors.NoteSplashEditorState());
-		}
-	}
-
-	public function openSomeSubStates(subState:String)
-	{
-		switch (subState)
-		{
-			case 'gameplay.states.substates.GameplayChangersSubstate':
-				openSubState(new gameplay.states.substates.GameplayChangersSubstate());
-		}
 	}
 
 	/*
