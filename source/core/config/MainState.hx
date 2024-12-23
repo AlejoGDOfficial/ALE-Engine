@@ -7,9 +7,25 @@ import utils.debug.FPSCounter;
 
 #if windows import cpp.WindowsCPP; #end
 
+typedef UnusedClasses = {
+    var shit0:visuals.objects.AttachedText;
+    var shit1:visuals.objects.MenuCharacter;
+    var shit2:gameplay.states.editors.DialogueCharacterEditorState;
+    var shit3:gameplay.states.editors.DialogueEditorState;
+    var shit4:gameplay.states.editors.MenuCharacterEditorState;
+    var shit5:gameplay.states.editors.NoteSplashEditorState;
+    var shit6:gameplay.states.editors.WeekEditorState;
+    var shit7:gameplay.states.substates.GameplayChangersSubstate;
+    var shit8:options.ControlsSubState;
+    var shit9:options.NoteOffsetState;
+    var shit10:options.NotesSubState;
+}
+
 class MainState extends MusicBeatState
 {
     public static var fpsVar:FPSCounter;
+
+    public static var unusedClasses:UnusedClasses;
 
     override public function create()
     {
@@ -107,18 +123,5 @@ class MainState extends MusicBeatState
 			http.request();
 		}
 		#end
-
-		var classesShit:Array<Dynamic> = [];
-		classesShit.push(Type.resolveClass('visuals.objects.AttachedText'));
-		classesShit.push(Type.resolveClass('visuals.objects.MenuCharacter'));
-		classesShit.push(Type.resolveClass('gameplay.states.editors.DialogueCharacterEditorState'));
-		classesShit.push(Type.resolveClass('gameplay.states.editors.DialogueEditorState'));
-		classesShit.push(Type.resolveClass('gameplay.states.editors.MenuCharacterEditorState'));
-		classesShit.push(Type.resolveClass('gameplay.states.editors.NoteSplashEditorState'));
-		classesShit.push(Type.resolveClass('gameplay.states.editors.WeekEditorState'));
-		classesShit.push(Type.resolveClass('gameplay.states.substates.GameplayChangersSubstate'));
-		classesShit.push(Type.resolveClass('options.ControlsSubState'));
-		classesShit.push(Type.resolveClass('options.NoteOffsetState'));
-		classesShit.push(Type.resolveClass('options.NotesSubState'));
     }
 }

@@ -7,7 +7,6 @@ enum Alignment
 	RIGHT;
 }
 
-@:keep
 class Alphabet extends FlxSpriteGroup
 {
 	public var text(default, set):String;

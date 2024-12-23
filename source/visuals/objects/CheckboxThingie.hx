@@ -1,6 +1,5 @@
 package visuals.objects;
 
-@:keep
 class CheckboxThingie extends FlxSprite
 {
 	public var sprTracker:FlxSprite;

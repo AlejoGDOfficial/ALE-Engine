@@ -1,6 +1,5 @@
 package visuals.objects;
 
-@:keep
 class HealthIcon extends FlxSprite
 {
 	public var sprTracker:FlxSprite;

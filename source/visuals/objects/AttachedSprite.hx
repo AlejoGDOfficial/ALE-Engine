@@ -1,6 +1,5 @@
 package visuals.objects;
 
-@:keep
 class AttachedSprite extends FlxSprite
 {
 	public var sprTracker:FlxSprite;

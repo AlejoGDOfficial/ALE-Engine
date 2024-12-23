@@ -600,8 +600,8 @@ class PlayState extends MusicBeatState
 
 		if (PauseSubState.songName != null)
 			Paths.music(PauseSubState.songName);
-		else if(Paths.formatToSongPath(ClientPrefs.getJsonPref("pauseScreenSong")) != 'none')
-			Paths.music(Paths.formatToSongPath(ClientPrefs.getJsonPref("pauseScreenSong")));
+		else if(Paths.formatToSongPath(ClientPrefs.getJsonPref('pauseScreenSong')) != 'none')
+			Paths.music(Paths.formatToSongPath(ClientPrefs.getJsonPref('pauseScreenSong')));
 
 		resetRPC();
 
@@ -3359,7 +3359,7 @@ class PlayState extends MusicBeatState
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 	public function createRuntimeShader(name:String):FlxRuntimeShader
 	{
-		if(!ClientPrefs.getJsonPref("shaders")) return new FlxRuntimeShader();
+		if(!ClientPrefs.getJsonPref('shaders')) return new FlxRuntimeShader();
 
 		#if (!flash && MODS_ALLOWED && sys)
 		if(!runtimeShaders.exists(name) && !initLuaShader(name))
@@ -3378,7 +3378,7 @@ class PlayState extends MusicBeatState
 
 	public function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
-		if(!ClientPrefs.getJsonPref("shaders")) return false;
+		if(!ClientPrefs.getJsonPref('shaders')) return false;
 
 		#if (MODS_ALLOWED && !flash && sys)
 		if(runtimeShaders.exists(name))

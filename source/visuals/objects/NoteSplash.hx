@@ -7,7 +7,6 @@ import visuals.shaders.RGBPalette;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.graphics.frames.FlxFrame;
 
-@:keep
 typedef NoteSplashConfig = {
 	anim:String,
 	minFps:Int,

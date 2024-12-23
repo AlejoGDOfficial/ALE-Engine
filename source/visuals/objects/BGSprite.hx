@@ -1,6 +1,5 @@
 package visuals.objects;
 
-@:keep
 class BGSprite extends FlxSprite
 {
 	private var idleAnim:String;

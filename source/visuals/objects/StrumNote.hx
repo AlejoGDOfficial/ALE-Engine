@@ -5,7 +5,6 @@ import visuals.animation.PsychAnimationController;
 import visuals.shaders.RGBPalette;
 import visuals.shaders.RGBPalette.RGBShaderReference;
 
-@:keep
 class StrumNote extends FlxSprite
 {
 	public var rgbShader:RGBShaderReference;

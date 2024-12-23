@@ -2,7 +2,6 @@ package visuals.objects;
 
 import flixel.math.FlxRect;
 
-@:keep
 class Bar extends FlxSpriteGroup
 {
 	public var leftBar:FlxSprite;
