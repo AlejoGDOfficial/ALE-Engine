@@ -70,7 +70,7 @@ function showShit()
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
-    bg.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     add(bg);
 
     for (category in categories)
@@ -99,13 +99,13 @@ function showShit()
             var devText:Alphabet = new Alphabet(100, 90, dev, true);
             devText.snapToPosition();
             add(devText);
-            devText.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+            devText.antialiasing = ClientPrefs.data.antialiasing;
             devText.alpha = 0.25;
             texts.push(devText);
         
             var devIcon:AttachedSprite = new AttachedSprite().loadGraphic(Paths.image('credits/' + icons[i]));
             add(devIcon);
-            devIcon.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+            devIcon.antialiasing = ClientPrefs.data.antialiasing;
             devIcon.xAdd = devText.width + 10;
             devIcon.yAdd = devText.height / 2 - devIcon.height / 2;
             devIcon.sprTracker = devText;

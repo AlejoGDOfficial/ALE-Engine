@@ -78,7 +78,7 @@ function showShit()
     uiLeft.animation.addByPrefix('left', "arrow left", 24, false);
     uiLeft.animation.play('left');
     add(uiLeft);
-    uiLeft.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    uiLeft.antialiasing = ClientPrefs.data.antialiasing;
     uiLeft.scrollFactor.set(0, 0);
 
     uiRight = new FlxSprite(0, 480);
@@ -87,13 +87,13 @@ function showShit()
     uiRight.animation.addByPrefix('right', "arrow right", 24, false);
     uiRight.animation.play('right');
     add(uiRight);
-    uiRight.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    uiRight.antialiasing = ClientPrefs.data.antialiasing;
     uiRight.x = FlxG.width - uiRight.width - 5;
     uiRight.scrollFactor.set(0, 0);
 
     difficultyImage = new FlxSprite();
     add(difficultyImage);
-    difficultyImage.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    difficultyImage.antialiasing = ClientPrefs.data.antialiasing;
     difficultyImage.scrollFactor.set(0, 0);
 
     songsText = new FlxText(0, 480, 0, 'TRACKS');
@@ -112,7 +112,7 @@ function showShit()
         weekText.x = FlxG.width / 20 * 9.25 - weekText.width / 2;
         weekText.alpha = 0.5;
         weekText.scale.set(0.8, 0.8);
-        weekText.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+        weekText.antialiasing = ClientPrefs.data.antialiasing;
         add(weekText);
         weekTexts.push(weekText);
     }
@@ -129,7 +129,7 @@ function showShit()
 
     bg = new FlxSprite(0, 50);
     add(bg);
-    bg.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.scrollFactor.set(0, 0);
 
     characters = new FlxTypedGroup<MenuCharacter>();
@@ -139,7 +139,7 @@ function showShit()
     {
         var character:MenuCharacter = new MenuCharacter(FlxG.width * 0.25 * i - 150, '');
         characters.add(character);
-        character.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+        character.antialiasing = ClientPrefs.data.antialiasing;
         character.scrollFactor.set(0, 0);
         character.y += 65;
     }
@@ -242,7 +242,7 @@ function onUpdate(elapsed:Float)
         
                 if (weekID == weekSelInt)
                 {
-                    if (ClientPrefs.jsonDefaultData.flashingLights) FlxFlicker.flicker(weekTexts[weekID], 0, 0.05);
+                    if (ClientPrefs.data.flashing) FlxFlicker.flicker(weekTexts[weekID], 0, 0.05);
 
                     FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
                     

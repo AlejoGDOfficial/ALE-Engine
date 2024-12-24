@@ -32,7 +32,7 @@ class School extends BaseStage
 		bgStreet.antialiasing = false;
 
 		var widShit = Std.int(bgSky.width * PlayState.daPixelZoom);
-		if(!ClientPrefs.getJsonPref('lowQuality')) {
+		if(!ClientPrefs.data.lowQuality) {
 			var fgTrees:BGSprite = new BGSprite('weeb/weebTreesBack', repositionShit + 170, 130, 0.9, 0.9);
 			fgTrees.setGraphicSize(Std.int(widShit * 0.8));
 			fgTrees.updateHitbox();
@@ -48,7 +48,7 @@ class School extends BaseStage
 		add(bgTrees);
 		bgTrees.antialiasing = false;
 
-		if(!ClientPrefs.getJsonPref('lowQuality')) {
+		if(!ClientPrefs.data.lowQuality) {
 			var treeLeaves:BGSprite = new BGSprite('weeb/petals', repositionShit, -40, 0.85, 0.85, ['PETALS ALL'], true);
 			treeLeaves.setGraphicSize(widShit);
 			treeLeaves.updateHitbox();
@@ -66,7 +66,7 @@ class School extends BaseStage
 		bgStreet.updateHitbox();
 		bgTrees.updateHitbox();
 
-		if(!ClientPrefs.getJsonPref('lowQuality')) {
+		if(!ClientPrefs.data.lowQuality) {
 			bgGirls = new BackgroundGirls(-100, 190);
 			bgGirls.scrollFactor.set(0.9, 0.9);
 			add(bgGirls);

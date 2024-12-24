@@ -81,7 +81,7 @@ class EditorPlayState extends MusicBeatSubstate
 		this.playbackRate = playbackRate;
 		this.startPos = Conductor.songPosition;
 
-		Conductor.safeZoneOffset = (ClientPrefs.getJsonPref('safeFrames') / 60) * 1000 * playbackRate;
+		Conductor.safeZoneOffset = (ClientPrefs.data.safeFrames / 60) * 1000 * playbackRate;
 		Conductor.songPosition -= startOffset;
 		startOffset = Conductor.crochet;
 		timerToStart = startOffset;
@@ -94,7 +94,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		/* setting up Editor PlayState stuff */
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
+		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.scrollFactor.set();
 		bg.color = 0xFF101010;
 		bg.alpha = 0.9;
@@ -248,7 +248,7 @@ class EditorPlayState extends MusicBeatSubstate
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
-		notes.sort(FlxSort.byY, ClientPrefs.getJsonPref('downscroll') ? FlxSort.ASCENDING : FlxSort.DESCENDING);
+		notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
 		super.beatHit();
 		lastBeatHit = curBeat;
@@ -407,7 +407,7 @@ class EditorPlayState extends MusicBeatSubstate
 								oldNote.updateHitbox();
 							}
 
-							if(ClientPrefs.getJsonPref('downscroll'))
+							if(ClientPrefs.data.downScroll)
 								sustainNote.correctionOffset = 0;
 						}
 						else if(oldNote.isSustainNote)
@@ -433,14 +433,14 @@ class EditorPlayState extends MusicBeatSubstate
 	private function generateStaticArrows(player:Int):Void
 	{
 		var strumLineX:Float = PlayState.STRUM_X;
-		var strumLineY:Float = ClientPrefs.getJsonPref('downscroll') ? (FlxG.height - 150) : 50;
+		var strumLineY:Float = ClientPrefs.data.downScroll ? (FlxG.height - 150) : 50;
 		for (i in 0...4)
 		{
 			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 
 			var babyArrow:StrumNote = new StrumNote(strumLineX, strumLineY, i, player);
-			babyArrow.downScroll = ClientPrefs.getJsonPref('downscroll');
+			babyArrow.downScroll = ClientPrefs.data.downScroll;
 			babyArrow.alpha = targetAlpha;
 
 			if (player == 1)
@@ -491,7 +491,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 	private function popUpScore(note:Note = null):Void
 	{
-		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.getJsonPref('ratingOffset'));
+		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
 		//trace(noteDiff, ' ' + Math.abs(note.strumTime - Conductor.songPosition));
 
 		vocals.volume = 1;
@@ -550,7 +550,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		insert(members.indexOf(strumLineNotes), rating);
 		
-		if (!ClientPrefs.getJsonPref('comboStacking'))
+		if (!ClientPrefs.data.comboStacking)
 		{
 			if (lastRating != null) lastRating.kill();
 			lastRating = rating;
@@ -576,7 +576,7 @@ class EditorPlayState extends MusicBeatSubstate
 		{
 			insert(members.indexOf(strumLineNotes), comboSpr);
 		}
-		if (!ClientPrefs.getJsonPref('comboStacking'))
+		if (!ClientPrefs.data.comboStacking)
 		{
 			if (lastCombo != null) lastCombo.kill();
 			lastCombo = comboSpr;
@@ -596,7 +596,7 @@ class EditorPlayState extends MusicBeatSubstate
 			numScore.x = coolText.x + (43 * daLoop) - 90 + ClientPrefs.data.comboOffset[2];
 			numScore.y += 80 - ClientPrefs.data.comboOffset[3];
 			
-			if (!ClientPrefs.getJsonPref('comboStacking'))
+			if (!ClientPrefs.data.comboStacking)
 				lastScore.push(numScore);
 
 			numScore.setGraphicSize(Std.int(numScore.width * 0.5));
@@ -678,7 +678,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		plrInputNotes.sort(PlayState.sortHitNotes);
 
-		var shouldMiss:Bool = !ClientPrefs.getJsonPref('ghostTapping');
+		var shouldMiss:Bool = !ClientPrefs.data.ghostTapping;
 
 		if (plrInputNotes.length != 0) { // slightly faster than doing `> 0` lol
 			var funnyNote:Note = plrInputNotes[0]; // front note

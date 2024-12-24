@@ -7,25 +7,9 @@ import utils.debug.FPSCounter;
 
 #if windows import cpp.WindowsCPP; #end
 
-typedef UnusedClasses = {
-    var shit0:visuals.objects.AttachedText;
-    var shit1:visuals.objects.MenuCharacter;
-    var shit2:gameplay.states.editors.DialogueCharacterEditorState;
-    var shit3:gameplay.states.editors.DialogueEditorState;
-    var shit4:gameplay.states.editors.MenuCharacterEditorState;
-    var shit5:gameplay.states.editors.NoteSplashEditorState;
-    var shit6:gameplay.states.editors.WeekEditorState;
-    var shit7:gameplay.states.substates.GameplayChangersSubstate;
-    var shit8:options.ControlsSubState;
-    var shit9:options.NoteOffsetState;
-    var shit10:options.NotesSubState;
-}
-
 class MainState extends MusicBeatState
 {
     public static var fpsVar:FPSCounter;
-
-    public static var unusedClasses:UnusedClasses;
 
     override public function create()
     {
@@ -95,7 +79,7 @@ class MainState extends MusicBeatState
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
 
 		#if CHECK_FOR_UPDATES
-		if (ClientPrefs.getJsonPref('checkForUpdates')) 
+		if (ClientPrefs.data.checkForUpdates) 
         {
 			trace('Checking for Update...');
 

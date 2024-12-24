@@ -30,14 +30,14 @@ function onCreate()
 
     bg = new FlxSprite().loadGraphic(Paths.image('menuBGYellow'));
     add(bg);
-    bg.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.scrollFactor.set(0, 0.25 * 5 / options.length);
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
 
     magentaBg = new FlxSprite().loadGraphic(Paths.image('menuBGMagenta'));
     add(magentaBg);
-    magentaBg.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    magentaBg.antialiasing = ClientPrefs.data.antialiasing;
     magentaBg.scrollFactor.set(0, 0.25 * 5 / options.length);
     magentaBg.scale.set(1.25, 1.25);
     magentaBg.screenCenter('x');
@@ -51,7 +51,7 @@ function onCreate()
         img.animation.addByPrefix('white', 'white', 24, true);
         img.animation.play('basic');
         add(img);
-        img.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+        img.antialiasing = ClientPrefs.data.antialiasing;
         img.scrollFactor.set(0, 0);
         images.push(img);
     }
@@ -125,7 +125,7 @@ function onUpdate(elapsed:Float)
 
         if (controls.ACCEPT)
         {
-            if (ClientPrefs.jsonDefaultData.flashingLights) FlxFlicker.flicker(magentaBg, 1.1, 0.15, false);
+            if (ClientPrefs.data.flashing) FlxFlicker.flicker(magentaBg, 1.1, 0.15, false);
 
             canSelect = false;
 
@@ -133,7 +133,7 @@ function onUpdate(elapsed:Float)
             {
                 if (i == selInt)
                 {
-                    if (ClientPrefs.jsonDefaultData.flashingLights) FlxFlicker.flicker(images[i], 0, 0.05);
+                    if (ClientPrefs.data.flashing) FlxFlicker.flicker(images[i], 0, 0.05);
                 } else {
                     FlxTween.tween(images[i], {alpha: 0}, 60 / Conductor.bpm, {ease: FlxEase.cubeIn});
                 }

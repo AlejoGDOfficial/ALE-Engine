@@ -36,7 +36,7 @@ function onCreate()
 
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     add(bg);
-    bg.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.color = 0xFF353535;
 
     texts = [];
@@ -46,7 +46,7 @@ function onCreate()
         var text:Alphabet = new Alphabet(30, 0, options[i], true);
         text.snapToPosition();
         add(text);
-        text.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+        text.antialiasing = ClientPrefs.data.antialiasing;
         text.alpha = 0.25;
         text.y = FlxG.height / 2 - (text.height + 15) * options.length / 2 + (i * (text.height + 15));
         texts.push(text);
@@ -86,7 +86,7 @@ function onUpdate(elapsed:Float)
                     }
         
                     FlxG.sound.play(Paths.sound('scrollMenu'));
-                } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+                } else if (controls.UI_DOWN_P ||  FlxG.mouse.wheel < 0) {
                     if (selInt < texts.length - 1)
                     {
                         selInt += 1;
@@ -127,7 +127,7 @@ function onUpdate(elapsed:Float)
         
             new FlxTimer().start(1, function(tmr:FlxTimer)
             {
-                FlxG.mouse.visible = true;
+                if (selInt >= 0 && selInt < 7) FlxG.mouse.visible = true;
 
                 switch (options[selInt])
                 {

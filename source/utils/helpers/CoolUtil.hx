@@ -54,7 +54,18 @@ class CoolUtil
 		return daList;
 	}
 
-	public static function floorDecimal(value:Float, decimals:Int) return FlxMath.roundDecimal(value, decimals);
+	public static function floorDecimal(value:Float, decimals:Int):Float
+	{
+		if(decimals < 1)
+			return Math.floor(value);
+
+		var tempMult:Float = 1;
+		for (i in 0...decimals)
+			tempMult *= 10;
+
+		var newValue:Float = Math.floor(value * tempMult);
+		return newValue / tempMult;
+	}
 
 	inline public static function dominantColor(sprite:flixel.FlxSprite):Int
 	{
@@ -190,9 +201,15 @@ class CoolUtil
 		return [false, curSubState];
 	}
 
-	public static function fpsLerp(v1:Float, v2:Float, ratio:Float) return FlxMath.lerp(v1, v2, getFPSRatio(ratio));
+	public static function fpsLerp(v1:Float, v2:Float, ratio:Float)
+	{
+		return FlxMath.lerp(v1, v2, getFPSRatio(ratio));
+	}
 
-	public static function getFPSRatio(ratio:Float) return FlxMath.bound(ratio * FlxG.elapsed * 60, 0, 1);
+	public static function getFPSRatio(ratio:Float)
+	{
+		return FlxMath.bound(ratio * FlxG.elapsed * 60, 0, 1);
+	}
 
     public static function getNestedValue(array:Dynamic, path:String):Dynamic 
 	{

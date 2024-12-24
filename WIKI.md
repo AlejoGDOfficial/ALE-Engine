@@ -235,4 +235,9 @@
 * `getFPSRatio(ratio)`
     - Example: `getFPSRatio(0.1)`
 
+#### Used to get the JSON options.
+
+* `getJsonPref(variable)`
+    - Lua Example: `getJsonPref('framerate')`
+
 </details>

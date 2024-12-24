@@ -269,7 +269,7 @@ class Paths
 		}
 
 		localTrackedAssets.push(file);
-		if (allowGPU && ClientPrefs.getJsonPref("gpuCaching"))
+		if (allowGPU && ClientPrefs.data.cacheOnGPU)
 		{
 			var texture:RectangleTexture = FlxG.stage.context3D.createRectangleTexture(bitmap.width, bitmap.height, BGRA, true);
 			texture.uploadFromBitmapData(bitmap);

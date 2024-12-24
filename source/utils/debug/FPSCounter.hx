@@ -8,13 +8,11 @@ import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.system.Capabilities;
-import cpp.vm.Gc;
-import flixel.util.FlxStringUtil;
 
 class FPSCounter extends Sprite
 {
     public var currentFPS(default, null):Int;
-    public var memoryMegas(get, never):String;
+    public var memoryMegas(get, never):Float;
 
     var background:Shape;
     var textField:TextField;
@@ -60,11 +58,11 @@ class FPSCounter extends Sprite
             return;
         }
 
-        outdatedTxt = CoolVars.outdated && ClientPrefs.getJsonPref('checkForUpdates') ? '\n\n' + 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion : '';
+        outdatedTxt = CoolVars.outdated && ClientPrefs.data.checkForUpdates ? '\n\n' + 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion : '';
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         
-        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + 'Current SubState: ' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
+        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
 
         if (FlxG.keys.justPressed.F3 && canChangeFPSType && !FlxG.keys.pressed.CONTROL && !FlxG.keys.pressed.SHIFT)
         {
@@ -122,14 +120,14 @@ class FPSCounter extends Sprite
             case 1:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
-                'Memory: ' + memoryMegas
+                'Memory: ' + flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + developerModeText
                 + configTipsTxt
                 + outdatedTxt;
             case 2:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
-                'Memory: ' + memoryMegas
+                'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt
                 + developerModeText
                 + configTipsTxt
@@ -137,7 +135,7 @@ class FPSCounter extends Sprite
             case 3:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
-                'Memory: ' + memoryMegas
+                'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt 
                 + '\n\n' + 
                 'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y
@@ -149,7 +147,7 @@ class FPSCounter extends Sprite
             case 4:
                 textField.text = '' + 'FPS: ' + currentFPS
                 + '\n' + 
-                'Memory: ' + memoryMegas
+                'Memory: ' +  flixel.util.FlxStringUtil.formatBytes(memoryMegas)
                 + stateInfoTxt + '\n\n' + 
                 'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y
                 + '\n' +
@@ -190,8 +188,8 @@ class FPSCounter extends Sprite
         background.y = 0;
     }
 
-    function get_memoryMegas():String
+    function get_memoryMegas():Float
     {
-        return FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_CURRENT)) + ' / ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_RESERVED));
+        return cast(System.totalMemory, UInt);
     }
 }

@@ -26,5 +26,5 @@ function onUpdate(elapsed:Float)
 
 function onBeatHit()
 {
-    if (ClientPrefs.jsonDefaultData.cameraZooms) FlxG.camera.zoom += 0.01;
+    if (ClientPrefs.data.camZooms) FlxG.camera.zoom += 0.01;
 }

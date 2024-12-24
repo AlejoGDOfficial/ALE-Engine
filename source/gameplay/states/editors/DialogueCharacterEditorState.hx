@@ -60,6 +60,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 	override function create() {
 		persistentUpdate = persistentDraw = true;
 		camGame = initPsychCamera();
+		camGame.bgColor = FlxColor.fromHSL(0, 0, 0.5);
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(camHUD, false);
@@ -92,7 +93,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		add(ghostIdle);
 
 		box = new FlxSprite(70, 370);
-		box.antialiasing = ClientPrefs.getJsonPref('antiAliasing');
+		box.antialiasing = ClientPrefs.data.antialiasing;
 		box.frames = Paths.getSparrowAtlas('speech_bubble');
 		box.scrollFactor.set();
 		box.animation.addByPrefix('normal', 'speech bubble normal', 24);

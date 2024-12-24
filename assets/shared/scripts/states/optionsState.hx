@@ -16,6 +16,8 @@ import gameplay.states.game.PlayState;
 import gameplay.states.game.LoadingState;
 import core.gameplay.stages.StageData;
 
+import flixel.util.FlxSave;
+
 var canSelect:Bool = true;
 
 var canSelectMenus:Bool = true;
@@ -50,7 +52,9 @@ function onCreate()
 
     var bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     add(bg);
+    bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.alpha = 0.5;
+    bg.color = FlxColor.fromRGB(100, 125, 150);
 
     menus = new FlxTypedGroup<Alphabet>();
     add(menus);
@@ -79,8 +83,8 @@ function onCreate()
     add(descriptions);
 
     var jsonFiles = [
-        {source: Paths.getSharedPath('defaultOptions.json'), save: Paths.getSharedPath('preferences/defaultData.json')},
-        {source: Paths.modFolders('customOptions.json'), save: Paths.mods(Mods.currentModDirectory + '/preferences/customData.json')}
+        {source: Paths.getSharedPath('defaultOptions.json'), isMod: false},
+        {source: Paths.mods(Mods.currentModDirectory + '/customOptions.json'), isMod: true}
     ];
 
     for (jsonFile in jsonFiles)
@@ -95,9 +99,12 @@ function onCreate()
                 {
                     for (option in menu.options)
                     {
-                        configSources.set(option.variable, jsonFile.save);
-                        
-                        var daJsonData = FileSystem.exists(jsonFile.save) ? Json.parse(File.getContent(configSources.get(option.variable))) : {};
+                        configSources.set(option.variable, jsonFile.isMod);
+
+                        var save:FlxSave = new FlxSave();
+                        save.bind('data', CoolUtil.getSavePath() + '/preferences' + (jsonFile.isMod ? '/' + Mods.currentModDirectory : ''));
+
+                        var daJsonData = save != null ? save.data.settings : {};
     
                         setConfigValue(option.variable, Reflect.hasField(daJsonData, option.variable) && Reflect.field(daJsonData, option.variable) != null ? Reflect.field(daJsonData, option.variable) : option.default);
                     }
@@ -119,7 +126,7 @@ function parseMenus()
     {
         var text:Alphabet = new Alphabet(0, 0, menu.name + ' >', true);
         text.snapToPosition();
-        text.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+        text.antialiasing = ClientPrefs.data.antialiasing;
         text.alpha = 0.25;
         menus.add(text);
 
@@ -147,8 +154,11 @@ function parseOptions()
         {
             for (option in menu.options)
             {
-                var daJsonData = FileSystem.exists(configSources.get(option.variable)) ? Json.parse(File.getContent(configSources.get(option.variable))) : {};
-                
+                var save:FlxSave = new FlxSave();
+                save.bind('data', CoolUtil.getSavePath() + '/preferences' + (configSources.get(option.variable) ? '/' + Mods.currentModDirectory : ''));
+
+                var daJsonData = save != null ? save.data.settings : {};
+
                 addOption(
                     option.name, 
                     Reflect.hasField(option, 'description') ? option.description : '', 
@@ -234,7 +244,7 @@ function onUpdate(elapsed:Float)
                     canSelectMenus = false;
                 }
         
-                for (i in 0...menus.length) if (menus.members[i].text.substr(0, menus.members[i].text.length - 2) == jsonData.menus[menusSelInt].name) if (ClientPrefs.jsonDefaultData.flashingLights) FlxFlicker.flicker(menus.members[i], 60 / Conductor.bpm, 0.05);
+                for (i in 0...menus.length) if (menus.members[i].text.substr(0, menus.members[i].text.length - 2) == jsonData.menus[menusSelInt].name) if (ClientPrefs.data.flashing) FlxFlicker.flicker(menus.members[i], 60 / Conductor.bpm, 0.05);
 
                 new FlxTimer().start(30 / Conductor.bpm, function(tmr:FlxTimer)
                 {
@@ -399,7 +409,7 @@ function addOption(name:String, description:String, variable:String, type:String
 
     var text:Alphabet = new Alphabet(FlxG.width, 0, name + (Std.string(type).toUpperCase() == 'BOOL' ? '' : ':'), true);
     text.snapToPosition();
-    text.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    text.antialiasing = ClientPrefs.data.antialiasing;
     text.alpha = 0.25;
     text.scaleX = text.scaleY = 0.75;
     options.add(text);
@@ -432,7 +442,7 @@ function addOption(name:String, description:String, variable:String, type:String
             checkBox.animation.addByPrefix('true', 'true', 24, false);
             checkBox.animation.addByPrefix('false', 'false', 24, false);
             checkBox.animation.play(defaultVar ? 'start' : 'finish');
-            checkBox.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+            checkBox.antialiasing = ClientPrefs.data.antialiasing;
             checkBox.animation.callback = (name:String) -> {
                 switch (name)
                 {
@@ -466,7 +476,7 @@ function addOption(name:String, description:String, variable:String, type:String
         case 'INTEGER', 'FLOAT', 'STRING':
             var attaText:AttachedText = new AttachedText(defaultVar, text.width + 20, -40, false, 0.8);
             attaText.snapToPosition();
-            attaText.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+            attaText.antialiasing = ClientPrefs.data.antialiasing;
             attaText.alpha = 0.25;
             attaText.sprTracker = text;
             attaText.copyAlpha = true;
@@ -520,7 +530,7 @@ function setConfigValue(variable:String, value:Dynamic)
 
 function saveConfig(variable:String)
 {
-    var saveFile:String = configSources.get(variable);
+    var saveFile:Bool = configSources.get(variable);
 
     if (saveFile == null) return;
 
@@ -534,13 +544,11 @@ function saveConfig(variable:String)
         }
     }
 
-    var path = saveFile == Paths.mods(Mods.currentModDirectory + '/preferences/customData.json') ? Paths.mods(Mods.currentModDirectory + '/preferences') : Paths.getSharedPath('/preferences');
-
-    if (!FileSystem.exists(path) && !FileSystem.isDirectory(path)) FileSystem.createDirectory(path);
-
-    File.saveContent(saveFile, JsonPrinter.print(fileConfig, null, '    '));
-
-    if (!FileSystem.exists(path + '/readme.txt')) File.saveContent(path + '/readme.txt', 'Options/preferences will be saved here.\nIf you do not want to lose the settings DO NOT DELETE this folder.');
+    var save:FlxSave;
+    save = new FlxSave();
+    save.bind('data', CoolUtil.getSavePath() + '/preferences' + (saveFile ? '/' + Mods.currentModDirectory : ''));
+    save.data.settings = fileConfig;
+    save.flush();
 
     ClientPrefs.loadJsonPrefs();
     ClientPrefs.loadPrefs();

@@ -156,13 +156,17 @@ class HScript extends SScript
 
 		set('FlxBackdrop', flixel.addons.display.FlxBackdrop);
 
-        set("switchToScriptState", function(name:String, ?doTransition:Bool = false)
+        set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{
-			ScriptState.instance.switchToScriptState(name, doTransition);
+			FlxTransitionableState.skipNextTransIn = !doTransition;
+			FlxTransitionableState.skipNextTransOut = !doTransition;
+			MusicBeatState.switchState(new ScriptState(name));
 		});
-		set("switchState", function(fullClassPath:String, params:Array<Dynamic>)
+		set("switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
 		{
-			FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+			FlxTransitionableState.skipNextTransIn = !doTransition;
+			FlxTransitionableState.skipNextTransOut = !doTransition;
+			MusicBeatState.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
@@ -174,6 +178,7 @@ class HScript extends SScript
 			ScriptState.instance.openScriptSubState(substate);
 		});
 		*/
+
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
 		{
 			FlxTween.num(Lib.application.window.x, pos, time, {ease: theEase}, windowTweenUpdateX);

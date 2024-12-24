@@ -4,7 +4,6 @@ import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
 import haxe.Json;
-import sys.io.File;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
@@ -23,6 +22,30 @@ import sys.io.File;
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var noteOffset:Int = 0;
+
+	public var lowQuality:Bool = false;
+	public var antialiasing:Bool = true;
+	public var shaders:Bool = true;
+	public var cacheOnGPU:Bool = #if !switch false #else true #end;
+	public var framerate:Int = 60;
+
+	public var splashAlpha:Float = 0.6;
+	public var flashing:Bool = true;
+	public var camZooms:Bool = true;
+	public var showFPS:Bool = true;
+	public var pauseMusic:String = 'Tea Time';
+	public var checkForUpdates:Bool = true;
+	public var discordRPC:Bool = true;
+	public var comboStacking:Bool = true;
+
+	public var downScroll:Bool = false;
+	public var ghostTapping:Bool = true;
+	public var noReset:Bool = false;
+	public var ratingOffset:Int = 0;
+	public var sickWindow:Int = 45;
+	public var goodWindow:Int = 90;
+	public var badWindow:Int = 135;
+	public var safeFrames:Float = 10;
 	
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
@@ -40,11 +63,9 @@ import sys.io.File;
 }
 
 class ClientPrefs {
-	public static var jsonDefaultData:Dynamic = {};
-	public static var jsonCustomData:Dynamic = {};
-
 	public static var data:SaveVariables = {};
 	public static var defaultData:SaveVariables = {};
+	public static var modData:Dynamic = {};
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -132,31 +153,31 @@ class ClientPrefs {
 		FlxG.log.add("Settings saved!");
 	}
 
-	public static function loadPrefs() {
-
+	public static function loadPrefs()
+	{
 		for (key in Reflect.fields(data))
-			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key))
+			if (key == 'currentModFolder' && Reflect.hasField(FlxG.save.data, 'currentModFolder'))
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 		
 		if(MainState.fpsVar != null)
-			MainState.fpsVar.visible = getJsonPref('fpsCounter');
+			MainState.fpsVar.visible = data.showFPS;
 
 		#if (!html5 && !switch)
-		if(getJsonPref('framerate') == null)
-		{
+		if(FlxG.save.data.framerate == null) {
 			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
+			data.framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
 		}
 		#end
 
-		if(getJsonPref('framerate') > FlxG.drawFramerate)
+		if(data.framerate > FlxG.drawFramerate)
 		{
-			FlxG.updateFramerate = getJsonPref('framerate');
-			FlxG.drawFramerate = getJsonPref('framerate');
+			FlxG.updateFramerate = data.framerate;
+			FlxG.drawFramerate = data.framerate;
 		}
 		else
 		{
-			FlxG.drawFramerate = getJsonPref('framerate');
-			FlxG.updateFramerate = getJsonPref('framerate');
+			FlxG.drawFramerate = data.framerate;
+			FlxG.updateFramerate = data.framerate;
 		}
 
 		if(FlxG.save.data.gameplaySettings != null)
@@ -232,30 +253,30 @@ class ClientPrefs {
 
 	public static function loadJsonPrefs()
 	{
-		if (FileSystem.exists(Paths.getSharedPath('preferences/defaultData.json')))
+		var defaultSave:FlxSave = new FlxSave();
+		defaultSave.bind('data', CoolUtil.getSavePath() + '/preferences');
+	
+		if (defaultSave != null)
 		{
-			jsonDefaultData = Json.parse(File.getContent(Paths.getSharedPath('preferences/defaultData.json')));
-		} else if (FileSystem.exists(Paths.getSharedPath('defaultOptions.json'))) {
-			var jsonData = Json.parse(File.getContent(Paths.getSharedPath('defaultOptions.json')));
-			for (menu in (jsonData.menus : Array<Dynamic>)) 
+			for (key in Reflect.fields(data))
 			{
-				for (option in (menu.options : Array<Dynamic>)) 
+				if (Reflect.hasField(defaultSave.data.settings, key))
 				{
-					Reflect.setField(jsonDefaultData, Reflect.field(option, "variable"), Reflect.field(option, "default"));
+					Reflect.setField(data, key, Reflect.field(defaultSave.data.settings, key));
 				}
 			}
 		}
-
-		if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/preferences/customData.json')))
+	
+		var customSave:FlxSave = new FlxSave();
+		customSave.bind('data', CoolUtil.getSavePath() + '/preferences/' + Mods.currentModDirectory);
+	
+		if (customSave != null)
 		{
-			jsonCustomData = Json.parse(File.getContent(Paths.mods(Mods.currentModDirectory + '/preferences/customData.json')));
-		} else if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + 'customOptions.json'))) {
-			var jsonData = Json.parse(File.getContent(Paths.mods(Mods.currentModDirectory + 'customOptions.json')));
-			for (menu in (jsonData.menus : Array<Dynamic>)) 
+			for (key in Reflect.fields(modData))
 			{
-				for (option in (menu.options : Array<Dynamic>)) 
+				if (Reflect.hasField(customSave.data.settings, key))
 				{
-					Reflect.setField(jsonCustomData, Reflect.field(option, "variable"), Reflect.field(option, "default"));
+					Reflect.setField(modData, key, Reflect.field(customSave.data.settings, key));
 				}
 			}
 		}
@@ -263,9 +284,8 @@ class ClientPrefs {
 
 	public static function getJsonPref(variable:String):Dynamic
 	{
-		if (Reflect.hasField(jsonDefaultData, variable)) return Reflect.field(jsonDefaultData, variable);
-		else if (Reflect.hasField(jsonCustomData, variable)) return Reflect.field(jsonCustomData, variable);
-
-		return null;
+		var result = Reflect.field(data, variable);
+		if (result == null) result = Reflect.field(modData, variable);
+		return result;
 	}
 }

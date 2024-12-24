@@ -129,7 +129,7 @@ function showShit()
             add(songText);
             songText.alpha = 0.25;
             songText.scaleX = songText.scaleY = 1.1;
-            songText.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+            songText.antialiasing = ClientPrefs.data.antialiasing;
             texts.push(songText);
         
             var songIcon:FlxSprite = new FlxSprite(songText.width + 110).loadGraphic(Paths.image('icons/' + icons[i]));
@@ -137,7 +137,7 @@ function showShit()
             songIcon.y = 318 + songText.height / 2 - songIcon.height / 2;
             songIcon.clipRect = new FlxRect(0, 0, songIcon.width * 0.5, songIcon.height);
             songIcon.alpha = 0.25;
-            songIcon.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+            songIcon.antialiasing = ClientPrefs.data.antialiasing;
             images.push(songIcon);
         }
     }
@@ -242,7 +242,7 @@ function onUpdate(elapsed:Float)
         
                 if (id == songsSelInt)
                 {
-                    if (ClientPrefs.jsonDefaultData.flashingLights)
+                    if (ClientPrefs.data.flashing)
                     {
                         FlxFlicker.flicker(texts[id], 0, 0.05);
                         FlxFlicker.flicker(images[id], 0, 0.05);

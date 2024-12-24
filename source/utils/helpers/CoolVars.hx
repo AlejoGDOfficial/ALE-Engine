@@ -16,7 +16,6 @@ class CoolVars
 	public static var scriptFromPlayStateIfStoryMode:String = '';
 	public static var scriptFromPlayStateIfFreeplay:String = '';
 	public static var scriptFromEditors:String = '';
-	public static var scriptFromOptions:String = '';
 	public static var scriptOptionsState:String = '';
 
 	public static var isConsoleVisible:Bool = false;

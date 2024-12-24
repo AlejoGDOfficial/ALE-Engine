@@ -151,24 +151,41 @@ class HScript extends SScript
 		set('CoolUtil', utils.helpers.CoolUtil);
 		set('MusicBeatState', core.backend.MusicBeatState);
 		set('DiscordClient', core.config.DiscordClient);
+		
+		set('AttachedText', visuals.objects.AttachedText);
+		set('MenuCharacter', visuals.objects.MenuCharacter);
+		set('DialogueCharacterEditorState', gameplay.states.editors.DialogueCharacterEditorState);
+		set('DialogueEditorState', gameplay.states.editors.DialogueEditorState);
+		set('MenuCharacterEditorState', gameplay.states.editors.MenuCharacterEditorState);
+		set('NoteSplashEditorState', gameplay.states.editors.NoteSplashEditorState);
+		set('WeekEditorState', gameplay.states.editors.WeekEditorState);
+		set('GameplayChangersSubstate', gameplay.states.substates.GameplayChangersSubstate);
+		set('ControlsSubState', options.ControlsSubState);
+		set('NoteOffsetState', options.NoteOffsetState);
+		set('NotesSubState', options.NotesSubState);
 
 		//ALE Shit INIT
 
 		set('FlxFlicker', flixel.effects.FlxFlicker);
-
 		set('FlxBackdrop', flixel.addons.display.FlxBackdrop);
+		set('FlxOgmo3Loader', flixel.addons.editors.ogmo.FlxOgmo3Loader);
+		set('FlxTilemap', flixel.tile.FlxTilemap);
 
-        set("switchToScriptState", function(name:String, ?doTransition:Bool = false)
+        set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{
-			ScriptState.instance.switchToScriptState(name, doTransition);
+			FlxTransitionableState.skipNextTransIn = !doTransition;
+			FlxTransitionableState.skipNextTransOut = !doTransition;
+			MusicBeatState.switchState(new ScriptState(name));
 		});
 		set("resetScriptState", function(?doTransition:Bool = false)
 		{
 			ScriptState.instance.resetScriptState(doTransition);
 		});
-		set("switchState", function(fullClassPath:String, params:Array<Dynamic>)
+		set("switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
 		{
-			FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+			FlxTransitionableState.skipNextTransIn = !doTransition;
+			FlxTransitionableState.skipNextTransOut = !doTransition;
+			MusicBeatState.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{

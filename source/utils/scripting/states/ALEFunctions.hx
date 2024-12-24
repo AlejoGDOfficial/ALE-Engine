@@ -42,17 +42,21 @@ class ALEFunctions
 	{
 		var lua:State = funk.lua;
         
-        Lua_helper.add_callback(lua, "switchToScriptState", function(name:String, ?doTransition:Bool = false)
+        Lua_helper.add_callback(lua, "switchToScriptState", function(name:String, ?doTransition:Bool = true)
         {
-            ScriptState.instance.switchToScriptState(name, doTransition);
+			FlxTransitionableState.skipNextTransIn = !doTransition;
+			FlxTransitionableState.skipNextTransOut = !doTransition;
+			MusicBeatState.switchState(new ScriptState(name));
         });
         Lua_helper.add_callback(lua, "resetScriptState", function(?doTransition:Bool = false)
         {
             ScriptState.instance.resetScriptState(doTransition);
         });
-        Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, params:Array<Dynamic>)
+        Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
         {
-            FlxG.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+            FlxTransitionableState.skipNextTransIn = !doTransition;
+            FlxTransitionableState.skipNextTransOut = !doTransition;
+            MusicBeatState.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });
         Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array<Dynamic>)
         {
@@ -97,7 +101,6 @@ class ALEFunctions
             PlayState.storyWeek = 0;
             LoadingState.loadAndSwitchState(new PlayState(), true);
         });
-        
         Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
         {
             FlxTween.num(Lib.application.window.x, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateX);
@@ -289,5 +292,10 @@ class ALEFunctions
         {
             return CoolUtil.getFPSRatio(ratio);
         });
+
+		Lua_helper.add_callback(lua, 'getJsonPref', function(variable:String)
+		{
+			return ClientPrefs.getJsonPref(variable);
+		});
     }
 }

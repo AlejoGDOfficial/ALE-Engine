@@ -26,7 +26,7 @@ function onCreate()
     logo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
     logo.animation.play('bump');
     add(logo);
-    logo.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    logo.antialiasing = ClientPrefs.data.antialiasing;
     logo.alpha = 0;
 
     gf = new FlxSprite(550, 40);
@@ -34,7 +34,7 @@ function onCreate()
     gf.animation.addByIndices('danceLeft', 'gf', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
     gf.animation.addByIndices('danceRight', 'gf', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
     add(gf);
-    gf.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    gf.antialiasing = ClientPrefs.data.antialiasing;
     gf.alpha = 0;
 
     titleText = new FlxSprite(150, 576);
@@ -43,7 +43,7 @@ function onCreate()
     titleText.animation.addByPrefix('press', "PRESSED", 24);
     titleText.animation.addByPrefix('freeze', "FREEZE", 24);
     add(titleText);
-    titleText.antialiasing = ClientPrefs.jsonDefaultData.antiAliasing;
+    titleText.antialiasing = ClientPrefs.data.antialiasing;
     titleText.animation.play('idle');
     titleText.centerOffsets();
     titleText.updateHitbox();
@@ -67,7 +67,7 @@ function onCreatePost()
 function skipIntro()
 {
     skippedIntro = true;
-    FlxG.camera.flash(ClientPrefs.jsonDefaultData.flashingLights ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.jsonDefaultData.flashingLights ? 3 : 1);
+    FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);
     changeShit('');
     gf.alpha = 1;
     logo.alpha = 1;
@@ -86,14 +86,14 @@ function onUpdate(elapsed:Float)
     {
         if (skippedIntro)
         {
-            titleText.animation.play(ClientPrefs.jsonDefaultData.flashingLights ? 'press' : 'freeze');
+            titleText.animation.play(ClientPrefs.data.flashing ? 'press' : 'freeze');
             
             changingState = true;
 
             titleText.color = FlxColor.WHITE;
             titleText.alpha = 1;
 
-            if (ClientPrefs.jsonDefaultData.flashingLights) FlxG.camera.flash(FlxColor.WHITE, 1);
+            if (ClientPrefs.data.flashing) FlxG.camera.flash(FlxColor.WHITE, 1);
             else FlxTween.tween(titleText, {y: FlxG.height}, 60 / Conductor.bpm, {ease: FlxEase.cubeIn});
 
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);

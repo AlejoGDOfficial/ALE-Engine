@@ -26,8 +26,6 @@ import utils.scripting.states.*;
 import tea.SScript;
 #end
 
-import haxe.Json;
-
 class ScriptState extends MusicBeatState
 {
     public static var targetFileName:String; 
@@ -68,13 +66,9 @@ class ScriptState extends MusicBeatState
 	var keysPressed:Array<Int> = [];
 	private var keysArray:Array<String>;
 
-	public var camGame:FlxCamera;
-
     override public function create()
     {
 		Paths.clearUnusedMemory();
-		
-		camGame = initPsychCamera();
 
         instance = this;
 
@@ -517,7 +511,7 @@ class ScriptState extends MusicBeatState
 
 	public function createRuntimeShader(name:String):FlxRuntimeShader
 	{
-		if(!ClientPrefs.getJsonPref("shaders")) return new FlxRuntimeShader();
+		if(!ClientPrefs.data.shaders) return new FlxRuntimeShader();
 
 		#if (!flash && MODS_ALLOWED && sys)
 		if(!runtimeShaders.exists(name) && !initLuaShader(name))
@@ -536,7 +530,7 @@ class ScriptState extends MusicBeatState
 
 	public function initLuaShader(name:String, ?glslVersion:Int = 120)
 	{
-		if(!ClientPrefs.getJsonPref("shaders")) return false;
+		if(!ClientPrefs.data.shaders) return false;
 
 		#if (MODS_ALLOWED && !flash && sys)
 		if(runtimeShaders.exists(name))
@@ -582,19 +576,14 @@ class ScriptState extends MusicBeatState
 		return false;
 	}
 
-    public function switchToScriptState(name:String, ?doTransition:Bool = true)
-    {
-		FlxTransitionableState.skipNextTransIn = !doTransition;
-		FlxTransitionableState.skipNextTransOut = !doTransition;
-
-		MusicBeatState.switchState(new ScriptState(name));
-    }
 
 	public function resetScriptState(?doTransition:Bool = false)
 	{
-		switchToScriptState(targetFileName, doTransition);
+		FlxTransitionableState.skipNextTransIn = !doTransition;
+		FlxTransitionableState.skipNextTransOut = !doTransition;
+		MusicBeatState.switchState(new ScriptState(targetFileName));
 	}
-
+	
 	/*
 	public function openScriptSubState(subState:String)
 	{
