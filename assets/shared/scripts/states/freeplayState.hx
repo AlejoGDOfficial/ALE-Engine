@@ -256,7 +256,7 @@ function changeDifficultyShit()
     {
         if (songs.indexOf(song) == songsSelInt)
         {
-            if (difficulties != song.get('difficulties')) difficultiesSelInt = 0;
+            if (difficulties.length != song.get('difficulties').length) difficultiesSelInt = 0;
 
             difficulties = song.get('difficulties');
         }

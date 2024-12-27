@@ -226,16 +226,19 @@ function onUpdate(elapsed:Float)
                             for (folder in foldersToCheck)
                             {
                                 var entries = FileSystem.readDirectory(folder);
-    
+
+                                var songFormatted = StringTools.replace(song.get('name').toLowerCase(), ' ', '-');
+                                var diffFormatted = StringTools.replace(difficulties[difficultiesSelInt].toLowerCase(), ' ', '-');
+                                
                                 for (entry in entries)
                                 {
-                                    if (FileSystem.isDirectory(folder + '/' + entry) && entry.toLowerCase() == song.get('name').toLowerCase())
+                                    if (FileSystem.isDirectory(folder + '/' + entry) && entry.toLowerCase() == songFormatted)
                                     {
-                                        if (FileSystem.exists(folder + '/' + entry + '/' + song.get('name').toLowerCase() + (difficulties[difficultiesSelInt].toLowerCase() == 'normal' ? '' : '-' + difficulties[difficultiesSelInt].toLowerCase()) + '.json'))
+                                        if (FileSystem.exists(folder + '/' + entry + '/' + songFormatted + (diffFormatted == 'normal' ? '' : '-' + diffFormatted) + '.json'))
                                         {
                                             Difficulty.resetList();
     
-                                            var jsonData = Json.parse(File.getContent(folder + '/' + entry + '/' + song.get('name').toLowerCase() + (difficulties[difficultiesSelInt].toLowerCase() == 'normal' ? '' : '-' + difficulties[difficultiesSelInt].toLowerCase()) + '.json'));
+                                            var jsonData = Json.parse(File.getContent(folder + '/' + entry + '/' + songFormatted + (diffFormatted == 'normal' ? '' : '-' + diffFormatted) + '.json'));
                                             if (!Reflect.hasField(jsonData.song, 'events')) Reflect.setField(jsonData.song, 'events', []);
                                             
                                             var songData = jsonData.song;

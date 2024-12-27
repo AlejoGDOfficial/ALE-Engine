@@ -1,7 +1,7 @@
 {
     "developerMode" : true,
 
-    "initialState": "editors/chartEditorList",
+    "initialState": "introState",
     "fromPlayStateIfStoryMode": "storyMenuState",
     "fromPlayStateIfFreeplay": "freeplayState",
     "fromEditors": "masterEditorMenu",

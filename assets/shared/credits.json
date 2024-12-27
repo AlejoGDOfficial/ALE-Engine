@@ -62,6 +62,111 @@
                     "color": "14967B"
                 }
             ]
+        },
+        {
+            "name": "Former Psych Engine Members",
+            "members": [
+                {
+                    "name": "bb-panzu",
+                    "icon": "bb",
+                    "description": "Ex-Programmer of Psych Engine",
+                    "color": "3E813A"
+                }
+            ]
+        },
+        {
+            "name": "Psych Engine Contributors",
+            "members": [
+                {
+                    "name": "CrowPlexus",
+                    "icon": "crowplexus",
+                    "description": "Input System v3, Major Help and Other PRs",
+                    "color": "A1A1A1"
+                },
+                {
+                    "name": "Keoiki",
+                    "icon": "keoiki",
+                    "description": "Note Splash Animations and Latin Alphabet",
+                    "color": "D2D2D2"
+                },
+                {
+                    "name": "SqirraRNG",
+                    "icon": "sqirra",
+                    "description": "Crash Handler and Base code for\nChart Editor's Waveform",
+                    "color": "E1843A"
+                },
+                {
+                    "name": "EliteMasterEric",
+                    "icon": "mastereric",
+                    "description": "Runtime Shaders support",
+                    "color": "FFBD40"
+                },
+                {
+                    "name": "PolybiusProxy",
+                    "icon": "proxy",
+                    "description": "MP4 Video Loader Library (hxCodec)",
+                    "color": "DCD294"
+                },
+                {
+                    "name": "Tahir",
+                    "icon": "tahir",
+                    "description": "Implementing & Maintaining SScript and Other PRs",
+                    "color": "A04397"
+                },
+                {
+                    "name": "iFlicky",
+                    "icon": "flicky",
+                    "description": "Composer of Psync and Tea Time\nMade the Dialogue Sounds",
+                    "color": "9E29CF"
+                },
+                {
+                    "name": "KadeDev",
+                    "icon": "kade",
+                    "description": "Fixed some issues on Chart Editor and Other PRs",
+                    "color": "64A250"
+                },
+                {
+                    "name": "superpowers04",
+                    "icon": "superpowers04",
+                    "description": "LUA JIT Fork",
+                    "color": "B957ED"
+                },
+                {
+                    "name": "CheemsAndFriends",
+                    "icon": "cheems",
+                    "description": "Creator of FlxAnimate",
+                    "color": "A1A1A1"
+                }
+            ]
+        },
+        {
+            "name": "Funkin' Crew",
+            "members": [
+                {
+                    "name": "ninjamuffin99",
+                    "icon": "ninjamuffin99",
+                    "description": "Programmer of Friday Night Funkin'",
+                    "color": "CF2D2D"
+                },
+                {
+                    "name": "PhantomArcade",
+                    "icon": "phantomarcade",
+                    "description": "Animator of Friday Night Funkin'",
+                    "color": "FADC45"
+                },
+                {
+                    "name": "evilsk8r",
+                    "icon": "evilsk8r",
+                    "description": "Artist of Friday Night Funkin'",
+                    "color": "5ABD4B"
+                },
+                {
+                    "name": "kawaisprite",
+                    "icon": "kawaisprite",
+                    "description": "Composer of Friday Night Funkin'",
+                    "color": "378FC7"
+                }
+            ]
         }
     ]
 }
