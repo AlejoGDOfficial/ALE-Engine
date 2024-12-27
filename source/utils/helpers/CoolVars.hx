@@ -25,4 +25,5 @@ class CoolVars
 	public static var outdated:Bool = false;
 	
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
+	public static var globalFields:Dynamic = {};
 }
