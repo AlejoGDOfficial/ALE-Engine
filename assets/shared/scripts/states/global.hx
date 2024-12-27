@@ -13,10 +13,7 @@ function onCreate()
 
 function onUpdate(elapsed:Float)
 {
-	if (controls.RESET)
-	{
-		resetScriptState();
-	}
+	if ((ScriptState.targetFileName == 'editors/chartEditorList' ? FlxG.keys.justPressed.F5 : controls.RESET) && CoolVars.developerMode) resetScriptState();
 
     if (FlxG.sound.music != null)
         Conductor.songPosition = FlxG.sound.music.time;

@@ -94,6 +94,7 @@ class ResetScoreSubState extends MusicBeatSubstate
 		}
 		if(controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'), 1);
+			ClientPrefs.
 			close();
 		} else if(controls.ACCEPT) {
 			if(onYes) {

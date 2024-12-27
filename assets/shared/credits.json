@@ -10,16 +10,16 @@
                     "color": "03B1FC"
                 },
                 {
-                    "name": "Khorix the Inking",
-                    "icon": "khorixTheInking",
-                    "description": "Main Artist/Animator",
-                    "color": "494F75"
-                },
-                {
                     "name": "Aleja",
                     "icon": "aleja",
                     "description": "Voice Actress",
                     "color": "404040"
+                },
+                {
+                    "name": "Khorix the Inking",
+                    "icon": "khorixTheInking",
+                    "description": "Main Artist/Animator",
+                    "color": "494F75"
                 },
                 {
                     "name": "AdrianoSH",

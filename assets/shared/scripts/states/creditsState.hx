@@ -1,63 +1,17 @@
 import haxe.ds.StringMap;
+
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
-import core.config.DiscordClient;
-import utils.helpers.CoolUtil;
-import flixel.math.FlxRect;
+
 import visuals.objects.AttachedSprite;
+
 import tjson.TJSON as Json;
 
+import utils.mods.Mods;
+
 var bg:FlxSprite;
-var categories:Array<StringMap<Dynamic>> = [];
-var difficulties:Array<String> = [];
-var difficultyTextBG:FlxSprite;
-var difficultyText:FlxText;
-var devs:Array<StringMap<Dynamic>> = [];
-
-var devsSelInt:Int = 0;
-
-function onCreate()
-{
-    DiscordClient.changePresence('In the Menus...', 'Credits Menu');
-
-    if (existsGlobalVar('creditsStateSelInt'))
-    {
-        devsSelInt = getGlobalVar('creditsStateSelInt');
-    }
-
-    var jsonToLoad:String = Paths.modFolders('credits.json');
-    if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('credits.json');
-
-    var jsonData = Json.parse(File.getContent(jsonToLoad));
-    
-    for (group in jsonData.groups)
-    {
-        var devs:Array<String> = [];
-        var icons:Array<String> = [];
-        var descriptions:Array<String> = [];
-        var colors:Array<String> = [];
-
-        for (member in group.members)
-        {
-            devs.push(member.name);
-            icons.push(member.icon);
-            descriptions.push(member.description);
-            colors.push(member.color);
-        }
-
-        var categoryObject:StringMap<Dynamic> = new StringMap();
-        setCategoryData(categoryObject, group.name, devs, icons, descriptions, colors);
-    }
-
-    showShit();
-}
-
-var texts:Array<Alphabet> = [];
-var images:Array<FlxSprite> = [];
-
-var globalDevID:Int = 0;
 
 var devLvlTxt:FlxText;
 var devLvlBG:FlxSprite;
@@ -65,52 +19,34 @@ var devLvlBG:FlxSprite;
 var devDescTxt:FlxText;
 var devDescBG:FlxSprite;
 
-function showShit()
+var canSelect = false;
+
+function onCreate()
 {
+    DiscordClient.changePresence('In the Menus...', 'Credits Menu');
+
+    var filesToLoad = [];
+
     bg = new FlxSprite().loadGraphic(Paths.image('menuBG'));
     bg.scale.set(1.25, 1.25);
     bg.screenCenter('x');
-    bg.antialiasing = ClientPrefs.data.antialiasing;
     add(bg);
+    bg.antialiasing = ClientPrefs.data.antialiasing;
+    bg.alpha = 0;
 
-    for (category in categories)
+    if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + 'credits.json'))) filesToLoad.push(Paths.mods(Mods.currentModDirectory + 'credits.json'));
+    if (FileSystem.exists(Paths.getSharedPath('credits.json'))) filesToLoad.push(Paths.getSharedPath('credits.json'));
+
+    for (file in filesToLoad)
     {
-        var categoryData = category.get("categoryData");
-        var categoryName:String = categoryData.get("name");
-        var categoryDevs:Array<String> = categoryData.get("devs");
-        var devsDescriptions:Array<String> = categoryData.get("descriptions");
-        var categoryColors:Array<String> = categoryData.get("colors");
-        var icons:Array<String> = categoryData.get("icons");
+        var jsonData = Json.parse(File.getContent(file));
 
-        for (i in 0...categoryDevs.length)
+        for (group in jsonData.groups)
         {
-            var devData:StringMap<Dynamic> = new StringMap();
-            devData.set('id', globalDevID);
-            devData.set('category', categoryName);
-            devData.set('dev', categoryDevs[i]);
-            devData.set('description', devsDescriptions[i]);
-            devData.set('color', categoryColors[i]);
-            devs.push(devData);
-
-            globalDevID++;
-
-            var dev:String = categoryDevs[i];
-
-            var devText:Alphabet = new Alphabet(100, 90, dev, true);
-            devText.snapToPosition();
-            add(devText);
-            devText.antialiasing = ClientPrefs.data.antialiasing;
-            devText.alpha = 0.25;
-            texts.push(devText);
-        
-            var devIcon:AttachedSprite = new AttachedSprite().loadGraphic(Paths.image('credits/' + icons[i]));
-            add(devIcon);
-            devIcon.antialiasing = ClientPrefs.data.antialiasing;
-            devIcon.xAdd = devText.width + 10;
-            devIcon.yAdd = devText.height / 2 - devIcon.height / 2;
-            devIcon.sprTracker = devText;
-            devIcon.alpha = 0.25;
-            images.push(devIcon);
+            for (member in group.members)
+            {
+                addDeveloper(group.name, member.name, member.description, member.icon, member.color);
+            }
         }
     }
 
@@ -119,8 +55,9 @@ function showShit()
     devLvlBG.scrollFactor.x = devLvlBG.scrollFactor.y = 0;
     add(devLvlBG);
 
-    devLvlTxt = new FlxText(0, 10, FlxG.width, '');
+    devLvlTxt = new FlxText(0, 10, FlxG.width);
     devLvlTxt.setFormat(Paths.font('vcr.ttf'), 80, FlxColor.WHITE, 'center');
+    devLvlTxt.antialiasing = ClientPrefs.data.antialiasing;
     devLvlTxt.scrollFactor.x = devLvlTxt.scrollFactor.y = 0;
     add(devLvlTxt);
 
@@ -129,48 +66,50 @@ function showShit()
     devDescBG.scrollFactor.x = devDescBG.scrollFactor.y = 0;
     add(devDescBG);
 
-    devDescTxt = new FlxText(0, 10, FlxG.width, '');
+    devDescTxt = new FlxText(0, 10, FlxG.width);
     devDescTxt.setFormat(Paths.font('vcr.ttf'), 40, FlxColor.WHITE, 'center');
+    devDescTxt.antialiasing = ClientPrefs.data.antialiasing;
     devDescTxt.scrollFactor.x = devDescTxt.scrollFactor.y = 0;
     add(devDescTxt);
 
-    FlxG.camera.scroll.y = texts[devsSelInt].y + texts[devsSelInt].height / 2 - FlxG.height / 2;
-
-    bg.scrollFactor.x = bg.scrollFactor.y = 0.25 / devs.length;
-
-    changeOtherShit();
-    changeDevsShit();
+    new FlxTimer().start(1, function(tmr:FlxTimer)
+    {
+        changeShit();
+        canSelect = true;
+    });
 }
 
-var canSelect:Bool = true;
+var developers:Array<StringMap> = [];
 
-function onUpdate(elapsed:Float)
+var selInt:Int = existsGlobalVar('creditsStateSelInt') ? getGlobalVar('creditsStateSelInt') : 0;
+
+function onUpdate()
 {
+    for (developer in developers)
+    {
+        if (developer.get('icon').scale.x != 1 || developer.get('icon').scale.y != 1 )
+        {
+            developer.get('icon').scale.x = fpsLerp(developer.get('icon').scale.x, 1, 0.33); 
+            developer.get('icon').scale.y = fpsLerp(developer.get('icon').scale.y, 1, 0.33); 
+        }
+    }
+
     if (canSelect)
     {
-        if (devs.length > 1)
+        if (developers.length > 1)
         {
-            if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
+            if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
             {
-                if (devsSelInt > 0)
+                if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
                 {
-                    devsSelInt -= 1;
-                } else if (devsSelInt == 0) {
-                    devsSelInt = texts.length - 1;
+                    if (selInt > 0) selInt -= 1;
+                    else if (selInt == 0) selInt = developers.length - 1;
+                } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+                    if (selInt < developers.length - 1) selInt += 1;
+                    else if (selInt == developers.length - 1) selInt = 0;
                 }
-        
-                changeDevsShit();
-                changeOtherShit();
-            } else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
-                if (devsSelInt < (texts.length - 1))
-                {
-                    devsSelInt += 1;
-                } else if (devsSelInt == texts.length - 1) {
-                    devsSelInt = 0;
-                }
-        
-                changeDevsShit();
-                changeOtherShit();
+
+                changeShit();
             }
         }
         
@@ -182,102 +121,77 @@ function onUpdate(elapsed:Float)
 
             canSelect = false;
 
-            setGlobalVar('creditsStateSelInt', devsSelInt);
+            setGlobalVar('creditsStateSelInt', selInt);
         }
     }
-
-    if (FlxG.sound.music != null)
-        Conductor.devPosition = FlxG.sound.music.time;
-
-    FlxG.camera.scroll.x = fpsLerp(FlxG.camera.scroll.x, devsSelInt * 25, 0.1);
-    FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, devsSelInt * 105, 0.1);
-
-    for (image in images)
-    {
-        image.scale.set(fpsLerp(image.scale.x, 1, 0.33), fpsLerp(image.scale.y, 1, 0.33));
-    }
-}
-
-function changeOtherShit()
-{
-    FlxTween.cancelTweensOf(bg);
-    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - (25 * (devsSelInt)) / texts.length}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
-
-    for (dev in devs)
-    {
-        var id = dev.get('id');
-        var category = dev.get('category');
-        var name = dev.get('dev');
-        var description = dev.get('description');
-        var color = dev.get('color');
-
-        if (id == devsSelInt)
-        {
-            FlxTween.color(bg, 1, bg.color, CoolUtil.colorFromString(color));
-
-            devLvlTxt.text = category;
-            devLvlBG.scale.y = (devLvlTxt.height + 20) * 2;
-
-            devDescTxt.text = description;
-            devDescTxt.y = FlxG.height - devDescTxt.height - 10;
-            devDescBG.scale.y = (devDescTxt.height + 20) * 2;
-            devDescBG.y = FlxG.height - devDescBG.height;
-        }
-    }
-}
-    
-function changeDevsShit()
-{
-    for (i in 0...devs.length)
-    {
-        var destinationX:Float = 100 + i * 25;
-        var destinationY:Float = 318 + i * 105;
-
-        if (i == devsSelInt) 
-        {
-            texts[i].alpha = 1;
-            images[i].alpha = 1;
-        } else {
-            texts[i].alpha = 0.5;
-            images[i].alpha = 0.5;
-        }
-        
-        texts[i].x = destinationX;
-        texts[i].y = destinationY;
-
-        if (i == devsSelInt) 
-        {
-            images[i].alpha = 1;
-        } else {
-            images[i].alpha = 0.5;
-        }
-    }
-
-    if (texts.length != 1)
-    {
-        FlxG.sound.play(Paths.sound('scrollMenu'), 0.7);
-    }
-}
-
-function setCategoryData(object:StringMap, name:String, devs:Array<String>, icons:Array<String>, descriptions:Array<String>, colors:Array<String>)
-{
-    var categoryData:StringMap<Dynamic> = new StringMap();
-    categoryData.set('name', name);
-    categoryData.set('devs', devs);
-    categoryData.set('icons', icons);
-    categoryData.set('colors', colors);
-    categoryData.set('descriptions', descriptions);
-    object.set("categoryData", categoryData);
-    categories.push(object);
 }
 
 function onBeatHit()
 {
-    for (image in images)
+    for (developer in developers)
     {
-        if (images.indexOf(image) == devsSelInt)
+        if (developers.indexOf(developer) == selInt && canSelect)
         {
-            image.scale.set(1.25, 1.25);
+            developer.get('icon').scale.x = 1.2;
+            developer.get('icon').scale.y = 1.2;
         }
     }
+}
+
+function changeShit()
+{
+    FlxTween.cancelTweensOf(bg);
+    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - (25 * (selInt)) / developers.length}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
+
+    for (developer in developers)
+    {
+        if (developers.indexOf(developer) == selInt)
+        {
+            if (developer.get('text').alpha != 1) developer.get('text').alpha = 1;
+
+            FlxTween.color(bg, 60 / Conductor.bpm, bg.color, developer.get('color'), {ease: FlxEase.cubeOut});
+
+            devLvlTxt.text = developer.get('category');
+            devLvlBG.scale.y = (devLvlTxt.height + 20) * 2;
+
+            devDescTxt.text = developer.get('description');
+            devDescTxt.y = FlxG.height - devDescTxt.height - 10;
+            devDescBG.scale.y = (devDescTxt.height + 20) * 2;
+            devDescBG.y = FlxG.height - devDescBG.height;
+        } else {
+            if (developer.get('text').alpha != 0.5) developer.get('text').alpha = 0.5;
+        }
+
+        FlxTween.cancelTweensOf(developer.get('text'));
+        FlxTween.tween(developer.get('text'), {x: 100 + 28 * (developers.indexOf(developer) - selInt), y: 350 + 110 * (developers.indexOf(developer) - selInt)}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
+    }
+
+    FlxG.sound.play(Paths.sound('scrollMenu'));
+}
+
+function addDeveloper(category:String, name:String, description:String, icon:String, color:Array)
+{
+    var developerData:StringMap = new StringMap();
+
+    var text:Alphabet = new Alphabet(100 + 28 * (developers.length - selInt), 350 + 110 * (developers.length - selInt), name, true);
+    text.snapToPosition();
+    add(text);
+    text.antialiasing = ClientPrefs.data.antialiasing;
+    text.alpha = 0.5;
+
+    var iconSprite:AttachedSprite = new AttachedSprite('credits/' + icon);
+    add(iconSprite);
+    iconSprite.antialiasing = ClientPrefs.data.antialiasing;
+    iconSprite.xAdd = text.width + 10;
+    iconSprite.yAdd = text.height / 2 - iconSprite.height / 2;
+    iconSprite.sprTracker = text;
+    iconSprite.alpha = 0.25;
+    
+    developerData.set('category', category);
+    developerData.set('text', text);
+    developerData.set('icon', iconSprite);
+    developerData.set('description', description);
+    developerData.set('color', CoolUtil.colorFromString(color));
+
+    developers.push(developerData);
 }

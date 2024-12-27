@@ -68,6 +68,7 @@ function onCreate()
 
     descriptions = new FlxText(0, 0, FlxG.width - 100, '');
     descriptions.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE, 'center');
+    descriptions.antialiasing = ClientPrefs.data.antialiasing;
     descriptions.x = FlxG.width / 2 - descriptions.width / 2;
     descriptions.y = FlxG.height - descriptions.height - 50;
 
@@ -551,5 +552,6 @@ function saveConfig(variable:String)
     save.flush();
 
     ClientPrefs.loadJsonPrefs();
+    ClientPrefs.saveSettings();
     ClientPrefs.loadPrefs();
 }

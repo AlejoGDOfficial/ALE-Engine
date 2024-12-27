@@ -153,10 +153,17 @@ class ClientPrefs {
 		FlxG.log.add("Settings saved!");
 	}
 
+	private static function checkShit(key:String, obj:String)
+	{
+		if (key == obj && Reflect.hasField(FlxG.save.data, obj)) return true;
+
+		return false;
+	}
+
 	public static function loadPrefs()
 	{
 		for (key in Reflect.fields(data))
-			if (key == 'currentModFolder' && Reflect.hasField(FlxG.save.data, 'currentModFolder'))
+			if (checkShit(key, 'currentModFolder') || checkShit(key, 'arrowRGB') || checkShit(key, 'arrowRGBPixel') || checkShit(key, 'noteOffset') || checkShit(key, 'gameplaySettings') || checkShit(key, 'comboOffset'))
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 		
 		if(MainState.fpsVar != null)

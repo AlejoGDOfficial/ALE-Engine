@@ -64,6 +64,7 @@ function onCreate()
     version.borderStyle = FlxTextBorderStyle.OUTLINE;
     version.borderSize = 1;
     version.borderColor = FlxColor.BLACK;
+    version.antialiasing = ClientPrefs.data.antialiasing;
     version.applyMarkup(
         'Friday Night Funkin\' 0.2.8\nALE Engine *' + CoolVars.engineVersion + '* (P.E. 0.7.3)',
         [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('00FFFF')), '*')]

@@ -18,6 +18,7 @@ function onCreate()
     epicTexts = new FlxText(0, 0, FlxG.width, '');
     epicTexts.setFormat(Paths.font('funkinRegular.otf'), 78, FlxColor.WHITE, 'center');
     add(epicTexts);
+    epicTexts.antialiasing = ClientPrefs.data.antialiasing;
     epicTexts.y = FlxG.height / 2 - epicTexts.height / 2;
     changeShit('ALE ENGINE BY');
 

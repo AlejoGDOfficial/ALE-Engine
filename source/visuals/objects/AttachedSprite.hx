@@ -12,14 +12,15 @@ class AttachedSprite extends FlxSprite
 	public var copyAlpha:Bool = true;
 	public var copyVisible:Bool = false;
 
-	public function new(?file:String = null, ?anim:String = null, ?library:String = null, ?loop:Bool = false)
+	public function new(?file:String = null, ?anim:String = null, ?library:String = null, ?loop:Bool = false, ?x:Float = 0, ?y:Float = 0)
 	{
-		super();
+		super(x, y);
+
 		if(anim != null) {
 			frames = Paths.getSparrowAtlas(file, library);
 			animation.addByPrefix('idle', anim, 24, loop);
 			animation.play('idle');
-		} else if(file != null) {
+		} else if (file != null) {
 			loadGraphic(Paths.image(file));
 		}
 		antialiasing = ClientPrefs.data.antialiasing;

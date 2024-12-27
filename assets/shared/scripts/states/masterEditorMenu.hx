@@ -132,7 +132,7 @@ function onUpdate(elapsed:Float)
                 switch (options[selInt])
                 {
                     case 'Chart Editor':
-                        MusicBeatState.switchState(new ChartingState());
+                        MusicBeatState.switchState(new ScriptState('editors/chartEditorList'));
                     case 'Character Editor':
                         MusicBeatState.switchState(new CharacterEditorState(null, false));
                     case 'Dialogue Editor':
