@@ -327,10 +327,7 @@ class Paths
 		#if MODS_ALLOWED
 		if(!ignoreMods)
 		{
-			if (FileSystem.exists(mods(Mods.currentModDirectory + '/' + key)) || FileSystem.exists(mods(key)))
-				return true;
-			
-			if (FileSystem.exists(mods('$key')))
+			if (FileSystem.exists(mods(Mods.currentModDirectory + '/' + key)))
 				return true;
 		}
 		#end

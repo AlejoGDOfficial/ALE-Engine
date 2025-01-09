@@ -370,6 +370,11 @@ class HScript extends SScript
 		{
 			return CoolUtil.getFPSRatio(ratio);
 		});
+	
+		set('askToGemini', function(key:String, input:String)
+		{
+			return CoolUtil.askToGemini(key, input);
+		});
 		
 		//ALE Shit END
 

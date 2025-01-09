@@ -3,6 +3,7 @@ import tjson.TJSON as Json;
 function onCreate()
 {
     var jsonToLoad:String = Paths.modFolders('data.json');
+
     if(!FileSystem.exists(jsonToLoad))
         jsonToLoad = Paths.getSharedPath('data.json');
 
@@ -11,9 +12,11 @@ function onCreate()
     Conductor.bpm = Reflect.hasField(jsonData, 'bpm') ? jsonData.bpm : 102;
 }
 
+var ignoreReset = ['editors/chartEditorList', 'geminiState'];
+
 function onUpdate(elapsed:Float)
 {
-	if ((ScriptState.targetFileName == 'editors/chartEditorList' ? FlxG.keys.justPressed.F5 : controls.RESET) && CoolVars.developerMode) resetScriptState();
+	if ((ignoreReset.contains(ScriptState.targetFileName) ? FlxG.keys.justPressed.F5 : controls.RESET) && CoolVars.developerMode) resetScriptState();
 
     if (FlxG.sound.music != null)
         Conductor.songPosition = FlxG.sound.music.time;

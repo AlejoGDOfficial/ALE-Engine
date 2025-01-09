@@ -297,5 +297,10 @@ class ALEFunctions
 		{
 			return ClientPrefs.getJsonPref(variable);
 		});
+
+		Lua_helper.add_callback(lua, 'askToGemini', function(key:String, input:String)
+		{
+			return CoolUtil.askToGemini(key, input);
+		});
     }
 }

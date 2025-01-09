@@ -170,6 +170,7 @@ class HScript extends SScript
 		set('FlxBackdrop', flixel.addons.display.FlxBackdrop);
 		set('FlxOgmo3Loader', flixel.addons.editors.ogmo.FlxOgmo3Loader);
 		set('FlxTilemap', flixel.tile.FlxTilemap);
+		set('Process', sys.io.Process);
 
         set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{
@@ -420,6 +421,11 @@ class HScript extends SScript
 		set('getFPSRatio', function(ratio:Float)
 		{
 			return CoolUtil.getFPSRatio(ratio);
+		});
+	
+		set('askToGemini', function(key:String, input:String)
+		{
+			return CoolUtil.askToGemini(key, input);
 		});
 		
 		//ALE Shit END
