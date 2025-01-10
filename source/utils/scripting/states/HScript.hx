@@ -192,12 +192,10 @@ class HScript extends SScript
 		{
 			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
-		/*
 		set('openScriptSubState', function(substate:String)
 		{
-			ScriptState.instance.openScriptSubState(substate);
+			FlxG.state.openSubState(new ScriptSubstate(substate:String));
 		});
-		*/
 
 		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
 		{

@@ -20,10 +20,32 @@ class MusicBeatSubstate extends FlxSubState
 
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
+
+	public function resetMusicVars()
+	{
+		curSection = 0;
+		stepsToDo = 0;
+	
+		curStep = 0;
+		curBeat = 0;
+	
+		curDecStep = 0;
+		curDecBeat = 0;
+	}
+
+	public static var instance:MusicBeatSubtate;
+
 	private var controls(get, never):Controls;
 
 	inline function get_controls():Controls
 		return Controls.instance;
+
+	override function create()
+	{
+		instance = this;
+
+		super.create();
+	}
 
 	override function update(elapsed:Float)
 	{

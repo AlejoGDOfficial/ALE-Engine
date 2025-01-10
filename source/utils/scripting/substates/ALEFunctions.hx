@@ -1,4 +1,4 @@
-package utils.scripting.states;
+package utils.scripting.substates;
 
 import core.backend.Song;
 import core.gameplay.stages.WeekData;
@@ -60,11 +60,11 @@ class ALEFunctions
         });
         Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array<Dynamic>)
         {
-            FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+            FlxG.state.subState.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });
         Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
         {
-            FlxG.state.openSubState(new ScriptSubstate(substate:String));
+            ScriptSubstate.instance.openScriptSubState(substate);
         });
     
         Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
