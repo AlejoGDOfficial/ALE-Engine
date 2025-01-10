@@ -171,6 +171,10 @@ class HScript extends SScript
 		set('FlxOgmo3Loader', flixel.addons.editors.ogmo.FlxOgmo3Loader);
 		set('FlxTilemap', flixel.tile.FlxTilemap);
 		set('Process', sys.io.Process);
+		set('FlxView3D', flx3d.FlxView3D);
+		set('Flx3DView', flx3d.Flx3DView);
+		set('Flx3DUtil', flx3d.Flx3DUtil);
+		set('Flx3DCamera', flx3d.Flx3DCamera);
 
         set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{

@@ -155,6 +155,10 @@ class HScript extends SScript
 		//ALE Shit INIT
 
 		set('FlxBackdrop', flixel.addons.display.FlxBackdrop);
+		set('FlxView3D', flx3d.FlxView3D);
+		set('Flx3DView', flx3d.Flx3DView);
+		set('Flx3DUtil', flx3d.Flx3DUtil);
+		set('Flx3DCamera', flx3d.Flx3DCamera);
 
         set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{
