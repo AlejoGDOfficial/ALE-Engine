@@ -41,15 +41,15 @@ class MusicBeatState extends FlxUIState
 	override function create() {
 		instance = this;
 
-		var skip:Bool = FlxTransitionableState.skipNextTransOut;
-
 		if(!_psychCameraInitialized) initPsychCamera();
 
 		super.create();
 
-		if(!skip) {
-			openSubState(new CustomFadeTransition(0.6, true));
+		if(!FlxTransitionableState.skipNextTransOut) 
+		{
+			openSubState(new CustomFadeTransition(false));
 		}
+		
 		FlxTransitionableState.skipNextTransOut = false;
 		timePassedOnState = 0;
 	}
@@ -169,13 +169,13 @@ class MusicBeatState extends FlxUIState
 		FlxTransitionableState.skipNextTransIn = false;
 	}
 
-	// Custom made Trans in
 	public static function startTransition(nextState:FlxState = null)
 	{
 		if(nextState == null)
 			nextState = FlxG.state;
 
-		FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
+		FlxG.state.openSubState(new CustomFadeTransition(true));
+
 		if(nextState == FlxG.state)
 			CustomFadeTransition.finishCallback = function() FlxG.resetState();
 		else

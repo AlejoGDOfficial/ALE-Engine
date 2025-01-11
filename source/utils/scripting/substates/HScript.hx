@@ -175,6 +175,7 @@ class HScript extends SScript
 		set('Flx3DView', flx3d.Flx3DView);
 		set('Flx3DUtil', flx3d.Flx3DUtil);
 		set('Flx3DCamera', flx3d.Flx3DCamera);
+		set('FlxGradient', flixel.util.FlxGradient);
 
         set("switchToScriptSubstate", function(name:String, ?doTransition:Bool = true)
 		{

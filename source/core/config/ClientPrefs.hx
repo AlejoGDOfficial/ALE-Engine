@@ -59,6 +59,8 @@ import haxe.Json;
 		'opponentplay' => false
 	];
 
+	public var geminiAPIKey:String = '';
+
 	public var currentModFolder:String = '';
 }
 
@@ -163,7 +165,7 @@ class ClientPrefs {
 	public static function loadPrefs()
 	{
 		for (key in Reflect.fields(data))
-			if (checkShit(key, 'currentModFolder') || checkShit(key, 'arrowRGB') || checkShit(key, 'arrowRGBPixel') || checkShit(key, 'noteOffset') || checkShit(key, 'gameplaySettings') || checkShit(key, 'comboOffset'))
+			if (checkShit(key, 'currentModFolder') || checkShit(key, 'arrowRGB') || checkShit(key, 'arrowRGBPixel') || checkShit(key, 'noteOffset') || checkShit(key, 'gameplaySettings') || checkShit(key, 'comboOffset') || checkShit(key, 'geminiAPIKey'))
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 		
 		if(MainState.fpsVar != null)
