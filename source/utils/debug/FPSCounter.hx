@@ -64,7 +64,7 @@ class FPSCounter extends Sprite
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         
-        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + 'Current SubState: ' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubState (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
+        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + 'Current SubState: ' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubstate (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
 
         if (FlxG.keys.justPressed.F3 && canChangeFPSType && !FlxG.keys.pressed.CONTROL && !FlxG.keys.pressed.SHIFT)
         {

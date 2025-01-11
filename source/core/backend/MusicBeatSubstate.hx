@@ -33,9 +33,9 @@ class MusicBeatSubstate extends FlxSubState
 		curDecBeat = 0;
 	}
 
-	public static var instance:MusicBeatSubtate;
+	public static var instance:MusicBeatSubstate;
 
-	private var controls(get, never):Controls;
+	public var controls(get, never):Controls;
 
 	inline function get_controls():Controls
 		return Controls.instance;

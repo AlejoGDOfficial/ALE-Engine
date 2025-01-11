@@ -15,5 +15,6 @@ haxelib install setup/hxdiscord_rpc.zip
 haxelib git flxanimate https://github.com/ShadowMario/flxanimate dev
 haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 633fcc051399afed6781dd60cbf30ed8c3fe2c5a
 haxelib git hxCodec 2.5.1
+haxelib install away3d 5.0.9
 echo Finished!
 pause

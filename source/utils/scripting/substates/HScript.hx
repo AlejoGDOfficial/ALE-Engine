@@ -182,10 +182,6 @@ class HScript extends SScript
 			FlxTransitionableState.skipNextTransOut = !doTransition;
 			MusicBeatState.switchState(new ScriptSubstate(name));
 		});
-		set("resetScriptSubstate", function(?doTransition:Bool = false)
-		{
-			ScriptSubstate.instance.resetScriptSubstate(doTransition);
-		});
 		set("switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
 		{
 			FlxTransitionableState.skipNextTransIn = !doTransition;
@@ -196,12 +192,10 @@ class HScript extends SScript
 		{
 			FlxG.state.subState.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
-		/*
-		set('openScriptSubState', function(substate:String)
-		{
-			ScriptSubstate.instance.openScriptSubState(substate);
-		});
-		*/
+        set('openScriptSubState', function(substate:String)
+        {
+            FlxG.state.openSubState(new ScriptSubstate(substate));
+        });
 
 		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
 		{
@@ -612,6 +606,7 @@ class HScript extends SScript
 		set('add', FlxG.state.subState.add);
 		set('insert', FlxG.state.subState.insert);
 		set('remove', FlxG.state.subState.remove);
+		set('close', FlxG.state.subState.close);
 
 		if(ScriptSubstate.instance == FlxG.state.subState)
 		{

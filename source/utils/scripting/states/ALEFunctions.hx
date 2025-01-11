@@ -64,7 +64,7 @@ class ALEFunctions
         });
         Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
         {
-            FlxG.state.openSubState(new ScriptSubstate(substate:String));
+            FlxG.state.openSubState(new ScriptSubstate(substate));
         });
     
         Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
