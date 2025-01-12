@@ -253,7 +253,10 @@ class ScriptSubstate extends MusicBeatSubstate
 		}
 	}
 
-	override function destroy() {
+	override public function close()
+	{
+		super.close();
+
 		instance = null;
 
 		#if LUA_ALLOWED

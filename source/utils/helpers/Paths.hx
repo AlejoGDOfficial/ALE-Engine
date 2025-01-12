@@ -141,6 +141,11 @@ class Paths
 		return 'assets/shared/$file';
 	}
 
+	inline static public function model(key:String, ?library:String)
+	{
+		return getPath('models/$key.obj', TEXT, library);
+	}
+
 	inline static public function txt(key:String, ?library:String)
 	{
 		return getPath('data/$key.txt', TEXT, library);

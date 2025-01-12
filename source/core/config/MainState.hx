@@ -39,8 +39,7 @@ class MainState extends MusicBeatState
         try
         {
             var jsonToLoad:String = Paths.modFolders('data.json');
-            if(!FileSystem.exists(jsonToLoad))
-                jsonToLoad = Paths.getSharedPath('data.json');
+            if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('data.json');
     
             var jsonData = haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
 

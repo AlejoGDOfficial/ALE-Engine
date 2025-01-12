@@ -92,10 +92,16 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
         {
-            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
+            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\nPress F4 to Update the Engine' : '') + (CoolVars.developerMode ? '\nPress F5 to Open Gemini' : '');
 
-            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
-            else if (FlxG.keys.justPressed.F4) CoolUtil.browserLoad("https://github.com/AlejoGDOfficial/ALE-Engine/releases");
+            if (FlxG.keys.justPressed.TAB)
+            {
+                MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+            } else if (FlxG.keys.justPressed.F4) {
+                CoolUtil.browserLoad("https://github.com/AlejoGDOfficial/ALE-Engine/releases");
+            } else if (FlxG.keys.justPressed.F5 && CoolVars.developerMode) {
+                //MusicBeatState.switchState();
+            }
         } else {
             configTipsTxt = '';
         }
