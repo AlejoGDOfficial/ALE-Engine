@@ -69,7 +69,7 @@ class ScriptSubstate extends MusicBeatSubstate
     override public function create()
     {
 		Paths.clearUnusedMemory();
-
+		
         instance = this;
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
@@ -79,8 +79,6 @@ class ScriptSubstate extends MusicBeatSubstate
 		
 		#if LUA_ALLOWED startLuasNamed('scripts/substates/' + targetFileName + '.lua'); #end
 		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/substates/' + targetFileName + '.hx'); #end
-		#if LUA_ALLOWED startLuasNamed('scripts/substates/global.lua'); #end
-		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/substates/global.hx'); #end
 
 		callOnScripts('onCreatePost');
 

@@ -26,7 +26,6 @@ import visuals.cutscenes.DialogueBoxPsych;
 import gameplay.states.editors.ChartingState;
 import gameplay.states.editors.CharacterEditorState;
 
-import gameplay.states.substates.PauseSubState;
 import gameplay.states.substates.GameOverSubstate;
 
 #if !flash
@@ -275,7 +274,6 @@ class PlayState extends MusicBeatState
 		// for lua
 		instance = this;
 
-		PauseSubState.songName = null; //Reset to default
 		playbackRate = ClientPrefs.getGameplaySetting('songspeed');
 
 		keysArray = [
@@ -598,9 +596,7 @@ class PlayState extends MusicBeatState
 		for (i in 1...4) Paths.sound('missnote$i');
 		Paths.image('alphabet');
 
-		if (PauseSubState.songName != null)
-			Paths.music(PauseSubState.songName);
-		else if(Paths.formatToSongPath(ClientPrefs.data.pauseMusic) != 'none')
+		if(Paths.formatToSongPath(ClientPrefs.data.pauseMusic) != 'none')
 			Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic));
 
 		resetRPC();
@@ -1816,7 +1812,7 @@ class PlayState extends MusicBeatState
 					note.resetAnim = 0;
 				}
 		}
-		openSubState(new PauseSubState());
+		openSubState(new ScriptSubstate(CoolVars.scriptPauseMenu));
 
 		#if DISCORD_ALLOWED
 		if(autoUpdateRPC) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -2596,6 +2592,18 @@ class PlayState extends MusicBeatState
 			spr.resetAnim = 0;
 		}
 		callOnScripts('onKeyPress', [key]);
+	}
+
+	public static function restartSong(noVar:Bool = false)
+	{
+		instance.paused = true; // For lua
+		FlxG.sound.music.volume = 0;
+		instance.vocals.volume = 0;
+
+		FlxTransitionableState.skipNextTransIn = noVar;
+		FlxTransitionableState.skipNextTransOut = noVar;
+
+		MusicBeatState.resetState();
 	}
 
 	public static function sortHitNotes(a:Note, b:Note):Int

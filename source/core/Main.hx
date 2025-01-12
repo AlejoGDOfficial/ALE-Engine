@@ -100,7 +100,8 @@ class Main extends Sprite
 	
 		#if LUA_ALLOWED
 		Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(utils.scripting.songs.CallbackHandler.call));
-		Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(utils.scripting.songs.CallbackHandler.call)); 
+		Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(utils.scripting.states.CallbackHandler.call)); 
+		Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(utils.scripting.substates.CallbackHandler.call)); 
 		#end
 		
 		Controls.instance = new Controls();

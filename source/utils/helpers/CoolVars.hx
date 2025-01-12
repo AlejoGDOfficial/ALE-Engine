@@ -18,6 +18,7 @@ class CoolVars
 	public static var scriptFromEditors:String = '';
 	public static var scriptOptionsState:String = '';
 	public static var scriptTransition:String = '';
+	public static var scriptPauseMenu:String = '';
 
 	public static var isConsoleVisible:Bool = false;
 

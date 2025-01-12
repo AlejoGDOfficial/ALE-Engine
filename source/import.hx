@@ -19,6 +19,7 @@ import utils.helpers.Paths;
 import utils.helpers.Difficulty;
 import utils.mods.Mods;
 import utils.scripting.ScriptState;
+import utils.scripting.ScriptSubstate;
 
 import visuals.objects.Alphabet;
 import visuals.objects.BGSprite;

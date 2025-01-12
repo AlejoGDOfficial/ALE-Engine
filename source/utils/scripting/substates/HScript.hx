@@ -609,7 +609,7 @@ class HScript extends SScript
 		set('remove', FlxG.state.subState.remove);
 		set('close', FlxG.state.subState.close);
 
-		if(ScriptSubstate.instance == FlxG.state.subState)
+		if (ScriptSubstate.instance == FlxG.state.subState)
 		{
 			setSpecialObject(ScriptSubstate.instance, false, ScriptSubstate.instance.instancesExclude);
 		}

@@ -23,7 +23,6 @@ import visuals.objects.Note;
 import visuals.objects.NoteSplash;
 import visuals.objects.Character;
 
-import gameplay.states.substates.PauseSubState;
 import gameplay.states.substates.GameOverSubstate;
 
 import utils.scripting.songs.LuaUtils;
@@ -795,10 +794,10 @@ class FunkinLua {
 			game.endSong();
 			return true;
 		});
-		Lua_helper.add_callback(lua, "restartSong", function(?skipTransition:Bool = false) {
+		Lua_helper.add_callback(lua, "restartSong", function(?skipTransition:Bool = true) {
 			game.persistentUpdate = false;
 			FlxG.camera.followLerp = 0;
-			PauseSubState.restartSong(skipTransition);
+			PlayState.restartSong(skipTransition);
 			return true;
 		});
 		Lua_helper.add_callback(lua, "exitSong", function(?skipTransition:Bool = false) {

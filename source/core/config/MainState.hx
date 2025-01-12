@@ -53,6 +53,7 @@ class MainState extends MusicBeatState
             CoolVars.scriptFromEditors = Reflect.hasField(jsonData, 'fromEditors') ? jsonData.fromEditors : 'masterEditorMenu';
             CoolVars.scriptOptionsState = Reflect.hasField(jsonData, 'optionsState') ? jsonData.optionsState : 'optionsState';
             CoolVars.scriptTransition = Reflect.hasField(jsonData, 'transition') ? jsonData.transition : 'fadeTransition';
+            CoolVars.scriptPauseMenu = Reflect.hasField(jsonData, 'pauseMenu') ? jsonData.pauseMenu : 'pauseSubstate';
 
             trace('Initial State: ' + CoolVars.scriptFromInitialState);
             trace('From PlayState if Story Mode: ' + CoolVars.scriptFromPlayStateIfStoryMode);
@@ -60,6 +61,7 @@ class MainState extends MusicBeatState
             trace('From Editors: ' + CoolVars.scriptFromEditors);
             trace('Options State: ' + CoolVars.scriptOptionsState);
             trace('Transition Script: ' + CoolVars.scriptTransition);
+            trace('Pause Menu Script: ' + CoolVars.scriptPauseMenu);
 
             if (Reflect.hasField(jsonData, 'title')) lime.app.Application.current.window.title = jsonData.title;
             #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
