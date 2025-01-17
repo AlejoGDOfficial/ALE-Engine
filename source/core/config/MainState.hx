@@ -47,21 +47,21 @@ class MainState extends MusicBeatState
 
             trace('Developer Mode: ' + CoolVars.developerMode);
     
-            CoolVars.scriptFromInitialState = Reflect.hasField(jsonData, 'initialState') ? jsonData.initialState : 'introState';
+            CoolVars.scriptInitialState = Reflect.hasField(jsonData, 'initialState') ? jsonData.initialState : 'introState';
             CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(jsonData, 'fromPlayStateIfStoryMode') ? jsonData.fromPlayStateIfStoryMode : 'storyMenuState';
             CoolVars.scriptFromPlayStateIfFreeplay = Reflect.hasField(jsonData, 'fromPlayStateIfFreeplay') ? jsonData.fromPlayStateIfFreeplay : 'freeplayState';
             CoolVars.scriptFromEditors = Reflect.hasField(jsonData, 'fromEditors') ? jsonData.fromEditors : 'masterEditorMenu';
             CoolVars.scriptOptionsState = Reflect.hasField(jsonData, 'optionsState') ? jsonData.optionsState : 'optionsState';
-            CoolVars.scriptTransition = Reflect.hasField(jsonData, 'transition') ? jsonData.transition : 'fadeTransition';
             CoolVars.scriptPauseMenu = Reflect.hasField(jsonData, 'pauseMenu') ? jsonData.pauseMenu : 'pauseSubstate';
+            CoolVars.scriptCrashState = Reflect.hasField(jsonData, 'crashState') ? jsonData.crashState : 'crashState';
 
-            trace('Initial State: ' + CoolVars.scriptFromInitialState);
+            trace('Initial State: ' + CoolVars.scriptInitialState);
             trace('From PlayState if Story Mode: ' + CoolVars.scriptFromPlayStateIfStoryMode);
             trace('From PlayState if Freeplay: ' + CoolVars.scriptFromPlayStateIfFreeplay);
             trace('From Editors: ' + CoolVars.scriptFromEditors);
             trace('Options State: ' + CoolVars.scriptOptionsState);
-            trace('Transition Script: ' + CoolVars.scriptTransition);
-            trace('Pause Menu Script: ' + CoolVars.scriptPauseMenu);
+            trace('Pause Menu: ' + CoolVars.scriptPauseMenu);
+            trace('Crash State: ' + CoolVars.scriptCrashState);
 
             if (Reflect.hasField(jsonData, 'title')) lime.app.Application.current.window.title = jsonData.title;
             #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
@@ -77,7 +77,7 @@ class MainState extends MusicBeatState
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
 
-        MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromInitialState));
+        MusicBeatState.switchState(new ScriptState(CoolVars.scriptInitialState));
 
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
 

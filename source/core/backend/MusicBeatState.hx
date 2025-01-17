@@ -4,6 +4,7 @@ import flixel.addons.ui.FlxUIState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxState;
 import gameplay.camera.PsychCamera;
+import gameplay.camera.CustomFadeTransition;
 
 class MusicBeatState extends FlxUIState
 {
@@ -45,10 +46,7 @@ class MusicBeatState extends FlxUIState
 
 		super.create();
 
-		if(!FlxTransitionableState.skipNextTransOut) 
-		{
-			openSubState(new ScriptTransition(false));
-		}
+		if(!FlxTransitionableState.skipNextTransOut) openSubState(new CustomFadeTransition(0.6, true));
 		
 		FlxTransitionableState.skipNextTransOut = false;
 		timePassedOnState = 0;
@@ -174,12 +172,11 @@ class MusicBeatState extends FlxUIState
 		if(nextState == null)
 			nextState = FlxG.state;
 
-		FlxG.state.openSubState(new ScriptTransition(true));
-
+		FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
 		if(nextState == FlxG.state)
-			ScriptTransition.finishCallback = function() FlxG.resetState();
+			CustomFadeTransition.finishCallback = function() FlxG.resetState();
 		else
-			ScriptTransition.finishCallback = function() FlxG.switchState(nextState);
+			CustomFadeTransition.finishCallback = function() FlxG.switchState(nextState);
 	}
 
 	public static function getState():MusicBeatState {

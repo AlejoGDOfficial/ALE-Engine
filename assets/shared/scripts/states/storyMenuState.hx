@@ -122,6 +122,17 @@ function onCreate()
         character.y += 65;
     }
     
+    var tipBG = new FlxSprite().makeGraphic(FlxG.width, 30, FlxColor.BLACK);
+    add(tipBG);
+    tipBG.alpha = 0.5;
+    tipBG.y = FlxG.height - tipBG.height;
+
+    var tipText = new FlxText(0, 10, 1240, 'Press CONTROL to Open the Gameplay Changers Menu');
+    tipText.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, 'right');
+    add(tipText);
+    tipText.antialiasing = ClientPrefs.data.antialiasing;
+    tipText.y = tipBG.y + tipBG.height / 2 - tipText.height / 2;
+    
     changeDifficultyShit();
     changeWeeksShit();
 }

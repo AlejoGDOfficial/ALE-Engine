@@ -3,6 +3,7 @@ import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import core.config.DiscordClient;
+import utils.mods.Mods;
 import gameplay.states.editors.*;
 
 var texts:Array<Alphabet>;
@@ -51,6 +52,17 @@ function onCreate()
         text.y = FlxG.height / 2 - (text.height + 15) * options.length / 2 + (i * (text.height + 15));
         texts.push(text);
     }
+
+    var tipBG = new FlxSprite().makeGraphic(FlxG.width, 30, FlxColor.BLACK);
+    add(tipBG);
+    tipBG.alpha = 0.5;
+    tipBG.y = FlxG.height - tipBG.height;
+
+    var tipText = new FlxText(0, 10, FlxG.width, 'Current Mod: ' + Mods.currentModDirectory);
+    tipText.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, 'center');
+    add(tipText);
+    tipText.antialiasing = ClientPrefs.data.antialiasing;
+    tipText.y = tipBG.y + tipBG.height / 2 - tipText.height / 2;
 
     changeShit();
 }

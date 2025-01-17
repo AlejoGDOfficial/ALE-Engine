@@ -66,8 +66,9 @@ import haxe.Json;
 
 class ClientPrefs {
 	public static var data:SaveVariables = {};
-	public static var defaultData:SaveVariables = {};
 	public static var modData:Dynamic = {};
+
+	public static var defaultData:SaveVariables = {};
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -262,31 +263,18 @@ class ClientPrefs {
 
 	public static function loadJsonPrefs()
 	{
-		var defaultSave:FlxSave = new FlxSave();
-		defaultSave.bind('data', CoolUtil.getSavePath() + '/preferences');
+		var save:FlxSave = new FlxSave();
+		save.bind('preferences', CoolUtil.getSavePath() + '/' + Mods.currentModDirectory);
 	
-		if (defaultSave != null)
+		if (save != null)
 		{
-			for (key in Reflect.fields(data))
+			for (key in Reflect.fields(save.data.settings))
 			{
-				if (Reflect.hasField(defaultSave.data.settings, key))
-				{
-					Reflect.setField(data, key, Reflect.field(defaultSave.data.settings, key));
-				}
-			}
-		}
-	
-		var customSave:FlxSave = new FlxSave();
-		customSave.bind('data', CoolUtil.getSavePath() + '/preferences/' + Mods.currentModDirectory);
-	
-		if (customSave != null)
-		{
-			for (key in Reflect.fields(modData))
-			{
-				if (Reflect.hasField(customSave.data.settings, key))
-				{
-					Reflect.setField(modData, key, Reflect.field(customSave.data.settings, key));
-				}
+				var defaultDataContainsField:Bool = false;
+		
+				for (dataKey in Reflect.fields(ClientPrefs.data)) if (dataKey == key) defaultDataContainsField = true;
+		
+				Reflect.setField(defaultDataContainsField ? data : modData, key, Reflect.field(save.data.settings, key));
 			}
 		}
 	}

@@ -12,13 +12,13 @@ class CoolVars
 
 	public static var developerMode:Bool = true;
 
-	public static var scriptFromInitialState:String = '';
+	public static var scriptInitialState:String = '';
 	public static var scriptFromPlayStateIfStoryMode:String = '';
 	public static var scriptFromPlayStateIfFreeplay:String = '';
 	public static var scriptFromEditors:String = '';
 	public static var scriptOptionsState:String = '';
-	public static var scriptTransition:String = '';
 	public static var scriptPauseMenu:String = '';
+	public static var scriptCrashState:String = '';
 
 	public static var isConsoleVisible:Bool = false;
 

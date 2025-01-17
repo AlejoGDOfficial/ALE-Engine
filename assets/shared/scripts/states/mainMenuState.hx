@@ -66,8 +66,11 @@ function onCreate()
     version.borderColor = FlxColor.BLACK;
     version.antialiasing = ClientPrefs.data.antialiasing;
     version.applyMarkup(
-        'Friday Night Funkin\' 0.2.8\nALE Engine *' + CoolVars.engineVersion + '* (P.E. 0.7.3)',
-        [new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('00FFFF')), '*')]
+        'Friday Night Funkin\' 0.2.8\nALE Engine *' + CoolVars.engineVersion + '* (P.E. 0.7.3)\nPress `CTRL + SHIFT + TAB` to `Select` the `Current Mod`',
+        [
+            new FlxTextFormatMarkerPair(new FlxTextFormat(CoolUtil.colorFromString('00FFFF')), '*'),
+            new FlxTextFormatMarkerPair(new FlxTextFormat(FlxColor.fromRGB(255, 125, 255)), '`')
+        ]
     );
     version.scrollFactor.set(0, 0);
     version.y = FlxG.height - version.height - 10;
@@ -160,10 +163,7 @@ function onUpdate(elapsed:Float)
             });
         }
 	
-        if (controls.justPressed('debug_1'))
-        {
-            MusicBeatState.switchState(new ScriptState('masterEditorMenu', true));
-        }
+        if (controls.justPressed('debug_1')) MusicBeatState.switchState(new ScriptState('masterEditorMenu', true));
     }
 
     FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, (selInt + (options.length - 1) / 2) * 25, 0.1);

@@ -15,7 +15,7 @@
             }
         },
         {
-            "name": "Adjust Delay and Combo",
+            "name": "Delay and Combo",
             "stateData": {
                 "script": false,
                 "state": "options.NoteOffsetState"

@@ -192,12 +192,12 @@ class CoolUtil
 	public static function getCurrentSubState():Array<Dynamic>
 	{
 		var curSubState:String = Type.getClassName(Type.getClass(FlxG.state.subState));
-/*
-		if (FlxG.states.substate is utils.scripting.ScriptSubState)
+		
+		if (FlxG.state.subState is utils.scripting.ScriptSubstate)
 		{
-			return [true, ScriptSubState.targetFileName];
+			return [true, ScriptSubstate.targetFileName];
 		}
-*/
+			
 		return [false, curSubState];
 	}
 
@@ -286,6 +286,8 @@ class CoolUtil
 		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
 
         #if windows cpp.WindowsCPP.setWindowBorderColor(255, 255, 255); #end
+		
+		FlxTween.globalManager.clear();
 
 		FlxG.resetGame();
 	}
@@ -316,5 +318,10 @@ class CoolUtil
 		} catch(e:Dynamic) {
 			return 'Error: ' + e;
 		}
+	}
+
+	public static function showPopUp(title:String, message:String)
+	{
+		FlxG.stage.window.alert(message, title);
 	}
 }

@@ -11,6 +11,8 @@ import gameplay.states.editors.*;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 
+import gameplay.camera.PsychCamera;
+
 #if VIDEOS_ALLOWED
 #if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
 #elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
@@ -65,12 +67,26 @@ class ScriptState extends MusicBeatState
 
 	var keysPressed:Array<Int> = [];
 	private var keysArray:Array<String>;
+	
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
+	public var camOther:FlxCamera;
 
     override public function create()
     {
 		Paths.clearUnusedMemory();
 
         instance = this;
+
+		camGame = initPsychCamera();
+
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(camHUD, false);
+
+		camOther = new FlxCamera();
+		camOther.bgColor.alpha = 0;
+		FlxG.cameras.add(camOther, false);
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		luaDebugGroup = new FlxTypedGroup<utils.scripting.states.DebugLuaText>();
@@ -575,7 +591,6 @@ class ScriptState extends MusicBeatState
 		#end
 		return false;
 	}
-
 
 	public function resetScriptState(?doTransition:Bool = false)
 	{

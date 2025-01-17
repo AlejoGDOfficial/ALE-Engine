@@ -64,7 +64,7 @@ class FPSCounter extends Sprite
 
         developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
         
-        stateInfoTxt = '\n\n' + 'Current State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + 'Current SubState: ' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubstate (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
+        stateInfoTxt = '\n\n' + 'State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + 'SubState: ' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubstate (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
 
         if (FlxG.keys.justPressed.F3 && canChangeFPSType && !FlxG.keys.pressed.CONTROL && !FlxG.keys.pressed.SHIFT)
         {
@@ -92,16 +92,10 @@ class FPSCounter extends Sprite
 
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
         {
-            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\nPress F4 to Update the Engine' : '') + (CoolVars.developerMode ? '\nPress F5 to Open Gemini' : '');
+            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\nPress F4 to Update the Engine' : '');
 
-            if (FlxG.keys.justPressed.TAB)
-            {
-                MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
-            } else if (FlxG.keys.justPressed.F4) {
-                CoolUtil.browserLoad("https://github.com/AlejoGDOfficial/ALE-Engine/releases");
-            } else if (FlxG.keys.justPressed.F5 && CoolVars.developerMode) {
-                //MusicBeatState.switchState();
-            }
+            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+            else if (FlxG.keys.justPressed.F4) CoolUtil.browserLoad("https://github.com/AlejoGDOfficial/ALE-Engine/releases");
         } else {
             configTipsTxt = '';
         }

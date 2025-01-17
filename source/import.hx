@@ -11,7 +11,7 @@ import core.backend.MusicBeatSubstate;
 
 import gameplay.states.game.PlayState;
 import gameplay.states.game.LoadingState;
-import utils.scripting.ScriptTransition;
+import gameplay.camera.CustomFadeTransition;
 
 import utils.helpers.CoolUtil;
 import utils.helpers.CoolVars;

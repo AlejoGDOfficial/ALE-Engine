@@ -32,18 +32,6 @@ function onCreate()
     add(bg);
     bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.alpha = 0;
-
-    difficultyTextBG = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
-    add(difficultyTextBG);
-    difficultyTextBG.alpha = 0.5;
-    difficultyTextBG.scrollFactor.x = difficultyTextBG.scrollFactor.y = 0;
-
-    difficultyText = new FlxText(0, 10, 0);
-    difficultyText.setFormat(Paths.font('vcr.ttf'), 30, FlxColor.WHITE, 'center');
-    add(difficultyText);
-    difficultyText.antialiasing = ClientPrefs.data.antialiasing;
-    difficultyText.x = FlxG.width - difficultyText.width - 10;
-    difficultyText.scrollFactor.x = difficultyText.scrollFactor.y = 0;
 		
     var foldersToCheck = [];
 
@@ -86,11 +74,39 @@ function onCreate()
         }
     }
 
+    difficultyTextBG = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+    add(difficultyTextBG);
+    difficultyTextBG.alpha = 0.5;
+    difficultyTextBG.scrollFactor.x = difficultyTextBG.scrollFactor.y = 0;
+
+    difficultyText = new FlxText(0, 10, 0);
+    difficultyText.setFormat(Paths.font('vcr.ttf'), 30, FlxColor.WHITE, 'center');
+    add(difficultyText);
+    difficultyText.antialiasing = ClientPrefs.data.antialiasing;
+    difficultyText.x = FlxG.width - difficultyText.width - 10;
+    difficultyText.scrollFactor.x = difficultyText.scrollFactor.y = 0;
+
+    var tipBG = new FlxSprite().makeGraphic(FlxG.width, 30, FlxColor.BLACK);
+    add(tipBG);
+    tipBG.alpha = 0;
+    tipBG.y = FlxG.height - tipBG.height;
+
+    var tipText = new FlxText(0, 10, 1240, 'Press CONTROL to Open the Gameplay Changers Menu');
+    tipText.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, 'right');
+    add(tipText);
+    tipText.antialiasing = ClientPrefs.data.antialiasing;
+    tipText.alpha = 0;
+    tipText.y = tipBG.y + tipBG.height / 2 - tipText.height / 2;
+
     new FlxTimer().start(1, function(tmr:FlxTimer)
     {
         changeSongShit();
         changeDifficultyShit();
+
         canSelect = true;
+        
+        FlxTween.tween(tipBG, {alpha: 0.5}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
+        FlxTween.tween(tipText, {alpha: 1}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
     });
 }
 

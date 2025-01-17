@@ -485,6 +485,16 @@ class LuaUtils
 	}
 
 	public static function cameraFromString(cam:String):FlxCamera {
-		return FlxG.camera;
+		switch (cam.toLowerCase().trim())
+		{
+			case 'camgame':
+				return ScriptState.instance.camGame;
+			case 'camhud', 'hud':
+				return ScriptState.instance.camHUD;
+			case 'camother', 'other':
+				return ScriptState.instance.camOther;
+		}
+		
+		return ScriptState.instance.camGame;
 	}
 }
