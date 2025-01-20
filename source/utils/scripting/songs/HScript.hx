@@ -16,6 +16,8 @@ import openfl.Lib;
 import utils.scripting.songs.FunkinLua;
 #end
 
+import utils.helpers.Highscore;
+
 #if HSCRIPT_ALLOWED
 import tea.SScript;
 class HScript extends SScript
@@ -77,7 +79,7 @@ class HScript extends SScript
 	
 	private function windowTweenUpdateAlpha(value:Float)
 	{
-		WindowsCPP.setWindowAlpha(value);
+		#if windows WindowsCPP.setWindowAlpha(value); #end
 	}
 
 	//ALE Shit END
@@ -175,6 +177,23 @@ class HScript extends SScript
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
 			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+		});
+		set('loadSong', function(?name:String = null, ?difficultyNum:Int = -1)
+		{
+			if(name == null || name.length < 1)
+				name = PlayState.SONG.song;
+			if (difficultyNum == -1)
+				difficultyNum = PlayState.storyDifficulty;
+
+			var poop = Highscore.formatSong(name, difficultyNum);
+			PlayState.SONG = Song.loadFromJson(poop, name);
+			PlayState.storyDifficulty = difficultyNum;
+			FlxG.state.persistentUpdate = false;
+			LoadingState.loadAndSwitchState(new PlayState());
+
+			FlxG.sound.music.pause();
+			FlxG.sound.music.volume = 0;
+			FlxG.camera.followLerp = 0;
 		});
 
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)

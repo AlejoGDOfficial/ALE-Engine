@@ -243,10 +243,10 @@ function onUpdatePost(elapsed:Float)
 				PlayState.changedDifficulty = true;
 				practiceText.visible = PlayState.instance.practiceMode;
 			case "Restart Song":
-				PlayState.restartSong();
+				PlayState.restartSong(true);
 				close();
 			case "Leave Charting Mode":
-				PlayState.restartSong();
+				PlayState.restartSong(false);
 				PlayState.chartingMode = false;
 				close();
 			case 'Skip Time':

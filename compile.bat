@@ -3,10 +3,26 @@ color 0b
 
 title Compile the ALE Engine Source Code
 
-echo Compiling...
+:choose_platform
+echo Choose the platform to compile:
+echo A: Android
+echo W: Windows
+choice /c AW /m "Select Option"
+if errorlevel 2 (
+    set plaform=Windows
+) else if errorlevel 1 (
+    set platform=Android
+) else (
+    goto choose_platform
+)
 
 :run_command
-lime test windows
+echo Compiling for %platform%...
+if "%platform%" == "Android" (
+    lime test android
+) else if "%platform%" == "Windows" (
+    lime test windows
+)
 
 choice /c YN /m "Retry?"
 

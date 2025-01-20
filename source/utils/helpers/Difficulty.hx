@@ -14,10 +14,10 @@ class Difficulty
 
 	inline public static function getFilePath(num:Null<Int> = null)
 	{
-		if(num == null) num = PlayState.storyDifficulty;
+		if (num == null) num = PlayState.storyDifficulty;
 
 		var fileSuffix:String = list[num];
-		if(fileSuffix != defaultDifficulty)
+		if (fileSuffix != defaultDifficulty)
 		{
 			fileSuffix = '-' + fileSuffix;
 		}

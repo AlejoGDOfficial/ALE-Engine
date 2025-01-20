@@ -103,6 +103,8 @@ function onUpdate(elapsed:Float)
 
         if (controlsAccept)
         {
+            setGlobalVar('optionsStateSelInt', selInt.menus);
+
             FlxG.sound.play(Paths.sound('confirmMenu'));
 
             if (ClientPrefs.data.flashing) FlxFlicker.flicker(menus[selInt.menus].get('text'), 60 / Conductor.bpm, 0.05);
@@ -259,6 +261,8 @@ function changeMenusShit()
         FlxTween.cancelTweensOf(menuMap.get('text'));
         FlxTween.tween(menuMap.get('text'), {x: 150 - 30 * (Math.abs(menuMap.get('index') - selInt.menus) * Math.abs(menuMap.get('index') - selInt.menus) / 2), y: 318 + (menuMap.get('index') - selInt.menus) * 105}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
     }
+
+    FlxG.sound.play(Paths.sound('scrollMenu'));
 }
 
 function parseOptions()
@@ -405,6 +409,8 @@ function changeOptionsShit()
     descriptionsBG.y = descriptions.y - 10;
 
     descriptionsBG.visible = descriptions.visible = options[selInt.options].get('description') != '';
+
+    FlxG.sound.play(Paths.sound('scrollMenu'));
 }
 
 function saveConfig()

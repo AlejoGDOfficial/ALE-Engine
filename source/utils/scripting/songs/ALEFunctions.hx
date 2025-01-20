@@ -32,7 +32,7 @@ class ALEFunctions
 	
 	static function windowTweenUpdateAlpha(value:Float)
 	{
-		WindowsCPP.setWindowAlpha(value);
+		#if windows WindowsCPP.setWindowAlpha(value); #end
 	}
 
 	//ALE Shit END

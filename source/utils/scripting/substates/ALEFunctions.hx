@@ -33,7 +33,7 @@ class ALEFunctions
 	
 	static function windowTweenUpdateAlpha(value:Float)
 	{
-		WindowsCPP.setWindowAlpha(value);
+		#if windows WindowsCPP.setWindowAlpha(value); #end
 	}
 
 	//ALE Shit END
@@ -71,38 +71,6 @@ class ALEFunctions
             FlxG.state.subState.close();
         });
     
-        Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
-        {
-            if (difficulty == 'normal')
-            {
-                trace(Paths.modsJson(song + '/' + song));
-                PlayState.SONG = Song.loadFromJson('' + song, '' + song);
-            } else {
-                trace(Paths.modsJson(song + '/' + song + '-' + difficulty));
-                PlayState.SONG = Song.loadFromJson(song + '-' + difficulty, '' + song);
-            }
-            LoadingState.loadAndSwitchState(new PlayState());
-            PlayState.isStoryMode = menuIsStoryMode;
-        });
-        Lua_helper.add_callback(lua, "loadWeek", function(songs:Array<String>, difficulties:Array<String>, difficulty:Int ,?menuIsStoryMode:Bool = false)
-        {
-            WeekData.reloadWeekFiles(true);
-            if (difficulties[difficulty].toLowerCase() == 'normal')
-            {
-                trace(Paths.modsJson(songs[0] + '/' + songs[0]));
-                PlayState.SONG = Song.loadFromJson(songs[0], songs[0]);
-            } else {
-                trace(Paths.modsJson(songs[0] + '/' + songs[0] + '-' + difficulties[difficulty]));
-                PlayState.SONG = Song.loadFromJson(songs[0] + '-' + difficulties[difficulty], songs[0]);
-            }
-            trace(Paths.modsJson(songs[0] + '/' + songs[0]));
-            PlayState.storyPlaylist = songs;
-            PlayState.isStoryMode = menuIsStoryMode;
-            Difficulty.list = difficulties;
-            PlayState.storyDifficulty = difficulty;
-            PlayState.storyWeek = 0;
-            LoadingState.loadAndSwitchState(new PlayState(), true);
-        });
         Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
         {
             FlxTween.num(Lib.application.window.x, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateX);

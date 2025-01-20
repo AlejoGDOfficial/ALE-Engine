@@ -7,6 +7,13 @@ import visuals.objects.MenuCharacter;
 import tjson.TJSON as Json;
 import utils.mods.Mods;
 
+import utils.helpers.Difficulty;
+import utils.helpers.Highscore;
+import gameplay.states.game.LoadingState;
+import gameplay.states.game.PlayState;
+import core.gameplay.stages.WeekData;
+import core.backend.Song;
+
 var weeksSelInt:Int = existsGlobalVar('storyMenuStateSongsSelInt') ? getGlobalVar('storyMenuStateSongsSelInt') : 0;
 var difficultiesSelInt:Int = existsGlobalVar('storyMenuStateDifficultiesSelInt') ? getGlobalVar('storyMenuStateDifficultiesSelInt') : 0;
 
@@ -17,10 +24,13 @@ var uiLeft:FlxSprite;
 var uiRight:FlxSprite;
 var songsText:FlxText;
 var weekPhrase:FlxText;
+var weekScore:FlxText;
 
 function onCreate()
 {
     DiscordClient.changePresence('In the Menus...', 'Story Menu');
+
+    WeekData.reloadWeekFiles(true);
 
     var foldersToCheck = [];
 
@@ -105,6 +115,12 @@ function onCreate()
     weekPhrase.antialiasing = ClientPrefs.data.antialiasing;
     weekPhrase.x = FlxG.width - weekPhrase.width - 10;
 
+    weekScore = new FlxText(10, 10, 0, '');
+    weekScore.setFormat(Paths.font('vcr.ttf'), 35);
+    add(weekScore);
+    weekScore.scrollFactor.set(0, 0);
+    weekScore.antialiasing = ClientPrefs.data.antialiasing;
+
     bg = new FlxSprite(0, 50);
     add(bg);
     bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -152,6 +168,7 @@ function addWeek(weekName:String, songs:Array, characters:Array, stage:String, s
     image.antialiasing = ClientPrefs.data.antialiasing;
     add(image);
 
+    weekData.set('name', weekName);
     weekData.set('image', image);
     weekData.set('songs', songs);
     weekData.set('characters', characters);
@@ -282,10 +299,32 @@ function onUpdate(elapsed:Float)
                     if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
 
                     FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+
+                    PlayState.storyPlaylist = week.get('songs');
+                    PlayState.isStoryMode = true;
+
+                    Difficulty.loadFromWeek();
+        
+                    var diffic = Difficulty.getFilePath(difficultiesSelInt);
+                    if (diffic == null) diffic = '';
+        
+                    PlayState.storyDifficulty = difficultiesSelInt;
+        
+                    PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+                    PlayState.campaignScore = 0;
+                    PlayState.campaignMisses = 0;
                     
+                    for (char in characters.members)
+                    {
+                        if (char.character != '' && char.hasConfirmAnimation)
+                        {
+                            char.animation.play('confirm');
+                        }
+                    }
+
                     new FlxTimer().start(1, function(tmr:FlxTimer)
                     {
-                        loadWeek(week.get('songs'), week.get('difficulties'), difficultiesSelInt, true);
+                        LoadingState.loadAndSwitchState(new PlayState(), true);
                     });
                 } else {
                     FlxTween.tween(week.get('image'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
@@ -308,6 +347,8 @@ function changeDifficultyShit()
             if (difficulties.length != week.get('difficulties').length) difficultiesSelInt = 0;
 
             difficulties = week.get('difficulties');
+
+            weekScore.text = 'SCORE: ' + Highscore.getWeekScore(week.get('name'), difficultiesSelInt);
         }
     }
 

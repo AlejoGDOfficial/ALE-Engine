@@ -15,6 +15,8 @@ import openfl.Lib;
 import utils.scripting.substates.FunkinLua;
 #end
 
+import utils.helpers.Highscore;
+
 #if HSCRIPT_ALLOWED
 import tea.SScript;
 
@@ -77,7 +79,7 @@ class HScript extends SScript
 	
 	private function windowTweenUpdateAlpha(value:Float)
 	{
-		WindowsCPP.setWindowAlpha(value);
+		#if windows WindowsCPP.setWindowAlpha(value); #end
 	}
 
 	//ALE Shit END
@@ -198,37 +200,22 @@ class HScript extends SScript
             FlxG.state.openSubState(new ScriptSubstate(substate));
         });
 
-		set('loadSong', function(song:String, difficulty:String, ?menuIsStoryMode:Bool = false)
+		set('loadSong', function(?name:String = null, ?difficultyNum:Int = -1)
 		{
-			if (difficulty == 'normal')
-			{
-				trace(Paths.modsJson(song + '/' + song));
-				PlayState.SONG = Song.loadFromJson('' + song, '' + song);
-			} else {
-				trace(Paths.modsJson(song + '/' + song + '-' + difficulty));
-				PlayState.SONG = Song.loadFromJson(song + '-' + difficulty, '' + song);
-			}
+			if(name == null || name.length < 1)
+				name = PlayState.SONG.song;
+			if (difficultyNum == -1)
+				difficultyNum = PlayState.storyDifficulty;
+
+			var poop = Highscore.formatSong(name, difficultyNum);
+			PlayState.SONG = Song.loadFromJson(poop, name);
+			PlayState.storyDifficulty = difficultyNum;
+			FlxG.state.persistentUpdate = false;
 			LoadingState.loadAndSwitchState(new PlayState());
-			PlayState.isStoryMode = menuIsStoryMode;
-		});
-		set('loadWeek', function(songs:Array<String>, difficulties:Array<String>, difficulty:Int ,?menuIsStoryMode:Bool = false)
-		{
-			WeekData.reloadWeekFiles(true);
-			if (difficulties[difficulty].toLowerCase() == 'normal')
-			{
-				trace(Paths.modsJson(songs[0] + '/' + songs[0]));
-				PlayState.SONG = Song.loadFromJson(songs[0], songs[0]);
-			} else {
-				trace(Paths.modsJson(songs[0] + '/' + songs[0] + '-' + difficulties[difficulty]));
-				PlayState.SONG = Song.loadFromJson(songs[0] + '-' + difficulties[difficulty], songs[0]);
-			}
-			trace(Paths.modsJson(songs[0] + '/' + songs[0]));
-			PlayState.storyPlaylist = songs;
-			PlayState.isStoryMode = menuIsStoryMode;
-			Difficulty.list = difficulties;
-			PlayState.storyDifficulty = difficulty;
-			PlayState.storyWeek = 0;
-			LoadingState.loadAndSwitchState(new PlayState(), true);
+
+			FlxG.sound.music.pause();
+			FlxG.sound.music.volume = 0;
+			FlxG.camera.followLerp = 0;
 		});
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
 		{
