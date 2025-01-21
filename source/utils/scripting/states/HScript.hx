@@ -153,7 +153,6 @@ class HScript extends SScript
 		set('CoolUtil', utils.helpers.CoolUtil);
 		set('MusicBeatState', core.backend.MusicBeatState);
 		set('DiscordClient', core.config.DiscordClient);
-		
 		set('AttachedText', visuals.objects.AttachedText);
 		set('MenuCharacter', visuals.objects.MenuCharacter);
 		set('DialogueCharacterEditorState', gameplay.states.editors.DialogueCharacterEditorState);
@@ -614,7 +613,7 @@ class HScript extends SScript
 		}
 	}
 
-	public function executeCode(?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null):TeaCall {
+	public function executeCode(?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null):Tea {
 		if (funcToRun == null) return null;
 
 		if(!exists(funcToRun)) {
@@ -646,7 +645,7 @@ class HScript extends SScript
 		return callValue;
 	}
 
-	public function executeFunction(funcToRun:String = null, funcArgs:Array<Dynamic>):TeaCall {
+	public function executeFunction(funcToRun:String = null, funcArgs:Array<Dynamic>):Tea {
 		if (funcToRun == null) return null;
 		return call(funcToRun, funcArgs);
 	}
@@ -656,7 +655,7 @@ class HScript extends SScript
 		funk.addLocalCallback("runHaxeCode", function(codeToRun:String, ?varsToBring:Any = null, ?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null):Dynamic {
 			#if SScript
 			initHaxeModuleCode(funk, codeToRun, varsToBring);
-			final retVal:TeaCall = funk.hscript.executeCode(funcToRun, funcArgs);
+			final retVal:Tea = funk.hscript.executeCode(funcToRun, funcArgs);
 			if (retVal != null) {
 				if(retVal.succeeded)
 					return (retVal.returnValue == null || LuaUtils.isOfTypes(retVal.returnValue, [Bool, Int, Float, String, Array])) ? retVal.returnValue : null;

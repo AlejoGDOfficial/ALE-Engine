@@ -3,7 +3,8 @@ color 0a
 cd ..
 @echo on
 echo Installing dependencies.
-haxelib install lime 8.1.2
+haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp
+haxelib git lime https://github.com/mcagabe19-stuff/lime-develop
 haxelib install openfl 9.3.3
 haxelib install flixel 5.6.1
 haxelib install flixel-addons 3.2.3

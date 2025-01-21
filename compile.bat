@@ -9,7 +9,7 @@ echo A: Android
 echo W: Windows
 choice /c AW /m "Select Option"
 if errorlevel 2 (
-    set plaform=Windows
+    set platform=Windows
 ) else if errorlevel 1 (
     set platform=Android
 ) else (
@@ -19,7 +19,7 @@ if errorlevel 2 (
 :run_command
 echo Compiling for %platform%...
 if "%platform%" == "Android" (
-    lime test android
+    lime build android
 ) else if "%platform%" == "Windows" (
     lime test windows
 )
