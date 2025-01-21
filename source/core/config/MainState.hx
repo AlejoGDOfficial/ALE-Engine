@@ -29,12 +29,10 @@ class MainState extends MusicBeatState
 
         super.create();
 
-        #if !mobile
         fpsVar = new FPSCounter();
         FlxG.game.addChild(fpsVar);
         Lib.current.stage.align = "tl";
         Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-        #end
 
         try
         {

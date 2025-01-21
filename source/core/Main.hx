@@ -91,11 +91,15 @@ class Main extends Sprite
 
 		if (game.zoom == -1.0)
 		{
+			#if mobile
+			game.zoom = 1.0;
+			#else
 			var ratioX:Float = stageWidth / game.width;
 			var ratioY:Float = stageHeight / game.height;
 			game.zoom = Math.min(ratioX, ratioY);
 			game.width = Math.ceil(stageWidth / game.zoom);
 			game.height = Math.ceil(stageHeight / game.zoom);
+			#end
 		}
 	
 		#if LUA_ALLOWED

@@ -6,7 +6,7 @@ echo Installing dependencies.
 haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp
 haxelib git lime https://github.com/mcagabe19-stuff/lime-develop
 haxelib install openfl 9.3.3
-haxelib install flixel 5.6.1
+haxelib git flixel https://github.com/MobilePorting/flixel 5.6.1
 haxelib install flixel-addons 3.2.3
 haxelib install flixel-ui 2.6.1
 haxelib install flixel-tools 1.5.1

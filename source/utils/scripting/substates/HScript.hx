@@ -19,6 +19,7 @@ import utils.helpers.Highscore;
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
+typedef Tea = TeaCall;
 
 class HScript extends SScript
 {
@@ -629,7 +630,7 @@ class HScript extends SScript
 		{
 			final e = callValue.exceptions[0];
 			if (e != null) {
-				var msg:String = e.toString();
+				var msg:String = e.details();
 				#if LUA_ALLOWED
 				if(parentLua != null)
 				{

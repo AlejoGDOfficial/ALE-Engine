@@ -19,7 +19,7 @@ if errorlevel 2 (
 :run_command
 echo Compiling for %platform%...
 if "%platform%" == "Android" (
-    lime build android
+    lime test android
 ) else if "%platform%" == "Windows" (
     lime test windows
 )
