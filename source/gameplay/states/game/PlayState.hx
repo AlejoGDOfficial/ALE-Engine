@@ -1758,10 +1758,12 @@ class PlayState extends MusicBeatState
 	// Health icon updaters
 	public dynamic function updateIconsScale(elapsed:Float)
 	{
-		iconP1.scale.set(CoolUtil.fpsLerp(iconP1.scale.x, 1, 0.33), CoolUtil.fpsLerp(iconP1.scale.y, 1, 0.33));
+		iconP1.scale.x = CoolUtil.fpsLerp(iconP1.scale.x, 1, 0.33);
+		iconP1.scale.y = CoolUtil.fpsLerp(iconP1.scale.y, 1, 0.33);
 		iconP1.updateHitbox();
 	
-		iconP2.scale.set(CoolUtil.fpsLerp(iconP2.scale.x, 1, 0.33), CoolUtil.fpsLerp(iconP2.scale.y, 1, 0.33));
+		iconP2.scale.x = CoolUtil.fpsLerp(iconP2.scale.x, 1, 0.33);
+		iconP2.scale.y = CoolUtil.fpsLerp(iconP2.scale.y, 1, 0.33);
 		iconP2.updateHitbox();
 	}
 
@@ -3019,15 +3021,20 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
-
+		iconP1.scale.x = 1.2;
+		iconP1.scale.y = 1.2;
 		iconP1.updateHitbox();
+
+		iconP2.scale.x = 1.2;
+		iconP2.scale.y = 1.2;
 		iconP2.updateHitbox();
+
+		updateIconsPosition();
 
 		characterBopper(curBeat);
 
 		super.beatHit();
+
 		lastBeatHit = curBeat;
 
 		setOnScripts('curBeat', curBeat);

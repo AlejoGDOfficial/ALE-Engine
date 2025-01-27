@@ -91,6 +91,7 @@ class ScriptState extends MusicBeatState
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		luaDebugGroup = new FlxTypedGroup<utils.scripting.states.DebugLuaText>();
 		add(luaDebugGroup);
+		luaDebugGroup.cameras = [camOther];
 		#end
 		
 		#if LUA_ALLOWED startLuasNamed('scripts/states/' + targetFileName + '.lua'); #end
@@ -188,8 +189,14 @@ class ScriptState extends MusicBeatState
     }
     #end
 
-    public function getLuaObject(tag:String, text:Bool=true):FlxSprite
-        return variables.get(tag);
+	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+		#if LUA_ALLOWED
+		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
+		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
+		if(variables.exists(tag)) return variables.get(tag);
+		#end
+		return null;
+	}
 
 	public static var inCutscene:Bool;
 

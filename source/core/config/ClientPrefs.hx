@@ -59,9 +59,11 @@ import haxe.Json;
 		'opponentplay' => false
 	];
 
-	public var geminiAPIKey:String = '';
-
 	public var currentModFolder:String = '';
+
+	#if android
+	public var storageType:String = 'EXTERNAL_DATA';
+	#end
 }
 
 class ClientPrefs {
@@ -227,18 +229,20 @@ class ClientPrefs {
 			reloadVolumeKeys();
 		}
 
-		if (data.currentModFolder == '')
+		if (data.currentModFolder == '' || data.currentModFolder == '<No Mods>')
 		{
 			data.currentModFolder = '<No Mods>';
 			
 			saveSettings();
 		} else if (FileSystem.exists(Paths.mods(data.currentModFolder)) && FileSystem.isDirectory(Paths.mods(data.currentModFolder))) {
-			Mods.currentModDirectory = data.currentModFolder;
+			data.currentModFolder = data.currentModFolder;
 		} else {
 			data.currentModFolder = '<No Mods>';
 			
 			saveSettings();
 		}
+
+		Mods.currentModDirectory = data.currentModFolder;
 	}
 
 	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic

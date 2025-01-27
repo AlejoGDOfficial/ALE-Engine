@@ -197,6 +197,21 @@ class HScript extends SScript
 			FlxG.sound.music.volume = 0;
 			FlxG.camera.followLerp = 0;
 		});
+		set('loadWeek', function (songs:Array<String>, diffInt:Int)
+		{
+			PlayState.storyPlaylist = songs;
+		
+			Difficulty.loadFromWeek();
+		
+			var diffic = Difficulty.getFilePath(diffInt);
+			if (diffic == null) diffic = '';
+		
+			PlayState.storyDifficulty = diffInt;
+		
+			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+			PlayState.campaignScore = 0;
+			PlayState.campaignMisses = 0;
+		});
 
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
 		{

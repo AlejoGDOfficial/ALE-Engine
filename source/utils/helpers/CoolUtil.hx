@@ -280,6 +280,14 @@ class CoolUtil
 
 	public static function resetEngine()
 	{
+		FlxTransitionableState.skipNextTransIn = true;
+		FlxTransitionableState.skipNextTransOut = true;
+
+		if (FlxG.state.subState != null) FlxG.state.subState.close();
+
+		utils.scripting.ScriptCrashState.finishCallback = null;
+		utils.scripting.ScriptCrashState.destroy();
+
 		FlxG.game.removeChild(MainState.fpsVar);
 		MainState.fpsVar = null;
 

@@ -68,7 +68,6 @@ function onCreatePost()
 function skipIntro()
 {
     skippedIntro = true;
-    FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);
     changeShit('');
     gf.alpha = 1;
     logo.alpha = 1;
@@ -79,11 +78,31 @@ var curTime:Float = 0;
 
 var changingState:Bool = false;
 
+var selectingObject:Bool = false;
+var objectScale:Float = 1;
+
+var canSelect = true;
+
 function onUpdate(elapsed:Float)
 {
     curTime += elapsed;
 
-    if (controls.ACCEPT && !changingState)
+    titleText.scale.x = fpsLerp(titleText.scale.x, objectScale, 0.3);
+    titleText.scale.y = fpsLerp(titleText.scale.y, objectScale, 0.3);
+
+    if (buildTarget == 'android')
+    {
+        if (canSelect && FlxG.mouse.justPressed && FlxG.mouse.overlaps(titleText))
+        {
+            selectingObject = true;
+        } else if (FlxG.mouse.justReleased && !FlxG.mouse.overlaps(titleText) || !FlxG.mouse.overlaps(titleText)) {
+            selectingObject = false;
+        }
+    }
+
+    objectScale = selectingObject ? 1.05 : 1;
+
+    if (canSelect && (controls.ACCEPT || (FlxG.mouse.justReleased && selectingObject)) && !changingState)
     {
         if (skippedIntro)
         {
@@ -94,16 +113,17 @@ function onUpdate(elapsed:Float)
             titleText.color = FlxColor.WHITE;
             titleText.alpha = 1;
 
-            if (ClientPrefs.data.flashing) FlxG.camera.flash(FlxColor.WHITE, 1);
-            else FlxTween.tween(titleText, {y: FlxG.height}, 60 / Conductor.bpm, {ease: FlxEase.cubeIn});
-
             FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
             new FlxTimer().start(1.2, function(tmr:FlxTimer)
             {
                 MusicBeatState.switchState(new ScriptState('mainMenuState', true));
             });
+
+            selectingObject = false;
+            canSelect = false;
         } else {
+            FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);
             skipIntro();
         }
     }
@@ -162,7 +182,10 @@ function onBeatHit()
         changeShit(phrases[sickBeats]);
 
         if (sickBeats == 16)
+        {
+            FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);
             skipIntro();
+        }
     }
 }
 

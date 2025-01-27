@@ -4,8 +4,8 @@ import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import core.config.DiscordClient;
 import core.config.ClientPrefs;
-import options.OptionsState;
 import gameplay.states.game.PlayState;
+import utils.scripting.states.LuaUtils;
 
 var bg:FlxSprite;
 var magentaBg:FlxSprite;
@@ -18,6 +18,9 @@ var selectedMenu:String;
 var version:FlxText;
 
 var selInt:Int = 0;
+
+var objectsScale:Array = [];
+var selectingObject:Array = [];
 
 function onCreate()
 {
@@ -54,6 +57,8 @@ function onCreate()
         img.antialiasing = ClientPrefs.data.antialiasing;
         img.scrollFactor.set(0, 0);
         images.push(img);
+        objectsScale.push([img.scale.x, img.scale.y]);
+        selectingObject.push(false);
     }
 
     Type.resolveEnum('flixel.text.FlxTextBorderStyle').OUTLINE;
@@ -75,13 +80,39 @@ function onCreate()
     version.scrollFactor.set(0, 0);
     version.y = FlxG.height - version.height - 10;
 
-    changeShit();
+    for (i in 0...options.length)
+    {
+        images[i].centerOffsets();
+        images[i].x = FlxG.width / 2 - images[i].width / 2;
+        images[i].y = FlxG.height / (images.length + 1) * (i + 1) - images[i].height / 2;
+    }
+
+    if (LuaUtils.getBuildTarget() != 'android') changeShit();
 }
 
 var canSelect:Bool = true;
 
 function onUpdate(elapsed:Float)
 {
+    if (LuaUtils.getBuildTarget() == 'android')
+    {
+        for (object in images)
+        {
+            object.scale.x = fpsLerp(object.scale.x, objectsScale[images.indexOf(object)][0], 0.3);
+            object.scale.y = fpsLerp(object.scale.y, objectsScale[images.indexOf(object)][1], 0.3);
+    
+            if (canSelect && FlxG.mouse.justPressed && FlxG.mouse.overlaps(object))
+            {
+                selectingObject[images.indexOf(object)] = true;
+            } else if (FlxG.mouse.justReleased && !FlxG.mouse.overlaps(object) || !FlxG.mouse.overlaps(object)) {
+                selectingObject[images.indexOf(object)] = false;
+            }
+    
+            objectsScale[images.indexOf(object)][0] = selectingObject[images.indexOf(object)] ? 1.1 : 1;
+            objectsScale[images.indexOf(object)][1] = selectingObject[images.indexOf(object)] ? 1.1 : 1;
+        }
+    }
+    
     if (canSelect)
     {
         if (controls.BACK)
@@ -127,10 +158,20 @@ function onUpdate(elapsed:Float)
             }
         }
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT ||(FlxG.mouse.justReleased && selectingObject.contains(true)))
         {
             if (ClientPrefs.data.flashing) FlxFlicker.flicker(magentaBg, 1.1, 0.15, false);
 
+            if (buildTarget == 'android')
+            {
+                for (image in images)
+                {
+                    if (FlxG.mouse.overlaps(image)) selInt = images.indexOf(image);
+                    changeShit();
+                    selectingObject[images.indexOf(image)] = false;
+                }
+            }
+            
             canSelect = false;
 
             for (i in 0...images.length)

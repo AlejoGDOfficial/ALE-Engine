@@ -14,7 +14,7 @@ import gameplay.states.game.PlayState;
 import core.gameplay.stages.WeekData;
 import core.backend.Song;
 
-var weeksSelInt:Int = existsGlobalVar('storyMenuStateSongsSelInt') ? getGlobalVar('storyMenuStateSongsSelInt') : 0;
+var weeksSelInt:Int = existsGlobalVar('storyMenuStateweeksSelInt') ? getGlobalVar('storyMenuStateweeksSelInt') : 0;
 var difficultiesSelInt:Int = existsGlobalVar('storyMenuStateDifficultiesSelInt') ? getGlobalVar('storyMenuStateDifficultiesSelInt') : 0;
 
 var characters:FlxTypedGroup<MenuCharacter>;
@@ -32,9 +32,18 @@ function onCreate()
 
     WeekData.reloadWeekFiles(true);
 
+    PlayState.isStoryMode = true;
+    
     var foldersToCheck = [];
 
-    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks'))) foldersToCheck.push(Paths.getSharedPath('weeks'));
+    var dataJsonToLoad:String = Paths.modFolders('data.json');
+
+    if(!FileSystem.exists(dataJsonToLoad))
+        dataJsonToLoad = Paths.getSharedPath('data.json');
+
+    var dataJson = Json.parse(File.getContent(dataJsonToLoad));
+
+    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks')) && !Reflect.hasField(dataJson, 'removeDefaultWeeks') || !dataJson.removeDefaultWeeks) foldersToCheck.push(Paths.getSharedPath('weeks'));
     if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/weeks')) && FileSystem.isDirectory(Paths.mods(Mods.currentModDirectory + '/weeks'))) foldersToCheck.push(Paths.mods(Mods.currentModDirectory + '/weeks'));
 
     var weeks = [];
@@ -177,6 +186,8 @@ function addWeek(weekName:String, songs:Array, characters:Array, stage:String, s
     weekData.set('difficulties', difficulties);
 
     weeks.push(weekData);
+
+    Paths.image('storyMenuState/backgrounds/' + stage);
 }
 
 function changeWeeksShit()
@@ -209,10 +220,60 @@ function changeWeeksShit()
 
 var canSelect:Bool = true;
 
+var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
+
+var changed = {weeks: true, difficulties: true}
+
 function onUpdate(elapsed:Float)
 {
     if (canSelect)
     {
+        if (FlxG.mouse.pressed && buildTarget == 'android')
+        {
+            var deltaX = FlxG.mouse.screenX - mouseData.prevX;
+            var deltaY = FlxG.mouse.screenY - mouseData.prevY;
+    
+            if (Math.abs(deltaY) >= 75)
+            {
+                if (deltaY < 0)
+                {
+                    if (weeksSelInt < weeks.length - 1) weeksSelInt += 1;
+                    else if (weeksSelInt == weeks.length - 1) weeksSelInt = 0;
+                } else {
+                    if (weeksSelInt > 0) weeksSelInt -= 1;
+                    else if (weeksSelInt == 0) weeksSelInt = weeks.length - 1;
+                }
+
+                mouseData.prevY = FlxG.mouse.screenY;
+
+                changed.weeks = true;
+    
+                changeWeeksShit();
+                changeDifficultyShit();
+            }
+
+            if (Math.abs(deltaX) >= 150)
+            {
+                if (deltaX > 0)
+                {
+                    if (difficultiesSelInt > 0) difficultiesSelInt -= 1;
+                    else if (difficultiesSelInt == 0) difficultiesSelInt = difficulties.length - 1;
+                } else {
+                    if (difficultiesSelInt < difficulties.length - 1) difficultiesSelInt += 1;
+                    else if (difficultiesSelInt == difficulties.length - 1) difficultiesSelInt = 0;
+                }
+
+                mouseData.prevX = FlxG.mouse.screenX;
+
+                changed.difficulties = true;
+
+                changeDifficultyShit();
+            }
+        } else {
+            mouseData.prevX = FlxG.mouse.screenX;
+            mouseData.prevY = FlxG.mouse.screenY;
+        }
+
         if (weeks.length > 1)
         {
             if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
@@ -279,7 +340,7 @@ function onUpdate(elapsed:Float)
         
         if (controls.BACK)
         {
-            setGlobalVar('storyMenuStateSongsSelInt', weeksSelInt);
+            setGlobalVar('storyMenuStateweeksSelInt', weeksSelInt);
             setGlobalVar('storyMenuStateDifficultiesSelInt', difficultiesSelInt);
 
             MusicBeatState.switchState(new ScriptState('mainMenuState'));
@@ -287,51 +348,44 @@ function onUpdate(elapsed:Float)
             canSelect = false;
         }
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT || (FlxG.mouse.justReleased && buildTarget == 'android'))
         {
-            setGlobalVar('storyMenuStateSongsSelInt', weeksSelInt);
-            setGlobalVar('storyMenuStateDifficultiesSelInt', difficultiesSelInt);
-            
-            for (week in weeks)
+            if ((FlxG.mouse.justReleased && !changed.weeks && !changed.difficulties) || controls.ACCEPT)
             {
-                if (weeks.indexOf(week) == weeksSelInt)
+                setGlobalVar('storyMenuStateweeksSelInt', weeksSelInt);
+                setGlobalVar('storyMenuStateDifficultiesSelInt', difficultiesSelInt);
+                
+                for (week in weeks)
                 {
-                    if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
-
-                    FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-
-                    PlayState.storyPlaylist = week.get('songs');
-                    PlayState.isStoryMode = true;
-
-                    Difficulty.loadFromWeek();
-        
-                    var diffic = Difficulty.getFilePath(difficultiesSelInt);
-                    if (diffic == null) diffic = '';
-        
-                    PlayState.storyDifficulty = difficultiesSelInt;
-        
-                    PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
-                    PlayState.campaignScore = 0;
-                    PlayState.campaignMisses = 0;
-                    
-                    for (char in characters.members)
+                    if (weeks.indexOf(week) == weeksSelInt)
                     {
-                        if (char.character != '' && char.hasConfirmAnimation)
+                        if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
+    
+                        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+    
+                        loadWeek(week.get('songs'), difficultiesSelInt);
+                        
+                        for (char in characters.members)
                         {
-                            char.animation.play('confirm');
+                            if (char.character != '' && char.hasConfirmAnimation)
+                            {
+                                char.animation.play('confirm');
+                            }
                         }
+    
+                        new FlxTimer().start(1, function(tmr:FlxTimer)
+                        {
+                            LoadingState.loadAndSwitchState(new PlayState(), true);
+                        });
+                    } else {
+                        FlxTween.tween(week.get('image'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                     }
-
-                    new FlxTimer().start(1, function(tmr:FlxTimer)
-                    {
-                        LoadingState.loadAndSwitchState(new PlayState(), true);
-                    });
-                } else {
-                    FlxTween.tween(week.get('image'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                 }
+
+                canSelect = false;
             }
 
-            canSelect = false;
+            changed.weeks = changed.difficulties = false;
         }
 
         if (FlxG.keys.justPressed.CONTROL) openSubState('gameplay.states.substates.GameplayChangersSubstate', []);

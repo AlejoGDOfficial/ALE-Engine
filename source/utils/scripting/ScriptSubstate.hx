@@ -170,8 +170,14 @@ class ScriptSubstate extends MusicBeatSubstate
     }
     #end
 
-    public function getLuaObject(tag:String, text:Bool=true):FlxSprite
-        return variables.get(tag);
+	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
+		#if LUA_ALLOWED
+		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
+		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
+		if(variables.exists(tag)) return variables.get(tag);
+		#end
+		return null;
+	}
 
 	public static var inCutscene:Bool;
 
@@ -251,32 +257,61 @@ class ScriptSubstate extends MusicBeatSubstate
 		}
 	}
 
+	var destroyedScripts:Bool = false;
+
 	override public function close()
 	{
+		destroyScripts();
+		
+		instance = null;
+
 		super.close();
+	}
+
+	override public function destroy()
+	{
+		destroyScripts();
 
 		instance = null;
 
-		#if LUA_ALLOWED
-		for (lua in luaArray)
+		super.destroy();
+	}
+
+	function destroyScripts()
+	{
+		if (!destroyedScripts)
 		{
-			lua.call('onDestroy', []);
-			lua.stop();
-		}
-		luaArray = null;
-		FunkinLua.customFunctions.clear();
-		#end
-
-		#if HSCRIPT_ALLOWED
-		for (script in hscriptArray)
-			if(script != null)
+			#if LUA_ALLOWED
+			if (luaArray != null || luaArray.length > 0)
 			{
-				script.call('onDestroy');
-				script.destroy();
+				for (lua in luaArray)
+				{
+					lua.call('onDestroy', []);
+					lua.stop();
+				}
 			}
+			luaArray = null;
+			FunkinLua.customFunctions.clear();
+			#end
+	
+			#if HSCRIPT_ALLOWED
+			if (hscriptArray != null || hscriptArray.length > 0)
+			{
+				for (script in hscriptArray)
+				{
+					if (script != null)
+					{
+						script.call('onDestroy');
+						script.destroy();
+					}
+				}
+			}
+	
+			hscriptArray = null;
+			#end
 
-		hscriptArray = null;
-		#end
+			destroyedScripts = true;
+		}
 	}
 
 	#if LUA_ALLOWED
@@ -393,6 +428,11 @@ class ScriptSubstate extends MusicBeatSubstate
 		if(exclusions == null) exclusions = [];
 		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
 
+		if (luaArray == null || luaArray.length < 1)
+		{
+			return null;
+		}
+
 		var arr:Array<FunkinLua> = [];
 		for (script in luaArray)
 		{
@@ -432,6 +472,11 @@ class ScriptSubstate extends MusicBeatSubstate
 		if(exclusions == null) exclusions = new Array();
 		if(excludeValues == null) excludeValues = new Array();
 		excludeValues.push(LuaUtils.Function_Continue);
+
+		if (hscriptArray == null || hscriptArray.length < 1)
+		{
+			return null;
+		}
 
 		var len:Int = hscriptArray.length;
 		if (len < 1)
@@ -487,6 +532,12 @@ class ScriptSubstate extends MusicBeatSubstate
 	public function setOnLuas(variable:String, arg:Dynamic, exclusions:Array<String> = null) {
 		#if LUA_ALLOWED
 		if(exclusions == null) exclusions = [];
+
+		if (luaArray == null || luaArray.length < 1)
+		{
+			return;
+		}
+
 		for (script in luaArray) {
 			if(exclusions.contains(script.scriptName))
 				continue;
@@ -499,6 +550,12 @@ class ScriptSubstate extends MusicBeatSubstate
 	public function setOnHScript(variable:String, arg:Dynamic, exclusions:Array<String> = null) {
 		#if HSCRIPT_ALLOWED
 		if(exclusions == null) exclusions = [];
+
+		if (hscriptArray == null || hscriptArray.length < 1)
+		{
+			return;
+		}
+
 		for (script in hscriptArray) {
 			if(exclusions.contains(script.origin))
 				continue;

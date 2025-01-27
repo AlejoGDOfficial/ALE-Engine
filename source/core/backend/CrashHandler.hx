@@ -1,5 +1,7 @@
 package core.backend;
 
+import flixel.addons.transition.FlxTransitionableState;
+
 import haxe.CallStack;
 import openfl.events.UncaughtErrorEvent;
 #if sys

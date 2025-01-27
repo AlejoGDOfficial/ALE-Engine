@@ -48,7 +48,7 @@ function onCreatePost()
 		var diff:String = Difficulty.getString(i);
 		difficultyChoices.push(diff);
 	}
-
+	difficultyChoices.push('Cancel');
 
 	pauseMusic = new FlxSound();
 	try
@@ -217,6 +217,8 @@ function onUpdatePost(elapsed:Float)
 					PlayState.changedDifficulty = true;
 					PlayState.chartingMode = false;
 				}
+
+				close();
 			}catch(e:Dynamic){
 				trace('ERROR! $e');
 
@@ -265,10 +267,10 @@ function onUpdatePost(elapsed:Float)
 					close();
 				}
 			case 'End Song':
-				close();
 				PlayState.instance.notes.clear();
 				PlayState.instance.unspawnNotes = [];
 				PlayState.instance.finishSong(true);
+				close();
 			case 'Toggle Botplay':
 				PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
 				PlayState.changedDifficulty = true;

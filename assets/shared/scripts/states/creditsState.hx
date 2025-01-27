@@ -34,7 +34,7 @@ function onCreate()
     bg.antialiasing = ClientPrefs.data.antialiasing;
     bg.alpha = 0;
 
-    if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + 'credits.json'))) filesToLoad.push(Paths.mods(Mods.currentModDirectory + 'credits.json'));
+    if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/credits.json'))) filesToLoad.push(Paths.mods(Mods.currentModDirectory + '/credits.json'));
     if (FileSystem.exists(Paths.getSharedPath('credits.json'))) filesToLoad.push(Paths.getSharedPath('credits.json'));
 
     for (file in filesToLoad)
@@ -91,6 +91,7 @@ function onUpdate()
         {
             developer.get('icon').scale.x = fpsLerp(developer.get('icon').scale.x, 1, 0.33); 
             developer.get('icon').scale.y = fpsLerp(developer.get('icon').scale.y, 1, 0.33); 
+            developer.get('icon').updateHitbox(); 
         }
     }
 
@@ -134,6 +135,7 @@ function onBeatHit()
         {
             developer.get('icon').scale.x = 1.2;
             developer.get('icon').scale.y = 1.2;
+            developer.get('icon').updateHitbox(); 
         }
     }
 }
@@ -163,7 +165,7 @@ function changeShit()
         }
 
         FlxTween.cancelTweensOf(developer.get('text'));
-        FlxTween.tween(developer.get('text'), {x: 100 + 28 * (developers.indexOf(developer) - selInt), y: 350 + 110 * (developers.indexOf(developer) - selInt)}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
+        FlxTween.tween(developer.get('text'), {x: 200 - 28 * Math.abs(developers.indexOf(developer) - selInt), y: 350 + 110 * (developers.indexOf(developer) - selInt)}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
     }
 
     FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -173,7 +175,7 @@ function addDeveloper(category:String, name:String, description:String, icon:Str
 {
     var developerData:StringMap = new StringMap();
 
-    var text:Alphabet = new Alphabet(100 + 28 * (developers.length - selInt), 350 + 110 * (developers.length - selInt), name, true);
+    var text:Alphabet = new Alphabet(200 - 28 * Math.abs(developers.length - selInt), 350 + 110 * (developers.length - selInt), name, true);
     text.snapToPosition();
     add(text);
     text.antialiasing = ClientPrefs.data.antialiasing;

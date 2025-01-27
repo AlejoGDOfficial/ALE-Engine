@@ -53,5 +53,9 @@ import js.html.*;
 import flxanimate.*;
 #end
 
+#if mobile
+import utils.helpers.StorageUtil;
+#end
+
 using StringTools;
 #end

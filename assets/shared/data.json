@@ -6,9 +6,15 @@
     "fromPlayStateIfFreeplay": "freeplayState",
     "fromEditors": "masterEditorMenu",
     "optionsState": "optionsState",
+    "pauseMenu": "pauseSubstate",
+    "crashState": "crashState",
+    "transition": "fadeTransition",
+
+    "removeDefaultWeeks": false,
 
     "title": "Friday Night Funkin': ALE Engine",
     "icon": "images/appIcon",
 
-    "bpm": 102
+    "bpm": 102,
+    "crashStateBpm": 90
 }

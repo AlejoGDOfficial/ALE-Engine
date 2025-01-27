@@ -12,7 +12,7 @@ function onCreate()
     Conductor.bpm = Reflect.hasField(jsonData, 'bpm') ? jsonData.bpm : 102;
 }
 
-var ignoreReset = ['editors/chartEditorList', 'geminiState'];
+var ignoreReset = ['editors/chartEditorList'];
 
 function onUpdate(elapsed:Float)
 {
@@ -24,7 +24,4 @@ function onUpdate(elapsed:Float)
     FlxG.camera.zoom = fpsLerp(FlxG.camera.zoom, 1, 0.1);
 }
 
-function onBeatHit()
-{
-    if (ClientPrefs.data.camZooms) FlxG.camera.zoom += 0.01;
-}
+function onBeatHit() if (ClientPrefs.data.camZooms && curBeat % 4 == 0) FlxG.camera.zoom += 0.01;

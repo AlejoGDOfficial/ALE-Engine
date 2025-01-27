@@ -10,22 +10,28 @@
                     "color": "03B1FC"
                 },
                 {
+                    "name": "AdrianoSH",
+                    "icon": "adrianoSH",
+                    "description": "Artist",
+                    "color": "909090"
+                },
+                {
                     "name": "Aleja",
                     "icon": "aleja",
-                    "description": "Voice Actress",
+                    "description": "Artist, Voice Actress",
                     "color": "404040"
+                },
+                {
+                    "name": "VALEN.fla",
+                    "icon": "valen",
+                    "description": "Crash Handler Theme Composer",
+                    "color": "907050"
                 },
                 {
                     "name": "Khorix the Inking",
                     "icon": "khorixTheInking",
-                    "description": "Main Artist/Animator",
+                    "description": "Artist/Animator",
                     "color": "494F75"
-                },
-                {
-                    "name": "AdrianoSH",
-                    "icon": "adrianoSH",
-                    "description": "Pixelart Artist",
-                    "color": "909090"
                 },
                 {
                     "name": "Eddy Smashcraft",
@@ -43,6 +49,36 @@
                     "icon": "slushi",
                     "description": "C++ Functions",
                     "color": "03F2FF"
+                },
+                {
+                    "name": "Karim Akra",
+                    "icon": "karim",
+                    "description": "Psych Engine Porter (Android)\nHelped Port the Engine to Android",
+                    "color": "FFB4F0"
+                },
+                {
+                    "name": "mcagabe19",
+                    "icon": "lily",
+                    "description": "Psych Engine Porter (Android)\nHelped Port the Engine to Android",
+                    "color": "FFE7C0"
+                },
+                {
+                    "name": "T-Bar",
+                    "icon": "tbar",
+                    "description": "Flx3D",
+                    "color": "0077CC"
+                },
+                {
+                    "name": "YoshiCrafter29",
+                    "icon": "yoshicrafter29",
+                    "description": "Code for the Crash Handler",
+                    "color": "FF95C0"
+                },
+                {
+                    "name": "MAJigsaw77",
+                    "icon": "majigsaw",
+                    "description": "Code for the Crash Handler",
+                    "color": "5F5F5F"
                 }
             ]
         },

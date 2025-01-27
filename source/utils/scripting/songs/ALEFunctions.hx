@@ -106,6 +106,21 @@ class ALEFunctions
 		{
 			return Lib.application.window.height;
 		});
+		Lua_helper.add_callback(lua, 'loadWeek', function (songs:Array<String>, diffInt:Int)
+		{
+			PlayState.storyPlaylist = songs;
+		
+			Difficulty.loadFromWeek();
+		
+			var diffic = Difficulty.getFilePath(diffInt);
+			if (diffic == null) diffic = '';
+		
+			PlayState.storyDifficulty = diffInt;
+		
+			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
+			PlayState.campaignScore = 0;
+			PlayState.campaignMisses = 0;
+		});
 
 		//Global Vars
 

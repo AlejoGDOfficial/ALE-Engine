@@ -5,6 +5,13 @@ import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import flixel.math.FlxRect;
 
+import utils.helpers.Difficulty;
+import utils.helpers.Highscore;
+import gameplay.states.game.LoadingState;
+import gameplay.states.game.PlayState;
+import core.gameplay.stages.WeekData;
+import core.backend.Song;
+
 import visuals.objects.Alphabet;
 import visuals.objects.AttachedSprite;
 
@@ -34,6 +41,7 @@ function onCreate()
 {
     DiscordClient.changePresence('In the Menus...', 'Freeplay Menu');
 
+    PlayState.isStoryMode = false;
     WeekData.reloadWeekFiles(false);
 
     Paths.sound('scrollMenu');
@@ -47,7 +55,14 @@ function onCreate()
 		
     var foldersToCheck = [];
 
-    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks'))) foldersToCheck.push(Paths.getSharedPath('weeks'));
+    var dataJsonToLoad:String = Paths.modFolders('data.json');
+
+    if(!FileSystem.exists(dataJsonToLoad))
+        dataJsonToLoad = Paths.getSharedPath('data.json');
+
+    var dataJson = Json.parse(File.getContent(dataJsonToLoad));
+
+    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks')) && !Reflect.hasField(dataJson, 'removeDefaultWeeks') || !dataJson.removeDefaultWeeks) foldersToCheck.push(Paths.getSharedPath('weeks'));
     if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/weeks')) && FileSystem.isDirectory(Paths.mods(Mods.currentModDirectory + '/weeks'))) foldersToCheck.push(Paths.mods(Mods.currentModDirectory + '/weeks'));
 
     var weeks = [];
@@ -161,21 +176,17 @@ function onBeatHit()
         {
             song.get('icon').scale.x = 1.15;
             song.get('icon').scale.y = 1.15;
+            song.get('icon').updateHitbox();
         }
     }
 }
 
+var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
+
+var changed = {songs: true, difficulties: true}
+
 function onUpdate(elapsed:Float)
 {
-    for (song in songs)
-    {
-        if (song.get('icon').scale.x != 1 || song.get('icon').scale.y != 1 )
-        {
-            song.get('icon').scale.x = fpsLerp(song.get('icon').scale.x, 1, 0.33); 
-            song.get('icon').scale.y = fpsLerp(song.get('icon').scale.y, 1, 0.33); 
-        }
-    }
-
     if (canSelect)
     {
         if (difficulties.length == 1) difficultyText.text = 'PERSONAL BEST: ' + Highscore.getScore(songs[songsSelInt].get('name'), difficultiesSelInt) + ' (' + FlxMath.roundDecimal(Highscore.getRating(songs[songsSelInt].get('name'), difficultiesSelInt) * 100, 2) + '%)\n' + difficulties[difficultiesSelInt];
@@ -213,6 +224,61 @@ function onUpdate(elapsed:Float)
             }
         }
 
+        if (FlxG.mouse.pressed && buildTarget == 'android') {
+            var deltaX = FlxG.mouse.screenX - mouseData.prevX;
+            var deltaY = FlxG.mouse.screenY - mouseData.prevY;
+    
+            if (Math.abs(deltaY) >= 75)
+            {
+                if (deltaY < 0)
+                {
+                    if (songsSelInt < songs.length - 1) songsSelInt += 1;
+                    else if (songsSelInt == songs.length - 1) songsSelInt = 0;
+                } else {
+                    if (songsSelInt > 0) songsSelInt -= 1;
+                    else if (songsSelInt == 0) songsSelInt = songs.length - 1;
+                }
+
+                mouseData.prevY = FlxG.mouse.screenY;
+
+                changed.songs = true;
+    
+                changeSongShit();
+                changeDifficultyShit();
+            }
+
+            if (Math.abs(deltaX) >= 150)
+            {
+                if (deltaX > 0)
+                {
+                    if (difficultiesSelInt > 0) difficultiesSelInt -= 1;
+                    else if (difficultiesSelInt == 0) difficultiesSelInt = difficulties.length - 1;
+                } else {
+                    if (difficultiesSelInt < difficulties.length - 1) difficultiesSelInt += 1;
+                    else if (difficultiesSelInt == difficulties.length - 1) difficultiesSelInt = 0;
+                }
+
+                mouseData.prevX = FlxG.mouse.screenX;
+
+                changed.difficulties = true;
+
+                changeDifficultyShit();
+            }
+        } else {
+            mouseData.prevX = FlxG.mouse.screenX;
+            mouseData.prevY = FlxG.mouse.screenY;
+        }
+    
+        for (song in songs)
+        {
+            if (song.get('icon').scale.x != 1 || song.get('icon').scale.y != 1 )
+            {
+                song.get('icon').scale.x = fpsLerp(song.get('icon').scale.x, 1, 0.33); 
+                song.get('icon').scale.y = fpsLerp(song.get('icon').scale.y, 1, 0.33); 
+                song.get('icon').updateHitbox();
+            }
+        }
+
         if (difficulties.length > 1)
         {
             if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
@@ -238,34 +304,40 @@ function onUpdate(elapsed:Float)
             }
         }
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT || (FlxG.mouse.justReleased && buildTarget == 'android'))
         {
-            setGlobalVar('freeplayStateSongsSelInt', songsSelInt);
-            setGlobalVar('freeplayStateDifficultiesSelInt', difficultiesSelInt);
-
-            for (song in songs)
+            if ((FlxG.mouse.justReleased && !changed.songs && !changed.difficulties) || controls.ACCEPT)
             {
-                if (songs.indexOf(song) == songsSelInt)
+                setGlobalVar('freeplayStateSongsSelInt', songsSelInt);
+                setGlobalVar('freeplayStateDifficultiesSelInt', difficultiesSelInt);
+    
+                for (song in songs)
                 {
-                    if (ClientPrefs.data.flashing)
+                    if (songs.indexOf(song) == songsSelInt)
                     {
-                        FlxFlicker.flicker(song.get('text'), 0, 0.05);
-                        FlxFlicker.flicker(song.get('icon'), 0, 0.05);
+                        if (ClientPrefs.data.flashing)
+                        {
+                            FlxFlicker.flicker(song.get('text'), 0, 0.05);
+                            FlxFlicker.flicker(song.get('icon'), 0, 0.05);
+                        }
+    
+                        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+                        
+                        new FlxTimer().start(1, function(tmr:FlxTimer)
+                        {
+                            loadSong(song.get('name'), Std.int(difficultiesSelInt));
+                            PlayState.isStoryMode = false;
+                        });
+                    } else {
+                        FlxTween.tween(song.get('text'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
+                        FlxTween.tween(song.get('icon'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                     }
-
-                    FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-                    
-                    new FlxTimer().start(1, function(tmr:FlxTimer)
-                    {
-                        loadSong(song.get('name'), difficultiesSelInt);
-                    });
-                } else {
-                    FlxTween.tween(song.get('text'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
-                    FlxTween.tween(song.get('icon'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                 }
+    
+                canSelect = false;
             }
 
-            canSelect = false;
+            changed.songs = changed.difficulties = false;
         }
 
         if (controls.BACK)

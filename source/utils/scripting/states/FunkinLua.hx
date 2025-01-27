@@ -83,7 +83,7 @@ class FunkinLua {
 		set('curBpm', Conductor.bpm);
 		set('crochet', Conductor.crochet);
 		set('stepCrochet', Conductor.stepCrochet);
-		set('songLength', FlxG.sound.music.length);
+		if (FlxG.sound.music != null) set('songLength', FlxG.sound.music.length);
 
 		// Camera poo
 		set('cameraX', 0);
@@ -378,21 +378,19 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
-			if(name == null || name.length < 1)
-				name = PlayState.SONG.song;
-			if (difficultyNum == -1)
-				difficultyNum = PlayState.storyDifficulty;
+		Lua_helper.add_callback(lua, "loadSong", function(daSong:Array<Strings>, diffInt:Int)
+		{
+			var songLowerCase:String = Paths.formatToSongPath(daSong);
 
-			var poop = Highscore.formatSong(name, difficultyNum);
-			PlayState.SONG = Song.loadFromJson(poop, name);
-			PlayState.storyDifficulty = difficultyNum;
-			game.persistentUpdate = false;
+			Difficulty.loadFromWeek();
+
+			var diffic = Difficulty.getFilePath(diffInt);
+			if (diffic == null) diffic = '';
+
+			PlayState.SONG = Song.loadFromJson(daSong.toLowerCase() + diffic, daSong.toLowerCase());
+			PlayState.storyDifficulty = difficultiesSelInt;
+			
 			LoadingState.loadAndSwitchState(new PlayState());
-
-			FlxG.sound.music.pause();
-			FlxG.sound.music.volume = 0;
-			FlxG.camera.followLerp = 0;
 		});
 
 		Lua_helper.add_callback(lua, "loadGraphic", function(variable:String, image:String, ?gridX:Int = 0, ?gridY:Int = 0) {
@@ -859,6 +857,26 @@ class FunkinLua {
 			return game.modchartSounds.exists(tag);
 		});
 
+		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '') {
+			var real = game.getLuaObject(obj);
+			if(real!=null){
+				real.cameras = [LuaUtils.cameraFromString(camera)];
+				return true;
+			}
+
+			var split:Array<String> = obj.split('.');
+			var object:FlxSprite = LuaUtils.getObjectDirectly(split[0]);
+			if(split.length > 1) {
+				object = LuaUtils.getVarInArray(LuaUtils.getPropertyLoop(split), split[split.length-1]);
+			}
+
+			if(object != null) {
+				object.cameras = [LuaUtils.cameraFromString(camera)];
+				return true;
+			}
+			luaTrace("setObjectCamera: Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
+			return false;
+		});
 		Lua_helper.add_callback(lua, "setBlendMode", function(obj:String, blend:String = '') {
 			var real = game.getLuaObject(obj);
 			if(real != null) {

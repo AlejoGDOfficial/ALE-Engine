@@ -42,8 +42,6 @@ class MainState extends MusicBeatState
             var jsonData = haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
 
             CoolVars.developerMode = Reflect.hasField(jsonData, 'developerMode') ? jsonData.developerMode : true;
-
-            trace('Developer Mode: ' + CoolVars.developerMode);
     
             CoolVars.scriptInitialState = Reflect.hasField(jsonData, 'initialState') ? jsonData.initialState : 'introState';
             CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(jsonData, 'fromPlayStateIfStoryMode') ? jsonData.fromPlayStateIfStoryMode : 'storyMenuState';
@@ -52,14 +50,7 @@ class MainState extends MusicBeatState
             CoolVars.scriptOptionsState = Reflect.hasField(jsonData, 'optionsState') ? jsonData.optionsState : 'optionsState';
             CoolVars.scriptPauseMenu = Reflect.hasField(jsonData, 'pauseMenu') ? jsonData.pauseMenu : 'pauseSubstate';
             CoolVars.scriptCrashState = Reflect.hasField(jsonData, 'crashState') ? jsonData.crashState : 'crashState';
-
-            trace('Initial State: ' + CoolVars.scriptInitialState);
-            trace('From PlayState if Story Mode: ' + CoolVars.scriptFromPlayStateIfStoryMode);
-            trace('From PlayState if Freeplay: ' + CoolVars.scriptFromPlayStateIfFreeplay);
-            trace('From Editors: ' + CoolVars.scriptFromEditors);
-            trace('Options State: ' + CoolVars.scriptOptionsState);
-            trace('Pause Menu: ' + CoolVars.scriptPauseMenu);
-            trace('Crash State: ' + CoolVars.scriptCrashState);
+            CoolVars.scriptTransition = Reflect.hasField(jsonData, 'transition') ? jsonData.transition : 'fadeTransition';
 
             if (Reflect.hasField(jsonData, 'title')) lime.app.Application.current.window.title = jsonData.title;
             #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
@@ -69,13 +60,13 @@ class MainState extends MusicBeatState
             
             lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(iconPath));
         } catch(error:Dynamic) {
-            trace(error);
+            trace('ERROR: ' + error);
         }
 
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
 
-        MusicBeatState.switchState(new ScriptState(CoolVars.scriptInitialState));
+        MusicBeatState.switchState(new #if mobile CopyState() #else ScriptState(CoolVars.scriptInitialState) #end);
 
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
 
