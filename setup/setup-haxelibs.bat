@@ -10,7 +10,7 @@ haxelib install flixel-tools 1.5.1
 haxelib install tjson 1.4.0
 haxelib install setup/sscript.zip
 haxelib install setup/hxdiscord_rpc.zip
-haxelib git hxCodec 2.5.1
+haxelib install hxvlc 1.9.2
 haxelib install away3d 5.0.9
 haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools --skip-dependencies
 haxelib git flxanimate https://github.com/ShadowMario/flxanimate dev

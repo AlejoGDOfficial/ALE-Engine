@@ -203,7 +203,7 @@ class HScript extends SScript
 			FlxG.state.openSubState(new ScriptSubstate(substate));
 		});
 
-		set('loadSong', function(daSong:Array<Strings>, diffInt:Int)
+		set('loadSong', function(daSong:String, diffInt:Int)
 		{
 			var songLowerCase:String = Paths.formatToSongPath(daSong);
 
@@ -213,7 +213,7 @@ class HScript extends SScript
 			if (diffic == null) diffic = '';
 
 			PlayState.SONG = Song.loadFromJson(daSong.toLowerCase() + diffic, daSong.toLowerCase());
-			PlayState.storyDifficulty = difficultiesSelInt;
+			PlayState.storyDifficulty = diffInt;
 			
 			LoadingState.loadAndSwitchState(new PlayState());
 		});

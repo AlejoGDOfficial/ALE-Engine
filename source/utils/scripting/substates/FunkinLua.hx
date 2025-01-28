@@ -378,7 +378,7 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "loadSong", function(daSong:Array<Strings>, diffInt:Int)
+		Lua_helper.add_callback(lua, "loadSong", function(daSong:String, diffInt:Int)
 		{
 			var songLowerCase:String = Paths.formatToSongPath(daSong);
 
@@ -388,7 +388,7 @@ class FunkinLua {
 			if (diffic == null) diffic = '';
 
 			PlayState.SONG = Song.loadFromJson(daSong.toLowerCase() + diffic, daSong.toLowerCase());
-			PlayState.storyDifficulty = difficultiesSelInt;
+			PlayState.storyDifficulty = diffInt;
 			
 			LoadingState.loadAndSwitchState(new PlayState());
 		});

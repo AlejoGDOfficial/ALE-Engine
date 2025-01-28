@@ -3,6 +3,9 @@ package utils.helpers;
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
 
+import flixel.graphics.tile.FlxGraphicsShader as FlxShader;
+import openfl.filters.ShaderFilter;
+
 import haxe.Json;
 
 import core.config.MainState;
@@ -285,9 +288,6 @@ class CoolUtil
 
 		if (FlxG.state.subState != null) FlxG.state.subState.close();
 
-		utils.scripting.ScriptCrashState.finishCallback = null;
-		utils.scripting.ScriptCrashState.destroy();
-
 		FlxG.game.removeChild(MainState.fpsVar);
 		MainState.fpsVar = null;
 
@@ -296,6 +296,9 @@ class CoolUtil
         #if windows cpp.WindowsCPP.setWindowBorderColor(255, 255, 255); #end
 		
 		FlxTween.globalManager.clear();
+
+		FlxG.state.openSubState(new utils.scripting.ScriptTransition(true));
+		FlxG.state.subState.close();
 
 		FlxG.resetGame();
 	}
@@ -331,5 +334,59 @@ class CoolUtil
 	public static function showPopUp(title:String, message:String)
 	{
 		FlxG.stage.window.alert(message, title);
+	}
+	
+	public static inline function distanceBetween(p1:FlxPoint, p2:FlxPoint):Float
+	{
+		var dx:Float = p1.x - p2.x;
+		var dy:Float = p1.y - p2.y;
+		return FlxMath.vectorLength(dx, dy);
+	}
+
+    public static function addShader(shader:FlxShader, ?camera:FlxCamera, forced:Bool = false)
+    {
+        if (!ClientPrefs.data.shaders && !forced) return;
+        if (camera == null) camera = FlxG.camera;
+
+        var filter:ShaderFilter = new ShaderFilter(shader);
+        if (camera.filters == null) camera.filters = [];
+        camera.filters.push(filter);
+    }
+
+    public static function removeShader(shader:FlxShader, ?camera:FlxCamera):Bool
+    {
+        if (camera == null) camera = FlxG.camera;
+        if (camera.filters == null) return false;
+
+        for (i in camera.filters) {
+            if (i is ShaderFilter) {
+                var filter:ShaderFilter = cast i;
+                if (filter.shader == shader) {camera.filters.remove(i); return true;}
+            }
+        }
+        return false;
+    }
+
+	public static function addShaderFilter(shader:ShaderFilter, ?camera:FlxCamera, forced:Bool = false)
+	{
+		if (!ClientPrefs.data.shaders && !forced) return;
+		if (camera == null) camera = FlxG.camera;
+
+		if (camera.filters == null) camera.filters = [];
+		camera.filters.push(shader);
+	}
+
+	public static function removeShaderFilter(shader:ShaderFilter, ?camera:FlxCamera):Bool
+	{
+		if (camera == null) camera = FlxG.camera;
+		if (camera.filters == null) return false;
+
+		for (i in camera.filters) {
+			if (i is ShaderFilter) {
+				if (i == shader) {camera.filters.remove(i); return true;}
+			}
+		}
+		
+		return false;
 	}
 }
