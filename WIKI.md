@@ -19,7 +19,10 @@
 * `openSubState(fullClassPath, params)`
     - Example: `openSubState('gameplay.states.substates.ModsMenuSubstate', [])`
 
-> Can only be used in Script States!
+#### Used to open Script SubStates.
+
+* `openScriptSubState(subState)`
+    - Example: `openScriptSubState('fadeTransition')`
 
 #### Used to reload/reset the ScriptState being edited.
 
@@ -31,24 +34,21 @@
 
 <details><summary><h2>Songs Functions</h2></summary>
 
-> Can only be used in Script States!
 #### Used to load a song.
 
-* `loadSong(song, difficulty, isStoryMode)`
-    - Example: `loadSong('test', 'normal', false)`
+* `loadSong(song, difficulty)`
+    - Example: `loadSong('test', 'normal')`
 
 
 #### Used to load a playlist/week.
 
-* `loadWeek(songs, difficulties, difficultyNum, isStoryMode)`
-    - Example: `loadWeek(['Test', 'Test'], ['Normal', 'Hard'], 0, true)`
+* `loadWeek(songs, difficultyNum)`
+    - Example: `loadWeek(['Test', 'Test'], 0)`
 
 </details>
 
 
 <details><summary><h2>Window Functions</h2></summary>
-
-> Can be used in all types of script!
 
 #### Used to change the position of the window at a certain time.
 
@@ -102,8 +102,6 @@
 </details>
 
 <details><summary><h2>C++ Functions</h2></summary>
-
-> Can be used in all types of script!
 
 #### Used to change the window title.
 
@@ -182,8 +180,6 @@
 
 <details><summary><h2>Config Functions</h2></summary>
 
-> Can only be used in Script States! (script/states/config/config.hx)
-
 #### Used to Show the FPS Counter.
 
 * `showFPSText()`
@@ -191,8 +187,6 @@
 </details>
 
 <details><summary><h2>Global Vars Functions</h2></summary>
-
-> Can be used in all types of script!
 
 #### Used to create/change a Global Var.
 
@@ -222,8 +216,6 @@
 </details>
 
 <details><summary><h2>Cool Utils</h2></summary>
-
-> Can be used in all types of script!
 
 #### Used to interpolate smoothly between two values, adjusting for the game's frame rate.
 

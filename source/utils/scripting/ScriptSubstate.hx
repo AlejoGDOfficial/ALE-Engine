@@ -279,7 +279,7 @@ class ScriptSubstate extends MusicBeatSubstate
 		super.destroy();
 	}
 
-	function destroyScripts()
+	public function destroyScripts()
 	{
 		if (!destroyedScripts)
 		{

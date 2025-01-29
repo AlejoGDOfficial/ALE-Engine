@@ -225,7 +225,7 @@ It seems a bit complicated, but I will also explain each of the variables here.
 
         - **type**: This variable contains the type of the option, here you must put one of the following options: ```"bool"```, ```"integer"```, ```"float"``` or ```"string"```.
 
-        - **default**:
+        - **default**: It is the default value assigned to the option, the type of value depends on what you chose in ```type```, if you chose ```"bool"``` you must put ```true``` or ```false```, if you chose ```"int"``` you must put integers, if you chose ```"float"``` you can put both integers and decimal numbers, if you chose ```"string"``` you must put a text, for example: ```"Option 1"```.
 
         > In case you have chosen ```"float"``` or ```"int"```
 
@@ -233,7 +233,16 @@ It seems a bit complicated, but I will also explain each of the variables here.
 
         - **max**: This variable holds the largest number that option can display, if you chose ```"float"``` you can use decimal numbers, otherwise please don't.
 
-        - **change**:
+        - **change**: This variable contains the amount of numbers that are added or subtracted when moving this type of options, if you click on the right and this variable contains a ```2```, then two units will be added to the option, if you chose ```float``` you can use decimal numbers.
+
+        > In case you have chosen ```"float"```
+
+        - **decimals**: This variable contains the number of decimal places that the option can have, for example, if this variable is equal to ```4```, ```3.1415``` will be displayed, otherwise, if it is equal to ```2```, ```2.14``` will be displayed.
+        
+        > In case you have chosen ```"string"```
+
+        - **strings**: This variable is an array containing the texts as options, for example: ```["Option 1", "Option 2", "Option 3"]```.
+
 
     - **stateData**: This variable contains the information of the SubState/State that the game will go to or display when choosing this Menu.
 
@@ -255,7 +264,5 @@ The file ```assets/shared/scripts/states/introState.hx``` exists, and you decide
 #### The same can be applied with Substates
 
 The file ```assets/shared/scripts/substates/pauseSubstate.hx``` exists, and you decide to add the file ```mods/Your-Mod/scripts/substates/pauseSubstate.hx```, this will make your file now the one containing the code for that SubState/SubMenu, replacing it completely.
-
----
 
 In order to replace the code it is necessary that both use the same programming language, if you try to replace ```introState.hx``` with ```introState.lua``` what you will do is that now both will be executed, which can cause you some problems.

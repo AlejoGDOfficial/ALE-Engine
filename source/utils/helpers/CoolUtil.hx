@@ -297,8 +297,7 @@ class CoolUtil
 		
 		FlxTween.globalManager.clear();
 
-		FlxG.state.openSubState(new utils.scripting.ScriptTransition(true));
-		FlxG.state.subState.close();
+		if (utils.scripting.ScriptSubstate.instance != null) utils.scripting.ScriptSubstate.instance.destroyScripts();
 
 		FlxG.resetGame();
 	}
