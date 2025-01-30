@@ -278,9 +278,17 @@ class ScriptState extends MusicBeatState
 		}
 	}
 
-	override function destroy() {
+	override function destroy()
+	{
+		destroyScripts();
+
 		instance = null;
 
+		super.destroy();
+	}
+
+	public function destroyScripts()
+	{
 		#if LUA_ALLOWED
 		for (lua in luaArray)
 		{

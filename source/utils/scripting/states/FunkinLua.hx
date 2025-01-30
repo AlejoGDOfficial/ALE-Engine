@@ -378,18 +378,20 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "loadSong", function(daSong:String, diffInt:Int)
+		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:Int)
 		{
-			var songLowerCase:String = Paths.formatToSongPath(daSong);
-
-			Difficulty.loadFromWeek();
-
-			var diffic = Difficulty.getFilePath(diffInt);
-			if (diffic == null) diffic = '';
-
-			PlayState.SONG = Song.loadFromJson(daSong.toLowerCase() + diffic, daSong.toLowerCase());
-			PlayState.storyDifficulty = diffInt;
-			
+			try
+			{
+				var songLowercase:String = Paths.formatToSongPath(song);
+				var poop:String = Highscore.formatSong(songLowercase, difficulty);
+		
+				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+				PlayState.storyDifficulty = difficulty;
+			} catch(e:Dynamic) {
+				throw 'ERROR!' + e;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
+		
 			LoadingState.loadAndSwitchState(new PlayState());
 		});
 

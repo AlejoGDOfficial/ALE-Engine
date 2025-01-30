@@ -55,17 +55,11 @@ function onCreate()
 		
     var foldersToCheck = [];
 
-    var dataJsonToLoad:String = Paths.modFolders('data.json');
-
-    if(!FileSystem.exists(dataJsonToLoad))
-        dataJsonToLoad = Paths.getSharedPath('data.json');
-
-    var dataJson = Json.parse(File.getContent(dataJsonToLoad));
-
-    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks')) && !Reflect.hasField(dataJson, 'removeDefaultWeeks') || !dataJson.removeDefaultWeeks) foldersToCheck.push(Paths.getSharedPath('weeks'));
+    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks')) && !Reflect.hasField(CoolVars.gameData, 'removeDefaultWeeks') || !CoolVars.gameData.removeDefaultWeeks) foldersToCheck.push(Paths.getSharedPath('weeks'));
     if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/weeks')) && FileSystem.isDirectory(Paths.mods(Mods.currentModDirectory + '/weeks'))) foldersToCheck.push(Paths.mods(Mods.currentModDirectory + '/weeks'));
 
-    var weeks = [];
+    var allowedWeeks = [];
+    var replaceWeeks = [];
 
     for (folder in foldersToCheck)
     {
@@ -75,63 +69,76 @@ function onCreate()
         {
             var replaced = false;
 
-            for (i in 0...weeks.length)
+            for (i in 0...allowedWeeks.length)
             {
-                if (weeks[i][1] != null && weeks[i][1] == file) 
+                if (allowedWeeks[1] != null && allowedWeeks[1] == file) 
                 {
-                    weeks[i][0] = folder;
+                    allowedWeeks[i][0] = folder;
 
                     replaced = true;
                 }
             }
 
-            if (!replaced) weeks.push([folder, file]);
+            if (!replaced) allowedWeeks.push(file.substr(0, file.length - 5));
         }
     }
 
-    for (week in weeks)
+    for (week in WeekData.weeksList)
     {
-        var jsonData = Json.parse(File.getContent(week[0] + '/' + week[1]));
-
-        var jsonDiff:Array = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.split(' ').join('').split(',') : ['Easy', 'Normal', 'Hard'];
-        
-        for (song in jsonData.songs)
+        if (allowedWeeks.contains(week))
         {
-            if (!week.hideFreeplay)
+            var leWeek:WeekData = WeekData.weeksLoaded.get(week);
+            var leSongs:Array<String> = [];
+            var leChars:Array<String> = [];
+    
+            for (j in 0...leWeek.songs.length)
             {
-                var songData:StringMap = new StringMap();
-            
-                var text:Alphabet = new Alphabet(100 + 30 * (songs.length - songsSelInt), 318 + 120 * (songs.length - songsSelInt), song[0], true);
-                text.snapToPosition();
-                add(text);
-                text.alpha = 0.5;
-                text.scaleX = text.scaleY = 1.1;
-                text.antialiasing = ClientPrefs.data.antialiasing;
-            
-                var iconPath = 'icons/' + song[1];
-                if (!Paths.fileExists('images/' + iconPath + '.png', 'IMAGE')) iconPath = 'icons/icon-' + song[1];
-                if (!Paths.fileExists('images/' + iconPath + '.png', 'IMAGE')) iconPath = 'icons/icon-face';
-                if (!Paths.fileExists('images/' + iconPath + '.png', 'IMAGE')) iconPath = 'icons/face';
-            
-                var iconSprite:AttachedSprite = new AttachedSprite(iconPath, null, null, false);
-                add(iconSprite);
-                iconSprite.sprTracker = text;
-                iconSprite.xAdd = text.width + 5;
-                iconSprite.yAdd = text.height / 2 - iconSprite.height / 2;
-                iconSprite.clipRect = new FlxRect(0, 0, iconSprite.width / 2, iconSprite.height);
-                iconSprite.antialiasing = ClientPrefs.data.antialiasing;
-            
-                songData.set('text', text);
-                songData.set('icon', iconSprite);
-                songData.set('name', song[0]);
-                songData.set('color', FlxColor.fromRGB(song[2][0], song[2][1], song[2][2]));
-                songData.set('difficulties', jsonDiff);
-            
-                songs.push(songData);
+                leSongs.push(leWeek.songs[j][0]);
+                leChars.push(leWeek.songs[j][1]);
+            }
+    
+            for (song in leWeek.songs)
+            {
+                var colors:Array<Int> = song[2];
+    
+                if (colors == null || colors.length) colors = [142, 113, 253];
+    
+                if (!leWeek.hideFreeplay)
+                {
+                    var songData:StringMap = new StringMap();
+                
+                    var text:Alphabet = new Alphabet(100 + 30 * (songs.length - songsSelInt), 318 + 120 * (songs.length - songsSelInt), song[0], true);
+                    text.snapToPosition();
+                    add(text);
+                    text.alpha = 0.5;
+                    text.scaleX = text.scaleY = 1.1;
+                    text.antialiasing = ClientPrefs.data.antialiasing;
+                
+                    var iconPath = 'icons/' + song[1];
+                    if (!Paths.fileExists('images/' + iconPath + '.png', 'IMAGE')) iconPath = 'icons/icon-' + song[1];
+                    if (!Paths.fileExists('images/' + iconPath + '.png', 'IMAGE')) iconPath = 'icons/icon-face';
+                    if (!Paths.fileExists('images/' + iconPath + '.png', 'IMAGE')) iconPath = 'icons/face';
+                
+                    var iconSprite:AttachedSprite = new AttachedSprite(iconPath, null, null, false);
+                    add(iconSprite);
+                    iconSprite.sprTracker = text;
+                    iconSprite.xAdd = text.width + 5;
+                    iconSprite.yAdd = text.height / 2 - iconSprite.height / 2;
+                    iconSprite.clipRect = new FlxRect(0, 0, iconSprite.width / 2, iconSprite.height);
+                    iconSprite.antialiasing = ClientPrefs.data.antialiasing;
+    
+                    songData.set('text', text);
+                    songData.set('icon', iconSprite);
+                    songData.set('name', song[0]);
+                    songData.set('color', FlxColor.fromRGB(song[2][0], song[2][1], song[2][2]));
+                    songData.set('week', WeekData.weeksList.indexOf(week));
+                
+                    songs.push(songData);
+                }
             }
         }
     }
-    
+
     difficultyTextBG = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
     add(difficultyTextBG);
     difficultyTextBG.alpha = 0.5;
@@ -323,10 +330,11 @@ function onUpdate(elapsed:Float)
     
                         FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
                         
+                        PlayState.storyWeek = WeekData.weeksList.indexOf(song.get('week'));
+
                         new FlxTimer().start(1, function(tmr:FlxTimer)
                         {
-                            loadSong(song.get('name'), Std.int(difficultiesSelInt));
-                            PlayState.isStoryMode = false;
+                            loadSong(song.get('name'), difficultiesSelInt);
                         });
                     } else {
                         FlxTween.tween(song.get('text'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
@@ -383,6 +391,8 @@ function changeSongShit()
 
 function changeDifficultyShit()
 {
-    if (difficulties.length != songs[songsSelInt].get('difficulties').length) difficultiesSelInt = 0;
-    difficulties = songs[songsSelInt].get('difficulties');
+    PlayState.storyWeek = songs[songsSelInt].get('week');
+    Difficulty.loadFromWeek();
+    if (difficulties.length != Difficulty.list.length) difficultiesSelInt = 0;
+    difficulties = Difficulty.list;
 }

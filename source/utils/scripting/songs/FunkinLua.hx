@@ -431,26 +431,21 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "loadSong", function(?name:String = null, ?difficultyNum:Int = -1) {
-			if(name == null || name.length < 1)
-				name = PlayState.SONG.song;
-			if (difficultyNum == -1)
-				difficultyNum = PlayState.storyDifficulty;
-
-			var poop = Highscore.formatSong(name, difficultyNum);
-			PlayState.SONG = Song.loadFromJson(poop, name);
-			PlayState.storyDifficulty = difficultyNum;
-			game.persistentUpdate = false;
-			LoadingState.loadAndSwitchState(new PlayState());
-
-			FlxG.sound.music.pause();
-			FlxG.sound.music.volume = 0;
-			if(game.vocals != null)
+		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:Int)
+		{
+			try
 			{
-				game.vocals.pause();
-				game.vocals.volume = 0;
+				var songLowercase:String = Paths.formatToSongPath(song);
+				var poop:String = Highscore.formatSong(songLowercase, difficulty);
+		
+				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+				PlayState.storyDifficulty = difficulty;
+			} catch(e:Dynamic) {
+				throw 'ERROR!' + e;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}
-			FlxG.camera.followLerp = 0;
+		
+			LoadingState.loadAndSwitchState(new PlayState());
 		});
 
 		Lua_helper.add_callback(lua, "loadGraphic", function(variable:String, image:String, ?gridX:Int = 0, ?gridY:Int = 0) {

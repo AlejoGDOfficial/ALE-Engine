@@ -21,6 +21,8 @@ class MainState extends MusicBeatState
         Paths.clearStoredMemory();
         Paths.clearUnusedMemory();
 
+        utils.helpers.Highscore.load();
+
 		Mods.pushGlobalMods();
 
 		FlxG.fixedTimestep = false;
@@ -36,37 +38,30 @@ class MainState extends MusicBeatState
 
         try
         {
-            var jsonToLoad:String = Paths.modFolders('data.json');
-            if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('data.json');
+            CoolVars.developerMode = Reflect.hasField(CoolVars.gameData, 'developerMode') ? CoolVars.gameData.developerMode : true;
     
-            var jsonData = haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
+            CoolVars.scriptInitialState = Reflect.hasField(CoolVars.gameData, 'initialState') ? CoolVars.gameData.initialState : 'introState';
+            CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(CoolVars.gameData, 'fromPlayStateIfStoryMode') ? CoolVars.gameData.fromPlayStateIfStoryMode : 'storyMenuState';
+            CoolVars.scriptFromPlayStateIfFreeplay = Reflect.hasField(CoolVars.gameData, 'fromPlayStateIfFreeplay') ? CoolVars.gameData.fromPlayStateIfFreeplay : 'freeplayState';
+            CoolVars.scriptFromEditors = Reflect.hasField(CoolVars.gameData, 'fromEditors') ? CoolVars.gameData.fromEditors : 'masterEditorMenu';
+            CoolVars.scriptOptionsState = Reflect.hasField(CoolVars.gameData, 'optionsState') ? CoolVars.gameData.optionsState : 'optionsState';
+            CoolVars.scriptPauseMenu = Reflect.hasField(CoolVars.gameData, 'pauseMenu') ? CoolVars.gameData.pauseMenu : 'pauseSubstate';
+            CoolVars.scriptCrashState = Reflect.hasField(CoolVars.gameData, 'crashState') ? CoolVars.gameData.crashState : 'crashState';
+            CoolVars.scriptTransition = Reflect.hasField(CoolVars.gameData, 'transition') ? CoolVars.gameData.transition : 'fadeTransition';
 
-            CoolVars.developerMode = Reflect.hasField(jsonData, 'developerMode') ? jsonData.developerMode : true;
-    
-            CoolVars.scriptInitialState = Reflect.hasField(jsonData, 'initialState') ? jsonData.initialState : 'introState';
-            CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(jsonData, 'fromPlayStateIfStoryMode') ? jsonData.fromPlayStateIfStoryMode : 'storyMenuState';
-            CoolVars.scriptFromPlayStateIfFreeplay = Reflect.hasField(jsonData, 'fromPlayStateIfFreeplay') ? jsonData.fromPlayStateIfFreeplay : 'freeplayState';
-            CoolVars.scriptFromEditors = Reflect.hasField(jsonData, 'fromEditors') ? jsonData.fromEditors : 'masterEditorMenu';
-            CoolVars.scriptOptionsState = Reflect.hasField(jsonData, 'optionsState') ? jsonData.optionsState : 'optionsState';
-            CoolVars.scriptPauseMenu = Reflect.hasField(jsonData, 'pauseMenu') ? jsonData.pauseMenu : 'pauseSubstate';
-            CoolVars.scriptCrashState = Reflect.hasField(jsonData, 'crashState') ? jsonData.crashState : 'crashState';
-            CoolVars.scriptTransition = Reflect.hasField(jsonData, 'transition') ? jsonData.transition : 'fadeTransition';
-
-            if (Reflect.hasField(jsonData, 'title')) lime.app.Application.current.window.title = jsonData.title;
+            if (Reflect.hasField(CoolVars.gameData, 'title')) lime.app.Application.current.window.title = CoolVars.gameData.title;
             #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
             
-			var iconPath:String = Reflect.hasField(jsonData, 'icon') ? 'mods/' + Mods.currentModDirectory + '/' + jsonData.icon + '.png' : 'assets/shared/images/appIcon.png';
+			var iconPath:String = Reflect.hasField(CoolVars.gameData, 'icon') ? 'mods/' + Mods.currentModDirectory + '/' + CoolVars.gameData.icon + '.png' : 'assets/shared/images/appIcon.png';
 			if(!FileSystem.exists(iconPath)) iconPath = 'assets/shared/images/appIcon.png';
             
             lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(iconPath));
         } catch(error:Dynamic) {
-            trace('ERROR: ' + error);
+            trace('DATA ERROR: ' + error);
         }
 
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
-
-        MusicBeatState.switchState(new #if mobile CopyState() #else ScriptState(CoolVars.scriptInitialState) #end);
 
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
 
@@ -99,5 +94,7 @@ class MainState extends MusicBeatState
 			http.request();
 		}
 		#end
+
+        MusicBeatState.switchState(new #if mobile CopyState() #else ScriptState(CoolVars.scriptInitialState) #end);
     }
 }

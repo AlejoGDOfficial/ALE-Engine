@@ -1,16 +1,7 @@
+import utils.mods.Mods;
 import tjson.TJSON as Json;
 
-function onCreate()
-{
-    var jsonToLoad:String = Paths.modFolders('data.json');
-
-    if(!FileSystem.exists(jsonToLoad))
-        jsonToLoad = Paths.getSharedPath('data.json');
-
-    var jsonData = Json.parse(File.getContent(jsonToLoad));
-
-    Conductor.bpm = Reflect.hasField(jsonData, 'bpm') ? jsonData.bpm : 102;
-}
+function onCreate() Conductor.bpm = Reflect.hasField(CoolVars.gameData, 'bpm') ? CoolVars.gameData.bpm : 102;
 
 var ignoreReset = ['editors/chartEditorList'];
 

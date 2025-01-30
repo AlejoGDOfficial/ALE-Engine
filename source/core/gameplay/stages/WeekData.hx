@@ -75,10 +75,8 @@ class WeekData {
 		weeksList = [];
 		weeksLoaded.clear();
 		#if MODS_ALLOWED
-		var directories:Array<String> = [Paths.mods(), Paths.getSharedPath()];
+		var directories:Array<String> = [Paths.mods(Mods.currentModDirectory + '/'), Paths.getSharedPath()];
 		var originalLength:Int = directories.length;
-
-		directories.push(Paths.mods(Mods.currentModDirectory + '/'));
 		#else
 		var directories:Array<String> = [Paths.getSharedPath()];
 		var originalLength:Int = directories.length;
@@ -95,7 +93,7 @@ class WeekData {
 
 						#if MODS_ALLOWED
 						if(j >= originalLength) {
-							weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
+							weekFile.folder = directories[j].substring(Paths.mods(Mods.currentModDirectory + '/').length, directories[j].length-1);
 						}
 						#end
 
@@ -186,12 +184,5 @@ class WeekData {
 	//Used on LoadingState, nothing really too relevant
 	public static function getCurrentWeek():WeekData {
 		return weeksLoaded.get(weeksList[PlayState.storyWeek]);
-	}
-
-	public static function setDirectoryFromWeek(?data:WeekData = null) {
-		Mods.currentModDirectory = '';
-		if(data != null && data.folder != null && data.folder.length > 0) {
-			Mods.currentModDirectory = data.folder;
-		}
 	}
 }

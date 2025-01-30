@@ -21,6 +21,8 @@ class CoolVars
 	public static var scriptCrashState:String = '';
 	public static var scriptTransition:String = '';
 
+    public static var gameData(get, never):Dynamic;
+
 	public static var isConsoleVisible:Bool = false;
 
 	public static var engineVersion:String = '';
@@ -29,4 +31,12 @@ class CoolVars
 	
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
 	public static var globalFields:Dynamic = {};
+
+	static function get_gameData():Dynamic
+	{
+		var jsonToLoad:String = Paths.modFolders('data.json');
+		if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('data.json');
+	
+		return haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
+	}
 }

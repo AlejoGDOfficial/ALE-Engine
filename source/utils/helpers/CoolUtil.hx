@@ -298,7 +298,7 @@ class CoolUtil
 		FlxTween.globalManager.clear();
 
 		if (utils.scripting.ScriptSubstate.instance != null) utils.scripting.ScriptSubstate.instance.destroyScripts();
-
+		
 		FlxG.resetGame();
 	}
 

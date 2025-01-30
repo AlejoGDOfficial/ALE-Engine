@@ -179,12 +179,13 @@ function onBeatHit()
 
     if (!skippedIntro)
     {
-        changeShit(phrases[sickBeats]);
 
         if (sickBeats == 16)
         {
             FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);
             skipIntro();
+        } else if (sickBeats < 16) {
+            changeShit(phrases[sickBeats]);
         }
     }
 }

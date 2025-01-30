@@ -95,17 +95,7 @@ function onCreate()
     line.x = FlxG.width / 2 - line.width / 2;
 }
 
-function onCreatePost()
-{
-    var dataJsonToLoad:String = Paths.modFolders('data.json');
-
-    if(!FileSystem.exists(dataJsonToLoad))
-        dataJsonToLoad = Paths.getSharedPath('data.json');
-
-    var dataJson = Json.parse(File.getContent(dataJsonToLoad));
-
-    Conductor.bpm = Reflect.hasField(dataJson, 'crashStateBpm') ? dataJson.crashStateBpm : 90;
-}
+function onCreatePost() Conductor.bpm = Reflect.hasField(CoolVars.gameData, 'crashStateBpm') ? CoolVars.gameData.crashStateBpm : 90;
 
 function onBeatHit()
 {

@@ -263,18 +263,18 @@ class ScriptSubstate extends MusicBeatSubstate
 
 	override public function close()
 	{
-		instance = null;
-
 		destroyScripts();
+
+		instance = null;
 
 		super.close();
 	}
 
 	override public function destroy()
 	{
-		instance = null;
-
 		destroyScripts();
+
+		instance = null;
 
 		super.destroy();
 	}

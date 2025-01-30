@@ -180,22 +180,22 @@ class HScript extends SScript
 		{
 			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
-		set('loadSong', function(?name:String = null, ?difficultyNum:Int = -1)
+
+		set('loadSong', function(song:String, difficulty:Int)
 		{
-			if(name == null || name.length < 1)
-				name = PlayState.SONG.song;
-			if (difficultyNum == -1)
-				difficultyNum = PlayState.storyDifficulty;
-
-			var poop = Highscore.formatSong(name, difficultyNum);
-			PlayState.SONG = Song.loadFromJson(poop, name);
-			PlayState.storyDifficulty = difficultyNum;
-			FlxG.state.persistentUpdate = false;
+			try
+			{
+				var songLowercase:String = Paths.formatToSongPath(song);
+				var poop:String = Highscore.formatSong(songLowercase, difficulty);
+		
+				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+				PlayState.storyDifficulty = difficulty;
+			} catch(e:Dynamic) {
+				throw 'ERROR!' + e;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
+		
 			LoadingState.loadAndSwitchState(new PlayState());
-
-			FlxG.sound.music.pause();
-			FlxG.sound.music.volume = 0;
-			FlxG.camera.followLerp = 0;
 		});
 		set('loadWeek', function (songs:Array<String>, diffInt:Int)
 		{

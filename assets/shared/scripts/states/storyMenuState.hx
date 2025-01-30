@@ -33,20 +33,14 @@ function onCreate()
     WeekData.reloadWeekFiles(true);
 
     PlayState.isStoryMode = true;
-    
+		
     var foldersToCheck = [];
 
-    var dataJsonToLoad:String = Paths.modFolders('data.json');
-
-    if(!FileSystem.exists(dataJsonToLoad))
-        dataJsonToLoad = Paths.getSharedPath('data.json');
-
-    var dataJson = Json.parse(File.getContent(dataJsonToLoad));
-
-    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks')) && !Reflect.hasField(dataJson, 'removeDefaultWeeks') || !dataJson.removeDefaultWeeks) foldersToCheck.push(Paths.getSharedPath('weeks'));
+    if (FileSystem.exists(Paths.getSharedPath('weeks')) && FileSystem.isDirectory(Paths.getSharedPath('weeks')) && !Reflect.hasField(CoolVars.gameData, 'removeDefaultWeeks') || !CoolVars.gameData.removeDefaultWeeks) foldersToCheck.push(Paths.getSharedPath('weeks'));
     if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/weeks')) && FileSystem.isDirectory(Paths.mods(Mods.currentModDirectory + '/weeks'))) foldersToCheck.push(Paths.mods(Mods.currentModDirectory + '/weeks'));
 
-    var weeks = [];
+    var allowedWeeks = [];
+    var replaceWeeks = [];
 
     for (folder in foldersToCheck)
     {
@@ -56,30 +50,32 @@ function onCreate()
         {
             var replaced = false;
 
-            for (i in 0...weeks.length)
+            for (i in 0...allowedWeeks.length)
             {
-                if (weeks[i][1] != null && weeks[i][1] == file) 
+                if (allowedWeeks[1] != null && allowedWeeks[1] == file) 
                 {
-                    weeks[i][0] = folder;
+                    allowedWeeks[i][0] = folder;
 
                     replaced = true;
                 }
             }
 
-            if (!replaced) weeks.push([folder, file]);
+            if (!replaced) allowedWeeks.push(file.substr(0, file.length - 5));
         }
     }
 
-    for (week in weeks)
+    for (week in WeekData.weeksList)
     {
-        var jsonData = Json.parse(File.getContent(week[0] + '/' + week[1]));
-
-        var jsonDiff:Array = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.split(' ').join('').split(',') : null;
-        var songs:Array = [];
-
-        for (song in jsonData.songs) songs.push(song[0]);
-
-        if (!week.hideStoryMode) addWeek(week[1].substr(0, week[1].length - 5), songs, jsonData.weekCharacters, jsonData.weekBackground, jsonData.storyName, jsonDiff == null ? ['Easy', 'Normal', 'Hard'] : jsonDiff);
+        if (allowedWeeks.contains(week))
+        {
+            var weekFile:WeekData = WeekData.weeksLoaded.get(week);
+    
+            var songs:Array = [];
+    
+            for (song in weekFile.songs) songs.push(song[0]);
+    
+            if (!weekFile.hideStoryMode) addWeek(week, songs, weekFile.weekCharacters, weekFile.weekBackground, weekFile.storyName, WeekData.weeksList.indexOf(week));
+        }
     }
     
     uiLeft = new FlxSprite(0, 480);
@@ -165,7 +161,7 @@ function onCreate()
 var weeks:Array<StringMap<Dynamic>> = [];
 var difficulties:Array<String> = [];
 
-function addWeek(weekName:String, songs:Array, characters:Array, stage:String, storyName:String, difficulties:Array)
+function addWeek(weekName:String, songs:Array, characters:Array, stage:String, storyName:String, week:Int)
 {
     var weekData:StringMap = new StringMap();
 
@@ -183,7 +179,7 @@ function addWeek(weekName:String, songs:Array, characters:Array, stage:String, s
     weekData.set('characters', characters);
     weekData.set('stage', stage);
     weekData.set('storyName', storyName);
-    weekData.set('difficulties', difficulties);
+    weekData.set('week', week);
 
     weeks.push(weekData);
 
@@ -388,23 +384,18 @@ function onUpdate(elapsed:Float)
             changed.weeks = changed.difficulties = false;
         }
 
-        if (FlxG.keys.justPressed.CONTROL) openSubState('gameplay.states.substates.GameplayChangersSubstate', []);
+        if (FlxG.keys.justPressed.CONTROL && !FlxG.keys.pressed.SHIFT) openSubState('gameplay.states.substates.GameplayChangersSubstate', []);
     }
 }
 
 function changeDifficultyShit()
 {
-    for (week in weeks)
-    {
-        if (weeks.indexOf(week) == weeksSelInt)
-        {
-            if (difficulties.length != week.get('difficulties').length) difficultiesSelInt = 0;
+    PlayState.storyWeek = weeks[weeksSelInt].get('week');
+    Difficulty.loadFromWeek();
+    if (difficulties.length != Difficulty.list.length) difficultiesSelInt = 0;
+    difficulties = Difficulty.list;
 
-            difficulties = week.get('difficulties');
-
-            weekScore.text = 'SCORE: ' + Highscore.getWeekScore(week.get('name'), difficultiesSelInt);
-        }
-    }
+    weekScore.text = 'SCORE: ' + Highscore.getWeekScore(weeks[weeksSelInt].get('name'), difficultiesSelInt);
 
     if (difficulties.length > 1) uiLeft.alpha = uiRight.alpha = 1;
     else uiLeft.alpha = uiRight.alpha = 0;

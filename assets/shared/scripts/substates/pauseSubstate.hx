@@ -135,8 +135,11 @@ function onCreatePost()
 	game.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 }
 
+var songName:String = null;
+
 function getPauseSong()
 {
+	var formattedSongName:String = (songName != null ? Paths.formatToSongPath(songName) : '');
 	var formattedPauseMusic:String = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
 	if(formattedSongName == 'none' || (formattedSongName != 'none' && formattedPauseMusic == 'none')) return null;
 
@@ -152,7 +155,7 @@ function onUpdatePost(elapsed:Float)
 	cantUnpause -= elapsed;
 
 	if (pauseMusic.volume < 0.5)
-		pauseMusic.volume += 0.01 * elapsed;
+		pauseMusic.volume += 0.02 * elapsed;
 
 	updateSkipTextStuff();
 

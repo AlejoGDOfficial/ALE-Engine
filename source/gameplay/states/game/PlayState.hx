@@ -2956,7 +2956,24 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.add(splash);
 	}
 
-	override function destroy() {
+	override function destroy()
+	{
+		destroyScripts();
+
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		FlxG.animationTimeScale = 1;
+		#if FLX_PITCH FlxG.sound.music.pitch = 1; #end
+		Note.globalRgbShaders = [];
+		utils.mods.NoteTypesConfig.clearNoteTypesData();
+
+		instance = null;
+
+		super.destroy();
+	}
+
+	public function destroyScripts()
+	{
 		#if LUA_ALLOWED
 		for (lua in luaArray)
 		{
@@ -2978,15 +2995,6 @@ class PlayState extends MusicBeatState
 		while (hscriptArray.length > 0)
 			hscriptArray.pop();
 		#end
-
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-		FlxG.animationTimeScale = 1;
-		#if FLX_PITCH FlxG.sound.music.pitch = 1; #end
-		Note.globalRgbShaders = [];
-		utils.mods.NoteTypesConfig.clearNoteTypesData();
-		instance = null;
-		super.destroy();
 	}
 
 	var lastStepHit:Int = -1;
