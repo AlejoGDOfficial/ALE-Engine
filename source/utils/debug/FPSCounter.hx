@@ -10,188 +10,198 @@ import openfl.Lib;
 import openfl.system.Capabilities;
 import cpp.vm.Gc;
 import flixel.util.FlxStringUtil;
+import haxe.ds.StringMap;
+import haxe.Timer;
+import openfl.display.DisplayObject;
+import openfl.events.Event;
 
+@:access(core.backend.MusicBeatState)
 class FPSCounter extends Sprite
 {
-    public var currentFPS(default, null):Int;
-    public var memoryMegas(get, never):String;
+    var fields:Array<TextField>;
+    var visibility:Array<Bool>;
+    var maps:Array<String>;
 
-    var background:Shape;
-    var textField:TextField;
+    var otherFields:Array<TextField>;
+    var otherVisibility:Array<Bool>;
+    var otherMaps:Array<String>;
 
-    @:noCompletion private var times:Array<Float>;
+    var shapes:Array<AttachedShape>;
 
-    public function new()
+    override public function new()
     {
         super();
 
-        currentFPS = 0;
+        fields = new Array<TextField>();
+        visibility = new Array<Bool>();
+        maps = new Array<String>();
+        
+        otherFields = new Array<TextField>();
+        otherVisibility = new Array<Bool>();
+        otherMaps = new Array<String>();
 
-        background = new Shape();
-        addChild(background);
-
-        textField = new TextField();
-        textField.selectable = false;
-        textField.mouseEnabled = false;
-        textField.defaultTextFormat = new TextFormat(Paths.font('vcr.ttf'), 14, 0x000000);
-        textField.autoSize = LEFT;
-        textField.multiline = true;
-        textField.text = "FPS: ";
-        addChild(textField);
-
-        times = [];
+        shapes = new Array<AttachedShape>();
+        
+        createDebugText('fpsField', 2, 20, false, true);
+        createDebugText('memoryField', 32, 16, false, true);
+        createDebugText('developerField', 57, 12, false, CoolVars.developerMode);
+        createDebugText('stateField', 80, 16, true, false);
+        createDebugText('conductorField', 130, 16, true, true);
+        createDebugText('windowField', 223, 16, true, false);
+        createDebugText('deviceField', 273, 16, true, false);
+        createDebugText('versionField', 330, 16, false, CoolVars.outdated);
+        createDebugText('tipsField', 410, 16, false, false);
     }
-
-    var deltaTimeout:Float = 0.0;
-    var fpsMode:Int = 0;
-    var canChangeFPSType:Bool = true;
-
-    var reSetupGame:FlxTimer = new FlxTimer();
-
-    var developerModeText:String;
-    var stateInfoTxt:String = '';
-    var configTipsTxt:String = '';
-    var outdatedTxt:String = '';
-
-    private override function __enterFrame(deltaTime:Float):Void
+    
+    function createDebugText(name:String, y:Int, size:Int, doPush:Bool, condition:Bool)
     {
-        if (deltaTimeout > 1000) {
-            deltaTimeout = 0.0;
-            return;
+        var field:TextField = new TextField();
+        field.selectable = false;
+        field.mouseEnabled = false;
+        field.defaultTextFormat = new TextFormat(Paths.font('rajdhani.ttf'), size, 0xFFFFFFFF);
+        field.autoSize = LEFT;
+        field.multiline = true;
+        field.text = 'FPS Counter Text Field';
+        field.x = -10;
+        field.y = y;
+        field.alpha = 0;
+        
+        var shape:AttachedShape = new AttachedShape(field);
+        
+        addChild(shape);
+        addChild(field);
+
+        if (doPush)
+        {
+            fields.push(field);
+            visibility.push(false);
+            maps.push(name);
+        } else {
+            otherFields.push(field);
+            otherVisibility.push(condition);
+            otherMaps.push(name);
         }
 
-        outdatedTxt = CoolVars.outdated && ClientPrefs.getJsonPref('checkForUpdates') ? '\n\n' + 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion : '';
+        shapes.push(shape);
+    }
+    
+    var times:Array<Float> = [];
+    
+    var currentFPS:Int = 0;
+    
+    var deltaTimeout:Float = 0.0;
+    
+    override private function __enterFrame(deltaTime:Int):Void
+    {
+        super.__enterFrame(deltaTime);
 
-        developerModeText = (CoolVars.developerMode ? (fpsMode == 0 ? '' : '\n\n') + 'DEVELOPER MODE' : '');
+		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
-        stateInfoTxt = '\n\n' + 'State: ' + (CoolUtil.getCurrentState()[0] ? 'utils.scripting.ScriptState (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + (CoolUtil.getCurrentSubState()[1] == null ? '' : '\n' + 'SubState: ' + (CoolUtil.getCurrentSubState()[0] ? 'utils.scripting.ScriptSubstate (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]));
-
-        if (FlxG.keys.justPressed.F3 && canChangeFPSType && !FlxG.keys.pressed.CONTROL && !FlxG.keys.pressed.SHIFT)
+        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT)
         {
-            switch (fpsMode)
+            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+            else if (FlxG.keys.justPressed.F3) CoolUtil.resetEngine();
+            else if (FlxG.keys.justPressed.F4 && CoolVars.outdated) CoolUtil.browserLoad("https://gamebanana.com/mods/562650");
+        }	
+        
+        updateText();
+    }
+
+    public var selInt = -1;
+
+    public var timer:Float = 0;
+
+    public var memoryPeak:Float = 0;
+
+    function updateText()
+    {
+        timer += FlxG.elapsed;
+
+        if (memoryPeak < Gc.memInfo64(Gc.MEM_INFO_USAGE)) memoryPeak = Gc.memInfo64(Gc.MEM_INFO_USAGE);
+
+        for (i in 0...otherFields.length)
+        {
+            switch (otherMaps[i])
             {
-                case 0:
-                    fpsMode = 1;
-                case 1:
-                    fpsMode = 2;
-                case 2:
-                    fpsMode = 3;
-                case 3:
-                    fpsMode = 4;
-                case 4:
-                    fpsMode = 0;
+                case 'fpsField':
+                    otherFields[i].text = 'FPS: ' + currentFPS;
+                    otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.RED : FlxColor.WHITE;
+                case 'memoryField':
+                    otherFields[i].text = 'Memory: ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE)) + ' / ' + FlxStringUtil.formatBytes(memoryPeak);
+                    otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.PINK : FlxColor.WHITE;
+                case 'developerField':
+                    otherFields[i].text = 'DEVELOPER MODE';
+                case 'versionField':
+                    otherFields[i].text = 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion;
+                    otherVisibility[i] = timer < 10 && CoolVars.outdated;
+                case 'tipsField':
+                    otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
+                    otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT;
+                default:
+                    otherFields[i].text = '';
             }
 
-            canChangeFPSType = false;
+            otherFields[i].alpha = CoolUtil.fpsLerp(otherFields[i].alpha, otherVisibility[i] ? 1 : 0, 0.2);
+            otherFields[i].x = CoolUtil.fpsLerp(otherFields[i].x, otherVisibility[i] ? 10 : -10, 0.2);
+        }
 
-            new FlxTimer().start(0.2, function(tmr:FlxTimer)
+        for (i in 0...fields.length)
+        {
+            switch (maps[i])
             {
-                canChangeFPSType = true;
-            });
+                case 'stateField':
+                    fields[i].text = 'State: ' + (CoolUtil.getCurrentState()[0] ? Type.getClassName(Type.getClass(FlxG.state)) + ' (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + '\n' + 'SubState: ' + (CoolUtil.getCurrentSubState()[0] ? Type.getClassName(Type.getClass(FlxG.state.subState)) + ' (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]);
+                case 'conductorField':
+                    fields[i].text = 'Song Position: ' + Conductor.songPosition / 1000 + '\n' + 'Song Step: ' + MusicBeatState.instance.curStep + '\n' + 'Song Beat: ' + MusicBeatState.instance.curBeat + '\n' + 'Song Section: ' + MusicBeatState.instance.curSection;
+                case 'windowField':
+                    fields[i].text = 'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y + '\n' + 'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height;
+                case 'deviceField':
+                    fields[i].text = 'Screen Resultion: ' + Capabilities.screenResolutionX + ' x ' + Capabilities.screenResolutionY + '\n' + 'Operating System: ' + Capabilities.os;
+                default:
+                    fields[i].text = '';
+            }
+
+            fields[i].alpha = CoolUtil.fpsLerp(fields[i].alpha, visibility[i] ? 1 : 0, 0.2);
+            fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? 10 : -10, 0.2);
         }
 
-        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !(FlxG.state is gameplay.states.game.PlayState) && FlxG.state.subState == null)
+        if (FlxG.keys.justPressed.F3)
         {
-            configTipsTxt = '\n\n' + 'Press TAB to select the mods you want to play' + (CoolVars.outdated ? '\nPress F4 to Update the Engine' : '');
-
-            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
-            else if (FlxG.keys.justPressed.F4) CoolUtil.browserLoad("https://github.com/AlejoGDOfficial/ALE-Engine/releases");
-        } else {
-            configTipsTxt = '';
+            if (selInt < fields.length) selInt++;
+            else selInt = 0;
+            
+            if (selInt == fields.length)
+            {
+                for (i in 0...visibility.length) visibility[i] = false;
+                for (shape in shapes) shape.visible = false;
+            } else {
+                visibility[selInt] = true;
+                for (shape in shapes) shape.visible = true;
+            }
         }
+    }
+}
 
-        final now:Float = haxe.Timer.stamp() * 1000;
-        times.push(now);
-        while (times[0] < now - 1000) times.shift();
+class AttachedShape extends Shape
+{
+    public var sprTracker:DisplayObject;
 
-        currentFPS = times.length < FlxG.updateFramerate ? times.length : FlxG.updateFramerate;		
-        updateText();
-        deltaTimeout += deltaTime;
+    override public function new(sprTracker:DisplayObject)
+    {
+        super();
+
+        this.sprTracker = sprTracker;
+
+        visible = false;
+
+        addEventListener(Event.ENTER_FRAME, update);
     }
 
-    public dynamic function updateText():Void 
+    function update(e:Event)
     {
-        var deviceShit = {x: Capabilities.screenResolutionX, y: Capabilities.screenResolutionY, os: Capabilities.os};
-
-        switch (fpsMode)
-        {
-            case 0:
-                textField.text = developerModeText
-                + configTipsTxt
-                + outdatedTxt;
-            case 1:
-                textField.text = '' + 'FPS: ' + currentFPS
-                + '\n' + 
-                'Memory: ' + memoryMegas
-                + developerModeText
-                + configTipsTxt
-                + outdatedTxt;
-            case 2:
-                textField.text = '' + 'FPS: ' + currentFPS
-                + '\n' + 
-                'Memory: ' + memoryMegas
-                + stateInfoTxt
-                + developerModeText
-                + configTipsTxt
-                + outdatedTxt;
-            case 3:
-                textField.text = '' + 'FPS: ' + currentFPS
-                + '\n' + 
-                'Memory: ' + memoryMegas
-                + stateInfoTxt 
-                + '\n\n' + 
-                'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y
-                + '\n' +
-                'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height
-                + developerModeText
-                + configTipsTxt
-                + outdatedTxt;
-            case 4:
-                textField.text = '' + 'FPS: ' + currentFPS
-                + '\n' + 
-                'Memory: ' + memoryMegas
-                + stateInfoTxt + '\n\n' + 
-                'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y
-                + '\n' +
-                'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height
-                + '\n\n' +
-                'Screen Resolution: ' + deviceShit.x + ' x ' + deviceShit.y
-                + '\n' +
-                'Operating System: ' + deviceShit.os
-                + developerModeText
-                + configTipsTxt
-                + outdatedTxt;
-        }
-
-        if (currentFPS < FlxG.drawFramerate * 0.5)
-        {
-            textField.textColor = FlxColor.RED;
-        } else {
-            textField.textColor = FlxColor.WHITE;
-        }
-
-        textField.x = 10;
-        textField.y = 5;
-
-        background.graphics.clear();
-        background.graphics.beginFill(0x000000, 0.5);
-
-        var textFieldText:String = textField.text;
-
-        if (textFieldText.replace(' ', '') == '')
-        {
-            background.graphics.drawRect(0, 0, 0, 0);
-        } else {
-            background.graphics.drawRect(0, 0, textField.width + textField.x * 2, textField.height + textField.y * 2);
-        }
-        background.graphics.endFill();
-
-        background.x = 0;
-        background.y = 0;
-    }
-
-    function get_memoryMegas():String
-    {
-        return FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_CURRENT)) + ' / ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_RESERVED));
+        graphics.clear();
+        graphics.beginFill(0x000000, sprTracker.alpha - 0.5);
+        graphics.drawRect(sprTracker.x - 10, sprTracker.y, sprTracker.width + 20, sprTracker.height);
+        graphics.endFill();
     }
 }

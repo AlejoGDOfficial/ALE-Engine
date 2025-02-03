@@ -29,12 +29,12 @@ class ScriptTransition extends ScriptSubstate
 
 	override function close()
 	{
-		super.close();
-
 		if (finishCallback != null)
 		{
 			if (transIn) finishCallback();
 			finishCallback = null;
 		}
+
+		super.close();
 	}
 }
