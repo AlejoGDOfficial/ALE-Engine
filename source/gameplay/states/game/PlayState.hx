@@ -1776,8 +1776,8 @@ class PlayState extends MusicBeatState
 
 	public dynamic function updateIconsPosition()
 	{
-		iconP1.x = healthBar.barCenter - 15;
-		iconP2.x = healthBar.barCenter - iconP2.width + 15;
+		iconP1.x = healthBar.barCenter;
+		iconP2.x = healthBar.barCenter - iconP2.width;
 	}
 
 	var iconsAnimations:Bool = true;

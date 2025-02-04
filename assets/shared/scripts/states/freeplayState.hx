@@ -122,7 +122,7 @@ function onCreate()
                     var iconSprite:AttachedSprite = new AttachedSprite(iconPath, null, null, false);
                     add(iconSprite);
                     iconSprite.sprTracker = text;
-                    iconSprite.xAdd = text.width + 5;
+                    iconSprite.xAdd = text.width + 25;
                     iconSprite.yAdd = text.height / 2 - iconSprite.height / 2;
                     iconSprite.clipRect = new FlxRect(0, 0, iconSprite.width / 2, iconSprite.height);
                     iconSprite.antialiasing = ClientPrefs.data.antialiasing;
@@ -327,6 +327,8 @@ function onUpdate(elapsed:Float)
                             FlxFlicker.flicker(song.get('text'), 0, 0.05);
                             FlxFlicker.flicker(song.get('icon'), 0, 0.05);
                         }
+
+                        FlxG.sound.music.volume = 0;
     
                         FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
                         
@@ -358,6 +360,10 @@ function onUpdate(elapsed:Float)
             MusicBeatState.switchState(new ScriptState('mainMenuState'));
 
             FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+            ScriptState.instance.fixMusic();
+            Conductor.bpm = CoolVars.gameData.bpm;
+            
+            FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
 
             canSelect = false;
         }
@@ -366,10 +372,12 @@ function onUpdate(elapsed:Float)
     }
 }
 
+var theTimer:FlxTimer;
+
 function changeSongShit()
 {
     FlxTween.cancelTweensOf(bg);
-    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - (25 * (songsSelInt)) / songs.length}, 60 / Conductor.bpm, {ease: FlxEase.cubeOut});
+    FlxTween.tween(bg, {y: FlxG.height / 2 - bg.height / 2 - (25 * (songsSelInt)) / songs.length}, 0.3, {ease: FlxEase.cubeOut});
 
     for (song in songs)
     {
@@ -383,10 +391,31 @@ function changeSongShit()
         }
 
         FlxTween.cancelTweensOf(song.get('text'));
-        FlxTween.tween(song.get('text'), {x: 100 + 30 * (songs.indexOf(song) - songsSelInt), y: 318 + 120 * (songs.indexOf(song) - songsSelInt)}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
+        FlxTween.tween(song.get('text'), {x: 100 + 30 * (songs.indexOf(song) - songsSelInt), y: 318 + 120 * (songs.indexOf(song) - songsSelInt)}, 0.3, {ease: FlxEase.cubeOut});
     }
 
     FlxG.sound.play(Paths.sound('scrollMenu'));
+
+    if (theTimer != null) theTimer.cancel();
+
+    theTimer = new FlxTimer().start(1, function(tmr:FlxTimer)
+    {
+        if (canSelect)
+        {
+            PlayState.storyWeek = WeekData.weeksList.indexOf(songs[songsSelInt].get('week'));
+
+            var songLowercase:String = Paths.formatToSongPath(songs[songsSelInt].get('name').toLowerCase());
+            var songShit:String = Highscore.formatSong(songLowercase, difficultiesSelInt);
+            PlayState.SONG = Song.loadFromJson(songShit, songs[songsSelInt].get('name').toLowerCase());
+
+            FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song));
+
+            Conductor.bpm = PlayState.SONG.bpm;
+
+            MusicBeatState.instance.resetMusicVars();
+            ScriptState.instance.fixMusic();
+        }
+    });
 }
 
 function changeDifficultyShit()

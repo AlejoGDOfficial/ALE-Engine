@@ -47,10 +47,10 @@ class FPSCounter extends Sprite
         createDebugText('developerField', 57, 12, false, CoolVars.developerMode);
         createDebugText('stateField', 80, 16, true, false);
         createDebugText('conductorField', 130, 16, true, true);
-        createDebugText('windowField', 223, 16, true, false);
-        createDebugText('deviceField', 273, 16, true, false);
-        createDebugText('versionField', 330, 16, false, CoolVars.outdated);
-        createDebugText('tipsField', 410, 16, false, false);
+        createDebugText('windowField', 240, 16, true, false);
+        createDebugText('deviceField', 288, 16, true, false);
+        createDebugText('versionField', 345, 16, false, CoolVars.outdated);
+        createDebugText('tipsField', 425, 16, false, false);
     }
     
     function createDebugText(name:String, y:Int, size:Int, doPush:Bool, condition:Bool)
@@ -90,6 +90,8 @@ class FPSCounter extends Sprite
     var currentFPS:Int = 0;
     
     var deltaTimeout:Float = 0.0;
+
+    var orientationLeft:Bool = true;
     
     override private function __enterFrame(deltaTime:Int):Void
     {
@@ -100,6 +102,8 @@ class FPSCounter extends Sprite
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT)
         {
             if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+            else if (FlxG.keys.justPressed.F1) for (shape in shapes) shape.visible = !shape.visible;
+            else if (FlxG.keys.justPressed.F2) orientationLeft = !orientationLeft;
             else if (FlxG.keys.justPressed.F3) CoolUtil.resetEngine();
             else if (FlxG.keys.justPressed.F4 && CoolVars.outdated) CoolUtil.browserLoad("https://gamebanana.com/mods/562650");
         }	
@@ -135,14 +139,14 @@ class FPSCounter extends Sprite
                     otherFields[i].text = 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion;
                     otherVisibility[i] = timer < 10 && CoolVars.outdated;
                 case 'tipsField':
-                    otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
+                    otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
                     otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT;
                 default:
                     otherFields[i].text = '';
             }
 
             otherFields[i].alpha = CoolUtil.fpsLerp(otherFields[i].alpha, otherVisibility[i] ? 1 : 0, 0.2);
-            otherFields[i].x = CoolUtil.fpsLerp(otherFields[i].x, otherVisibility[i] ? 10 : -10, 0.2);
+            otherFields[i].x = CoolUtil.fpsLerp(otherFields[i].x, otherVisibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - otherFields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - otherFields[i].width + 10), 0.2);
         }
 
         for (i in 0...fields.length)
@@ -152,7 +156,7 @@ class FPSCounter extends Sprite
                 case 'stateField':
                     fields[i].text = 'State: ' + (CoolUtil.getCurrentState()[0] ? Type.getClassName(Type.getClass(FlxG.state)) + ' (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + '\n' + 'SubState: ' + (CoolUtil.getCurrentSubState()[0] ? Type.getClassName(Type.getClass(FlxG.state.subState)) + ' (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]);
                 case 'conductorField':
-                    fields[i].text = 'Song Position: ' + Conductor.songPosition / 1000 + '\n' + 'Song Step: ' + MusicBeatState.instance.curStep + '\n' + 'Song Beat: ' + MusicBeatState.instance.curBeat + '\n' + 'Song Section: ' + MusicBeatState.instance.curSection;
+                    fields[i].text = 'Song Position: ' + CoolUtil.floorDecimal(Conductor.songPosition / 1000, 2) + ' / ' + CoolUtil.floorDecimal(FlxG.sound.music.length / 1000, 2) + '\n' + 'Song BPM: ' + Conductor.bpm + '\n' + 'Song Step: ' + MusicBeatState.instance.curStep + '\n' + 'Song Beat: ' + MusicBeatState.instance.curBeat + '\n' + 'Song Section: ' + MusicBeatState.instance.curSection;
                 case 'windowField':
                     fields[i].text = 'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y + '\n' + 'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height;
                 case 'deviceField':
@@ -162,7 +166,7 @@ class FPSCounter extends Sprite
             }
 
             fields[i].alpha = CoolUtil.fpsLerp(fields[i].alpha, visibility[i] ? 1 : 0, 0.2);
-            fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? 10 : -10, 0.2);
+            fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - fields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - fields[i].width + 10), 0.2);
         }
 
         if (FlxG.keys.justPressed.F3)
@@ -170,14 +174,8 @@ class FPSCounter extends Sprite
             if (selInt < fields.length) selInt++;
             else selInt = 0;
             
-            if (selInt == fields.length)
-            {
-                for (i in 0...visibility.length) visibility[i] = false;
-                for (shape in shapes) shape.visible = false;
-            } else {
-                visibility[selInt] = true;
-                for (shape in shapes) shape.visible = true;
-            }
+            if (selInt == fields.length) for (i in 0...visibility.length) visibility[i] = false;
+            else visibility[selInt] = true;
         }
     }
 }
