@@ -177,6 +177,8 @@ class HScript extends SScript
 		set('Flx3DView', flx3d.Flx3DView);
 		set('Flx3DUtil', flx3d.Flx3DUtil);
 		set('Flx3DCamera', flx3d.Flx3DCamera);
+		set('CSVReader', csv.CSVReader);
+		set('CSVUtf8Reader', csv.CSVUtf8Reader);
 
         set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{

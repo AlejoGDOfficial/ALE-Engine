@@ -123,50 +123,56 @@ class FPSCounter extends Sprite
 
         if (memoryPeak < Gc.memInfo64(Gc.MEM_INFO_USAGE)) memoryPeak = Gc.memInfo64(Gc.MEM_INFO_USAGE);
 
-        for (i in 0...otherFields.length)
+        if (otherFields != null && otherFields.length > 0)
         {
-            switch (otherMaps[i])
+            for (i in 0...otherFields.length)
             {
-                case 'fpsField':
-                    otherFields[i].text = 'FPS: ' + currentFPS;
-                    otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.RED : FlxColor.WHITE;
-                case 'memoryField':
-                    otherFields[i].text = 'Memory: ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE)) + ' / ' + FlxStringUtil.formatBytes(memoryPeak);
-                    otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.PINK : FlxColor.WHITE;
-                case 'developerField':
-                    otherFields[i].text = 'DEVELOPER MODE';
-                case 'versionField':
-                    otherFields[i].text = 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion;
-                    otherVisibility[i] = timer < 10 && CoolVars.outdated;
-                case 'tipsField':
-                    otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
-                    otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT;
-                default:
-                    otherFields[i].text = '';
+                switch (otherMaps[i])
+                {
+                    case 'fpsField':
+                        otherFields[i].text = 'FPS: ' + currentFPS;
+                        otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.RED : FlxColor.WHITE;
+                    case 'memoryField':
+                        otherFields[i].text = 'Memory: ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE)) + ' / ' + FlxStringUtil.formatBytes(memoryPeak);
+                        otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.PINK : FlxColor.WHITE;
+                    case 'developerField':
+                        otherFields[i].text = 'DEVELOPER MODE';
+                    case 'versionField':
+                        otherFields[i].text = 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion;
+                        otherVisibility[i] = timer < 10 && CoolVars.outdated;
+                    case 'tipsField':
+                        otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
+                        otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT;
+                    default:
+                        otherFields[i].text = '';
+                }
+    
+                otherFields[i].alpha = CoolUtil.fpsLerp(otherFields[i].alpha, otherVisibility[i] ? 1 : 0, 0.2);
+                otherFields[i].x = CoolUtil.fpsLerp(otherFields[i].x, otherVisibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - otherFields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - otherFields[i].width + 10), 0.2);
             }
-
-            otherFields[i].alpha = CoolUtil.fpsLerp(otherFields[i].alpha, otherVisibility[i] ? 1 : 0, 0.2);
-            otherFields[i].x = CoolUtil.fpsLerp(otherFields[i].x, otherVisibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - otherFields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - otherFields[i].width + 10), 0.2);
         }
 
-        for (i in 0...fields.length)
+        if (fields != null && fields.length > 0)
         {
-            switch (maps[i])
+            for (i in 0...fields.length)
             {
-                case 'stateField':
-                    fields[i].text = 'State: ' + (CoolUtil.getCurrentState()[0] ? Type.getClassName(Type.getClass(FlxG.state)) + ' (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + '\n' + 'SubState: ' + (CoolUtil.getCurrentSubState()[0] ? Type.getClassName(Type.getClass(FlxG.state.subState)) + ' (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]);
-                case 'conductorField':
-                    fields[i].text = 'Song Position: ' + CoolUtil.floorDecimal(Conductor.songPosition / 1000, 2) + ' / ' + CoolUtil.floorDecimal(FlxG.sound.music.length / 1000, 2) + '\n' + 'Song BPM: ' + Conductor.bpm + '\n' + 'Song Step: ' + MusicBeatState.instance.curStep + '\n' + 'Song Beat: ' + MusicBeatState.instance.curBeat + '\n' + 'Song Section: ' + MusicBeatState.instance.curSection;
-                case 'windowField':
-                    fields[i].text = 'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y + '\n' + 'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height;
-                case 'deviceField':
-                    fields[i].text = 'Screen Resultion: ' + Capabilities.screenResolutionX + ' x ' + Capabilities.screenResolutionY + '\n' + 'Operating System: ' + Capabilities.os;
-                default:
-                    fields[i].text = '';
+                switch (maps[i])
+                {
+                    case 'stateField':
+                        fields[i].text = 'State: ' + (CoolUtil.getCurrentState()[0] ? Type.getClassName(Type.getClass(FlxG.state)) + ' (' + CoolUtil.getCurrentState()[1] + ')' : CoolUtil.getCurrentState()[1]) + '\n' + 'SubState: ' + (CoolUtil.getCurrentSubState()[0] ? Type.getClassName(Type.getClass(FlxG.state.subState)) + ' (' + CoolUtil.getCurrentSubState()[1] + ')' : CoolUtil.getCurrentSubState()[1]);
+                    case 'conductorField':
+                        fields[i].text = FlxG.sound.music == null ? 'No Song is Playing' : 'Song Position: ' + CoolUtil.floorDecimal(Conductor.songPosition / 1000, 2) + ' / ' + CoolUtil.floorDecimal(FlxG.sound.music.length / 1000, 2) + '\n' + 'Song BPM: ' + Conductor.bpm + '\n' + 'Song Step: ' + MusicBeatState.instance.curStep + '\n' + 'Song Beat: ' + MusicBeatState.instance.curBeat + '\n' + 'Song Section: ' + MusicBeatState.instance.curSection;
+                    case 'windowField':
+                        fields[i].text = 'Window Position: ' + Lib.application.window.x + ' - ' + Lib.application.window.y + '\n' + 'Window Resolution: ' + Lib.application.window.width + ' x ' + Lib.application.window.height;
+                    case 'deviceField':
+                        fields[i].text = 'Screen Resolution: ' + Capabilities.screenResolutionX + ' x ' + Capabilities.screenResolutionY + '\n' + 'Operating System: ' + Capabilities.os;
+                    default:
+                        fields[i].text = '';
+                }
+    
+                fields[i].alpha = CoolUtil.fpsLerp(fields[i].alpha, visibility[i] ? 1 : 0, 0.2);
+                fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - fields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - fields[i].width + 10), 0.2);
             }
-
-            fields[i].alpha = CoolUtil.fpsLerp(fields[i].alpha, visibility[i] ? 1 : 0, 0.2);
-            fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - fields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - fields[i].width + 10), 0.2);
         }
 
         if (FlxG.keys.justPressed.F3)
