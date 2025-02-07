@@ -1,5 +1,7 @@
 # Friday Night Funkin' - ALE Engine
 
+![Mi imagen](art/thumbnail.png)
+
 **ALE Engine** is a new **Friday Night Funkin' Engine** based on **Psych Engine 0.7.3** originally used for [Weekend Afternoon Extended (WIP)](https://gamebanana.com/mods/379624), intended to be **easier to use** in **some aspects** and **improve others**, as well as **improve performance**.
 
 >[!NOTE]

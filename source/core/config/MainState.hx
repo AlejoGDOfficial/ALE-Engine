@@ -36,29 +36,13 @@ class MainState extends MusicBeatState
         Lib.current.stage.align = "tl";
         Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 
-        try
-        {
-            CoolVars.developerMode = Reflect.hasField(CoolVars.gameData, 'developerMode') ? CoolVars.gameData.developerMode : true;
-    
-            CoolVars.scriptInitialState = Reflect.hasField(CoolVars.gameData, 'initialState') ? CoolVars.gameData.initialState : 'introState';
-            CoolVars.scriptFromPlayStateIfStoryMode = Reflect.hasField(CoolVars.gameData, 'fromPlayStateIfStoryMode') ? CoolVars.gameData.fromPlayStateIfStoryMode : 'storyMenuState';
-            CoolVars.scriptFromPlayStateIfFreeplay = Reflect.hasField(CoolVars.gameData, 'fromPlayStateIfFreeplay') ? CoolVars.gameData.fromPlayStateIfFreeplay : 'freeplayState';
-            CoolVars.scriptFromEditors = Reflect.hasField(CoolVars.gameData, 'fromEditors') ? CoolVars.gameData.fromEditors : 'masterEditorMenu';
-            CoolVars.scriptOptionsState = Reflect.hasField(CoolVars.gameData, 'optionsState') ? CoolVars.gameData.optionsState : 'optionsState';
-            CoolVars.scriptPauseMenu = Reflect.hasField(CoolVars.gameData, 'pauseMenu') ? CoolVars.gameData.pauseMenu : 'pauseSubstate';
-            CoolVars.scriptCrashState = Reflect.hasField(CoolVars.gameData, 'crashState') ? CoolVars.gameData.crashState : 'crashState';
-            CoolVars.scriptTransition = Reflect.hasField(CoolVars.gameData, 'transition') ? CoolVars.gameData.transition : 'fadeTransition';
-
-            if (Reflect.hasField(CoolVars.gameData, 'title')) lime.app.Application.current.window.title = CoolVars.gameData.title;
-            #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
-            
-			var iconPath:String = Reflect.hasField(CoolVars.gameData, 'icon') ? 'mods/' + Mods.currentModDirectory + '/' + CoolVars.gameData.icon + '.png' : 'assets/shared/images/appIcon.png';
-			if(!FileSystem.exists(iconPath)) iconPath = 'assets/shared/images/appIcon.png';
-            
-            lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(iconPath));
-        } catch(error:Dynamic) {
-            trace('DATA ERROR: ' + error);
-        }
+        if (Reflect.hasField(CoolVars.gameData, 'title')) lime.app.Application.current.window.title = CoolVars.gameData.title;
+        #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
+        
+        var iconPath:String = Reflect.hasField(CoolVars.gameData, 'icon') ? 'mods/' + Mods.currentModDirectory + '/' + CoolVars.gameData.icon + '.png' : 'assets/shared/images/appIcon.png';
+        if(!FileSystem.exists(iconPath)) iconPath = 'assets/shared/images/appIcon.png';
+        
+        lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(iconPath));
 
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;

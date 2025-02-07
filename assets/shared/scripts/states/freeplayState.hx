@@ -192,6 +192,8 @@ var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
 
 var changed = {songs: true, difficulties: true}
 
+var changedSong:Bool = false;
+
 function onUpdate(elapsed:Float)
 {
     if (canSelect)
@@ -359,12 +361,15 @@ function onUpdate(elapsed:Float)
 
             MusicBeatState.switchState(new ScriptState('mainMenuState'));
 
-            FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
-            ScriptState.instance.fixMusic();
-            Conductor.bpm = CoolVars.gameData.bpm;
-            
-            FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+            if (changedSong)
+            {
+                FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+                ScriptState.instance.fixMusic();
+                Conductor.bpm = CoolVars.gameData.bpm;
+            }
 
+            FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+            
             canSelect = false;
         }
 
@@ -402,6 +407,8 @@ function changeSongShit()
     {
         if (canSelect)
         {
+            changedSong = true;
+
             PlayState.storyWeek = WeekData.weeksList.indexOf(songs[songsSelInt].get('week'));
 
             var songLowercase:String = Paths.formatToSongPath(songs[songsSelInt].get('name').toLowerCase());

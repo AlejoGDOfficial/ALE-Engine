@@ -195,7 +195,7 @@ function onUpdate(elapsed:Float)
                             options[selInt.options].set('value', FlxMath.roundDecimal(FlxMath.bound(options[selInt.options].get('value') + (controls.UI_LEFT ? -options[selInt.options].get('change') : controls.UI_RIGHT ? options[selInt.options].get('change') : 0), options[selInt.options].get('min'), options[selInt.options].get('max')), options[selInt.options].get('decimals')));
                     }
                     
-                    options[selInt.options].get('attaText').text = options[selInt.options].get('value');
+                    if (options[selInt.options].get('type') == 'STRING' || options[selInt.options].get('type') == 'INTEGER' || options[selInt.options].get('type') == 'FLOAT') options[selInt.options].get('attaText').text = options[selInt.options].get('value');
                 }
     
                 holdTime += elapsed;

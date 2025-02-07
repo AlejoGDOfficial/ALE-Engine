@@ -9,8 +9,7 @@ function onUpdate(elapsed:Float)
 {
 	if ((ignoreReset.contains(ScriptState.targetFileName) ? FlxG.keys.justPressed.F5 : controls.RESET) && CoolVars.developerMode) resetScriptState();
 
-    if (FlxG.sound.music != null)
-        Conductor.songPosition = FlxG.sound.music.time;
+    if (FlxG.sound.music != null) Conductor.songPosition = FlxG.sound.music.time;
 
     FlxG.camera.zoom = fpsLerp(FlxG.camera.zoom, 1, 0.1);
 }
