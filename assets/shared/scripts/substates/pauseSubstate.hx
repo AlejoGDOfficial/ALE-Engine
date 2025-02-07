@@ -148,6 +148,8 @@ function getPauseSong()
 
 var cantUnpause:Float = 0.1;
 
+var holdTime:Float = 0;
+
 function onUpdatePost(elapsed:Float)
 {
 	var daSelected:String = menuItems[curSelected];
@@ -251,14 +253,15 @@ function onUpdatePost(elapsed:Float)
 				PlayState.restartSong(true);
 				close();
 			case "Leave Charting Mode":
-				PlayState.restartSong(false);
+				PlayState.restartSong(true);
 				PlayState.chartingMode = false;
 				close();
 			case 'Skip Time':
 				if(curTime < Conductor.songPosition)
 				{
 					PlayState.startOnTime = curTime;
-					PlayState.restartSong();
+					PlayState.restartSong(true);
+					close();
 				}
 				else
 				{
@@ -311,8 +314,6 @@ function onUpdatePost(elapsed:Float)
 		
 	}
 }
-
-var holdTime:Float = 0;
 
 function deleteSkipTimeText()
 {
