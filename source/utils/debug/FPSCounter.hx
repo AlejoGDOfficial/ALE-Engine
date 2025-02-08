@@ -32,6 +32,8 @@ class FPSCounter extends Sprite
     {
         super();
 
+        FlxG.signals.postUpdate.add(theUpdate);
+
         fields = new Array<TextField>();
         visibility = new Array<Bool>();
         maps = new Array<String>();
@@ -93,10 +95,8 @@ class FPSCounter extends Sprite
 
     var orientationLeft:Bool = true;
     
-    override private function __enterFrame(deltaTime:Int):Void
+    function theUpdate()
     {
-        super.__enterFrame(deltaTime);
-
 		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT)
@@ -148,6 +148,7 @@ class FPSCounter extends Sprite
                 }
     
                 otherFields[i].alpha = CoolUtil.fpsLerp(otherFields[i].alpha, otherVisibility[i] ? 1 : 0, 0.2);
+                otherFields[i].alpha = Math.max(0, otherFields[i].alpha);
                 otherFields[i].x = CoolUtil.fpsLerp(otherFields[i].x, otherVisibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - otherFields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - otherFields[i].width + 10), 0.2);
             }
         }
@@ -169,8 +170,9 @@ class FPSCounter extends Sprite
                     default:
                         fields[i].text = '';
                 }
-    
+
                 fields[i].alpha = CoolUtil.fpsLerp(fields[i].alpha, visibility[i] ? 1 : 0, 0.2);
+                fields[i].alpha = Math.max(0, fields[i].alpha);
                 fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - fields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - fields[i].width + 10), 0.2);
             }
         }
@@ -204,6 +206,7 @@ class AttachedShape extends Shape
     function update(e:Event)
     {
         graphics.clear();
+        graphics.beginFill(0x000000, Math.max(0, sprTracker.alpha - 0.5));
         graphics.beginFill(0x000000, sprTracker.alpha - 0.5);
         graphics.drawRect(sprTracker.x - 10, sprTracker.y, sprTracker.width + 20, sprTracker.height);
         graphics.endFill();
