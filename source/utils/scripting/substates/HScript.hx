@@ -9,7 +9,7 @@ import core.gameplay.stages.WeekData;
 
 import openfl.Lib;
 
-#if windows import cpp.*; #end
+#if (windows && cpp) import cpp.*; #end
 
 #if LUA_ALLOWED
 import utils.scripting.substates.FunkinLua;
@@ -80,7 +80,7 @@ class HScript extends SScript
 	
 	private function windowTweenUpdateAlpha(value:Float)
 	{
-		#if windows WindowsCPP.setWindowAlpha(value); #end
+		#if (windows && cpp) WindowsCPP.setWindowAlpha(value); #end
 	}
 
 	//ALE Shit END
@@ -179,6 +179,7 @@ class HScript extends SScript
 		set('Flx3DUtil', flx3d.Flx3DUtil);
 		set('Flx3DCamera', flx3d.Flx3DCamera);
 		set('FlxGradient', flixel.util.FlxGradient);
+		set('FlxVideo', hxvlc.flixel.FlxVideo);
 
         set("switchToScriptSubstate", function(name:String, ?doTransition:Bool = true)
 		{
@@ -302,93 +303,93 @@ class HScript extends SScript
 
 		set('changeTitle', function(titleText:String)
 		{
-			#if windows lime.app.Application.current.window.title = titleText;
+			#if (windows && cpp) lime.app.Application.current.window.title = titleText;
 			WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
 		});
 		
 		set('getDeviceRAM', function()
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.obtainRAM(); #end
 		});
 		
 		set('screenCapture', function(path:String)
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:cpp.WindowsAPI.MessageBoxIcon = MSG_WARNING)
+		set('showMessageBox', function(message:String, caption:String, icon:#if cpp cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end
 		});
 		
 		set('setWindowAlpha', function(a:Float)
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.setWindowAlpha(a); #end
 		});
 		set('getWindowAlpha', function()
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			return WindowsCPP.getWindowAlpha(); #end
 		});
 		set('doWindowTweenAlpha', function(alpha:Float, time:Float, theEase:Dynamic)
 		{
-			#if windows FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha); #end
+			#if (windows && cpp) FlxTween.num(WindowsCPP.getWindowAlpha(), alpha, time, {ease: theEase}, windowTweenUpdateAlpha); #end
 		});
 	
 		set('setBorderColor', function(r:Int, g:Int, b:Int)
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.setWindowBorderColor(r, g, b); #end
 		});
 		
 		set('hideTaskbar', function(hide:Bool)
 		{
-			#if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
+			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.hideTaskbar(hide); #end
 		});
 	
 		set('getCursorX', function()
 		{
-			#if windows return WindowsCPP.getCursorPositionX(); #end
+			#if (windows && cpp) return WindowsCPP.getCursorPositionX(); #end
 		});
 	
 		set('getCursorY', function()
 		{
-			#if windows return WindowsCPP.getCursorPositionY(); #end
+			#if (windows && cpp) return WindowsCPP.getCursorPositionY(); #end
 		});
 	
 		set('clearTerminal', function()
 		{
-			#if windows WindowsTerminalCPP.clearTerminal(); #end
+			#if (windows && cpp) WindowsTerminalCPP.clearTerminal(); #end
 		});
 	
 		set('showConsole', function()
 		{
-			#if windows WindowsTerminalCPP.allocConsole(); #end
+			#if (windows && cpp) WindowsTerminalCPP.allocConsole(); #end
 		});
 	
 		set('setConsoleTitle', function(title:String)
 		{
-			#if windows WindowsTerminalCPP.setConsoleTitle(title); #end
+			#if (windows && cpp) WindowsTerminalCPP.setConsoleTitle(title); #end
 		});
 	
 		set('disableCloseConsole', function()
 		{
-			#if windows WindowsTerminalCPP.disableCloseConsoleWindow(); #end
+			#if (windows && cpp) WindowsTerminalCPP.disableCloseConsoleWindow(); #end
 		});
 	
 		set('hideConsole', function()
 		{
-			#if windows WindowsTerminalCPP.hideConsoleWindow(); #end
+			#if (windows && cpp) WindowsTerminalCPP.hideConsoleWindow(); #end
 		});
 	
 		set('sendNotification', function(title:String, desc:String)
 		{
-			#if windows var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
+			#if (windows && cpp) var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
 				+ "$title = '"
 				+ desc
 				+ "';"

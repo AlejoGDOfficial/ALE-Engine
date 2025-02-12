@@ -51,7 +51,6 @@ class ScriptCrashState extends ScriptState
         setOnScripts('EMessage', EMessage);
         setOnScripts('callstack', callstack);
         setOnScripts('isCritical', isCritical);
-        setOnScripts('isCritical', isCritical);
 
         setOnScripts('collectErrorData', collectErrorData);
     }

@@ -29,6 +29,8 @@ class ScriptTransition extends ScriptSubstate
 
 	override function close()
 	{
+		instance = null;
+
 		if (finishCallback != null)
 		{
 			if (transIn) finishCallback();

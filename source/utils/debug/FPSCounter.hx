@@ -8,7 +8,7 @@ import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.system.Capabilities;
-import cpp.vm.Gc;
+#if cpp import cpp.vm.Gc; #end
 import flixel.util.FlxStringUtil;
 import haxe.ds.StringMap;
 import haxe.Timer;
@@ -45,7 +45,7 @@ class FPSCounter extends Sprite
         shapes = new Array<AttachedShape>();
         
         createDebugText('fpsField', 2, 20, false, true);
-        createDebugText('memoryField', 32, 16, false, true);
+        #if windows createDebugText('memoryField', 32, 16, false, true); #end
         createDebugText('developerField', 57, 12, false, CoolVars.developerMode);
         createDebugText('stateField', 80, 16, true, false);
         createDebugText('conductorField', 130, 16, true, true);
@@ -99,7 +99,7 @@ class FPSCounter extends Sprite
     {
 		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
-        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT)
+        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && gameplay.states.game.PlayState.instance == null)
         {
             if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
             else if (FlxG.keys.justPressed.F1) for (shape in shapes) shape.visible = !shape.visible;
@@ -121,7 +121,7 @@ class FPSCounter extends Sprite
     {
         timer += FlxG.elapsed;
 
-        if (memoryPeak < Gc.memInfo64(Gc.MEM_INFO_USAGE)) memoryPeak = Gc.memInfo64(Gc.MEM_INFO_USAGE);
+        #if cpp if (memoryPeak < Gc.memInfo64(Gc.MEM_INFO_USAGE)) memoryPeak = Gc.memInfo64(Gc.MEM_INFO_USAGE); #end
 
         if (otherFields != null && otherFields.length > 0)
         {
@@ -132,9 +132,11 @@ class FPSCounter extends Sprite
                     case 'fpsField':
                         otherFields[i].text = 'FPS: ' + currentFPS;
                         otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.RED : FlxColor.WHITE;
+                    #if cpp
                     case 'memoryField':
                         otherFields[i].text = 'Memory: ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE)) + ' / ' + FlxStringUtil.formatBytes(memoryPeak);
                         otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.PINK : FlxColor.WHITE;
+                    #end
                     case 'developerField':
                         otherFields[i].text = 'DEVELOPER MODE';
                     case 'versionField':
@@ -142,7 +144,7 @@ class FPSCounter extends Sprite
                         otherVisibility[i] = timer < 10 && CoolVars.outdated;
                     case 'tipsField':
                         otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
-                        otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT;
+                        otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && gameplay.states.game.PlayState.instance == null;
                     default:
                         otherFields[i].text = '';
                 }

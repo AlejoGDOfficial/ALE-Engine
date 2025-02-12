@@ -49,6 +49,8 @@ import sys.io.*;
 import js.html.*;
 #end
 
+#if !cpp import lime.utils.Assets as FileSystem; #end
+
 #if flxanimate
 import flxanimate.*;
 #end

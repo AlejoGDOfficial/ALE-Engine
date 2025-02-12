@@ -9,7 +9,8 @@ import hxdiscord_rpc.Types;
 class DiscordClient
 {
 	public static var isInitialized:Bool = false;
-	private static final _defaultID:String = "1309982575368077416";
+	static var _defaultID(get, never):String;
+	static function get__defaultID() return CoolVars.gameData.discordID;
 	public static var clientID(default, set):String = _defaultID;
 	private static var presence:#if DISCORD_ALLOWED DiscordRichPresence #else Dynamic #end = #if DISCORD_ALLOWED DiscordRichPresence.create() #else null #end;
 
@@ -53,13 +54,13 @@ class DiscordClient
 	}
 	#end
 
-	private static function onError(errorCode:Int, message:cpp.ConstCharStar):Void {
+	private static function onError(errorCode:Int, message:#if DISCORD_ALLOWED cpp.ConstCharStar #else Dynamic #end):Void {
 		#if DISCORD_ALLOWED
 		trace('Discord: Error ($errorCode: ${cast(message, String)})');
 		#end
 	}
 
-	private static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void {
+	private static function onDisconnected(errorCode:Int, message:#if DISCORD_ALLOWED cpp.ConstCharStar #else Dynamic #end):Void {
 		#if DISCORD_ALLOWED
 		trace('Discord: Disconnected ($errorCode: ${cast(message, String)})');
 		#end
@@ -154,7 +155,7 @@ class DiscordClient
 		#end
 	}
 
-	public static function addLuaCallbacks(lua:State) {
+	public static function addLuaCallbacks(lua:#if cpp State #else Dynamic #end) {
 		#if (LUA_ALLOWED && DISCORD_ALLOWED)
 		Lua_helper.add_callback(lua, "changeDiscordPresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
 			changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);

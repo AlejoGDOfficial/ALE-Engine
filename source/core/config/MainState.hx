@@ -5,7 +5,7 @@ import openfl.display.StageScaleMode;
 
 import utils.debug.FPSCounter;
 
-#if windows import cpp.WindowsCPP; #end
+#if cpp import cpp.WindowsCPP; #end
 
 class MainState extends MusicBeatState
 {
@@ -16,7 +16,7 @@ class MainState extends MusicBeatState
         ClientPrefs.loadJsonPrefs();
         ClientPrefs.loadPrefs();
     
-        #if windows WindowsCPP.setWindowLayered(); #end
+        #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
     
         Paths.clearStoredMemory();
         Paths.clearUnusedMemory();
@@ -31,13 +31,15 @@ class MainState extends MusicBeatState
 
         super.create();
 
+        #if cpp
         fpsVar = new FPSCounter();
         FlxG.game.addChild(fpsVar);
         Lib.current.stage.align = "tl";
         Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+        #end
 
         if (Reflect.hasField(CoolVars.gameData, 'title')) lime.app.Application.current.window.title = CoolVars.gameData.title;
-        #if windows WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
+        #if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end
         
         var iconPath:String = Reflect.hasField(CoolVars.gameData, 'icon') ? 'mods/' + Mods.currentModDirectory + '/' + CoolVars.gameData.icon + '.png' : 'assets/shared/images/appIcon.png';
         if(!FileSystem.exists(iconPath)) iconPath = 'assets/shared/images/appIcon.png';
@@ -48,7 +50,7 @@ class MainState extends MusicBeatState
 		FlxTransitionableState.skipNextTransOut = true;
 
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
-
+        
 		#if CHECK_FOR_UPDATES
 		if (ClientPrefs.data.checkForUpdates) 
         {

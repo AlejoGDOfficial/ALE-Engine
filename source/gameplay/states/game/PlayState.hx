@@ -258,6 +258,10 @@ class PlayState extends MusicBeatState
 
 	public static var onOptionsState:Bool = false;
 
+	public var camGameModulo:Int = 4;
+	public var camHUDModulo:Int = 4;
+	public var iconsModulo:Int = 1;
+
 	override public function create()
 	{
 		//trace('Playback Rate: ' + playbackRate);
@@ -400,6 +404,7 @@ class PlayState extends MusicBeatState
 		// "GLOBAL" SCRIPTS
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/songs/'))
+		{
 			for (file in FileSystem.readDirectory(folder))
 			{
 				#if LUA_ALLOWED
@@ -412,6 +417,23 @@ class PlayState extends MusicBeatState
 					initHScript(folder + file);
 				#end
 			}
+		}
+
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/global/'))
+		{
+			for (file in FileSystem.readDirectory(folder))
+			{
+				#if LUA_ALLOWED
+				if(file.toLowerCase().endsWith('.lua'))
+					new FunkinLua(folder + file);
+				#end
+
+				#if HSCRIPT_ALLOWED
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
+				#end
+			}
+		}
 		#end
 
 		// STAGE SCRIPTS
@@ -795,8 +817,8 @@ class PlayState extends MusicBeatState
 	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
 	{
 		#if VIDEOS_ALLOWED
-		inCutscene = true;
-		canPause = false;
+		inCutscene = !forMidSong;
+		canPause = forMidSong;
 
 		var foundFile:Bool = false;
 		var fileName:String = Paths.video(name);
@@ -810,30 +832,31 @@ class PlayState extends MusicBeatState
 
 		if (foundFile)
 		{
-			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop);
+			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop, false);
+			videoCutscene.videoSprite.bitmap.rate = playbackRate;
 
 			// Finish callback
 			if (!forMidSong)
 			{
 				function onVideoEnd()
 				{
-					if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
+					if (!isDead && generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
 					{
 						moveCameraSection();
-						FlxG.camera.snapToTarget();
 					}
 					videoCutscene = null;
-					canPause = false;
+					canPause = true;
 					inCutscene = false;
 					startAndEnd();
 				}
 				videoCutscene.finishCallback = onVideoEnd;
 				videoCutscene.onSkip = onVideoEnd;
 			}
-			add(videoCutscene);
+			if (GameOverSubstate.instance != null && isDead) GameOverSubstate.instance.add(videoCutscene);
+			else add(videoCutscene);
 
 			if (playOnLoad)
-				videoCutscene.videoSprite.play();
+				videoCutscene.play();
 			return videoCutscene;
 		}
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
@@ -1600,7 +1623,7 @@ class PlayState extends MusicBeatState
 		setOnScripts('curDecStep', curDecStep);
 		setOnScripts('curDecBeat', curDecBeat);
 
-		healthBarPercent = CoolUtil.fpsLerp(healthBarPercent, health, 0.1);
+		healthBarPercent = CoolUtil.fpsLerp(healthBarPercent, health, 0.2);
 
 		if(botplayTxt != null && botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
@@ -2169,7 +2192,6 @@ class PlayState extends MusicBeatState
 			camFollow.setPosition(gf.getMidpoint().x, gf.getMidpoint().y);
 			camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
 			camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
-			tweenCamIn();
 			callOnScripts('onMoveCamera', ['gf']);
 			return;
 		}
@@ -2187,33 +2209,12 @@ class PlayState extends MusicBeatState
 			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
 			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
-			tweenCamIn();
 		}
 		else
 		{
 			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
-
-			if (songName == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
-			{
-				cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
-					function (twn:FlxTween)
-					{
-						cameraTwn = null;
-					}
-				});
-			}
-		}
-	}
-
-	public function tweenCamIn() {
-		if (songName == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1.3) {
-			cameraTwn = FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut, onComplete:
-				function (twn:FlxTween) {
-					cameraTwn = null;
-				}
-			});
 		}
 	}
 
@@ -3037,15 +3038,22 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		iconP1.scale.x = 1.2;
-		iconP1.scale.y = 1.2;
-		iconP1.updateHitbox();
+		if (camZooming && curBeat % camGameModulo == 0 && ClientPrefs.data.camZooms) FlxG.camera.zoom += 0.015 * camZoomingMult;
 
-		iconP2.scale.x = 1.2;
-		iconP2.scale.y = 1.2;
-		iconP2.updateHitbox();
+		if (camZooming && curBeat % camHUDModulo == 0 && ClientPrefs.data.camZooms) camHUD.zoom += 0.03 * camZoomingMult;
 
-		updateIconsPosition();
+		if (curBeat % iconsModulo == 0)
+		{
+			iconP1.scale.x = 1.2;
+			iconP1.scale.y = 1.2;
+			iconP1.updateHitbox();
+	
+			iconP2.scale.x = 1.2;
+			iconP2.scale.y = 1.2;
+			iconP2.updateHitbox();
+	
+			updateIconsPosition();
+		}
 
 		characterBopper(curBeat);
 
@@ -3080,12 +3088,6 @@ class PlayState extends MusicBeatState
 		{
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
 				moveCameraSection();
-
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
-			{
-				FlxG.camera.zoom += 0.015 * camZoomingMult;
-				camHUD.zoom += 0.03 * camZoomingMult;
-			}
 
 			if (SONG.notes[curSection].changeBPM)
 			{

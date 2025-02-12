@@ -367,7 +367,7 @@ class CharacterEditorState extends MusicBeatState
 			}
 		};
 
-		var ghostAlphaSlider:FlxUISlider = new FlxUISlider(this, 'ghostAlpha', 10, makeGhostButton.y + 25, 0, 1, 210, null, 5, FlxColor.WHITE, FlxColor.BLACK);
+		var ghostAlphaSlider:FlxUISlider = new FlxUISlider(this, 'ghostAlpha', 10, makeGhostButton.y + 25, 0, 1, 210, 15, 5, FlxColor.WHITE, FlxColor.BLACK);
 		ghostAlphaSlider.nameLabel.text = 'Opacity:';
 		ghostAlphaSlider.decimals = 2;
 		ghostAlphaSlider.callback = function(relativePos:Float) {

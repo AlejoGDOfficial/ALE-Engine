@@ -10,14 +10,7 @@ class CoolVars
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
-    public static var gameData(get, never):Dynamic;
-	static function get_gameData():Dynamic
-	{
-		var jsonToLoad:String = Paths.modFolders('data.json');
-		if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('data.json');
-	
-		return haxe.Json.parse(sys.io.File.getContent(jsonToLoad));
-	}
+    public static var gameData:Dynamic = {};
 
 	public static var developerMode(get, never):Bool;
 	static function get_developerMode() return Reflect.hasField(CoolVars.gameData, 'developerMode') ? CoolVars.gameData.developerMode : true;
@@ -46,6 +39,9 @@ class CoolVars
 	public static var scriptTransition(get, never):String;
 	static function get_scriptTransition() return Reflect.hasField(CoolVars.gameData, 'transition') ? CoolVars.gameData.transition : 'fadeTransition';
 
+	public static var discordID(get, never):String;
+	static function get_discordID() return Reflect.hasField(CoolVars.gameData, 'discordID') ? CoolVars.gameData.discordID : '1309982575368077416';
+
 	public static var isConsoleVisible:Bool = false;
 
 	public static var engineVersion:String = '';
@@ -54,5 +50,14 @@ class CoolVars
 	
 	public static var globalVars:StringMap<Dynamic> = new StringMap<Dynamic>();
 	public static var globalFields:Dynamic = {};
+
+	private static function setGameData()
+	{
+		#if cpp
+		var jsonToLoad:String = Paths.modFolders('data.json');
+		if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('data.json');
+		CoolVars.gameData = FileSystem.exists(jsonToLoad) ? haxe.Json.parse(sys.io.File.getContent(jsonToLoad)) : {};
+		#end
+	}
 }
 

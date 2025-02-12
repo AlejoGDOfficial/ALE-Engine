@@ -48,10 +48,7 @@ class Main extends Sprite
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
-	public static function main():Void
-	{
-		Lib.current.addChild(new Main());
-	}
+	public static function main():Void Lib.current.addChild(new Main());
 
 	public function new()
 	{
@@ -110,7 +107,7 @@ class Main extends Sprite
 		
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
-		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
+		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
 		#if linux
 		var icon = Image.fromFile("icon.png");

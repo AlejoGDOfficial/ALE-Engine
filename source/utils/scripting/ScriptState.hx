@@ -15,9 +15,7 @@ import gameplay.camera.PsychCamera;
 
 import visuals.cutscenes.VideoSprite;
 
-#if LUA_ALLOWED
 import utils.scripting.states.*;
-#end
 
 #if SScript
 import tea.SScript;
@@ -93,6 +91,24 @@ class ScriptState extends MusicBeatState
 		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/states/' + targetFileName + '.hx'); #end
 		#if LUA_ALLOWED startLuasNamed('scripts/states/global.lua'); #end
 		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/states/global.hx'); #end
+
+		#if (HSCRIPT_ALLOWED || LUA_ALLOWED)
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/global/'))
+		{
+			for (file in FileSystem.readDirectory(folder))
+			{
+				#if LUA_ALLOWED
+				if(file.toLowerCase().endsWith('.lua'))
+					new FunkinLua(folder + file);
+				#end
+
+				#if HSCRIPT_ALLOWED
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
+				#end
+			}
+		}
+		#end
 
 		callOnScripts('onCreatePost');
 
@@ -199,7 +215,7 @@ class ScriptState extends MusicBeatState
 	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
 	{
 		#if VIDEOS_ALLOWED
-		inCutscene = true;
+		inCutscene = !forMidSong;
 
 		var foundFile:Bool = false;
 		var fileName:String = Paths.video(name);
@@ -213,7 +229,7 @@ class ScriptState extends MusicBeatState
 
 		if (foundFile)
 		{
-			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop);
+			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop, false);
 
 			// Finish callback
 			if (!forMidSong)
@@ -226,10 +242,10 @@ class ScriptState extends MusicBeatState
 				videoCutscene.finishCallback = onVideoEnd;
 				videoCutscene.onSkip = onVideoEnd;
 			}
-			add(videoCutscene);
+			else add(videoCutscene);
 
 			if (playOnLoad)
-				videoCutscene.videoSprite.play();
+				videoCutscene.play();
 			return videoCutscene;
 		}
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
@@ -239,7 +255,6 @@ class ScriptState extends MusicBeatState
 		#end
 		#else
 		FlxG.log.warn('Platform not supported!');
-		startAndEnd();
 		#end
 		return null;
 	}
@@ -338,22 +353,28 @@ class ScriptState extends MusicBeatState
 	#if HSCRIPT_ALLOWED
 	public function startHScriptsNamed(scriptFile:String)
 	{
-		#if MODS_ALLOWED
-		var scriptToLoad:String = Paths.modFolders(scriptFile);
-		if(!FileSystem.exists(scriptToLoad))
-			scriptToLoad = Paths.getSharedPath(scriptFile);
-		#else
-		var scriptToLoad:String = Paths.getSharedPath(scriptFile);
-		#end
-
-		if(FileSystem.exists(scriptToLoad))
+		try
 		{
-			if (SScript.global.exists(scriptToLoad)) return false;
-
-			initHScript(scriptToLoad);
-			return true;
+			#if MODS_ALLOWED
+			var scriptToLoad:String = Paths.modFolders(scriptFile);
+			if(!FileSystem.exists(scriptToLoad))
+				scriptToLoad = Paths.getSharedPath(scriptFile);
+			#else
+			var scriptToLoad:String = Paths.getSharedPath(scriptFile);
+			#end
+	
+			if(FileSystem.exists(scriptToLoad))
+			{
+				if (SScript.global.exists(scriptToLoad)) return false;
+	
+				initHScript(scriptToLoad);
+				return true;
+			}
+			return false;
+		} catch (e) {
+			addTextToDebug(e.toString(), FlxColor.RED);
+			return false;
 		}
-		return false;
 	}
 
 	public function initHScript(file:String)

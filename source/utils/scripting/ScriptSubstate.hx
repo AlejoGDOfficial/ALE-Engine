@@ -11,11 +11,7 @@ import gameplay.states.editors.*;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 
-import visuals.cutscenes.VideoSprite;
-
-#if LUA_ALLOWED
 import utils.scripting.substates.*;
-#end
 
 #if SScript
 import tea.SScript;
@@ -170,57 +166,6 @@ class ScriptSubstate extends MusicBeatSubstate
 		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
 		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
 		if(variables.exists(tag)) return variables.get(tag);
-		#end
-		return null;
-	}
-
-	public static var inCutscene:Bool;
-
-	public var videoCutscene:VideoSprite = null;
-	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
-	{
-		#if VIDEOS_ALLOWED
-		inCutscene = true;
-
-		var foundFile:Bool = false;
-		var fileName:String = Paths.video(name);
-
-		#if sys
-		if (FileSystem.exists(fileName))
-		#else
-		if (OpenFlAssets.exists(fileName))
-		#end
-		foundFile = true;
-
-		if (foundFile)
-		{
-			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop);
-
-			// Finish callback
-			if (!forMidSong)
-			{
-				function onVideoEnd()
-				{
-					videoCutscene = null;
-					inCutscene = false;
-				}
-				videoCutscene.finishCallback = onVideoEnd;
-				videoCutscene.onSkip = onVideoEnd;
-			}
-			add(videoCutscene);
-
-			if (playOnLoad)
-				videoCutscene.videoSprite.play();
-			return videoCutscene;
-		}
-		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		else addTextToDebug("Video not found: " + fileName, FlxColor.RED);
-		#else
-		else FlxG.log.error("Video not found: " + fileName);
-		#end
-		#else
-		FlxG.log.warn('Platform not supported!');
-		startAndEnd();
 		#end
 		return null;
 	}

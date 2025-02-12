@@ -329,5 +329,29 @@ class WindowsCPP
 		}
 	')
 	public static function setWindowLayeredMode(numberMode:Int) {}
+
+	public static function sendNotification(title:String, desc:String)
+	{
+		#if windows var powershellCommand = "powershell -Command \"& {$ErrorActionPreference = 'Stop';"
+			+ "$title = '"
+			+ desc
+			+ "';"
+			+ "[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null;"
+			+ "$template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText01);"
+			+ "$toastXml = [xml] $template.GetXml();"
+			+ "$toastXml.GetElementsByTagName('text').AppendChild($toastXml.CreateTextNode($title)) > $null;"
+			+ "$xml = New-Object Windows.Data.Xml.Dom.XmlDocument;"
+			+ "$xml.LoadXml($toastXml.OuterXml);"
+			+ "$toast = [Windows.UI.Notifications.ToastNotification]::new($xml);"
+			+ "$toast.Tag = 'Test1';"
+			+ "$toast.Group = 'Test2';"
+			+ "$notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('"
+			+ title
+			+ "');"
+			+ "$notifier.Show($toast);}\"";
+
+		if (title != null && title != "" && desc != null && desc != "")
+			new Process(powershellCommand); #end
+	};
 }
 #end

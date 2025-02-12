@@ -7,6 +7,7 @@ import gameplay.camera.PsychCamera;
 import gameplay.camera.CustomFadeTransition;
 import utils.scripting.ScriptTransition;
 
+@:access(utils.helpers.CoolVars)
 class MusicBeatState extends FlxUIState
 {
 	private var curSection:Int = 0;
@@ -43,9 +44,9 @@ class MusicBeatState extends FlxUIState
 	override function create() {
 		instance = this;
 
-		if(!_psychCameraInitialized) initPsychCamera();
+		CoolVars.setGameData();
 
-		super.create();
+		if(!_psychCameraInitialized) initPsychCamera();
 
 		if (!FlxTransitionableState.skipNextTransOut) 
 		{
@@ -56,6 +57,8 @@ class MusicBeatState extends FlxUIState
 		
 		FlxTransitionableState.skipNextTransOut = false;
 		timePassedOnState = 0;
+
+		super.create();
 	}
 
 	override function destroy()
@@ -156,6 +159,8 @@ class MusicBeatState extends FlxUIState
 
 	public static function switchState(nextState:FlxState = null)
 	{
+		if (utils.scripting.ScriptTransition.instance != null) return;
+		
 		if(nextState == null) nextState = FlxG.state;
 
 		if(nextState == FlxG.state)
