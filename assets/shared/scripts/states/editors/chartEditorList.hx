@@ -4,6 +4,7 @@ import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
 import flixel.math.FlxRect;
+import flixel.ui.FlxButton;
 
 import visuals.objects.Alphabet;
 import visuals.objects.AttachedSprite;
@@ -83,7 +84,7 @@ function onCreate()
     {
         var jsonData = Json.parse(File.getContent(week[0] + '/' + week[1]));
 
-        var jsonDiff:Array = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.split(' ').join('').split(',') : null;
+        var jsonDiff:Array = Reflect.hasField(jsonData, 'difficulties') && jsonData.difficulties != '' ? jsonData.difficulties.join('').split(',') : null;
         
         for (song in jsonData.songs)
         {
@@ -362,16 +363,22 @@ function addSong(name:String, icon:String, difficulties:Array)
     songs.push(songData);
 }
 
+var metaText:FlxText;
+    
 var songNameInput:FlxInputText;
 var voicesCheckBox:FlxUICheckBox;
 var bpmNumberStepper:FlxUINumericStepper;
 var speedNumberStepper:FlxUINumericStepper;
+var metaNameInput:FlxInputText;
+var metaValueInput:FlxInputText;
 
 var opponentDropDown:FlxUIDropDownMenu;
 var gfDropDown:FlxUIDropDownMenu;
 var playerDropDown:FlxUIDropDownMenu;
 
 var stageDropDown:FlxUIDropDownMenu;
+
+var metaData:Dynamic = {};
 
 function createUI(create:Bool)
 {
@@ -403,6 +410,8 @@ function createUI(create:Bool)
                     speed: speedNumberStepper.value,
                     stage: stageDropDown.selectedLabel
                 };
+
+                if (metaData != {} && metaData != null) Reflect.setField(songData, 'metadata', metaData);
         
                 PlayState.SONG = songData;
 
@@ -500,5 +509,42 @@ function createUI(create:Bool)
         add(new FlxText(playerDropDown.x, playerDropDown.y - 15, 0, 'Boyfriend:'));
 
         add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
+
+        metaText = new FlxText(FlxG.width + 200, 100, FlxG.width - 400, 'MetaData: No MetaData', 12);
+        add(metaText);
+
+        metaNameInput = new FlxInputText(FlxG.width + 700, 500, 150);
+        add(metaNameInput);
+        
+        metaValueInput = new FlxInputText(FlxG.width + 900, 500, 150);
+        add(metaValueInput);
+
+        add(new FlxText(metaNameInput.x, metaNameInput.y - 15, 0, 'Meta Name:'));
+        add(new FlxText(metaValueInput.x, metaValueInput.y - 15, 0, 'Meta Value:'));
+
+        var addMetaButton = new FlxButton(FlxG.width + 700, 550, 'Add Meta', () -> {
+            if (metaNameInput.text != '') Reflect.setField(metaData, metaNameInput.text, metaValueInput.text);
+            metaText.text = 'MetaData: ' + Std.string(metaData);
+        });
+        addMetaButton.scrollFactor.set(1, 1);
+        addMetaButton.antialiasing = ClientPrefs.data.antialiasing;
+        add(addMetaButton);
+
+        var deleteMetaButton = new FlxButton(FlxG.width + 900, 550, 'Remove Meta', () -> {
+            if (metaNameInput.text != '' && Reflect.hasField(metaData, metaNameInput.text)) metaData = shittyDeleteField(metaData, metaNameInput.text);
+            metaText.text = 'MetaData: ' + Std.string(metaData);
+        });
+        deleteMetaButton.scrollFactor.set(1, 1);
+        deleteMetaButton.antialiasing = ClientPrefs.data.antialiasing;
+        add(deleteMetaButton);
     }
+}
+
+function shittyDeleteField(object:Dynamic, removeField:String)
+{
+    var newObject:Dynamic = {};
+
+    for (field in Reflect.fields(object)) if (field != removeField) Reflect.setField(newObject, field, Reflect.field(object, field));
+    
+    return newObject;
 }

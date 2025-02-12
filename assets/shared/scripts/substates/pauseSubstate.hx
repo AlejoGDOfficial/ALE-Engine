@@ -315,6 +315,11 @@ function onUpdatePost(elapsed:Float)
 	}
 }
 
+function onDestroy()
+{
+	if (game.vocals != null) vocals.volume = 0;
+}
+
 function deleteSkipTimeText()
 {
 	if(skipTimeText != null)

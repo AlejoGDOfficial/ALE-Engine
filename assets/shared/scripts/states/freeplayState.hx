@@ -330,7 +330,7 @@ function onUpdate(elapsed:Float)
                             FlxFlicker.flicker(song.get('icon'), 0, 0.05);
                         }
 
-                        FlxG.sound.music.volume = 0;
+                        if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
     
                         FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
                         

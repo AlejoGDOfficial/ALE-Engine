@@ -31,6 +31,10 @@ typedef SwagSong =
 
 	@:optional var arrowSkin:String;
 	@:optional var splashSkin:String;
+
+	@:optional var metadata:Dynamic;
+	@:optional var gameOverSubState:String;
+	@:optional var pauseSubState:String;
 }
 
 class Song
