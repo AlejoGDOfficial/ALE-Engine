@@ -2167,6 +2167,16 @@ class PlayState extends MusicBeatState
 			case 'Play Sound':
 				if(flValue2 == null) flValue2 = 1;
 				FlxG.sound.play(Paths.sound(value1), flValue2);
+			case 'Change Camera Modulo':
+				if(flValue1 == null) flValue1 = 4;
+				if(flValue2 == null) flValue2 = 4;
+
+				camGameModulo = Math.floor(flValue1);
+				camHUDModulo = Math.floor(flValue2);
+			case 'Change Icons Modulo':
+				if (flValue1 == null) flValue1 = 4;
+					
+				iconsModulo = Math.floor(flValue1);
 		}
 
 		stagesFunc(function(stage:BaseStage) stage.eventCalled(eventName, value1, value2, flValue1, flValue2, strumTime));
