@@ -36,43 +36,7 @@ class CrashHandler
 			if (PlayState.instance.opponentVocals != null) PlayState.instance.opponentVocals.pause();
 		}
 
-		if (Std.isOfType(CallStack.exceptionStack(true), Array))
-		{
-			var errMsg:String = "";
-			var path:String;
-			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-			var dateNow:String = Date.now().toString();
-	
-			dateNow = dateNow.replace(" ", "_");
-			dateNow = dateNow.replace(":", "'");
-	
-			path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
-	
-			for (stackItem in callStack)
-			{
-				switch (stackItem)
-				{
-					case FilePos(s, file, line, column):
-						errMsg += file + " (line " + line + ")\n";
-					default:
-						Sys.println(stackItem);
-				}
-			}
-	
-			errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/AlejoGDOfficial/ALE-Engine\n\n> Crash Handler written by: sqirra-rng";
-	
-			Sys.println(errMsg);
-	
-			lime.app.Application.current.window.alert(errMsg, "Error!");
-			
-			#if DISCORD_ALLOWED
-			DiscordClient.shutdown();
-			#end
-
-			Sys.exit(1);
-		} else {
-			MusicBeatState.switchState(new utils.scripting.ScriptCrashState(e.error, CallStack.exceptionStack(true)));
-		}
+		MusicBeatState.switchState(new utils.scripting.ScriptCrashState(e.error, CallStack.exceptionStack(true)));
 	}
 
 	#if (cpp || hl)

@@ -31,8 +31,8 @@ class DiscordClient
 			if(isInitialized) shutdown();
 		});
 
-		_defaultID = CoolVars.gameData.discordID;
-		clientID = CoolVars.gameData.discordID;
+		_defaultID = CoolVars.discordID;
+		clientID = CoolVars.discordID;
 		#end
 	}
 

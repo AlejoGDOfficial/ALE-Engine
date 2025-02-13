@@ -25,8 +25,8 @@
     - Leave all **installation options** as **default**.
 2. **Download** and **install** [`git-scm`](https://git-scm.com/download/win).
     - Leave all **installation options** as **default**.
-3. Run `setup/installVisualStudioCode.bat` using **cmd** or **double-clicking it**.
-3. Run `update.bat` using **cmd** or **double-clicking it**.
+3. Run `setup/setup-msvc-win.bat` using **cmd** or **double-clicking it**.
+3. Run `setup/setup-haxelibs` using **cmd** or **double-clicking it**.
 4. Once the **libraries are installed**, run `lime test windows` to compile and **launch the game** *(may take a long time)*.
 </details>
 

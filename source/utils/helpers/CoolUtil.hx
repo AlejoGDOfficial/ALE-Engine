@@ -281,6 +281,7 @@ class CoolUtil
 		if (FlxG.state.subState != null) FlxG.state.subState.close();
 
 		FlxG.game.removeChild(MainState.fpsVar);
+
 		MainState.fpsVar = null;
 
 		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
@@ -290,8 +291,8 @@ class CoolUtil
 		FlxTween.globalManager.clear();
 
 		if (utils.scripting.ScriptSubstate.instance != null) utils.scripting.ScriptSubstate.instance.destroyScripts();
-		
-		CoolVars.gameData = {};
+
+		DiscordClient.shutdown();
 
 		FlxG.resetGame();
 	}

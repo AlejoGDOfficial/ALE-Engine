@@ -30,8 +30,6 @@ class MainState extends MusicBeatState
 		DiscordClient.prepare();
 		#end
 
-        DiscordClient.resetClientID();
-
         #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
 
 		FlxG.fixedTimestep = false;

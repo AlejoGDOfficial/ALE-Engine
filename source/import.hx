@@ -1,6 +1,6 @@
 #if !macro
 import core.config.ClientPrefs;
-import core.config.Discord;
+import core.config.DiscordClient;
 import core.gameplay.Conductor;
 import core.backend.BaseStage;
 import core.backend.Controls;
