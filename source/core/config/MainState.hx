@@ -14,8 +14,6 @@ class MainState extends MusicBeatState
 
     override public function create()
     {
-		CoolVars.setGameData();
-
         Paths.clearStoredMemory();
         Paths.clearUnusedMemory();
 
@@ -23,12 +21,16 @@ class MainState extends MusicBeatState
 
         ClientPrefs.loadJsonPrefs();
         ClientPrefs.loadPrefs();
+        
+		CoolVars.setGameData();
 
         utils.helpers.Highscore.load();
 
 		#if DISCORD_ALLOWED
 		DiscordClient.prepare();
 		#end
+
+        DiscordClient.resetClientID();
 
         #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
 
@@ -87,6 +89,8 @@ class MainState extends MusicBeatState
 			http.request();
 		}
 		#end
+
+        
 
         MusicBeatState.switchState(new #if mobile CopyState() #else ScriptState(CoolVars.scriptInitialState) #end);
     }

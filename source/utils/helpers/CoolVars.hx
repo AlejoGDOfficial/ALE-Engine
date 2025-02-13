@@ -56,11 +56,9 @@ class CoolVars
 
 	private static function setGameData()
 	{
-		#if cpp
-		var jsonToLoad:String = Paths.modFolders('data.json');
+		var jsonToLoad:String = Paths.mods(utils.mods.Mods.currentModDirectory + '/data.json');
 		if(!FileSystem.exists(jsonToLoad)) jsonToLoad = Paths.getSharedPath('data.json');
-		CoolVars.gameData = FileSystem.exists(jsonToLoad) ? haxe.Json.parse(sys.io.File.getContent(jsonToLoad)) : {};
-		#end
+		CoolVars.gameData = FileSystem.exists(jsonToLoad) ? tjson.TJSON.parse(sys.io.File.getContent(jsonToLoad)) : {};
 	}
 }
 

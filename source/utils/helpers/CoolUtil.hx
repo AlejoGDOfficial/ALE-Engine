@@ -291,7 +291,7 @@ class CoolUtil
 
 		if (utils.scripting.ScriptSubstate.instance != null) utils.scripting.ScriptSubstate.instance.destroyScripts();
 		
-		core.config.DiscordClient.resetClientID;
+		CoolVars.gameData = {};
 
 		FlxG.resetGame();
 	}
