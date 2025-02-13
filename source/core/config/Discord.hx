@@ -143,18 +143,6 @@ class DiscordClient
 		return newID;
 	}
 
-	public static function loadModRPC()
-	{
-		#if (MODS_ALLOWED && DISCORD_ALLOWED)
-		var pack:Dynamic = Mods.getPack();
-		if(pack != null && pack.discordRPC != null && pack.discordRPC != clientID)
-		{
-			clientID = pack.discordRPC;
-			//trace('Changing clientID! $clientID, $_defaultID');
-		}
-		#end
-	}
-
 	public static function addLuaCallbacks(lua:#if cpp State #else Dynamic #end) {
 		#if (LUA_ALLOWED && DISCORD_ALLOWED)
 		Lua_helper.add_callback(lua, "changeDiscordPresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {

@@ -3,8 +3,6 @@ package utils.scripting.songs;
 import Type.ValueType;
 import haxe.Constraints;
 
-import gameplay.states.substates.GameOverSubstate;
-
 //
 // Functions that use a high amount of Reflections, which are somewhat CPU intensive
 // These functions are held together by duct tape
@@ -172,10 +170,7 @@ class ReflectionFunctions
 					LuaUtils.getTargetInstance().add(obj);
 				else
 				{
-					if(!PlayState.instance.isDead)
-						PlayState.instance.insert(PlayState.instance.members.indexOf(LuaUtils.getLowestCharacterGroup()), obj);
-					else
-						GameOverSubstate.instance.insert(GameOverSubstate.instance.members.indexOf(GameOverSubstate.instance.boyfriend), obj);
+					PlayState.instance.insert(PlayState.instance.members.indexOf(LuaUtils.getLowestCharacterGroup()), obj);
 				}
 			}
 			else FunkinLua.luaTrace('addInstance: Can\'t add what doesn\'t exist~ ($objectName)', false, false, FlxColor.RED);

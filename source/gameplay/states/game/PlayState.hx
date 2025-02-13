@@ -26,8 +26,6 @@ import visuals.cutscenes.DialogueBoxPsych;
 import gameplay.states.editors.ChartingState;
 import gameplay.states.editors.CharacterEditorState;
 
-import gameplay.states.substates.GameOverSubstate;
-
 #if !flash
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
@@ -326,7 +324,6 @@ class PlayState extends MusicBeatState
 		detailsPausedText = "Paused - " + detailsText;
 		#end
 
-		GameOverSubstate.resetVariables();
 		songName = Paths.formatToSongPath(SONG.song);
 		if(SONG.stage == null || SONG.stage.length < 1) {
 			SONG.stage = StageData.vanillaSongStage(songName);
@@ -852,8 +849,7 @@ class PlayState extends MusicBeatState
 				videoCutscene.finishCallback = onVideoEnd;
 				videoCutscene.onSkip = onVideoEnd;
 			}
-			if (GameOverSubstate.instance != null && isDead) GameOverSubstate.instance.add(videoCutscene);
-			else add(videoCutscene);
+			add(videoCutscene);
 
 			if (playOnLoad)
 				videoCutscene.play();
@@ -1905,9 +1901,7 @@ class PlayState extends MusicBeatState
 				modchartTweens.clear();
 				#end
 
-				openSubState(new GameOverSubstate());
-
-				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				openSubState(new ScriptSubstate(CoolVars.scriptGameOverScreen));
 
 				#if DISCORD_ALLOWED
 				// Game Over doesn't get his its variable because it's only used here

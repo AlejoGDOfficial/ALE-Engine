@@ -6,8 +6,6 @@ import visuals.objects.Character;
 import openfl.display.BlendMode;
 import Type.ValueType;
 
-import gameplay.states.substates.GameOverSubstate;
-
 typedef LuaTweenOptions = {
 	type:FlxTweenType,
 	startDelay:Float,

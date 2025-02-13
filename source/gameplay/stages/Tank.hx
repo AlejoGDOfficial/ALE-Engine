@@ -2,7 +2,6 @@ package gameplay.stages;
 
 import gameplay.stages.objects.*;
 import visuals.cutscenes.CutsceneHandler;
-import gameplay.states.substates.GameOverSubstate;
 import visuals.objects.Character;
 
 class Tank extends BaseStage

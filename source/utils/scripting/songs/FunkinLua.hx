@@ -23,8 +23,6 @@ import visuals.objects.Note;
 import visuals.objects.NoteSplash;
 import visuals.objects.Character;
 
-import gameplay.states.substates.GameOverSubstate;
-
 import utils.scripting.songs.LuaUtils;
 import utils.scripting.songs.LuaUtils.LuaTweenOptions;
 #if SScript
@@ -1068,10 +1066,7 @@ class FunkinLua {
 				LuaUtils.getTargetInstance().add(mySprite);
 			else
 			{
-				if(!game.isDead)
-					game.insert(game.members.indexOf(LuaUtils.getLowestCharacterGroup()), mySprite);
-				else
-					GameOverSubstate.instance.insert(GameOverSubstate.instance.members.indexOf(GameOverSubstate.instance.boyfriend), mySprite);
+				game.insert(game.members.indexOf(LuaUtils.getLowestCharacterGroup()), mySprite);
 			}
 			return true;
 		});

@@ -32,6 +32,9 @@ class CoolVars
 
 	public static var scriptPauseMenu(get, never):String;
 	static function get_scriptPauseMenu() return Reflect.hasField(CoolVars.gameData, 'pauseMenu') ? CoolVars.gameData.pauseMenu : 'pauseSubstate';
+
+	public static var scriptGameOverScreen(get, never):String;
+	static function get_scriptGameOverScreen() return Reflect.hasField(CoolVars.gameData, 'gameOverScreen') ? CoolVars.gameData.gameOverScreen : 'gameOverSubstate';
 	
 	public static var scriptCrashState(get, never):String;
 	static function get_scriptCrashState() return Reflect.hasField(CoolVars.gameData, 'crashState') ? CoolVars.gameData.crashState : 'crashState';
