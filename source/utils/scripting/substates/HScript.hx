@@ -3,6 +3,7 @@ package utils.scripting.substates;
 import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.states.LuaUtils;
+import utils.scripting.ScriptSubstate;
 
 import core.backend.Song;
 import core.gameplay.stages.WeekData;
@@ -195,7 +196,7 @@ class HScript extends SScript
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
-			FlxG.state.subState.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+			ScriptSubstate.instance.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
         set('openScriptSubState', function(substate:String)
         {
@@ -595,7 +596,7 @@ class HScript extends SScript
 		set('parentLua', null);
 		#end
 		set('this', this);
-		set('game', FlxG.state.subState);
+		set('game', ScriptSubstate.instance);
 
 		set('buildTarget', LuaUtils.getBuildTarget());
 
@@ -605,12 +606,12 @@ class HScript extends SScript
 		set('Function_StopHScript', LuaUtils.Function_StopHScript);
 		set('Function_StopAll', LuaUtils.Function_StopAll);
 		
-		set('add', FlxG.state.subState.add);
-		set('insert', FlxG.state.subState.insert);
-		set('remove', FlxG.state.subState.remove);
-		set('close', FlxG.state.subState.close);
+		set('add', ScriptSubstate.instance.add);
+		set('insert', ScriptSubstate.instance.insert);
+		set('remove', ScriptSubstate.instance.remove);
+		set('close', ScriptSubstate.instance.close);
 
-		if (ScriptSubstate.instance == FlxG.state.subState)
+		if (ScriptSubstate.instance == ScriptSubstate.instance)
 		{
 			setSpecialObject(ScriptSubstate.instance, false, ScriptSubstate.instance.instancesExclude);
 		}

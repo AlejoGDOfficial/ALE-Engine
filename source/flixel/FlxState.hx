@@ -116,7 +116,7 @@ class FlxState extends FlxGroup
 
 	public function openSubState(SubState:FlxSubState):Void
 	{
-		if (utils.scripting.ScriptTransition.instance != null) return;
+		//if (utils.scripting.ScriptTransition.instance != null) return;
 
 		_requestSubStateReset = true;
 		_requestedSubState = SubState;

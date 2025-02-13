@@ -376,7 +376,7 @@ class FlxG
 	 */
 	public static inline function switchState(nextState:NextState):Void
 	{
-		if (utils.scripting.ScriptTransition.instance != null) return;
+		//if (utils.scripting.ScriptTransition.instance != null) return;
 
 		final stateOnCall = FlxG.state;
 		

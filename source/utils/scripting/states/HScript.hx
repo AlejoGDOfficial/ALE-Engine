@@ -197,11 +197,11 @@ class HScript extends SScript
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
-			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+			ScriptState.instance.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
 		set('openScriptSubState', function(substate:String)
 		{
-			FlxG.state.openSubState(new ScriptSubstate(substate));
+			ScriptState.instance.openSubState(new ScriptSubstate(substate));
 		});
 
 		set('loadSong', function(song:String, difficulty:Int)
@@ -600,7 +600,7 @@ class HScript extends SScript
 		set('parentLua', null);
 		#end
 		set('this', this);
-		set('game', FlxG.state);
+		set('game', ScriptState.instance);
 
 		set('buildTarget', LuaUtils.getBuildTarget());
 
@@ -610,11 +610,11 @@ class HScript extends SScript
 		set('Function_StopHScript', LuaUtils.Function_StopHScript);
 		set('Function_StopAll', LuaUtils.Function_StopAll);
 		
-		set('add', FlxG.state.add);
-		set('insert', FlxG.state.insert);
-		set('remove', FlxG.state.remove);
+		set('add', ScriptState.instance.add);
+		set('insert', ScriptState.instance.insert);
+		set('remove', ScriptState.instance.remove);
 
-		if(ScriptState.instance == FlxG.state)
+		if(ScriptState.instance == ScriptState.instance)
 		{
 			setSpecialObject(ScriptState.instance, false, ScriptState.instance.instancesExclude);
 		}

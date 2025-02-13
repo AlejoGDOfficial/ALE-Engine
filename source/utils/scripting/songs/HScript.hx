@@ -4,6 +4,7 @@ import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.songs.LuaUtils;
 import utils.scripting.songs.CustomSubstate;
+import gameplay.states.game.PlayState;
 
 import core.backend.Song;
 import core.gameplay.stages.WeekData;
@@ -179,7 +180,7 @@ class HScript extends SScript
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
-			FlxG.state.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+			PlayState.instance.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
 
 		set('loadSong', function(song:String, difficulty:Int)
@@ -578,7 +579,7 @@ class HScript extends SScript
 		set('parentLua', null);
 		#end
 		set('this', this);
-		set('game', FlxG.state);
+		set('game', PlayState.instance);
 
 		set('buildTarget', LuaUtils.getBuildTarget());
 		set('customSubstate', CustomSubstate.instance);
@@ -590,11 +591,11 @@ class HScript extends SScript
 		set('Function_StopHScript', LuaUtils.Function_StopHScript);
 		set('Function_StopAll', LuaUtils.Function_StopAll);
 		
-		set('add', FlxG.state.add);
-		set('insert', FlxG.state.insert);
-		set('remove', FlxG.state.remove);
+		set('add', PlayState.instance.add);
+		set('insert', PlayState.instance.insert);
+		set('remove', PlayState.instance.remove);
 
-		if(PlayState.instance == FlxG.state)
+		if(PlayState.instance == PlayState.instance)
 		{
 			set('addBehindGF', PlayState.instance.addBehindGF);
 			set('addBehindDad', PlayState.instance.addBehindDad);

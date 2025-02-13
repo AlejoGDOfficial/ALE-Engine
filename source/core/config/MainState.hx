@@ -88,8 +88,9 @@ class MainState extends MusicBeatState
 		}
 		#end
 
-        
-
-        MusicBeatState.switchState(new #if mobile CopyState() #else ScriptState(CoolVars.scriptInitialState) #end);
+        new FlxTimer().start(1, function(tmr:FlxTimer)
+        {
+            MusicBeatState.switchState(new #if android CopyState() #else ScriptState(CoolVars.scriptInitialState) #end);
+        });
     }
 }
