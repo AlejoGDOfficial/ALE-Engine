@@ -179,10 +179,6 @@ class WindowsCPP
             DwmSetWindowAttribute(window, 35, &color, sizeof(COLORREF));
         }
 
-		if (S_OK != DwmSetWindowAttribute(window, 34, &color, sizeof(COLORREF))) {
-            DwmSetWindowAttribute(window, 34, &color, sizeof(COLORREF));
-        }
-
         UpdateWindow(window);
     ')
 	public static function setWindowBorderColor(r:Int, g:Int, b:Int){}
