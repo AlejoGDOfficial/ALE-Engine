@@ -7,23 +7,30 @@ import utils.debug.FPSCounter;
 
 #if cpp import cpp.WindowsCPP; #end
 
+@:access(utils.helpers.CoolVars)
 class MainState extends MusicBeatState
 {
     public static var fpsVar:FPSCounter;
 
     override public function create()
     {
-        ClientPrefs.loadJsonPrefs();
-        ClientPrefs.loadPrefs();
-    
-        #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
-    
+		CoolVars.setGameData();
+
         Paths.clearStoredMemory();
         Paths.clearUnusedMemory();
 
+		Mods.pushGlobalMods();
+
+        ClientPrefs.loadJsonPrefs();
+        ClientPrefs.loadPrefs();
+
         utils.helpers.Highscore.load();
 
-		Mods.pushGlobalMods();
+		#if DISCORD_ALLOWED
+		DiscordClient.prepare();
+		#end
+
+        #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
 
 		FlxG.fixedTimestep = false;
 		FlxG.game.focusLostFramerate = 60;

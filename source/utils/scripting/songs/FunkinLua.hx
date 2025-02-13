@@ -805,8 +805,6 @@ class FunkinLua {
 			else
 				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfFreeplay));
 
-			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
-
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			PlayState.changedDifficulty = false;
 			PlayState.chartingMode = false;

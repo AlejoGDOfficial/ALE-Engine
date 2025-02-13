@@ -1859,7 +1859,6 @@ class PlayState extends MusicBeatState
 
 		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Chart Editor", null, null, true);
-		DiscordClient.resetClientID();
 		#end
 
 		MusicBeatState.switchState(new ChartingState());
@@ -1872,7 +1871,6 @@ class PlayState extends MusicBeatState
 		paused = true;
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
-		#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 		MusicBeatState.switchState(new CharacterEditorState(SONG.player2));
 	}
 
@@ -2289,7 +2287,6 @@ class PlayState extends MusicBeatState
 				if (storyPlaylist.length <= 0)
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfStoryMode));
 
@@ -2320,7 +2317,6 @@ class PlayState extends MusicBeatState
 			else
 			{
 				trace('WENT BACK TO FREEPLAY??');
-				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfFreeplay));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));

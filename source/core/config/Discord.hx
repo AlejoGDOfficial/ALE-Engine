@@ -9,9 +9,8 @@ import hxdiscord_rpc.Types;
 class DiscordClient
 {
 	public static var isInitialized:Bool = false;
-	static var _defaultID(get, never):String;
-	static function get__defaultID() return CoolVars.gameData.discordID;
-	public static var clientID(default, set):String = _defaultID;
+	private static var _defaultID:String;
+	public static var clientID(default, set):String;
 	private static var presence:#if DISCORD_ALLOWED DiscordRichPresence #else Dynamic #end = #if DISCORD_ALLOWED DiscordRichPresence.create() #else null #end;
 
 	public static function check()
@@ -31,6 +30,9 @@ class DiscordClient
 		Application.current.window.onClose.add(function() {
 			if(isInitialized) shutdown();
 		});
+
+		_defaultID = CoolVars.gameData.discordID;
+		clientID = CoolVars.gameData.discordID;
 		#end
 	}
 
@@ -54,13 +56,13 @@ class DiscordClient
 	}
 	#end
 
-	private static function onError(errorCode:Int, message:#if DISCORD_ALLOWED cpp.ConstCharStar #else Dynamic #end):Void {
+	private static function onError(errorCode:Int, message:cpp.ConstCharStar):Void {
 		#if DISCORD_ALLOWED
 		trace('Discord: Error ($errorCode: ${cast(message, String)})');
 		#end
 	}
 
-	private static function onDisconnected(errorCode:Int, message:#if DISCORD_ALLOWED cpp.ConstCharStar #else Dynamic #end):Void {
+	private static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void {
 		#if DISCORD_ALLOWED
 		trace('Discord: Disconnected ($errorCode: ${cast(message, String)})');
 		#end
@@ -143,16 +145,9 @@ class DiscordClient
 		return newID;
 	}
 
-	public static function addLuaCallbacks(lua:#if cpp State #else Dynamic #end) {
-		#if (LUA_ALLOWED && DISCORD_ALLOWED)
+	public static function addLuaCallbacks(lua:State) {
 		Lua_helper.add_callback(lua, "changeDiscordPresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
-			changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
+			#if (LUA_ALLOWED && DISCORD_ALLOWED) changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp); #end
 		});
-
-		Lua_helper.add_callback(lua, "changeDiscordClientID", function(?newID:String = null) {
-			if(newID == null) newID = _defaultID;
-			clientID = newID;
-		});
-		#end
 	}
 }
