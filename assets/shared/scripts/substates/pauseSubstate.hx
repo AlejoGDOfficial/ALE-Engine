@@ -296,7 +296,6 @@ function onUpdatePost(elapsed:Float)
 				}
 				close();
 			case "Exit to menu":
-				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 				PlayState.deathCounter = 0;
 				PlayState.seenCutscene = false;
 
@@ -309,6 +308,7 @@ function onUpdatePost(elapsed:Float)
 				PlayState.changedDifficulty = false;
 				PlayState.chartingMode = false;
 				FlxG.camera.followLerp = 0;
+
 				close();
 		} 
 		

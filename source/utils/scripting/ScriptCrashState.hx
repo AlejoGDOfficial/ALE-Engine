@@ -103,8 +103,8 @@ class ScriptCrashState extends ScriptState
 
 	override public function resetScriptState(?doTransition:Bool = false)
 	{
-		FlxTransitionableState.skipNextTransIn = !doTransition;
-		FlxTransitionableState.skipNextTransOut = !doTransition;
+		CoolVars.skipTransIn = !doTransition;
+		CoolVars.skipTransOut = !doTransition;
 		MusicBeatState.switchState(new ScriptCrashState(EMessage, callstack));
 	}
 }

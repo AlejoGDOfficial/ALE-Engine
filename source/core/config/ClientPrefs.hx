@@ -168,7 +168,7 @@ class ClientPrefs {
 	public static function loadPrefs()
 	{
 		for (key in Reflect.fields(data))
-			if (checkShit(key, 'currentModFolder') || checkShit(key, 'arrowRGB') || checkShit(key, 'arrowRGBPixel') || checkShit(key, 'noteOffset') || checkShit(key, 'gameplaySettings') || checkShit(key, 'comboOffset') || checkShit(key, 'geminiAPIKey'))
+			if (checkShit(key, 'currentModFolder') || checkShit(key, 'arrowRGB') || checkShit(key, 'arrowRGBPixel') || checkShit(key, 'noteOffset') || checkShit(key, 'gameplaySettings') || checkShit(key, 'comboOffset'))
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 		
 		if(MainState.fpsVar != null)

@@ -29,7 +29,7 @@ var bg:FlxSprite;
 var difficultyTextBG:FlxSprite;
 var difficultyText:FlxText;
 
-var canSelect:Bool = false;
+var canSelect:Bool = true;
 
 var songs:Array<StringMap> = [];
 var difficulties:Array = [];
@@ -153,39 +153,18 @@ function onCreate()
 
     var tipBG = new FlxSprite().makeGraphic(FlxG.width, 30, FlxColor.BLACK);
     add(tipBG);
-    tipBG.alpha = 0;
+    tipBG.alpha = 0.5;
     tipBG.y = FlxG.height - tipBG.height;
 
     var tipText = new FlxText(0, 10, 1240, 'Press CONTROL to Open the Gameplay Changers Menu');
     tipText.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, 'right');
     add(tipText);
     tipText.antialiasing = ClientPrefs.data.antialiasing;
-    tipText.alpha = 0;
+    tipText.alpha = 1;
     tipText.y = tipBG.y + tipBG.height / 2 - tipText.height / 2;
 
-    new FlxTimer().start(1, function(tmr:FlxTimer)
-    {
-        changeSongShit();
-        changeDifficultyShit();
-
-        canSelect = true;
-        
-        FlxTween.tween(tipBG, {alpha: 0.5}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
-        FlxTween.tween(tipText, {alpha: 1}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
-    });
-}
-
-function onBeatHit()
-{
-    for (song in songs)
-    {
-        if (songs.indexOf(song) == songsSelInt && canSelect)
-        {
-            song.get('icon').scale.x = 1.15;
-            song.get('icon').scale.y = 1.15;
-            song.get('icon').updateHitbox();
-        }
-    }
+    changeSongShit();
+    changeDifficultyShit();
 }
 
 var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
@@ -277,16 +256,6 @@ function onUpdate(elapsed:Float)
             mouseData.prevX = FlxG.mouse.screenX;
             mouseData.prevY = FlxG.mouse.screenY;
         }
-    
-        for (song in songs)
-        {
-            if (song.get('icon').scale.x != 1 || song.get('icon').scale.y != 1 )
-            {
-                song.get('icon').scale.x = fpsLerp(song.get('icon').scale.x, 1, 0.33); 
-                song.get('icon').scale.y = fpsLerp(song.get('icon').scale.y, 1, 0.33); 
-                song.get('icon').updateHitbox();
-            }
-        }
 
         if (difficulties.length > 1)
         {
@@ -373,7 +342,7 @@ function onUpdate(elapsed:Float)
             canSelect = false;
         }
 
-        if (!FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.CONTROL) openSubState('gameplay.states.substates.GameplayChangersSubstate', []);
+        if (!FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.CONTROL) openScriptSubState('gameplayOptionsSubstate');
     }
 }
 

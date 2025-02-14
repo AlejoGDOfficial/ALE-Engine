@@ -275,8 +275,8 @@ class CoolUtil
 
 	public static function resetEngine()
 	{
-		FlxTransitionableState.skipNextTransIn = true;
-		FlxTransitionableState.skipNextTransOut = true;
+		CoolVars.skipTransIn = true;
+		CoolVars.skipTransOut = true;
 
 		if (FlxG.state.subState != null) FlxG.state.subState.close();
 

@@ -98,7 +98,7 @@ function onUpdate(elapsed:Float)
                         if(!isEnding) FlxG.sound.music.fadeIn(0.2, 1, 4);
                     });
                 default:
-                    coolStartDeath();
+                    coolStartDeath(1);
             }
         }
     }

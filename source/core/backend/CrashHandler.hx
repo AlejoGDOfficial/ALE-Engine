@@ -1,7 +1,5 @@
 package core.backend;
 
-import flixel.addons.transition.FlxTransitionableState;
-
 import haxe.CallStack;
 import openfl.events.UncaughtErrorEvent;
 #if sys
@@ -36,6 +34,7 @@ class CrashHandler
 			if (PlayState.instance.opponentVocals != null) PlayState.instance.opponentVocals.pause();
 		}
 
+		CoolVars.skipTransIn = true;
 		MusicBeatState.switchState(new utils.scripting.ScriptCrashState(e.error, CallStack.exceptionStack(true)));
 	}
 

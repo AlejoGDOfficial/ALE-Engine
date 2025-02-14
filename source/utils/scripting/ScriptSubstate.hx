@@ -19,7 +19,7 @@ import tea.SScript;
 
 class ScriptSubstate extends MusicBeatSubstate
 {
-    public static var targetFileName:String; 
+    public static var targetFileName:String;
 
     public function new(scriptName:String) 
     {
@@ -60,7 +60,7 @@ class ScriptSubstate extends MusicBeatSubstate
     override public function create()
     {
         instance = this;
-		
+
 		Paths.clearUnusedMemory();
 
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
@@ -583,8 +583,8 @@ class ScriptSubstate extends MusicBeatSubstate
 
 	public function resetScriptState(?doTransition:Bool = false)
 	{
-		FlxTransitionableState.skipNextTransIn = !doTransition;
-		FlxTransitionableState.skipNextTransOut = !doTransition;
+		CoolVars.skipTransIn = !doTransition;
+		CoolVars.skipTransOut = !doTransition;
 		MusicBeatState.switchState(new ScriptState(targetFileName));
 	}
 }

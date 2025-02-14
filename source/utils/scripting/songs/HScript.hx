@@ -168,14 +168,14 @@ class HScript extends SScript
 
         set("switchToScriptState", function(name:String, ?doTransition:Bool = true)
 		{
-			FlxTransitionableState.skipNextTransIn = !doTransition;
-			FlxTransitionableState.skipNextTransOut = !doTransition;
+			CoolVars.skipTransIn = !doTransition;
+			CoolVars.skipTransOut = !doTransition;
 			MusicBeatState.switchState(new ScriptState(name));
 		});
 		set("switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
 		{
-			FlxTransitionableState.skipNextTransIn = !doTransition;
-			FlxTransitionableState.skipNextTransOut = !doTransition;
+			CoolVars.skipTransIn = !doTransition;
+			CoolVars.skipTransOut = !doTransition;
 			MusicBeatState.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)

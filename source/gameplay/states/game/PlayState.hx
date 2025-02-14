@@ -2314,8 +2314,8 @@ class PlayState extends MusicBeatState
 					trace('LOADING NEXT SONG');
 					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
 
-					FlxTransitionableState.skipNextTransIn = true;
-					FlxTransitionableState.skipNextTransOut = true;
+					CoolVars.skipTransIn = true;
+					CoolVars.skipTransOut = true;
 					prevCamFollow = camFollow;
 
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
@@ -2611,8 +2611,8 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.volume = 0;
 		instance.vocals.volume = 0;
 
-		FlxTransitionableState.skipNextTransIn = noVar;
-		FlxTransitionableState.skipNextTransOut = noVar;
+		CoolVars.skipTransIn = noVar;
+		CoolVars.skipTransOut = noVar;
 
 		MusicBeatState.resetState();
 	}

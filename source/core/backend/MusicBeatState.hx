@@ -1,7 +1,6 @@
 package core.backend;
 
 import flixel.addons.ui.FlxUIState;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxState;
 import gameplay.camera.PsychCamera;
 import gameplay.camera.CustomFadeTransition;
@@ -48,14 +47,16 @@ class MusicBeatState extends FlxUIState
 
 		if(!_psychCameraInitialized) initPsychCamera();
 
-		if (!FlxTransitionableState.skipNextTransOut) 
+		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
+
+		if (!CoolVars.skipTransOut) 
 		{
 			openSubState(new ScriptTransition(false));
 		}
 
-		//if(!FlxTransitionableState.skipNextTransOut) openSubState(new CustomFadeTransition(0.6, true));
-		
-		FlxTransitionableState.skipNextTransOut = false;
+		CoolVars.skipTransOut = false;
+		CoolVars.transitionOut = CoolVars.scriptTransition;
+
 		timePassedOnState = 0;
 
 		super.create();
@@ -159,8 +160,6 @@ class MusicBeatState extends FlxUIState
 
 	public static function switchState(nextState:FlxState = null)
 	{
-		if (utils.scripting.ScriptTransition.instance != null) return;
-		
 		if(nextState == null) nextState = FlxG.state;
 
 		if(nextState == FlxG.state)
@@ -169,36 +168,32 @@ class MusicBeatState extends FlxUIState
 			return;
 		}
 
-		if(FlxTransitionableState.skipNextTransIn) FlxG.switchState(nextState);
+		if(CoolVars.skipTransIn) FlxG.switchState(nextState);
 		else startTransition(nextState);
 
-		FlxTransitionableState.skipNextTransIn = false;
+		CoolVars.skipTransIn = false;
+		CoolVars.transitionIn = CoolVars.scriptTransition;
 	}
 
 	public static function resetState()
 	{
-		if(FlxTransitionableState.skipNextTransIn) FlxG.resetState();
+		if(CoolVars.skipTransIn) FlxG.resetState();
 		else startTransition();
 
-		FlxTransitionableState.skipNextTransIn = false;
+		CoolVars.skipTransIn = false;
+		CoolVars.transitionIn = CoolVars.scriptTransition;
 	}
 
 	public static function startTransition(nextState:FlxState = null)
 	{
+		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
+		
 		if(nextState == null) nextState = FlxG.state;
 
 		FlxG.state.openSubState(new ScriptTransition(true));
 
 		if (nextState == FlxG.state) ScriptTransition.finishCallback = function() FlxG.resetState();
 		else ScriptTransition.finishCallback = function() FlxG.switchState(nextState);
-
-		/*
-		FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
-		if(nextState == FlxG.state)
-			CustomFadeTransition.finishCallback = function() FlxG.resetState();
-		else
-			CustomFadeTransition.finishCallback = function() FlxG.switchState(nextState);
-		*/
 	}
 
 	public static function getState():MusicBeatState {

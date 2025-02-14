@@ -53,8 +53,8 @@ class MainState extends MusicBeatState
         
         lime.app.Application.current.window.setIcon(lime.graphics.Image.fromFile(iconPath));
 
-		FlxTransitionableState.skipNextTransIn = true;
-		FlxTransitionableState.skipNextTransOut = true;
+		CoolVars.skipTransIn = true;
+		CoolVars.skipTransOut = true;
 
         CoolVars.engineVersion = lime.app.Application.current.meta.get('version');
         

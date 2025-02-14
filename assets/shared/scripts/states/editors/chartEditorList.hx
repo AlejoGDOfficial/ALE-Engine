@@ -24,7 +24,7 @@ import gameplay.states.editors.ChartingState;
 var difficultyTextBG:FlxSprite;
 var difficultyText:FlxText;
 
-var canSelectSongs:Bool = false;
+var canSelectSongs:Bool = true;
 var creatingSong:Bool = false;
 
 var bg:FlxBackdrop;
@@ -92,12 +92,8 @@ function onCreate()
         }
     }
 
-    new FlxTimer().start(1, function(tmr:FlxTimer)
-    {
-        changeSongShit();
-        changeDifficultyShit();
-        canSelectSongs = true;
-    });
+    changeSongShit();
+    changeDifficultyShit();
 
     createUI(false);
 }
@@ -112,15 +108,6 @@ var difficultiesSelInt:Int = existsGlobalVar('chartEditorListDifficultiesSelInt'
 
 function onBeatHit()
 {
-    for (song in songs)
-    {
-        if (songs.indexOf(song) == songsSelInt && canSelectSongs)
-        {
-            song.get('icon').scale.x = 1.15;
-            song.get('icon').scale.y = 1.15;
-        }
-    }
-
     if (curBeat % 2 == 0 && (canSelectSongs || creatingSong))
     {
         FlxTween.cancelTweensOf(bg);
@@ -131,15 +118,6 @@ function onBeatHit()
 
 function onUpdate(elapsed:Float)
 {
-    for (song in songs)
-    {
-        if (song.get('icon').scale.x != 1 || song.get('icon').scale.y != 1 )
-        {
-            song.get('icon').scale.x = fpsLerp(song.get('icon').scale.x, 1, 0.33); 
-            song.get('icon').scale.y = fpsLerp(song.get('icon').scale.y, 1, 0.33); 
-        }
-    }
-
     if (canSelectSongs && !creatingSong)
     {
         if (songs.length > 1)

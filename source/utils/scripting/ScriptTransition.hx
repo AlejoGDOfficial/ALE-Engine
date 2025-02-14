@@ -7,11 +7,11 @@ class ScriptTransition extends ScriptSubstate
 	public var transIn:Bool;
 	public var transOut:Bool;
 
-	public static var instance:ScriptTransition;
+	public static var instance:ScriptTransition = null;
 
 	override public function new(transIn:Bool)
 	{
-		super(CoolVars.scriptTransition);
+		super(transIn ? CoolVars.transitionIn : CoolVars.transitionOut);
 
 		this.transIn = transIn;
 		this.transOut = !transIn;

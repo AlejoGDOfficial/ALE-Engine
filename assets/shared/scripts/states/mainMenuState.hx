@@ -204,7 +204,12 @@ function onUpdate(elapsed:Float)
             });
         }
 	
-        if (controls.justPressed('debug_1') && CoolVars.developerMode) MusicBeatState.switchState(new ScriptState('masterEditorMenu', true));
+        if (controls.justPressed('debug_1') && CoolVars.developerMode)
+        {
+            MusicBeatState.switchState(new ScriptState('masterEditorMenu', true));
+
+            canSelect = false;
+        }
     }
 
     FlxG.camera.scroll.y = fpsLerp(FlxG.camera.scroll.y, (selInt + (options.length - 1) / 2) * 25, 0.1);

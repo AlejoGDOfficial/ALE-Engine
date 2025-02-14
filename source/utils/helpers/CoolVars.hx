@@ -10,6 +10,11 @@ class CoolVars
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
+	public static var transitionIn:String = scriptTransition;
+	public static var transitionOut:String = scriptTransition;
+	public static var skipTransIn:Bool = false;
+	public static var skipTransOut:Bool = false;
+
     public static var gameData:Dynamic = {};
 
 	public static var developerMode(get, never):Bool;

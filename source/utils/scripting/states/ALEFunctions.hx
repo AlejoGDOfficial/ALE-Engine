@@ -44,8 +44,8 @@ class ALEFunctions
         
         Lua_helper.add_callback(lua, "switchToScriptState", function(name:String, ?doTransition:Bool = true)
         {
-			FlxTransitionableState.skipNextTransIn = !doTransition;
-			FlxTransitionableState.skipNextTransOut = !doTransition;
+			CoolVars.skipTransIn = !doTransition;
+			CoolVars.skipTransOut = !doTransition;
 			MusicBeatState.switchState(new ScriptState(name));
         });
         Lua_helper.add_callback(lua, "resetScriptState", function(?doTransition:Bool = false)
@@ -54,8 +54,8 @@ class ALEFunctions
         });
         Lua_helper.add_callback(lua, "switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
         {
-            FlxTransitionableState.skipNextTransIn = !doTransition;
-            FlxTransitionableState.skipNextTransOut = !doTransition;
+            CoolVars.skipTransIn = !doTransition;
+            CoolVars.skipTransOut = !doTransition;
             MusicBeatState.switchState(Type.createInstance(Type.resolveClass(fullClassPath), params));
         });
         Lua_helper.add_callback(lua, 'openSubState', function(fullClassPath:String, params:Array<Dynamic>)
