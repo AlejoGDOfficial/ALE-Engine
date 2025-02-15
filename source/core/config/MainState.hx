@@ -21,14 +21,8 @@ class MainState extends MusicBeatState
 
         ClientPrefs.loadJsonPrefs();
         ClientPrefs.loadPrefs();
-        
-		CoolVars.setGameData();
 
         utils.helpers.Highscore.load();
-
-		#if DISCORD_ALLOWED
-		DiscordClient.prepare();
-		#end
 
         #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
 
@@ -37,6 +31,10 @@ class MainState extends MusicBeatState
 		FlxG.keys.preventDefaultKeys = [TAB];
 
         super.create();
+
+		#if DISCORD_ALLOWED
+		DiscordClient.prepare();
+		#end
 
         #if cpp
         fpsVar = new FPSCounter();

@@ -126,22 +126,7 @@ class Song
 			rawJson = rawJson.substr(0, rawJson.length - 1);
 			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
 		}
-
-		// FIX THE CASTING ON WINDOWS/NATIVE
-		// Windows???
-		// trace(songData);
-
-		// trace('LOADED FROM JSON: ' + songData.notes);
-		/* 
-			for (i in 0...songData.notes.length)
-			{
-				trace('LOADED FROM JSON: ' + songData.notes[i].sectionNotes);
-				// songData.notes[i].sectionNotes = songData.notes[i].sectionNotes
-			}
-
-				daNotes = songData.notes;
-				daSong = songData.song;
-				daBpm = songData.bpm; */
+		
 
 		var songJson:Dynamic = parseJSONshit(rawJson);
 		if(jsonInput != 'events') StageData.loadDirectory(songJson);
@@ -151,6 +136,16 @@ class Song
 
 	public static function parseJSONshit(rawJson:String):SwagSong
 	{
-		return cast Json.parse(rawJson).song;
+		var parsedJson:Dynamic = Json.parse(rawJson);
+		
+		if (parsedJson.format == 'psych_v1')
+		{
+			Reflect.deleteField(parsedJson, 'format');
+			Reflect.deleteField(parsedJson, 'offset');
+
+			return cast parsedJson;
+		} else {
+			return cast parsedJson.song;
+		}
 	}
 }

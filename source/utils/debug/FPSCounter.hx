@@ -97,9 +97,15 @@ class FPSCounter extends Sprite
     
     function theUpdate()
     {
+        /*
+        trace('CoolVars: ' + CoolVars.discordID);
+        trace('Game Data: ' + CoolVars.gameData.discordID);
+        trace('RPC: ' + DiscordClient.clientID);
+        */
+        
 		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
-        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && gameplay.states.game.PlayState.instance == null)
+        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState))
         {
             if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
             else if (FlxG.keys.justPressed.F1) for (shape in shapes) shape.visible = !shape.visible;
@@ -144,7 +150,7 @@ class FPSCounter extends Sprite
                         otherVisibility[i] = timer < 10 && CoolVars.outdated;
                     case 'tipsField':
                         otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
-                        otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && gameplay.states.game.PlayState.instance == null;
+                        otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState);
                     default:
                         otherFields[i].text = '';
                 }
