@@ -489,7 +489,8 @@ class ScriptState extends MusicBeatState
 		var len:Int = hscriptArray.length;
 		if (len < 1)
 			return returnVal;
-		for(i in 0...len) {
+		for(i in 0...len)
+		{
 			var script:HScript = hscriptArray[i];
 			if(script == null || !script.exists(funcToCall) || exclusions.contains(script.origin))
 				continue;

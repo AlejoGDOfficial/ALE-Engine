@@ -32,7 +32,7 @@ class FPSCounter extends Sprite
     {
         super();
 
-        FlxG.signals.postUpdate.add(theUpdate);
+        FlxG.signals.preUpdate.add(theUpdate);
 
         fields = new Array<TextField>();
         visibility = new Array<Bool>();

@@ -121,12 +121,7 @@ class Song
 				rawJson = Assets.getText(Paths.json(formattedFolder + '/' + formattedSong)).trim();
 		}
 
-		while (!rawJson.endsWith("}"))
-		{
-			rawJson = rawJson.substr(0, rawJson.length - 1);
-			// LOL GOING THROUGH THE BULLSHIT TO CLEAN IDK WHATS STRANGE
-		}
-		
+		while (!rawJson.endsWith("}")) rawJson = rawJson.substr(0, rawJson.length - 1);
 
 		var songJson:Dynamic = parseJSONshit(rawJson);
 		if(jsonInput != 'events') StageData.loadDirectory(songJson);

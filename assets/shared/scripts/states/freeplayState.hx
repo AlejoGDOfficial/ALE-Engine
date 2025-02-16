@@ -59,7 +59,6 @@ function onCreate()
     if (FileSystem.exists(Paths.mods(Mods.currentModDirectory + '/weeks')) && FileSystem.isDirectory(Paths.mods(Mods.currentModDirectory + '/weeks'))) foldersToCheck.push(Paths.mods(Mods.currentModDirectory + '/weeks'));
 
     var allowedWeeks = [];
-    var replaceWeeks = [];
 
     for (folder in foldersToCheck)
     {

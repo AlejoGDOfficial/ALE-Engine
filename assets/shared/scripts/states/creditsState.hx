@@ -19,7 +19,7 @@ var devLvlBG:FlxSprite;
 var devDescTxt:FlxText;
 var devDescBG:FlxSprite;
 
-var canSelect = false;
+var canSelect = true;
 
 function onCreate()
 {
@@ -72,11 +72,7 @@ function onCreate()
     devDescTxt.scrollFactor.x = devDescTxt.scrollFactor.y = 0;
     add(devDescTxt);
 
-    new FlxTimer().start(1, function(tmr:FlxTimer)
-    {
-        changeShit();
-        canSelect = true;
-    });
+    changeShit();
 }
 
 var developers:Array<StringMap> = [];
