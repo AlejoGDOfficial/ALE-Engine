@@ -5,6 +5,10 @@ import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUIDropDownMenu;
 
+import gameplay.states.editors.ChartingState;
+import gameplay.states.game.PlayState;
+import utils.helpers.Difficulty;
+
 import flixel.ui.FlxButton;
 
 var metaText:FlxText;
@@ -166,7 +170,6 @@ function onUpdatePost()
 
 function onUpdate()
 {
-
     if (FlxG.keys.justPressed.ENTER)
     {
         FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);

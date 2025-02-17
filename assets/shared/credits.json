@@ -2,205 +2,234 @@
     "groups": [
         {
             "name": "ALE Engine Team",
+            "color": "2bdfff",
             "members": [
                 {
                     "name": "AlejoGDOfficial",
                     "icon": "alejoGDOfficial",
                     "description": "Main Programmer and Head",
-                    "color": "03B1FC"
+                    "color": "03B1FC",
+                    "url": "https://www.youtube.com/@alejogdofficial"
                 },
                 {
-                    "name": "AdrianoSH",
-                    "icon": "adrianoSH",
-                    "description": "Artist",
-                    "color": "909090"
-                },
-                {
-                    "name": "Aleja",
-                    "icon": "aleja",
-                    "description": "Artist, Voice Actress",
-                    "color": "404040"
+                    "name": "Dave 27",
+                    "icon": "dave27",
+                    "description": "Lua tester | Found several problems",
+                    "color": "890A35",
+                    "url": "https://www.youtube.com/channel/UCqXtDRtRz_atlIY8RMaeFAg"
                 },
                 {
                     "name": "VALEN.fla",
                     "icon": "valen",
                     "description": "Crash Handler Theme Composer",
-                    "color": "907050"
+                    "color": "907050",
+                    "url": "https://x.com/valenti70585624"
+                },
+                {
+                    "name": "AdrianoSH",
+                    "icon": "adrianoSH",
+                    "description": "Artist",
+                    "color": "909090",
+                    "url": "https://x.com/AdrianoShots777"
+                },
+                {
+                    "name": "Aleja",
+                    "icon": "aleja",
+                    "description": "Artist, Voice Actress",
+                    "color": "404040",
+                    "url": "https://discord.gg/NP4U9CUrsH"
                 },
                 {
                     "name": "Khorix the Inking",
                     "icon": "khorixTheInking",
                     "description": "Artist/Animator",
-                    "color": "494F75"
+                    "color": "494F75",
+                    "url": "https://x.com/KhorixArcade99k"
                 },
                 {
                     "name": "Eddy Smashcraft",
                     "icon": "eddySmashcraft",
                     "description": "Helped with the Translations into Spanish",
-                    "color": "5D4FBC"
+                    "color": "5D4FBC",
+                    "url": "https://www.youtube.com/@PrinceSnowEddySMCRFT"
                 }
             ]
         },
         {
             "name": "ALE Engine Contributors",
+            "color": "2b9cff",
             "members": [
                 {
                     "name": "Slushi",
                     "icon": "slushi",
                     "description": "C++ Functions",
-                    "color": "03F2FF"
+                    "color": "03F2FF",
+                    "url": "https://github.com/Slushi-Github"
                 },
                 {
                     "name": "Karim Akra",
                     "icon": "karim",
                     "description": "Psych Engine Porter (Android)\nHelped Port the Engine to Android",
-                    "color": "FFB4F0"
+                    "color": "FFB4F0",
+                    "url": "https://github.com/KarimAkra"
                 },
                 {
                     "name": "mcagabe19",
                     "icon": "lily",
                     "description": "Psych Engine Porter (Android)\nHelped Port the Engine to Android",
-                    "color": "FFE7C0"
+                    "color": "FFE7C0",
+                    "url": "https://github.com/mcagabe19"
                 },
                 {
                     "name": "T-Bar",
                     "icon": "tbar",
                     "description": "Flx3D",
-                    "color": "0077CC"
+                    "color": "0077CC",
+                    "url": "https://github.com/TBar09"
                 },
                 {
                     "name": "YoshiCrafter29",
                     "icon": "yoshicrafter29",
                     "description": "Code for the Crash Handler",
-                    "color": "FF95C0"
+                    "color": "FF95C0",
+                    "url": "https://github.com/YoshiCrafter29"
                 },
                 {
                     "name": "MAJigsaw77",
                     "icon": "majigsaw",
-                    "description": "Code for the Crash Handler",
-                    "color": "5F5F5F"
+                    "description": ".MP4 Video Loader Library (hxvlc) and Code for the Crash Handler",
+                    "color": "5F5F5F",
+                    "url": "https://x.com/MAJigsaw77"
                 }
             ]
         },
         {
             "name": "Psych Engine Team",
+            "color": "d400ff",
             "members": [
                 {
                     "name": "Shadow Mario",
                     "icon": "shadowMario",
                     "description": "Main Programmer and Head",
-                    "color": "444444"
+                    "color": "444444",
+                    "url": "https://ko-fi.com/shadowmario"
                 },
                 {
                     "name": "Riveren",
                     "icon": "riveren",
                     "description": "Main Artist/Animator",
-                    "color": "14967B"
-                }
-            ]
-        },
-        {
-            "name": "Former Psych Engine Members",
-            "members": [
+                    "color": "14967B",
+                    "url": "https://x.com/riverennn"
+                },
                 {
                     "name": "bb-panzu",
                     "icon": "bb",
                     "description": "Ex-Programmer of Psych Engine",
-                    "color": "3E813A"
+                    "color": "3E813A",
+                    "url": "https://x.com/bbsub3"
                 }
             ]
         },
         {
             "name": "Psych Engine Contributors",
+            "color": "9700cf",
             "members": [
                 {
                     "name": "CrowPlexus",
                     "icon": "crowplexus",
                     "description": "Input System v3, Major Help and Other PRs",
-                    "color": "A1A1A1"
+                    "color": "A1A1A1",
+                    "url": "https://twitter.com/IamMorwen"
                 },
                 {
                     "name": "Keoiki",
                     "icon": "keoiki",
                     "description": "Note Splash Animations and Latin Alphabet",
-                    "color": "D2D2D2"
+                    "color": "D2D2D2",
+                    "url": "https://x.com/Keoiki_"
                 },
                 {
                     "name": "SqirraRNG",
                     "icon": "sqirra",
-                    "description": "Crash Handler and Base code for\nChart Editor's Waveform",
-                    "color": "E1843A"
+                    "description": "Base code for\nChart Editor's Waveform",
+                    "color": "E1843A",
+                    "url": "https://x.com/gedehari"
                 },
                 {
                     "name": "EliteMasterEric",
                     "icon": "mastereric",
                     "description": "Runtime Shaders support",
-                    "color": "FFBD40"
-                },
-                {
-                    "name": "PolybiusProxy",
-                    "icon": "proxy",
-                    "description": "MP4 Video Loader Library (hxCodec)",
-                    "color": "DCD294"
+                    "color": "FFBD40",
+                    "url": "https://x.com/EliteMasterEric"
                 },
                 {
                     "name": "Tahir",
                     "icon": "tahir",
                     "description": "Implementing & Maintaining SScript and Other PRs",
-                    "color": "A04397"
+                    "color": "A04397",
+                    "url": "https://twitter.com/tahirk618"
                 },
                 {
                     "name": "iFlicky",
                     "icon": "flicky",
                     "description": "Composer of Psync and Tea Time\nMade the Dialogue Sounds",
-                    "color": "9E29CF"
+                    "color": "9E29CF",
+                    "url": "https://twitter.com/flicky_i"
                 },
                 {
                     "name": "KadeDev",
                     "icon": "kade",
                     "description": "Fixed some issues on Chart Editor and Other PRs",
-                    "color": "64A250"
+                    "color": "64A250",
+                    "url": "https://twitter.com/kade0912"
                 },
                 {
                     "name": "superpowers04",
                     "icon": "superpowers04",
                     "description": "LUA JIT Fork",
-                    "color": "B957ED"
+                    "color": "B957ED",
+                    "url": "https://twitter.com/superpowers04"
                 },
                 {
                     "name": "CheemsAndFriends",
                     "icon": "cheems",
                     "description": "Creator of FlxAnimate",
-                    "color": "A1A1A1"
+                    "color": "A1A1A1",
+                    "url": "https://twitter.com/CheemsnFriendos"
                 }
             ]
         },
         {
             "name": "Funkin' Crew",
+            "color": "41bf69",
             "members": [
                 {
                     "name": "ninjamuffin99",
                     "icon": "ninjamuffin99",
                     "description": "Programmer of Friday Night Funkin'",
-                    "color": "CF2D2D"
+                    "color": "CF2D2D",
+                    "url": "https://twitter.com/ninja_muffin99"
                 },
                 {
                     "name": "PhantomArcade",
                     "icon": "phantomarcade",
                     "description": "Animator of Friday Night Funkin'",
-                    "color": "FADC45"
+                    "color": "FADC45",
+                    "url": "https://twitter.com/PhantomArcade3K"
                 },
                 {
                     "name": "evilsk8r",
                     "icon": "evilsk8r",
                     "description": "Artist of Friday Night Funkin'",
-                    "color": "5ABD4B"
+                    "color": "5ABD4B",
+                    "url": "https://twitter.com/evilsk8r"
                 },
                 {
                     "name": "kawaisprite",
                     "icon": "kawaisprite",
                     "description": "Composer of Friday Night Funkin'",
-                    "color": "378FC7"
+                    "color": "378FC7",
+                    "url": "https://twitter.com/kawaisprite"
                 }
             ]
         }

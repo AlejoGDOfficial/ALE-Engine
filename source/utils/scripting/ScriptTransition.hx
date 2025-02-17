@@ -4,8 +4,8 @@ class ScriptTransition extends ScriptSubstate
 {
 	public static var finishCallback:Void -> Void;
 
-	public var transIn:Bool;
-	public var transOut:Bool;
+	public final transIn:Bool;
+	public final transOut:Bool;
 
 	public static var instance:ScriptTransition = null;
 
@@ -30,6 +30,8 @@ class ScriptTransition extends ScriptSubstate
 	override function close()
 	{
 		instance = null;
+
+		FlxG.state.allowUpdating = true;
 
 		if (finishCallback != null)
 		{

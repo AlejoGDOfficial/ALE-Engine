@@ -36,6 +36,8 @@ class FlxState extends FlxGroup
 	 */
 	public var persistentDraw:Bool = true;
 
+	public var allowUpdating:Bool = true;
+
 	/**
 	 * If substates get destroyed when they are closed, setting this to
 	 * `false` might reduce state creation time, at greater memory cost.
@@ -237,8 +239,7 @@ class FlxState extends FlxGroup
 	@:allow(flixel.FlxGame)
 	function tryUpdate(elapsed:Float):Void
 	{
-		if (persistentUpdate || subState == null || Std.is(subState, utils.scripting.ScriptTransition))
-			update(elapsed);
+		if (allowUpdating) if (persistentUpdate || subState == null || Std.is(subState, utils.scripting.ScriptTransition)) update(elapsed);
 
 		if (_requestSubStateReset)
 		{

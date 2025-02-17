@@ -61,8 +61,6 @@ class ScriptSubstate extends MusicBeatSubstate
     {
         instance = this;
 
-		Paths.clearUnusedMemory();
-
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		luaDebugGroup = new FlxTypedGroup<utils.scripting.substates.DebugLuaText>();
 		add(luaDebugGroup);

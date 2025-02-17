@@ -106,7 +106,7 @@ function onCreate()
                 {
                     var songData:StringMap = new StringMap();
                 
-                    var text:Alphabet = new Alphabet(100 + 30 * (songs.length - songsSelInt), 318 + 120 * (songs.length - songsSelInt), song[0], true);
+                    var text:Alphabet = new Alphabet(125 + 30 * (songs.length - songsSelInt), 318 + 175 * (songs.length - songsSelInt), song[0], true);
                     text.snapToPosition();
                     add(text);
                     text.alpha = 0.5;
@@ -364,7 +364,7 @@ function changeSongShit()
         }
 
         FlxTween.cancelTweensOf(song.get('text'));
-        FlxTween.tween(song.get('text'), {x: 100 + 30 * (songs.indexOf(song) - songsSelInt), y: 318 + 120 * (songs.indexOf(song) - songsSelInt)}, 0.3, {ease: FlxEase.cubeOut});
+        FlxTween.tween(song.get('text'), {x: 125 + 30 * (songs.indexOf(song) - songsSelInt), y: 318 + 175 * (songs.indexOf(song) - songsSelInt)}, 0.3, {ease: FlxEase.cubeOut});
     }
 
     FlxG.sound.play(Paths.sound('scrollMenu'));

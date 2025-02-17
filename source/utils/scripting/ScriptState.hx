@@ -68,6 +68,7 @@ class ScriptState extends MusicBeatState
     override public function create()
     {
 		Paths.clearUnusedMemory();
+		Paths.clearStoredMemory();
 
         instance = this;
 
