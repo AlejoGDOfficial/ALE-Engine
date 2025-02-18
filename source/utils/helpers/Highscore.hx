@@ -2,6 +2,8 @@ package utils.helpers;
 
 class Highscore
 {
+	public static var weekCompleted:Map<String, Bool> = new Map<String, Bool>();
+
 	public static var weekScores:Map<String, Int> = new Map();
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	public static var songRating:Map<String, Float> = new Map<String, Float>();

@@ -2300,11 +2300,17 @@ class PlayState extends MusicBeatState
 
 					MusicBeatState.switchState(new ScriptState(CoolVars.scriptFromPlayStateIfStoryMode));
 
-					// if ()
-					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
+					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay'))
+					{
+						Highscore.weekCompleted.set(WeekData.weeksList[storyWeek], true);
 						Highscore.saveWeekScore(WeekData.getWeekFileName(), campaignScore, storyDifficulty);
-						FlxG.save.flush();
+
+						var save:FlxSave = new FlxSave();
+						save.bind('score', CoolUtil.getSavePath() + '/' + Mods.currentModDirectory);
+						save.data.weekCompleted = Highscore.weekCompleted;
+						save.flush();
 					}
+					
 					changedDifficulty = false;
 				}
 				else

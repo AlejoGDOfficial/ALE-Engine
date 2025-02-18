@@ -97,12 +97,6 @@ class FPSCounter extends Sprite
     
     function theUpdate()
     {
-        /*
-        trace('CoolVars: ' + CoolVars.discordID);
-        trace('Game Data: ' + CoolVars.gameData.discordID);
-        trace('RPC: ' + DiscordClient.clientID);
-        */
-        
 		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
         if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState))

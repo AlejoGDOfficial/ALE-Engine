@@ -161,7 +161,6 @@ class HScript extends SScript
 		set('MenuCharacterEditorState', gameplay.states.editors.MenuCharacterEditorState);
 		set('NoteSplashEditorState', gameplay.states.editors.NoteSplashEditorState);
 		set('WeekEditorState', gameplay.states.editors.WeekEditorState);
-		set('GameplayChangersSubstate', gameplay.states.substates.GameplayChangersSubstate);
 		set('ControlsSubState', options.ControlsSubState);
 		set('NoteOffsetState', options.NoteOffsetState);
 		set('NotesSubState', options.NotesSubState);

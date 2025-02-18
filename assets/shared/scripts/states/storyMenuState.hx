@@ -6,6 +6,7 @@ import flixel.group.FlxTypedGroup;
 import visuals.objects.MenuCharacter;
 import tjson.TJSON as Json;
 import utils.mods.Mods;
+import visuals.objects.AttachedSprite;
 
 import utils.helpers.Difficulty;
 import utils.helpers.Highscore;
@@ -74,7 +75,7 @@ function onCreate()
     
             for (song in weekFile.songs) songs.push(song[0]);
     
-            if (!weekFile.hideStoryMode) addWeek(week, songs, weekFile.weekCharacters, weekFile.weekBackground, weekFile.storyName, WeekData.weeksList.indexOf(week));
+            if (!weekFile.hideStoryMode && weekFile.hiddenUntilUnlocked ? weekUnlocked(weekFile) : true) addWeek(week, songs, weekFile.weekCharacters, weekFile.weekBackground, weekFile.storyName, WeekData.weeksList.indexOf(week), weekUnlocked(weekFile));
         }
     }
     
@@ -158,20 +159,43 @@ function onCreate()
     changeWeeksShit();
 }
 
+function weekUnlocked(week:Dynamic):Bool
+{
+    if (week.startUnlocked) return true;
+
+    if (Highscore.weekCompleted.exists(week.weekBefore) && Highscore.weekCompleted.get(week.weekBefore)) return true;
+}
+
 var weeks:Array<StringMap<Dynamic>> = [];
 var difficulties:Array<String> = [];
 
-function addWeek(weekName:String, songs:Array, characters:Array, stage:String, storyName:String, week:Int)
+function addWeek(weekName:String, songs:Array, characters:Array, stage:String, storyName:String, week:Int, unlocked:Bool)
 {
     var weekData:StringMap = new StringMap();
 
-    var image:FlxSprite = new FlxSprite(0, 490 + (weeks.length - weeksSelInt) * 105).loadGraphic(Paths.image('storyMenuState/weeks/' + weekName));
-    image.alpha = 0.5;
-    image.scale.set(0.9, 0.9);
+    var image:FlxSprite = new FlxSprite(0, 480 + (weeks.length - weeksSelInt) * 105).loadGraphic(Paths.image('storyMenuState/weeks/' + weekName));
+    image.scale.set(0.8, 0.8);
     image.updateHitbox();
     image.x = FlxG.width / 2 - image.width / 2 - 20;
     image.antialiasing = ClientPrefs.data.antialiasing;
     add(image);
+
+    if (!unlocked)
+    {
+        var locker:AttachedSprite = new AttachedSprite();
+        locker.frames = Paths.getSparrowAtlas('storyMenuState/ui');
+        locker.animation.addByPrefix('lock', "lock", 1, false);
+        locker.animation.play('lock');
+        add(locker);
+        locker.antialiasing = ClientPrefs.data.antialiasing;
+        locker.sprTracker = image;
+        locker.copyAlpha = false;
+        locker.xAdd = image.width / 2 - locker.width / 2;
+        locker.yAdd = image.height / 2 - locker.height / 2;
+        locker.scrollFactor.set(0, 0);
+
+        weekData.set('locker', locker);
+    }
 
     weekData.set('name', weekName);
     weekData.set('image', image);
@@ -180,6 +204,7 @@ function addWeek(weekName:String, songs:Array, characters:Array, stage:String, s
     weekData.set('stage', stage);
     weekData.set('storyName', storyName);
     weekData.set('week', week);
+    weekData.set('locked', !unlocked);
 
     weeks.push(weekData);
 
@@ -192,7 +217,7 @@ function changeWeeksShit()
     {
         if (weeks.indexOf(week) == weeksSelInt)
         {
-            if (week.get('image').alpha != 1) week.get('image').alpha = 1;
+            if (week.get('image').alpha != (week.get('locked') ? 0.75 : 1)) week.get('image').alpha = week.get('locked') ? 0.75 : 1;
 
             songsText.text = 'TRACKS\n' + week.get('songs').join('\n');
             songsText.x = FlxG.width / 5 - songsText.width / 2 - 50;
@@ -203,8 +228,12 @@ function changeWeeksShit()
             bg.loadGraphic(Paths.image('storyMenuState/backgrounds/' + week.get('stage')));
 
             for (i in 0...3) characters.members[i].changeCharacter(week.get('characters')[i]);
+
+            if (week.exists('locker') && week.get('locker').alpha != 1) week.get('locker').alpha = 1;
         } else {
-            if (week.get('image').alpha != 0.5) week.get('image').alpha = 0.5;
+            if (week.get('image').alpha != (week.get('locked') ? 0.25 : 0.5)) week.get('image').alpha = week.get('locked') ? 0.25 : 0.5;
+
+            if (week.exists('locker') && week.get('locker').alpha != 0.5) week.get('locker').alpha = 0.5;
         }
 
         FlxTween.cancelTweensOf(week.get('image'));
@@ -355,36 +384,41 @@ function onUpdate(elapsed:Float)
                 {
                     if (weeks.indexOf(week) == weeksSelInt)
                     {
-                        if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
-    
-                        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-    
-                        loadWeek(week.get('songs'), difficultiesSelInt);
-                        
-                        for (char in characters.members)
+                        if (week.get('locked'))
                         {
-                            if (char.character != '' && char.hasConfirmAnimation)
+                            FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+                        } else {
+                            if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
+        
+                            FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+        
+                            loadWeek(week.get('songs'), difficultiesSelInt);
+                            
+                            for (char in characters.members)
                             {
-                                char.animation.play('confirm');
+                                if (char.character != '' && char.hasConfirmAnimation)
+                                {
+                                    char.animation.play('confirm');
+                                }
                             }
+        
+                            new FlxTimer().start(1, function(tmr:FlxTimer)
+                            {
+                                LoadingState.loadAndSwitchState(new PlayState(), true);
+                            });
                         }
-    
-                        new FlxTimer().start(1, function(tmr:FlxTimer)
-                        {
-                            LoadingState.loadAndSwitchState(new PlayState(), true);
-                        });
-                    } else {
+                    } else if (!weeks[weeksSelInt].get('locked')) {
                         FlxTween.tween(week.get('image'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                     }
                 }
 
-                canSelect = false;
+                if (!weeks[weeksSelInt].get('locked')) canSelect = false;
             }
 
             changed.weeks = changed.difficulties = false;
         }
 
-        if (FlxG.keys.justPressed.CONTROL && !FlxG.keys.pressed.SHIFT) openSubState('gameplay.states.substates.GameplayChangersSubstate', []);
+        if (FlxG.keys.justPressed.CONTROL && !FlxG.keys.pressed.SHIFT) openScriptSubState('gameplayOptionsSubstate');
     }
 }
 

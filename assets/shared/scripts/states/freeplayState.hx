@@ -102,7 +102,7 @@ function onCreate()
     
                 if (colors == null || colors.length) colors = [142, 113, 253];
     
-                if (!leWeek.hideFreeplay)
+                if (!leWeek.hideFreeplay && leWeek.hiddenUntilUnlocked ? weekUnlocked(leWeek) : true)
                 {
                     var songData:StringMap = new StringMap();
                 
@@ -125,12 +125,30 @@ function onCreate()
                     iconSprite.yAdd = text.height / 2 - iconSprite.height / 2;
                     iconSprite.clipRect = new FlxRect(0, 0, iconSprite.width / 2, iconSprite.height);
                     iconSprite.antialiasing = ClientPrefs.data.antialiasing;
+
+                    if (!weekUnlocked(leWeek))
+                    {
+                        var locker:AttachedSprite = new AttachedSprite();
+                        locker.frames = Paths.getSparrowAtlas('storyMenuState/ui');
+                        locker.animation.addByPrefix('lock', "lock", 1, false);
+                        locker.animation.play('lock');
+                        add(locker);
+                        locker.antialiasing = ClientPrefs.data.antialiasing;
+                        locker.sprTracker = text;
+                        locker.copyAlpha = false;
+                        locker.xAdd = text.width / 2 - locker.width / 2;
+                        locker.yAdd = text.height / 2 - locker.height / 2;
+                        locker.scrollFactor.set(0, 0);
+                
+                        songData.set('locker', locker);
+                    }
     
                     songData.set('text', text);
                     songData.set('icon', iconSprite);
                     songData.set('name', song[0]);
                     songData.set('color', FlxColor.fromRGB(song[2][0], song[2][1], song[2][2]));
                     songData.set('week', WeekData.weeksList.indexOf(week));
+                    songData.set('locked', !weekUnlocked(leWeek));
                 
                     songs.push(songData);
                 }
@@ -164,6 +182,13 @@ function onCreate()
 
     changeSongShit();
     changeDifficultyShit();
+}
+
+function weekUnlocked(week:Dynamic):Bool
+{
+    if (week.startUnlocked) return true;
+
+    if (Highscore.weekCompleted.exists(week.weekBefore) && Highscore.weekCompleted.get(week.weekBefore)) return true;
 }
 
 var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
@@ -292,29 +317,34 @@ function onUpdate(elapsed:Float)
                 {
                     if (songs.indexOf(song) == songsSelInt)
                     {
-                        if (ClientPrefs.data.flashing)
+                        if (song.get('locked'))
                         {
-                            FlxFlicker.flicker(song.get('text'), 0, 0.05);
-                            FlxFlicker.flicker(song.get('icon'), 0, 0.05);
-                        }
-
-                        if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
+                            FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+                        } else {
+                            if (ClientPrefs.data.flashing)
+                            {
+                                FlxFlicker.flicker(song.get('text'), 0, 0.05);
+                                FlxFlicker.flicker(song.get('icon'), 0, 0.05);
+                            }
     
-                        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-                        
-                        PlayState.storyWeek = WeekData.weeksList.indexOf(song.get('week'));
-
-                        new FlxTimer().start(1, function(tmr:FlxTimer)
-                        {
-                            loadSong(song.get('name'), difficultiesSelInt);
-                        });
-                    } else {
+                            if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
+        
+                            FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+                            
+                            PlayState.storyWeek = WeekData.weeksList.indexOf(song.get('week'));
+    
+                            new FlxTimer().start(1, function(tmr:FlxTimer)
+                            {
+                                loadSong(song.get('name'), difficultiesSelInt);
+                            });
+                        }
+                    } else if (!songs[songsSelInt].get('locked')) {
                         FlxTween.tween(song.get('text'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                         FlxTween.tween(song.get('icon'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                     }
                 }
     
-                canSelect = false;
+                if (!songs[songsSelInt].get('locked')) canSelect = false;
             }
 
             changed.songs = changed.difficulties = false;
@@ -356,11 +386,15 @@ function changeSongShit()
     {
         if (songs.indexOf(song) == songsSelInt)
         {
-            if (song.get('text').alpha != 1) song.get('text').alpha = 1;
+            if (song.get('text').alpha != (song.get('locked') ? 0.5 : 1)) song.get('text').alpha = song.get('locked') ? 0.5 : 1;
 
             FlxTween.color(bg, 60 / Conductor.bpm, bg.color, song.get('color'), {ease: FlxEase.cubeOut});
+
+            if (song.exists('locker') && song.get('locker').alpha != 1) song.get('locker').alpha = 1;
         } else {
-            if (song.get('text').alpha != 0.5) song.get('text').alpha = 0.5;
+            if (song.get('text').alpha != (song.get('locked') ? 0.25 : 0.5)) song.get('text').alpha = song.get('locked') ? 0.25 : 0.5;
+
+            if (song.exists('locker') && song.get('locker').alpha != 0.5) song.get('locker').alpha = 0.5;
         }
 
         FlxTween.cancelTweensOf(song.get('text'));
