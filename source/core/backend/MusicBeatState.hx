@@ -196,6 +196,10 @@ class MusicBeatState extends FlxUIState
 		else ScriptTransition.finishCallback = function() FlxG.switchState(nextState);
 	}
 
+	public function transitionStart() {}
+
+	public function transitionEnd() {}
+
 	public static function getState():MusicBeatState {
 		return cast (FlxG.state, MusicBeatState);
 	}

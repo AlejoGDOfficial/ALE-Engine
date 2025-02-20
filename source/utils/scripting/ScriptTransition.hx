@@ -23,6 +23,8 @@ class ScriptTransition extends ScriptSubstate
 
 		super.create();
 
+		if (MusicBeatState.instance != null) MusicBeatState.instance.transitionStart();
+
 		setOnScripts('transIn', transIn);
 		setOnScripts('transOut', transOut);
 	}
@@ -38,6 +40,8 @@ class ScriptTransition extends ScriptSubstate
 			if (transIn) finishCallback();
 			finishCallback = null;
 		}
+
+		if (MusicBeatState.instance != null) MusicBeatState.instance.transitionEnd();
 
 		super.close();
 	}

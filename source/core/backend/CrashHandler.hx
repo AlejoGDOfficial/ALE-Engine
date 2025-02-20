@@ -34,7 +34,7 @@ class CrashHandler
 			if (PlayState.instance.opponentVocals != null) PlayState.instance.opponentVocals.pause();
 		}
 
-		CoolVars.skipTransIn = true;
+		CoolVars.skipTransIn = CoolVars.skipTransOut = true;
 		MusicBeatState.switchState(new utils.scripting.ScriptCrashState(e.error, CallStack.exceptionStack(true)));
 	}
 

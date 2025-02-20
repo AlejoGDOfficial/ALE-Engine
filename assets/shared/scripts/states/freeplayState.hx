@@ -427,10 +427,14 @@ function changeSongShit()
     });
 }
 
+var changed:Bool = false;
+
 function changeDifficultyShit()
 {
     PlayState.storyWeek = songs[songsSelInt].get('week');
     Difficulty.loadFromWeek();
     if (difficulties.length != Difficulty.list.length) difficultiesSelInt = 0;
+    changed = difficulties.length == Difficulty.list.length;
     difficulties = Difficulty.list;
+    if (!changed && difficulties.contains('Hard') && difficulties.contains('Easy') && difficulties.contains('Normal')) difficultiesSelInt = 1;
 }

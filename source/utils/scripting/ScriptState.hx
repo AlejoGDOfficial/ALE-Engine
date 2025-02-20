@@ -116,6 +116,10 @@ class ScriptState extends MusicBeatState
         super.create();
     }
 
+	override public function transitionStart() callOnScripts('onTransitionStart', []);
+
+	override public function transitionEnd() callOnScripts('onTransitionEnd', []);
+
     override public function update(elapsed:Float)
     {
 		callOnScripts('onUpdate', [elapsed]);
