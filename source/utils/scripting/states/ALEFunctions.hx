@@ -11,26 +11,6 @@ class ALEFunctions
 {
 	//ALE Shit INIT
 
-	static function windowTweenUpdateX(value:Float)
-	{
-		Lib.application.window.x = Math.floor(value);
-	}
-	
-	static function windowTweenUpdateY(value:Float)
-	{
-		Lib.application.window.y = Math.floor(value);
-	}
-	
-	static function windowTweenUpdateWidth(value:Float)
-	{
-		Lib.application.window.width = Math.floor(value);
-	}
-	
-	static function windowTweenUpdateHeight(value:Float)
-	{
-		Lib.application.window.height = Math.floor(value);
-	}
-	
 	static function windowTweenUpdateAlpha(value:Float)
 	{
 		#if (windows && cpp) WindowsCPP.setWindowAlpha(value); #end
@@ -66,23 +46,55 @@ class ALEFunctions
         {
             FlxG.state.openSubState(new ScriptSubstate(substate));
         });
+		
+		Lua_helper.add_callback(lua, "addBackdrop", function(tag:String, image:String)
+		{
+			var backDrop = new flixel.addons.display.FlxBackdrop(Paths.image(image));
+
+			ScriptState.instance.add(backDrop);
+			ScriptState.instance.variables.set(tag, backDrop);
+		});
+		Lua_helper.add_callback(lua, "removeBackdrop", function(tag:String)
+		{
+			ScriptState.instance.variables[tag].destroy();
+			ScriptState.instance.variables.remove(tag);
+		
+			ScriptState.instance.remove(ScriptState.instance.variables.get(tag));
+		});
+		Lua_helper.add_callback(lua, "addCamera", function(tag:String, defaultTarget:Bool, x:Int, y:Int, height:Int, zoom:Float)
+		{
+			var camera = new FlxCamera(x, y, height, zoom);
+
+			FlxG.cameras.add(camera);
+			ScriptState.instance.variables.set(tag, camera);
+		});
+		Lua_helper.add_callback(lua, "removeCamera", function(tag:String)
+		{
+			var obj:Dynamic = ScriptState.instance.variables.get(tag);
+
+			if (Std.isOfType(obj, FlxCamera))
+			{
+				FlxG.cameras.remove(cast obj);
+				ScriptState.instance.variables.remove(obj);
+			}
+		});
     
-        Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
-        {
-            FlxTween.num(Lib.application.window.x, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateX);
-        });
-        Lua_helper.add_callback(lua, "doWindowTweenY", function(pos:Int, time:Float, theEase:Dynamic)
-        {
-            FlxTween.num(Lib.application.window.y, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateY);
-        });
-        Lua_helper.add_callback(lua, "doWindowTweenWidth", function(pos:Int, time:Float, theEase:Dynamic)
-        {
-            FlxTween.num(Lib.application.window.width, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateWidth);
-        });
-        Lua_helper.add_callback(lua, "doWindowTweenHeight", function(pos:Int, time:Float, theEase:Dynamic)
-        {
-            FlxTween.num(Lib.application.window.height, pos, time, {ease: LuaUtils.getTweenEaseByString(theEase)}, windowTweenUpdateHeight);
-        });
+		Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.tween(Lib.application.window, {x: pos}, time, {ease: LuaUtils.getTweenEaseByString(theEase)});
+		});
+		Lua_helper.add_callback(lua, "doWindowTweenY", function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.tween(Lib.application.window, {y: pos}, time, {ease: LuaUtils.getTweenEaseByString(theEase)});
+		});
+		Lua_helper.add_callback(lua, "doWindowTweenWidth", function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.tween(Lib.application.window, {width: pos}, time, {ease: LuaUtils.getTweenEaseByString(theEase)});
+		});
+		Lua_helper.add_callback(lua, "doWindowTweenHeight", function(pos:Int, time:Float, theEase:Dynamic)
+		{
+			FlxTween.tween(Lib.application.window, {height: pos}, time, {ease: LuaUtils.getTweenEaseByString(theEase)});
+		});
         Lua_helper.add_callback(lua, "setWindowX", function(pos:Int)
         {
             Lib.application.window.x = pos;

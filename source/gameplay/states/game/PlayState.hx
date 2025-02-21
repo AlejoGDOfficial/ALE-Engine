@@ -1850,6 +1850,8 @@ class PlayState extends MusicBeatState
 
 	function openChartEditor()
 	{
+		if (FlxG.sound.music == null) return;
+
 		FlxG.camera.followLerp = 0;
 		persistentUpdate = false;
 		paused = true;
@@ -1866,6 +1868,8 @@ class PlayState extends MusicBeatState
 
 	function openCharacterEditor()
 	{
+		if (FlxG.sound.music == null) return;
+
 		FlxG.camera.followLerp = 0;
 		persistentUpdate = false;
 		paused = true;

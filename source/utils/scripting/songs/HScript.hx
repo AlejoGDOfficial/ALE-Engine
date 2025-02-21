@@ -3,7 +3,6 @@
 import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.songs.LuaUtils;
-import utils.scripting.songs.CustomSubstate;
 import gameplay.states.game.PlayState;
 
 import core.backend.Song;
@@ -59,26 +58,6 @@ class HScript extends SScript
 	#end
 
 	//ALE Shit INIT
-
-	private function windowTweenUpdateX(value:Float)
-	{
-		Lib.application.window.x = Math.floor(value);
-	}
-	
-	private function windowTweenUpdateY(value:Float)
-	{
-		Lib.application.window.y = Math.floor(value);
-	}
-	
-	private function windowTweenUpdateWidth(value:Float)
-	{
-		Lib.application.window.width = Math.floor(value);
-	}
-	
-	private function windowTweenUpdateHeight(value:Float)
-	{
-		Lib.application.window.height = Math.floor(value);
-	}
 	
 	private function windowTweenUpdateAlpha(value:Float)
 	{
@@ -143,7 +122,6 @@ class HScript extends SScript
 		set('Character', Character);
 		set('Alphabet', Alphabet);
 		set('Note', visuals.objects.Note);
-		set('CustomSubstate', CustomSubstate);
 		#if (!flash && sys)
 		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		#end
@@ -217,19 +195,19 @@ class HScript extends SScript
 
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.x, pos, time, {ease: theEase}, windowTweenUpdateX);
+			FlxTween.tween(Lib.application.window, {x: pos}, time, {ease: theEase});
 		});
 		set('doWindowTweenY', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.y, pos, time, {ease: theEase}, windowTweenUpdateY);
+			FlxTween.tween(Lib.application.window, {y: pos}, time, {ease: theEase});
 		});
 		set('doWindowTweenWidth', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.width, pos, time, {ease: theEase}, windowTweenUpdateWidth);
+			FlxTween.tween(Lib.application.window, {width: pos}, time, {ease: theEase});
 		});
 		set('doWindowTweenHeight', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.height, pos, time, {ease: theEase}, windowTweenUpdateHeight);
+			FlxTween.tween(Lib.application.window, {height: pos}, time, {ease: theEase});
 		});
 		set("setWindowX", function(pos:Int)
 		{
@@ -582,8 +560,6 @@ class HScript extends SScript
 		set('game', PlayState.instance);
 
 		set('buildTarget', LuaUtils.getBuildTarget());
-		set('customSubstate', CustomSubstate.instance);
-		set('customSubstateName', CustomSubstate.name);
 
 		set('Function_Stop', LuaUtils.Function_Stop);
 		set('Function_Continue', LuaUtils.Function_Continue);

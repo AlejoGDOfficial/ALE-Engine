@@ -59,26 +59,6 @@ class HScript extends SScript
 
 	//ALE Shit INIT
 
-	static function windowTweenUpdateX(value:Float)
-	{
-		Lib.application.window.x = Math.floor(value);
-	}
-	
-	private function windowTweenUpdateY(value:Float)
-	{
-		Lib.application.window.y = Math.floor(value);
-	}
-	
-	private function windowTweenUpdateWidth(value:Float)
-	{
-		Lib.application.window.width = Math.floor(value);
-	}
-	
-	private function windowTweenUpdateHeight(value:Float)
-	{
-		Lib.application.window.height = Math.floor(value);
-	}
-	
 	private function windowTweenUpdateAlpha(value:Float)
 	{
 		#if (windows && cpp) WindowsCPP.setWindowAlpha(value); #end
@@ -231,21 +211,22 @@ class HScript extends SScript
 			PlayState.campaignScore = 0;
 			PlayState.campaignMisses = 0;
 		});
+		
 		set('doWindowTweenX', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.x, pos, time, {ease: theEase}, windowTweenUpdateX);
+			FlxTween.tween(Lib.application.window, {x: pos}, time, {ease: theEase});
 		});
 		set('doWindowTweenY', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.y, pos, time, {ease: theEase}, windowTweenUpdateY);
+			FlxTween.tween(Lib.application.window, {y: pos}, time, {ease: theEase});
 		});
 		set('doWindowTweenWidth', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.width, pos, time, {ease: theEase}, windowTweenUpdateWidth);
+			FlxTween.tween(Lib.application.window, {width: pos}, time, {ease: theEase});
 		});
 		set('doWindowTweenHeight', function(pos:Int, time:Float, theEase:Dynamic)
 		{
-			FlxTween.num(Lib.application.window.height, pos, time, {ease: theEase}, windowTweenUpdateHeight);
+			FlxTween.tween(Lib.application.window, {height: pos}, time, {ease: theEase});
 		});
 		set("setWindowX", function(pos:Int)
 		{
