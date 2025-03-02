@@ -291,7 +291,7 @@ class PlayState extends MusicBeatState
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay');
 
 		// var gameCam:FlxCamera = FlxG.camera;
-		camGame = initPsychCamera();
+		camGame = initALECamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -829,7 +829,7 @@ class PlayState extends MusicBeatState
 
 		if (foundFile)
 		{
-			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop, false);
+			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop);
 			videoCutscene.videoSprite.bitmap.rate = playbackRate;
 
 			// Finish callback
@@ -2972,13 +2972,27 @@ class PlayState extends MusicBeatState
 	override function destroy()
 	{
 		destroyScripts();
-
+		
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+
 		FlxG.animationTimeScale = 1;
-		#if FLX_PITCH FlxG.sound.music.pitch = 1; #end
+		#if FLX_PITCH
+		FlxG.sound.music.pitch = 1;
+		#end
 		Note.globalRgbShaders = [];
 		utils.mods.NoteTypesConfig.clearNoteTypesData();
+
+		for (sprite in dadGroup.members) sprite.destroy();
+		for (sprite in boyfriendGroup.members) sprite.destroy();
+		for (sprite in gfGroup.members) sprite.destroy();
+		for (sprite in noteGroup.members) sprite.destroy();
+
+		dadGroup.clear(); dadGroup = null;
+		boyfriendGroup.clear(); boyfriendGroup = null;
+		gfGroup.clear(); gfGroup = null;
+
+		noteGroup.clear(); noteGroup = null;
 
 		instance = null;
 

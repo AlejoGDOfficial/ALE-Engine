@@ -11,8 +11,6 @@ import gameplay.states.editors.*;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 
-import gameplay.camera.PsychCamera;
-
 import visuals.cutscenes.VideoSprite;
 
 import utils.scripting.states.*;
@@ -72,7 +70,7 @@ class ScriptState extends MusicBeatState
 
         instance = this;
 
-		camGame = initPsychCamera();
+		camGame = initALECamera();
 
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -234,7 +232,7 @@ class ScriptState extends MusicBeatState
 
 		if (foundFile)
 		{
-			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop, false);
+			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop);
 
 			// Finish callback
 			if (!forMidSong)

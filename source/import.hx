@@ -7,9 +7,10 @@ import core.backend.Controls;
 import core.backend.MusicBeatState;
 import core.backend.MusicBeatSubstate;
 
+import core.config.ClientPrefs;
+
 import gameplay.states.game.PlayState;
 import gameplay.states.game.LoadingState;
-import gameplay.camera.CustomFadeTransition;
 
 import utils.helpers.CoolUtil;
 import utils.helpers.CoolVars;

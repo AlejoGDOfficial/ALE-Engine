@@ -2,9 +2,10 @@ package core.backend;
 
 import flixel.addons.ui.FlxUIState;
 import flixel.FlxState;
-import gameplay.camera.PsychCamera;
-import gameplay.camera.CustomFadeTransition;
+import gameplay.camera.ALECamera;
 import utils.scripting.ScriptTransition;
+
+#if cpp import cpp.vm.Gc; #end
 
 @:access(utils.helpers.CoolVars)
 class MusicBeatState extends FlxUIState
@@ -45,7 +46,7 @@ class MusicBeatState extends FlxUIState
 
 		CoolVars.setGameData();
 
-		if(!_psychCameraInitialized) initPsychCamera();
+		if(!_psychCameraInitialized) initALECamera();
 
 		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
 
@@ -65,15 +66,38 @@ class MusicBeatState extends FlxUIState
 	override function destroy()
 	{
 		instance = null;
+
+		var killZombies:Bool = true;
+
+		while (killZombies)
+		{
+			var zombie = Gc.getNextZombie();
+
+			if (zombie == null)
+				killZombies = false;
+		
+			var closeMethod = Reflect.field(zombie, "close");
+
+			if (closeMethod != null && Reflect.isFunction(closeMethod))
+				closeMethod.call(zombie, []);
+		}
+
+		Gc.run(true);
+		Gc.compact();
+		
+		FlxG.bitmap.clearUnused;
+		FlxG.bitmap.clearCache;
+
+		super.destroy();
 	}
 
-	public function initPsychCamera():PsychCamera
+	public function initALECamera():ALECamera
 	{
-		var camera = new PsychCamera();
+		var camera = new ALECamera();
 		FlxG.cameras.reset(camera);
 		FlxG.cameras.setDefaultDrawTarget(camera, true);
 		_psychCameraInitialized = true;
-		//trace('initialized psych camera ' + Sys.cpuTime());
+		
 		return camera;
 	}
 

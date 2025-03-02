@@ -14,6 +14,7 @@ import haxe.ds.StringMap;
 import haxe.Timer;
 import openfl.display.DisplayObject;
 import openfl.events.Event;
+import flash.events.KeyboardEvent;
 
 @:access(core.backend.MusicBeatState)
 class FPSCounter extends Sprite
@@ -53,6 +54,126 @@ class FPSCounter extends Sprite
         createDebugText('deviceField', 288, 16, true, false);
         createDebugText('versionField', 345, 16, false, CoolVars.outdated);
         createDebugText('tipsField', 425, 16, false, false);
+
+		FlxG.stage.nativeWindow.addEventListener(Event.DEACTIVATE, onFocusLost);
+		FlxG.stage.nativeWindow.addEventListener(Event.ACTIVATE, onFocus);
+
+        activateListeners();
+    }
+
+    function activateListeners()
+    {
+        FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+        FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+    }
+
+    function deactivateListeners()
+    {
+        FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+        FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+    }
+    
+    function onFocusLost(event:Event)
+    {
+        deactivateListeners();
+    }
+
+    function onFocus(event:Event)
+    {
+        activateListeners();
+    }
+
+    var ctrlPressed:Bool = false;
+    var shiftPressed:Bool = false;
+    var pressedF5:Bool = false;
+    var pressedF1:Bool = false;
+    var pressedF2:Bool = false;
+    var pressedF3:Bool = false;
+    var pressedF4:Bool = false;
+
+    function onKeyPress(event:KeyboardEvent)
+    {
+        if (event.keyCode == 17) ctrlPressed = true;
+
+        if (event.keyCode == 16) shiftPressed = true;
+
+        if (ctrlPressed && shiftPressed)
+        {
+            if (!Std.is(FlxG.state, gameplay.states.game.PlayState) && !Std.is(FlxG.state, core.config.MainState))
+            {
+                switch (event.keyCode)
+                {
+                    case 114:
+                        if (!pressedF3)
+                        {
+                            CoolUtil.resetEngine();
+    
+                            pressedF3 = true;
+                        }
+                    case 18:
+                        if (!pressedF5)
+                        {
+                            MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+    
+                            pressedF5 = true;
+                        }
+                }
+            }
+            
+            switch (event.keyCode)
+            {
+                case 112:
+                    if (!pressedF1)
+                    {
+                        for (shape in shapes) shape.visible = !shape.visible;
+
+                        pressedF1 = true;
+                    }
+                case 113:
+                    if (!pressedF2)
+                    {
+                        orientationLeft = !orientationLeft;
+
+                        pressedF2 = true;
+                    }
+                case 115:
+                    if (!pressedF4)
+                    {
+                        if (CoolVars.outdated) CoolUtil.browserLoad("https://gamebanana.com/mods/562650");
+
+                        pressedF4 = true;
+                    }
+            }
+        } else if (event.keyCode == 114 && !pressedF3) {
+            if (selInt < fields.length) selInt++;
+            else selInt = 0;
+            
+            if (selInt == fields.length) for (i in 0...visibility.length) visibility[i] = false;
+            else visibility[selInt] = true;
+
+            pressedF3 = true;
+        } 
+    }
+    
+    function onKeyRelease(event:KeyboardEvent)
+    {
+        switch (event.keyCode)
+        {
+            case 17:
+                ctrlPressed = false;
+            case 16:
+                shiftPressed = false;
+            case 112:
+                pressedF1 = false;
+            case 113:
+                pressedF2 = false;
+            case 114:
+                pressedF3 = false;
+            case 115:
+                pressedF4 = false;
+            case 18:
+                pressedF5 = false;
+        }
     }
     
     function createDebugText(name:String, y:Int, size:Int, doPush:Bool, condition:Bool)
@@ -99,15 +220,6 @@ class FPSCounter extends Sprite
     {
 		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
-        if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState))
-        {
-            if (FlxG.keys.justPressed.TAB) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
-            else if (FlxG.keys.justPressed.F1) for (shape in shapes) shape.visible = !shape.visible;
-            else if (FlxG.keys.justPressed.F2) orientationLeft = !orientationLeft;
-            else if (FlxG.keys.justPressed.F3) CoolUtil.resetEngine();
-            else if (FlxG.keys.justPressed.F4 && CoolVars.outdated) CoolUtil.browserLoad("https://gamebanana.com/mods/562650");
-        }	
-        
         updateText();
     }
 
@@ -131,20 +243,19 @@ class FPSCounter extends Sprite
                 {
                     case 'fpsField':
                         otherFields[i].text = 'FPS: ' + currentFPS;
-                        otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.RED : FlxColor.WHITE;
                     #if cpp
                     case 'memoryField':
                         otherFields[i].text = 'Memory: ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE)) + ' / ' + FlxStringUtil.formatBytes(memoryPeak);
                         otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.PINK : FlxColor.WHITE;
                     #end
                     case 'developerField':
-                        otherFields[i].text = 'DEVELOPER MODE';
+                        otherFields[i].text = (CoolVars.developerMode ? 'DEVELOPER MODE' : '') #if test_build + ' - TEST BUILD - REPORT ITS USE TO @alejogdofficial ON DISCORD' #end;
                     case 'versionField':
                         otherFields[i].text = 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion;
                         otherVisibility[i] = timer < 10 && CoolVars.outdated;
                     case 'tipsField':
-                        otherFields[i].text = 'Press TAB to select the mods you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
-                        otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState);
+                        otherFields[i].text = Std.is(FlxG.state, gameplay.states.game.PlayState) || Std.is(FlxG.state, core.config.MainState) ? 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '') : 'Press ALT to select the mod you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
+                        otherVisibility[i] = ctrlPressed && shiftPressed;
                     default:
                         otherFields[i].text = '';
                 }
@@ -177,15 +288,6 @@ class FPSCounter extends Sprite
                 fields[i].alpha = Math.max(0, fields[i].alpha);
                 fields[i].x = CoolUtil.fpsLerp(fields[i].x, visibility[i] ? (orientationLeft ? 10 : Lib.application.window.width - fields[i].width - 10) : (orientationLeft ? -10 : Lib.application.window.width - fields[i].width + 10), 0.2);
             }
-        }
-
-        if (FlxG.keys.justPressed.F3)
-        {
-            if (selInt < fields.length) selInt++;
-            else selInt = 0;
-            
-            if (selInt == fields.length) for (i in 0...visibility.length) visibility[i] = false;
-            else visibility[selInt] = true;
         }
     }
 }
