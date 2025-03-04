@@ -56,23 +56,6 @@ class ALEFunctions
 		
 			PlayState.instance.remove(PlayState.instance.variables.get(tag));
 		});
-		Lua_helper.add_callback(lua, "addCamera", function(tag:String, defaultTarget:Bool, x:Int, y:Int, height:Int, zoom:Float)
-		{
-			var camera = new FlxCamera(x, y, height, zoom);
-
-			FlxG.cameras.add(camera);
-			PlayState.instance.variables.set(tag, camera);
-		});
-		Lua_helper.add_callback(lua, "removeCamera", function(tag:String)
-		{
-			var obj:Dynamic = PlayState.instance.variables.get(tag);
-
-			if (Std.isOfType(obj, FlxCamera))
-			{
-				FlxG.cameras.remove(cast obj);
-				PlayState.instance.variables.remove(obj);
-			}
-		});
 				
 		Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
 		{

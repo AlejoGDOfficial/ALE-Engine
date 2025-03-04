@@ -14,6 +14,7 @@ import haxe.ds.StringMap;
 import haxe.Timer;
 import openfl.display.DisplayObject;
 import openfl.events.Event;
+import gameplay.states.game.PlayState;
 
 @:access(core.backend.MusicBeatState)
 class FPSCounter extends Sprite
@@ -107,11 +108,21 @@ class FPSCounter extends Sprite
         {
             if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState))
             {
-                if (FlxG.keys.justPressed.TAB && Std.is(FlxG.state, gameplay.states.game.PlayState) || Std.is(FlxG.state, core.config.MainState)) MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
-                else if (FlxG.keys.justPressed.F1) for (shape in shapes) shape.visible = !shape.visible;
-                else if (FlxG.keys.justPressed.F2) orientationLeft = !orientationLeft;
-                else if (FlxG.keys.justPressed.F3 && !(Std.is(FlxG.state, gameplay.states.game.PlayState) || Std.is(FlxG.state, core.config.MainState))) CoolUtil.resetEngine();
-                else if (FlxG.keys.justPressed.F4 && CoolVars.outdated) CoolUtil.browserLoad("https://gamebanana.com/mods/562650");
+                if (FlxG.keys.justPressed.TAB && Std.is(FlxG.state, PlayState) || Std.is(FlxG.state, core.config.MainState))
+                    MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+                else if (FlxG.keys.justPressed.F1)
+                    for (shape in shapes)
+                        shape.visible = !shape.visible;
+                else if (FlxG.keys.justPressed.F2)
+                    orientationLeft = !orientationLeft;
+                else if (FlxG.keys.justPressed.F3 && !(Std.is(FlxG.state, PlayState) || Std.is(FlxG.state, core.config.MainState)))
+                    CoolUtil.resetEngine();
+                else if (FlxG.keys.justPressed.F4 && CoolVars.outdated)
+                    CoolUtil.browserLoad("https://gamebanana.com/mods/562650");
+                else if (FlxG.keys.justPressed.F5 && Std.is(FlxG.state, PlayState) && CoolVars.developerMode)
+                    PlayState.instance.playbackRate -= 0.05;
+                else if (FlxG.keys.justPressed.F6 && Std.is(FlxG.state, PlayState) && CoolVars.developerMode)
+                        PlayState.instance.playbackRate += 0.05;
             }	
     
             if (FlxG.keys.justPressed.F3 && !(FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT))
@@ -161,7 +172,7 @@ class FPSCounter extends Sprite
                         otherFields[i].text = 'Outdated!' + '\n' + 'Online Version: ' + CoolVars.onlineVersion + '\n' + 'Your Version: ' + CoolVars.engineVersion;
                         otherVisibility[i] = timer < 10 && CoolVars.outdated;
                     case 'tipsField':
-                        otherFields[i].text = Std.is(FlxG.state, gameplay.states.game.PlayState) || Std.is(FlxG.state, core.config.MainState) ? 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '') : 'Press TAB to select the mod you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
+                        otherFields[i].text = Std.is(FlxG.state, PlayState) ? 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + (CoolVars.developerMode ? '\n' + 'Press F5 to Slow Down the Game Speed' + '\n' + 'Press F6 to Speed Up the Game Speed' : '') + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '') : 'Press TAB to select the mod you want to play' + '\n' + 'Press F1 to Toggle FPS Counter Background Visibility' + '\n' + 'Press F2 to Change FPS Counter Orientation' + '\n' + 'Press F3 to Restart the Engine' + (CoolVars.outdated ? '\n' + 'Press F4 to Update the Engine' : '');
                         otherVisibility[i] = FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT;
                     default:
                         otherFields[i].text = '';
@@ -211,11 +222,14 @@ class AttachedShape extends Shape
 
         visible = false;
 
-        addEventListener(Event.ENTER_FRAME, update);
+        FlxG.signals.preUpdate.add(theUpdate);
     }
 
-    function update(e:Event)
+    function theUpdate()
     {
+        if (alpha < 0.5)
+            return;
+
         graphics.clear();
         graphics.beginFill(0x000000, Math.max(0, sprTracker.alpha - 0.5));
         graphics.beginFill(0x000000, sprTracker.alpha - 0.5);
