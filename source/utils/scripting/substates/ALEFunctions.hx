@@ -46,9 +46,9 @@ class ALEFunctions
         {
             FlxG.state.openSubState(new ScriptSubstate(substate));
         });
-        Lua_helper.add_callback(lua, 'close', function()
+        Lua_helper.add_callback(lua, 'closeScriptSubState', function()
         {
-            FlxG.state.subState.close();
+            ScriptSubstate.instance.close();
         });
     
 		Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)

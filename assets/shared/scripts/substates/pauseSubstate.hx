@@ -88,7 +88,7 @@ function onCreatePost()
 		}
 	}
 	
-	var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width / FlxG.camera.zoom, FlxG.height / FlxG.camera.zoom, FlxColor.BLACK);
+	var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 2 / FlxG.camera.zoom, FlxG.width * 2 / FlxG.camera.zoom, FlxColor.BLACK);
 	add(bg);
 	bg.scrollFactor.set();
 	bg.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
@@ -99,7 +99,7 @@ function onCreatePost()
 	skipText = new AttachedFlxText();
 	skipText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
 	skipText.scrollFactor.set();
-	skipText.setFormat(Paths.font('vcr.ttf'), 48, null, 'right');
+	skipText.setFormat(Paths.font('vcr.ttf'), 64, null, 'right');
 	skipText.updateHitbox();
 	skipText.cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	if (PlayState.chartingMode ? options[CHARTING].contains('Skip Time') : options[NORMAL].contains('Skip Time')) add(skipText);
@@ -182,7 +182,7 @@ function parseMenu(menu:Int)
 		if (name == 'Skip Time')
 		{
 			skipText.sprTracker = text;
-			skipText.xAdd = text.width + 30;
+			skipText.xAdd = text.width + 50;
 			skipText.yAdd = text.height / 2 - skipText.height / 2;
 		}
 	}

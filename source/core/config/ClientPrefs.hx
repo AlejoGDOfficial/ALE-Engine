@@ -48,15 +48,8 @@ import haxe.Json;
 	public var safeFrames:Float = 10;
 	
 	public var gameplaySettings:Map<String, Dynamic> = [
-		'scrollspeed' => 1.0,
-		'scrolltype' => 'multiplicative',
-		'songspeed' => 1.0,
-		'healthgain' => 1.0,
-		'healthloss' => 1.0,
-		'instakill' => false,
 		'practice' => false,
-		'botplay' => false,
-		'opponentplay' => false
+		'botplay' => false
 	];
 
 	public var currentModFolder:String = '';

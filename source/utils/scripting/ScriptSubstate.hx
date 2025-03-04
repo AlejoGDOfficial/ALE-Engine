@@ -31,21 +31,10 @@ class ScriptSubstate extends MusicBeatSubstate
 	public var runtimeShaders:Map<String, Array<String>> = new Map<String, Array<String>>();
 
     public static var instance:ScriptSubstate;
-
-    #if LUA_ALLOWED public var luaArray:Array<FunkinLua> = []; #end
     
     #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
     private var luaDebugGroup:FlxTypedGroup<utils.scripting.substates.DebugLuaText>;
     #end
-
-	#if LUA_ALLOWED
-	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
-	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
-	public var modchartTimers:Map<String, FlxTimer> = new Map<String, FlxTimer>();
-	public var modchartSounds:Map<String, FlxSound> = new Map<String, FlxSound>();
-	public var modchartTexts:Map<String, FlxText> = new Map<String, FlxText>();
-	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
-	#end
 
 	#if HSCRIPT_ALLOWED
 	public var hscriptArray:Array<HScript> = [];
@@ -66,7 +55,6 @@ class ScriptSubstate extends MusicBeatSubstate
 		add(luaDebugGroup);
 		#end
 		
-		#if LUA_ALLOWED startLuasNamed('scripts/substates/' + targetFileName + '.lua'); #end
 		#if HSCRIPT_ALLOWED startHScriptsNamed('scripts/substates/' + targetFileName + '.hx'); #end
 
 		callOnScripts('onCreatePost');
@@ -160,11 +148,6 @@ class ScriptSubstate extends MusicBeatSubstate
     #end
 
 	public function getLuaObject(tag:String, text:Bool=true):FlxSprite {
-		#if LUA_ALLOWED
-		if(modchartSprites.exists(tag)) return modchartSprites.get(tag);
-		if(text && modchartTexts.exists(tag)) return modchartTexts.get(tag);
-		if(variables.exists(tag)) return variables.get(tag);
-		#end
 		return null;
 	}
 
@@ -209,7 +192,7 @@ class ScriptSubstate extends MusicBeatSubstate
 		destroyScripts();
 
 		instance = null;
-
+		
 		super.close();
 	}
 
@@ -226,19 +209,6 @@ class ScriptSubstate extends MusicBeatSubstate
 	{
 		if (!destroyedScripts)
 		{
-			#if LUA_ALLOWED
-			if (luaArray != null || luaArray.length > 0)
-			{
-				for (lua in luaArray)
-				{
-					lua.call('onDestroy', []);
-					lua.stop();
-				}
-			}
-			luaArray = null;
-			FunkinLua.customFunctions.clear();
-			#end
-	
 			#if HSCRIPT_ALLOWED
 			if (hscriptArray != null || hscriptArray.length > 0)
 			{
@@ -258,30 +228,6 @@ class ScriptSubstate extends MusicBeatSubstate
 			destroyedScripts = true;
 		}
 	}
-
-	#if LUA_ALLOWED
-	public function startLuasNamed(luaFile:String)
-	{
-		#if MODS_ALLOWED
-		var luaToLoad:String = Paths.modFolders(luaFile);
-		if(!FileSystem.exists(luaToLoad))
-			luaToLoad = Paths.getSharedPath(luaFile);
-
-		if(FileSystem.exists(luaToLoad))
-		#elseif sys
-		var luaToLoad:String = Paths.getSharedPath(luaFile);
-		if(OpenFlAssets.exists(luaToLoad))
-		#end
-		{
-			for (script in luaArray)
-				if(script.scriptName == luaToLoad) return false;
-
-			new FunkinLua(luaToLoad);
-			return true;
-		}
-		return false;
-	}
-	#end
 
 	#if HSCRIPT_ALLOWED
 	public function startHScriptsNamed(scriptFile:String)
@@ -368,45 +314,6 @@ class ScriptSubstate extends MusicBeatSubstate
 
 	public function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
 		var returnVal:Dynamic = LuaUtils.Function_Continue;
-		#if LUA_ALLOWED
-		if(args == null) args = [];
-		if(exclusions == null) exclusions = [];
-		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
-
-		if (luaArray == null || luaArray.length < 1)
-		{
-			return null;
-		}
-
-		var arr:Array<FunkinLua> = [];
-		for (script in luaArray)
-		{
-			if(script.closed)
-			{
-				arr.push(script);
-				continue;
-			}
-
-			if(exclusions.contains(script.scriptName))
-				continue;
-
-			var myValue:Dynamic = script.call(funcToCall, args);
-			if((myValue == LuaUtils.Function_StopLua || myValue == LuaUtils.Function_StopAll) && !excludeValues.contains(myValue) && !ignoreStops)
-			{
-				returnVal = myValue;
-				break;
-			}
-
-			if(myValue != null && !excludeValues.contains(myValue))
-				returnVal = myValue;
-
-			if(script.closed) arr.push(script);
-		}
-
-		if(arr.length > 0)
-			for (script in arr)
-				luaArray.remove(script);
-		#end
 		return returnVal;
 	}
 
@@ -470,26 +377,7 @@ class ScriptSubstate extends MusicBeatSubstate
 
 	public function setOnScripts(variable:String, arg:Dynamic, exclusions:Array<String> = null) {
 		if(exclusions == null) exclusions = [];
-		setOnLuas(variable, arg, exclusions);
 		setOnHScript(variable, arg, exclusions);
-	}
-
-	public function setOnLuas(variable:String, arg:Dynamic, exclusions:Array<String> = null) {
-		#if LUA_ALLOWED
-		if(exclusions == null) exclusions = [];
-
-		if (luaArray == null || luaArray.length < 1)
-		{
-			return;
-		}
-
-		for (script in luaArray) {
-			if(exclusions.contains(script.scriptName))
-				continue;
-
-			script.set(variable, arg);
-		}
-		#end
 	}
 
 	public function setOnHScript(variable:String, arg:Dynamic, exclusions:Array<String> = null) {

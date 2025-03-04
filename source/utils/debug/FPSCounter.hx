@@ -108,7 +108,7 @@ class FPSCounter extends Sprite
         {
             if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState))
             {
-                if (FlxG.keys.justPressed.TAB && Std.is(FlxG.state, PlayState) || Std.is(FlxG.state, core.config.MainState))
+                if (FlxG.keys.justPressed.TAB && !Std.is(FlxG.state, PlayState) && !Std.is(FlxG.state, core.config.MainState))
                     MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
                 else if (FlxG.keys.justPressed.F1)
                     for (shape in shapes)

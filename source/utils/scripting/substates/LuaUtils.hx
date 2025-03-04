@@ -255,7 +255,7 @@ class LuaUtils
 
 	inline public static function getTextObject(name:String):FlxText
 	{
-		return #if LUA_ALLOWED ScriptSubstate.instance.modchartTexts.exists(name) ? ScriptSubstate.instance.modchartTexts.get(name) : #end Reflect.getProperty(ScriptSubstate.instance, name);
+		return Reflect.getProperty(ScriptSubstate.instance, name);
 	}
 	
 	public static function isOfTypes(value:Any, types:Array<Dynamic>)
@@ -319,41 +319,12 @@ class LuaUtils
 	}
 
 	public static function resetTextTag(tag:String) {
-		#if LUA_ALLOWED
-		if(!ScriptSubstate.instance.modchartTexts.exists(tag)) {
-			return;
-		}
-
-		var target:FlxText = ScriptSubstate.instance.modchartTexts.get(tag);
-		target.kill();
-		ScriptSubstate.instance.remove(target, true);
-		target.destroy();
-		ScriptSubstate.instance.modchartTexts.remove(tag);
-		#end
 	}
 
 	public static function resetSpriteTag(tag:String) {
-		#if LUA_ALLOWED
-		if(!ScriptSubstate.instance.modchartSprites.exists(tag)) {
-			return;
-		}
-
-		var target:ModchartSprite = ScriptSubstate.instance.modchartSprites.get(tag);
-		target.kill();
-		ScriptSubstate.instance.remove(target, true);
-		target.destroy();
-		ScriptSubstate.instance.modchartSprites.remove(tag);
-		#end
 	}
 
 	public static function cancelTween(tag:String) {
-		#if LUA_ALLOWED
-		if(ScriptSubstate.instance.modchartTweens.exists(tag)) {
-			ScriptSubstate.instance.modchartTweens.get(tag).cancel();
-			ScriptSubstate.instance.modchartTweens.get(tag).destroy();
-			ScriptSubstate.instance.modchartTweens.remove(tag);
-		}
-		#end
 	}
 
 	public static function tweenPrepare(tag:String, vars:String) {
@@ -365,14 +336,6 @@ class LuaUtils
 	}
 
 	public static function cancelTimer(tag:String) {
-		#if LUA_ALLOWED
-		if(ScriptSubstate.instance.modchartTimers.exists(tag)) {
-			var theTimer:FlxTimer = ScriptSubstate.instance.modchartTimers.get(tag);
-			theTimer.cancel();
-			theTimer.destroy();
-			ScriptSubstate.instance.modchartTimers.remove(tag);
-		}
-		#end
 	}
 
 	public static function getBuildTarget():String
@@ -469,16 +432,6 @@ class LuaUtils
 	}
 	
 	public static function typeToString(type:Int):String {
-		#if LUA_ALLOWED
-		switch(type) {
-			case Lua.LUA_TBOOLEAN: return "boolean";
-			case Lua.LUA_TNUMBER: return "number";
-			case Lua.LUA_TSTRING: return "string";
-			case Lua.LUA_TTABLE: return "table";
-			case Lua.LUA_TFUNCTION: return "function";
-		}
-		if (type <= Lua.LUA_TNIL) return "nil";
-		#end
 		return "unknown";
 	}
 

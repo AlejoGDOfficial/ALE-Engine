@@ -183,7 +183,7 @@ class PlayState extends MusicBeatState
 
 	//Gameplay settings
 	public var healthGain:Float = 1;
-	public var healthLoss:Float = 1;
+	public var healthLoss:Float = 1.25;
 
 	public var instakillOnMiss:Bool = false;
 	public var cpuControlled:Bool = false;
@@ -284,9 +284,6 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 		// Gameplay settings
-		healthGain = ClientPrefs.getGameplaySetting('healthgain');
-		healthLoss = ClientPrefs.getGameplaySetting('healthloss');
-		instakillOnMiss = ClientPrefs.getGameplaySetting('instakill');
 		practiceMode = ClientPrefs.getGameplaySetting('practice');
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay');
 

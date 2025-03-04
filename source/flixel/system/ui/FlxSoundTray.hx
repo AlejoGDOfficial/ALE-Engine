@@ -77,7 +77,7 @@ class FlxSoundTray extends Sprite
 		text.defaultTextFormat = dtf;
 		addChild(text);
 		text.text = "VOLUME";
-		text.y = 16;
+		text.y = 14;
 
 		var bx:Int = 10;
 		var by:Int = 14;
