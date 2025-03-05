@@ -3,16 +3,16 @@ package utils.scripting.substates;
 import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.states.LuaUtils;
-import utils.scripting.ScriptSubstate;
+import game.substates.ScriptSubState;
 
-import core.backend.Song;
-import core.gameplay.stages.WeekData;
+import core.music.Song;
+import utils.save.WeekData;
 
 import openfl.Lib;
 
-#if (windows && cpp) import cpp.*; #end
+#if (windows && cpp) import utils.cpp.*; #end
 
-import utils.helpers.Highscore;
+import utils.save.Highscore;
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
@@ -65,12 +65,12 @@ class HScript extends SScript
 		set('FlxSprite', flixel.FlxSprite);
 		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
-		set('ALECamera', gameplay.camera.ALECamera);
+		set('ALECamera', visuals.ALECamera);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
 		set('FlxColor', CustomFlxColor);
-		set('ScriptSubstate', ScriptSubstate);
+		set('ScriptSubState', ScriptSubState);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
@@ -94,14 +94,14 @@ class HScript extends SScript
 		
 		set('AttachedText', visuals.objects.AttachedText);
 		set('MenuCharacter', visuals.objects.MenuCharacter);
-		set('DialogueCharacterEditorState', gameplay.states.editors.DialogueCharacterEditorState);
-		set('DialogueEditorState', gameplay.states.editors.DialogueEditorState);
-		set('MenuCharacterEditorState', gameplay.states.editors.MenuCharacterEditorState);
-		set('NoteSplashEditorState', gameplay.states.editors.NoteSplashEditorState);
-		set('WeekEditorState', gameplay.states.editors.WeekEditorState);
-		set('ControlsSubState', options.ControlsSubState);
-		set('NoteOffsetState', options.NoteOffsetState);
-		set('NotesSubState', options.NotesSubState);
+		set('DialogueCharacterEditorState', game.editors.DialogueCharacterEditorState);
+		set('DialogueEditorState', game.editors.DialogueEditorState);
+		set('MenuCharacterEditorState', game.editors.MenuCharacterEditorState);
+		set('NoteSplashEditorState', game.editors.NoteSplashEditorState);
+		set('WeekEditorState', game.editors.WeekEditorState);
+		set('ControlsSubState', game.substates.ControlsSubState);
+		set('NoteOffsetState', game.states.NoteOffsetState);
+		set('NotesSubState', game.substates.NotesSubState);
 
 		//ALE Shit INIT
 
@@ -117,11 +117,11 @@ class HScript extends SScript
 		set('FlxGradient', flixel.util.FlxGradient);
 		set('FlxVideo', hxvlc.flixel.FlxVideo);
 
-        set("switchToScriptSubstate", function(name:String, ?doTransition:Bool = true)
+        set("switchToScriptSubState", function(name:String, ?doTransition:Bool = true)
 		{
 			CoolVars.skipTransIn = !doTransition;
 			CoolVars.skipTransOut = !doTransition;
-			MusicBeatState.switchState(new ScriptSubstate(name));
+			MusicBeatState.switchState(new ScriptSubState(name));
 		});
 		set("switchState", function(fullClassPath:String, params:Array<Dynamic>, ?doTransition:Bool = true)
 		{
@@ -131,11 +131,11 @@ class HScript extends SScript
 		});
 		set('openSubState', function(fullClassPath:String, params:Array<Dynamic>)
 		{
-			ScriptSubstate.instance.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
+			ScriptSubState.instance.openSubState(Type.createInstance(Type.resolveClass(fullClassPath), params));
 		});
         set('openScriptSubState', function(substate:String)
         {
-            FlxG.state.openSubState(new ScriptSubstate(substate));
+            FlxG.state.openSubState(new ScriptSubState(substate));
         });
 
 		set('loadSong', function(daSong:String, diffInt:Int)
@@ -256,7 +256,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end
@@ -369,33 +369,33 @@ class HScript extends SScript
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic) {
-			ScriptSubstate.instance.variables.set(name, value);
+			ScriptSubState.instance.variables.set(name, value);
 			return value;
 		});
 		set('getVar', function(name:String) {
 			var result:Dynamic = null;
-			if(ScriptSubstate.instance.variables.exists(name)) result = ScriptSubstate.instance.variables.get(name);
+			if(ScriptSubState.instance.variables.exists(name)) result = ScriptSubState.instance.variables.get(name);
 			return result;
 		});
 		set('removeVar', function(name:String)
 		{
-			if(ScriptSubstate.instance.variables.exists(name))
+			if(ScriptSubState.instance.variables.exists(name))
 			{
-				ScriptSubstate.instance.variables.remove(name);
+				ScriptSubState.instance.variables.remove(name);
 				return true;
 			}
 			return false;
 		});
 		set('debugPrint', function(text:String, ?color:FlxColor = null) {
 			if(color == null) color = FlxColor.WHITE;
-			ScriptSubstate.instance.addTextToDebug(text, color);
+			ScriptSubState.instance.addTextToDebug(text, color);
 		});
 		set('getModSetting', function(saveTag:String, ?modName:String = null) {
 			if(modName == null)
 			{
 				if(this.modFolder == null)
 				{
-					ScriptSubstate.instance.addTextToDebug('getModSetting: Argument #2 is null and script is not inside a packed Mod folder!', FlxColor.RED);
+					ScriptSubState.instance.addTextToDebug('getModSetting: Argument #2 is null and script is not inside a packed Mod folder!', FlxColor.RED);
 					return null;
 				}
 				modName = this.modFolder;
@@ -492,13 +492,13 @@ class HScript extends SScript
 			}
 			catch (e:Dynamic) {
 				var msg:String = e.message.substr(0, e.message.indexOf('\n'));
-				if(ScriptSubstate.instance != null) ScriptSubstate.instance.addTextToDebug('$origin - $msg', FlxColor.RED);
+				if(ScriptSubState.instance != null) ScriptSubState.instance.addTextToDebug('$origin - $msg', FlxColor.RED);
 				else trace('$origin - $msg');
 			}
 		});
 		set('parentLua', null);
 		set('this', this);
-		set('game', ScriptSubstate.instance);
+		set('game', ScriptSubState.instance);
 
 		set('buildTarget', LuaUtils.getBuildTarget());
 
@@ -508,14 +508,14 @@ class HScript extends SScript
 		set('Function_StopHScript', LuaUtils.Function_StopHScript);
 		set('Function_StopAll', LuaUtils.Function_StopAll);
 		
-		set('add', ScriptSubstate.instance.add);
-		set('insert', ScriptSubstate.instance.insert);
-		set('remove', ScriptSubstate.instance.remove);
-		set('close', ScriptSubstate.instance.close);
+		set('add', ScriptSubState.instance.add);
+		set('insert', ScriptSubState.instance.insert);
+		set('remove', ScriptSubState.instance.remove);
+		set('close', ScriptSubState.instance.close);
 
-		if (ScriptSubstate.instance == ScriptSubstate.instance)
+		if (ScriptSubState.instance == ScriptSubState.instance)
 		{
-			setSpecialObject(ScriptSubstate.instance, false, ScriptSubstate.instance.instancesExclude);
+			setSpecialObject(ScriptSubState.instance, false, ScriptSubState.instance.instancesExclude);
 		}
 
 		if(varsToBring != null) {
@@ -533,7 +533,7 @@ class HScript extends SScript
 		if (funcToRun == null) return null;
 
 		if(!exists(funcToRun)) {
-			ScriptSubstate.instance.addTextToDebug(origin + ' - No HScript function named: $funcToRun', FlxColor.RED);
+			ScriptSubState.instance.addTextToDebug(origin + ' - No HScript function named: $funcToRun', FlxColor.RED);
 			return null;
 		}
 
@@ -543,7 +543,7 @@ class HScript extends SScript
 			final e = callValue.exceptions[0];
 			if (e != null) {
 				var msg:String = e.details();
-				ScriptSubstate.instance.addTextToDebug('$origin - $msg', FlxColor.RED);
+				ScriptSubState.instance.addTextToDebug('$origin - $msg', FlxColor.RED);
 			}
 			return null;
 		}

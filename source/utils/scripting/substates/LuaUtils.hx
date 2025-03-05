@@ -1,6 +1,6 @@
 package utils.scripting.substates;
 
-import core.gameplay.stages.WeekData;
+import utils.save.WeekData;
 import visuals.objects.Character;
 
 import openfl.display.BlendMode;
@@ -43,9 +43,9 @@ class LuaUtils
 		if(splitProps.length > 1)
 		{
 			var target:Dynamic = null;
-			if(ScriptSubstate.instance.variables.exists(splitProps[0]))
+			if(ScriptSubState.instance.variables.exists(splitProps[0]))
 			{
-				var retVal:Dynamic = ScriptSubstate.instance.variables.get(splitProps[0]);
+				var retVal:Dynamic = ScriptSubState.instance.variables.get(splitProps[0]);
 				if(retVal != null)
 					target = retVal;
 			}
@@ -69,9 +69,9 @@ class LuaUtils
 			return value;
 		}
 
-		if(ScriptSubstate.instance.variables.exists(variable))
+		if(ScriptSubState.instance.variables.exists(variable))
 		{
-			ScriptSubstate.instance.variables.set(variable, value);
+			ScriptSubState.instance.variables.set(variable, value);
 			return value;
 		}
 		Reflect.setProperty(instance, variable, value);
@@ -83,9 +83,9 @@ class LuaUtils
 		if(splitProps.length > 1)
 		{
 			var target:Dynamic = null;
-			if(ScriptSubstate.instance.variables.exists(splitProps[0]))
+			if(ScriptSubState.instance.variables.exists(splitProps[0]))
 			{
-				var retVal:Dynamic = ScriptSubstate.instance.variables.get(splitProps[0]);
+				var retVal:Dynamic = ScriptSubState.instance.variables.get(splitProps[0]);
 				if(retVal != null)
 					target = retVal;
 			}
@@ -106,9 +106,9 @@ class LuaUtils
 			return instance.get(variable);
 		}
 
-		if(ScriptSubstate.instance.variables.exists(variable))
+		if(ScriptSubState.instance.variables.exists(variable))
 		{
-			var retVal:Dynamic = ScriptSubstate.instance.variables.get(variable);
+			var retVal:Dynamic = ScriptSubState.instance.variables.get(variable);
 			if(retVal != null)
 				return retVal;
 		}
@@ -169,7 +169,7 @@ class LuaUtils
 		{
 			FlxG.save.data.modSettings.remove(modName);
 			#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-			ScriptSubstate.instance.addTextToDebug('getModSetting: $path could not be found!', FlxColor.RED);
+			ScriptSubState.instance.addTextToDebug('getModSetting: $path could not be found!', FlxColor.RED);
 			#else
 			FlxG.log.warn('getModSetting: $path could not be found!');
 			#end
@@ -178,7 +178,7 @@ class LuaUtils
 
 		if(settings.exists(saveTag)) return settings.get(saveTag);
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		ScriptSubstate.instance.addTextToDebug('getModSetting: "$saveTag" could not be found inside $modName\'s settings!', FlxColor.RED);
+		ScriptSubState.instance.addTextToDebug('getModSetting: "$saveTag" could not be found inside $modName\'s settings!', FlxColor.RED);
 		#else
 		FlxG.log.warn('getModSetting: "$saveTag" could not be found inside $modName\'s settings!');
 		#end
@@ -244,10 +244,10 @@ class LuaUtils
 		switch(objectName)
 		{
 			case 'this' | 'instance' | 'game':
-				return ScriptSubstate.instance;
+				return ScriptSubState.instance;
 			
 			default:
-				var obj:Dynamic = ScriptSubstate.instance.getLuaObject(objectName, checkForTextsToo);
+				var obj:Dynamic = ScriptSubState.instance.getLuaObject(objectName, checkForTextsToo);
 				if(obj == null) obj = getVarInArray(getTargetInstance(), objectName, allowMaps);
 				return obj;
 		}
@@ -255,7 +255,7 @@ class LuaUtils
 
 	inline public static function getTextObject(name:String):FlxText
 	{
-		return Reflect.getProperty(ScriptSubstate.instance, name);
+		return Reflect.getProperty(ScriptSubState.instance, name);
 	}
 	
 	public static function isOfTypes(value:Any, types:Array<Dynamic>)
@@ -269,7 +269,7 @@ class LuaUtils
 	
 	public static inline function getTargetInstance()
 	{
-		return ScriptSubstate.instance;
+		return ScriptSubState.instance;
 	}
 	
 	public static function addAnimByIndices(obj:String, name:String, prefix:String, indices:Any = null, framerate:Int = 24, loop:Bool = false)

@@ -2,7 +2,7 @@ package core.backend;
 
 import flixel.FlxSubState;
 
-class MusicBeatSubstate extends FlxSubState
+class MusicBeatSubState extends FlxSubState
 {
 	public function new()
 	{
@@ -33,7 +33,7 @@ class MusicBeatSubstate extends FlxSubState
 		curDecBeat = 0;
 	}
 
-	public static var instance:MusicBeatSubstate;
+	public static var instance:MusicBeatSubState;
 
 	public var controls(get, never):Controls;
 

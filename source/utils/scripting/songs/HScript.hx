@@ -3,20 +3,20 @@ package utils.scripting.songs;
 import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.songs.LuaUtils;
-import gameplay.states.game.PlayState;
+import game.states.PlayState;
 
-import core.backend.Song;
-import core.gameplay.stages.WeekData;
+import core.music.Song;
+import utils.save.WeekData;
 
 import openfl.Lib;
 
-#if (windows && cpp) import cpp.*; #end
+#if (windows && cpp) import utils.cpp.*; #end
 
 #if LUA_ALLOWED
 import utils.scripting.songs.FunkinLua;
 #end
 
-import utils.helpers.Highscore;
+import utils.save.Highscore;
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
@@ -109,12 +109,12 @@ class HScript extends SScript
 		set('FlxSprite', flixel.FlxSprite);
 		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
-		set('ALECamera', gameplay.camera.ALECamera);
+		set('ALECamera', visuals.ALECamera);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
 		set('FlxColor', CustomFlxColor);
-		set('Countdown', core.backend.BaseStage.Countdown);
+		set('Countdown', visuals.stages.BaseStage.Countdown);
 		set('PlayState', PlayState);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
@@ -281,7 +281,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

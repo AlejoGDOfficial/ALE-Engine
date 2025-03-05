@@ -1,6 +1,6 @@
 package utils.scripting.songs;
 
-import core.gameplay.stages.WeekData;
+import utils.save.WeekData;
 import visuals.objects.Character;
 
 import openfl.display.BlendMode;

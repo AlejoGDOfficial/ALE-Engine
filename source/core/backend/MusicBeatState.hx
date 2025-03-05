@@ -2,8 +2,8 @@ package core.backend;
 
 import flixel.addons.ui.FlxUIState;
 import flixel.FlxState;
-import gameplay.camera.ALECamera;
-import utils.scripting.ScriptTransition;
+import visuals.ALECamera;
+import game.substates.ScriptTransition;
 
 #if cpp import cpp.vm.Gc; #end
 
@@ -48,7 +48,7 @@ class MusicBeatState extends FlxUIState
 
 		if(!_psychCameraInitialized) initALECamera();
 
-		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
+		if (game.substates.ScriptTransition.instance != null) game.substates.ScriptTransition.instance.close();
 
 		if (!CoolVars.skipTransOut) 
 		{
@@ -210,7 +210,7 @@ class MusicBeatState extends FlxUIState
 
 	public static function startTransition(nextState:FlxState = null)
 	{
-		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
+		if (game.substates.ScriptTransition.instance != null) game.substates.ScriptTransition.instance.close();
 		
 		if(nextState == null) nextState = FlxG.state;
 

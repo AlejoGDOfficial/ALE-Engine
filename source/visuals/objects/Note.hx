@@ -1,7 +1,7 @@
 package visuals.objects;
 
 import visuals.animation.PsychAnimationController;
-import utils.mods.NoteTypesConfig;
+import visuals.objects.NoteTypesConfig;
 
 import visuals.shaders.RGBPalette;
 import visuals.shaders.RGBPalette.RGBShaderReference;

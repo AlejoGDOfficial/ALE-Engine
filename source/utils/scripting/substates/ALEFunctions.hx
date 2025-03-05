@@ -1,7 +1,7 @@
 package utils.scripting.substates;
 
-import core.backend.Song;
-import core.gameplay.stages.WeekData;
+import core.music.Song;
+import utils.save.WeekData;
 
 import openfl.Lib;
 
@@ -44,11 +44,11 @@ class ALEFunctions
         });
         Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
         {
-            FlxG.state.openSubState(new ScriptSubstate(substate));
+            FlxG.state.openSubState(new ScriptSubState(substate));
         });
         Lua_helper.add_callback(lua, 'closeScriptSubState', function()
         {
-            ScriptSubstate.instance.close();
+            ScriptSubState.instance.close();
         });
     
 		Lua_helper.add_callback(lua, "doWindowTweenX", function(pos:Int, time:Float, theEase:Dynamic)
@@ -72,15 +72,15 @@ class ALEFunctions
 		{
 			var backDrop = new flixel.addons.display.FlxBackdrop(Paths.image(image));
 
-			ScriptSubstate.instance.add(backDrop);
-			ScriptSubstate.instance.variables.set(tag, backDrop);
+			ScriptSubState.instance.add(backDrop);
+			ScriptSubState.instance.variables.set(tag, backDrop);
 		});
 		Lua_helper.add_callback(lua, "removeBackdrop", function(tag:String)
 		{
-			ScriptSubstate.instance.variables[tag].destroy();
-			ScriptSubstate.instance.variables.remove(tag);
+			ScriptSubState.instance.variables[tag].destroy();
+			ScriptSubState.instance.variables.remove(tag);
 		
-			ScriptSubstate.instance.remove(ScriptSubstate.instance.variables.get(tag));
+			ScriptSubState.instance.remove(ScriptSubState.instance.variables.get(tag));
 		});
 		
         Lua_helper.add_callback(lua, "setWindowX", function(pos:Int)
@@ -170,7 +170,7 @@ class ALEFunctions
             WindowsCPP.windowsScreenShot(path); #end
         });
     
-        Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:#if cpp cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+        Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
         {
             #if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
             WindowsCPP.showMessageBox(caption, message, icon); #end

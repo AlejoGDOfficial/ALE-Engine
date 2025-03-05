@@ -7,7 +7,7 @@ import utils.debug.FPSCounter;
 
 import flixel.util.FlxSave;
 
-#if cpp import cpp.WindowsCPP; #end
+#if cpp import utils.cpp.WindowsCPP; #end
 
 @:access(utils.helpers.CoolVars)
 class MainState extends MusicBeatState
@@ -24,12 +24,12 @@ class MainState extends MusicBeatState
         ClientPrefs.loadJsonPrefs();
         ClientPrefs.loadPrefs();
 
-        utils.helpers.Highscore.load();
+        utils.save.Highscore.load();
 
         var scoreSave:FlxSave = new FlxSave();
         scoreSave.bind('score', CoolUtil.getSavePath() + '/' + Mods.currentModDirectory);
         
-        if (scoreSave.data.weekCompleted != null) utils.helpers.Highscore.weekCompleted = scoreSave.data.weekCompleted;
+        if (scoreSave.data.weekCompleted != null) utils.save.Highscore.weekCompleted = scoreSave.data.weekCompleted;
 
         #if (windows && cpp) WindowsCPP.setWindowLayered(); #end
 

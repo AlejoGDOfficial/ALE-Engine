@@ -1,6 +1,6 @@
 package utils.helpers;
 
-import core.gameplay.stages.WeekData;
+import utils.save.WeekData;
 
 class Difficulty
 {

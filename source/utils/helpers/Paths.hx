@@ -18,7 +18,7 @@ import flash.media.Sound;
 import haxe.Json;
 
 #if MODS_ALLOWED
-import utils.mods.Mods;
+import core.backend.Mods;
 #end
 
 class Paths

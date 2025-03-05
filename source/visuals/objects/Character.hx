@@ -9,9 +9,9 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets;
 import haxe.Json;
 
-import core.backend.Song;
-import core.backend.Section;
-import gameplay.stages.objects.TankmenBG;
+import core.music.Song;
+import core.music.Section;
+import visuals.stages.objects.TankmenBG;
 
 typedef CharacterFile = {
 	var animations:Array<AnimArray>;

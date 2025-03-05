@@ -1,24 +1,28 @@
 #if !macro
-import core.config.ClientPrefs;
 import core.config.DiscordClient;
-import core.gameplay.Conductor;
-import core.backend.BaseStage;
+
+import core.music.Conductor;
+
+import visuals.stages.BaseStage;
+
 import core.backend.Controls;
 import core.backend.MusicBeatState;
-import core.backend.MusicBeatSubstate;
+import core.backend.MusicBeatSubState;
 
-import core.config.ClientPrefs;
+import utils.save.ClientPrefs;
 
-import gameplay.states.game.PlayState;
-import gameplay.states.game.LoadingState;
+import game.states.PlayState;
+import game.states.LoadingState;
 
+import utils.helpers.Difficulty;
 import utils.helpers.CoolUtil;
 import utils.helpers.CoolVars;
 import utils.helpers.Paths;
-import utils.helpers.Difficulty;
-import utils.mods.Mods;
-import utils.scripting.ScriptState;
-import utils.scripting.ScriptSubstate;
+
+import core.backend.Mods;
+
+import game.states.ScriptState;
+import game.substates.ScriptSubState;
 
 import visuals.objects.Alphabet;
 import visuals.objects.BGSprite;

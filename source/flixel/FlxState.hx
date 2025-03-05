@@ -118,7 +118,7 @@ class FlxState extends FlxGroup
 
 	public function openSubState(SubState:FlxSubState):Void
 	{
-		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
+		if (game.substates.ScriptTransition.instance != null) game.substates.ScriptTransition.instance.close();
 
 		_requestSubStateReset = true;
 		_requestedSubState = SubState;
@@ -239,7 +239,7 @@ class FlxState extends FlxGroup
 	@:allow(flixel.FlxGame)
 	function tryUpdate(elapsed:Float):Void
 	{
-		if (allowUpdating) if (persistentUpdate || subState == null || Std.is(subState, utils.scripting.ScriptTransition)) update(elapsed);
+		if (allowUpdating) if (persistentUpdate || subState == null || Std.is(subState, game.substates.ScriptTransition)) update(elapsed);
 
 		if (_requestSubStateReset)
 		{

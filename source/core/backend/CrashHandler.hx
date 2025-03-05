@@ -35,7 +35,7 @@ class CrashHandler
 		}
 
 		CoolVars.skipTransIn = CoolVars.skipTransOut = true;
-		MusicBeatState.switchState(new utils.scripting.ScriptCrashState(e.error, CallStack.exceptionStack(true)));
+		MusicBeatState.switchState(new game.states.ScriptCrashState(e.error, CallStack.exceptionStack(true)));
 	}
 
 	#if (cpp || hl)

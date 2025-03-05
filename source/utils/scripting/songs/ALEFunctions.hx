@@ -1,10 +1,10 @@
 package utils.scripting.songs;
 
-import core.backend.Song;
+import core.music.Song;
 
 import openfl.Lib;
 
-#if (windows && cpp) import cpp.*; #end
+#if (windows && cpp) import utils.cpp.*; #end
 
 class ALEFunctions
 {
@@ -39,7 +39,7 @@ class ALEFunctions
 		});
         Lua_helper.add_callback(lua, 'openScriptSubState', function(substate:String)
         {
-            FlxG.state.openSubState(new ScriptSubstate(substate));
+            FlxG.state.openSubState(new ScriptSubState(substate));
         });
 		
 		Lua_helper.add_callback(lua, "addBackdrop", function(tag:String, image:String)
@@ -160,7 +160,7 @@ class ALEFunctions
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:#if cpp cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

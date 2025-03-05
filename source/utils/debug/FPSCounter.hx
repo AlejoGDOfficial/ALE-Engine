@@ -14,7 +14,7 @@ import haxe.ds.StringMap;
 import haxe.Timer;
 import openfl.display.DisplayObject;
 import openfl.events.Event;
-import gameplay.states.game.PlayState;
+import game.states.PlayState;
 
 @:access(core.backend.MusicBeatState)
 class FPSCounter extends Sprite
@@ -109,7 +109,7 @@ class FPSCounter extends Sprite
             if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && !Std.is(FlxG.state, core.config.MainState))
             {
                 if (FlxG.keys.justPressed.TAB && !Std.is(FlxG.state, PlayState) && !Std.is(FlxG.state, core.config.MainState))
-                    MusicBeatState.instance.openSubState(new gameplay.states.substates.ModsMenuSubState());
+                    MusicBeatState.instance.openSubState(new game.substates.ModsMenuSubState());
                 else if (FlxG.keys.justPressed.F1)
                     for (shape in shapes)
                         shape.visible = !shape.visible;

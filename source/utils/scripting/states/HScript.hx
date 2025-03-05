@@ -4,18 +4,18 @@ import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.states.LuaUtils;
 
-import core.backend.Song;
-import core.gameplay.stages.WeekData;
+import core.music.Song;
+import utils.save.WeekData;
 
 import openfl.Lib;
 
-#if (windows && cpp) import cpp.*; #end
+#if (windows && cpp) import utils.cpp.*; #end
 
 #if LUA_ALLOWED
 import utils.scripting.states.FunkinLua;
 #end
 
-import utils.helpers.Highscore;
+import utils.save.Highscore;
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
@@ -108,7 +108,7 @@ class HScript extends SScript
 		set('FlxSprite', flixel.FlxSprite);
 		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
-		set('ALECamera', gameplay.camera.ALECamera);
+		set('ALECamera', visuals.ALECamera);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
@@ -136,14 +136,14 @@ class HScript extends SScript
 		set('DiscordClient', core.config.DiscordClient);
 		set('AttachedText', visuals.objects.AttachedText);
 		set('MenuCharacter', visuals.objects.MenuCharacter);
-		set('DialogueCharacterEditorState', gameplay.states.editors.DialogueCharacterEditorState);
-		set('DialogueEditorState', gameplay.states.editors.DialogueEditorState);
-		set('MenuCharacterEditorState', gameplay.states.editors.MenuCharacterEditorState);
-		set('NoteSplashEditorState', gameplay.states.editors.NoteSplashEditorState);
-		set('WeekEditorState', gameplay.states.editors.WeekEditorState);
-		set('ControlsSubState', options.ControlsSubState);
-		set('NoteOffsetState', options.NoteOffsetState);
-		set('NotesSubState', options.NotesSubState);
+		set('DialogueCharacterEditorState', game.editors.DialogueCharacterEditorState);
+		set('DialogueEditorState', game.editors.DialogueEditorState);
+		set('MenuCharacterEditorState', game.editors.MenuCharacterEditorState);
+		set('NoteSplashEditorState', game.editors.NoteSplashEditorState);
+		set('WeekEditorState', game.editors.WeekEditorState);
+		set('ControlsSubState', game.substates.ControlsSubState);
+		set('NoteOffsetState', game.states.NoteOffsetState);
+		set('NotesSubState', game.substates.NotesSubState);
 
 		//ALE Shit INIT
 
@@ -180,7 +180,7 @@ class HScript extends SScript
 		});
 		set('openScriptSubState', function(substate:String)
 		{
-			ScriptState.instance.openSubState(new ScriptSubstate(substate));
+			ScriptState.instance.openSubState(new ScriptSubState(substate));
 		});
 
 		set('loadSong', function(song:String, difficulty:Int)
@@ -304,7 +304,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

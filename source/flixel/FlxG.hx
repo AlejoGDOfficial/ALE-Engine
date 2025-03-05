@@ -1,5 +1,7 @@
 package flixel;
 
+import game.substates.ScriptTransition;
+
 import openfl.Lib;
 import openfl.display.DisplayObject;
 import openfl.display.Stage;
@@ -376,7 +378,7 @@ class FlxG
 	 */
 	public static inline function switchState(nextState:NextState):Void
 	{
-		if (utils.scripting.ScriptTransition.instance != null) utils.scripting.ScriptTransition.instance.close();
+		if (ScriptTransition.instance != null) ScriptTransition.instance.close();
 
 		final stateOnCall = FlxG.state;
 		

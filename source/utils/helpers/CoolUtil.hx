@@ -176,7 +176,7 @@ class CoolUtil
 	{
 		var curState:String = Type.getClassName(Type.getClass(FlxG.state));
 
-		if (FlxG.state is utils.scripting.ScriptState)
+		if (FlxG.state is game.states.ScriptState)
 		{
 			return [true, ScriptState.targetFileName];
 		}
@@ -188,9 +188,9 @@ class CoolUtil
 	{
 		var curSubState:String = Type.getClassName(Type.getClass(FlxG.state.subState));
 		
-		if (FlxG.state.subState is utils.scripting.ScriptSubstate)
+		if (FlxG.state.subState is game.substates.ScriptSubState)
 		{
-			return [true, ScriptSubstate.targetFileName];
+			return [true, ScriptSubState.targetFileName];
 		}
 			
 		return [false, curSubState];
@@ -286,11 +286,11 @@ class CoolUtil
 
 		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
 
-        #if (windows && cpp) cpp.WindowsCPP.setWindowBorderColor(255, 255, 255); #end
+        #if (windows && cpp) utils.cpp.WindowsCPP.setWindowBorderColor(255, 255, 255); #end
 		
 		FlxTween.globalManager.clear();
 
-		if (utils.scripting.ScriptSubstate.instance != null) utils.scripting.ScriptSubstate.instance.destroyScripts();
+		if (game.substates.ScriptSubState.instance != null) game.substates.ScriptSubState.instance.destroyScripts();
 
 		DiscordClient.shutdown();
 
