@@ -1,12 +1,12 @@
 import visuals.objects.Alphabet;
 
 import utils.helpers.Difficulty;
-import utils.scripting.ScriptState;
-import utils.helpers.Highscore;
-import core.backend.Song;
+import game.states.ScriptState;
+import utils.save.Highscore;
+import core.music.Song;
 
-import gameplay.states.game.PlayState;
-import gameplay.states.editors.AttachedFlxText;
+import game.states.PlayState;
+import game.editors.AttachedFlxText;
 
 import flixel.util.FlxStringUtil;
 import flixel.group.FlxTypedGroup;
@@ -219,94 +219,97 @@ function onUpdate(elapsed:Float)
 {
 	if (pauseMusic.volume < 0.5) pauseMusic.volume += 0.02 * elapsed;
 
-	if (sprites.length > 1)
+	if (sprites != null)
 	{
-		if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
+		if (sprites.members.length > 1)
 		{
-			if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
+			if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
 			{
-				if (selInt > 0) selInt--;
-				else if (selInt == 0) selInt = sprites.length - 1;
-			} else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
-				if (selInt < sprites.length - 1) selInt++;
-				else if (selInt == sprites.length - 1) selInt = 0;
+				if (controls.UI_UP_P || FlxG.mouse.wheel > 0)
+				{
+					if (selInt > 0) selInt--;
+					else if (selInt == 0) selInt = sprites.members.length - 1;
+				} else if (controls.UI_DOWN_P || FlxG.mouse.wheel < 0) {
+					if (selInt < sprites.members.length - 1) selInt++;
+					else if (selInt == sprites.members.length - 1) selInt = 0;
+				}
+			
+				changeShit();
+			}
+		}
+	
+		if (sprites.members[selInt].text == 'Skip Time')
+		{
+			if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		
+				curTime += 1000 * (controls.UI_LEFT_P ? -1 : controls.UI_RIGHT_P ? 1 : 0);
+		
+				holdTime = 0;
 			}
 		
-			changeShit();
-		}
-	}
-
-	if (sprites.members[selInt].text == 'Skip Time')
-	{
-		if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
-		{
-			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-	
-			curTime += 1000 * (controls.UI_LEFT_P ? -1 : controls.UI_RIGHT_P ? 1 : 0);
-	
-			holdTime = 0;
-		}
-	
-		if (controls.UI_LEFT || controls.UI_RIGHT)
-		{
-			holdTime += elapsed;
-	
-			if (holdTime > 0.5) curTime += 45000 * elapsed * (controls.UI_LEFT ? -1 : controls.UI_RIGHT ? 1 : 0);
-			
-			curTime += FlxG.sound.music.length * (curTime >= FlxG.sound.music.length ? -1 : curTime < 0 ? 1 : 0);
-	
-			skipText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
-		}
-	}
-
-	if (controls.ACCEPT && sprites.members[selInt].text != 'Back')
-	{
-		if (curMenu == DIFFICULTY && canSelect)
-		{
-			var difficulties:Array<String> = [];
-
-			for (i in 0...Difficulty.list.length) difficulties.push(Difficulty.getString(i));
-
-			try
+			if (controls.UI_LEFT || controls.UI_RIGHT)
 			{
-				var name:String = PlayState.SONG.song;
-				var poop = Highscore.formatSong(name, selInt);
-
-				PlayState.SONG = Song.loadFromJson(poop, name);
-				PlayState.storyDifficulty = selInt;
-
-				if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
-
-				PlayState.changedDifficulty = true;
-				PlayState.chartingMode = false;
-
-				CoolVars.skipTransIn = CoolVars.skipTransOut = true;
-				MusicBeatState.resetState();
-
-				fixedClose();
-			} catch(error:Dynamic) {
-				trace('Error while Loading Chart: ' + error);
-
-				var errorString:String = error.toString();
-
-				if (StringTools.startsWith(errorString, '[file_contents,assets/data/')) errorString = 'Missing file: ' + errorString.substring(27, errorString.length - 1);
-
-				errorText.text = 'Error while Loading Chart: ' + errorString;
-				errorText.updateHitbox();
-
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-
-				if (errorTimer == null) errorTimer = new FlxTimer();
-				else errorTimer.cancel();
-
-				FlxTween.cancelTweensOf(errorText);
-				FlxTween.tween(errorText, {x: FlxG.width - errorText.width - 10, alpha: 1}, 0.5, {ease: FlxEase.cubeOut});
-
-				errorTimer.start(5, function(tmr:FlxTimer)
+				holdTime += elapsed;
+		
+				if (holdTime > 0.5) curTime += 45000 * elapsed * (controls.UI_LEFT ? -1 : controls.UI_RIGHT ? 1 : 0);
+				
+				curTime += FlxG.sound.music.length * (curTime >= FlxG.sound.music.length ? -1 : curTime < 0 ? 1 : 0);
+		
+				skipText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
+			}
+		}
+	
+		if (controls.ACCEPT && sprites.members[selInt].text != 'Back')
+		{
+			if (curMenu == DIFFICULTY && canSelect)
+			{
+				var difficulties:Array<String> = [];
+	
+				for (i in 0...Difficulty.list.length) difficulties.push(Difficulty.getString(i));
+	
+				try
 				{
+					var name:String = PlayState.SONG.song;
+					var poop = Highscore.formatSong(name, selInt);
+	
+					PlayState.SONG = Song.loadFromJson(poop, name);
+					PlayState.storyDifficulty = selInt;
+	
+					if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
+	
+					PlayState.changedDifficulty = true;
+					PlayState.chartingMode = false;
+	
+					CoolVars.skipTransIn = CoolVars.skipTransOut = true;
+					MusicBeatState.resetState();
+	
+					fixedClose();
+				} catch(error:Dynamic) {
+					trace('Error while Loading Chart: ' + error);
+	
+					var errorString:String = error.toString();
+	
+					if (StringTools.startsWith(errorString, '[file_contents,assets/data/')) errorString = 'Missing file: ' + errorString.substring(27, errorString.length - 1);
+	
+					errorText.text = 'Error while Loading Chart: ' + errorString;
+					errorText.updateHitbox();
+	
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+	
+					if (errorTimer == null) errorTimer = new FlxTimer();
+					else errorTimer.cancel();
+	
 					FlxTween.cancelTweensOf(errorText);
-					FlxTween.tween(errorText, {x: FlxG.width - errorText.width / 2 - 5, alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
-				});
+					FlxTween.tween(errorText, {x: FlxG.width - errorText.width - 10, alpha: 1}, 0.5, {ease: FlxEase.cubeOut});
+	
+					errorTimer.start(5, function(tmr:FlxTimer)
+					{
+						FlxTween.cancelTweensOf(errorText);
+						FlxTween.tween(errorText, {x: FlxG.width - errorText.width / 2 - 5, alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
+					});
+				}
 			}
 		}
 	}

@@ -1,9 +1,10 @@
-import core.gameplay.stages.WeekData;
+import utils.save.WeekData;
 import visuals.objects.Character;
 import flixel.FlxObject;
 import flixel.FlxSubState;
-import gameplay.states.game.PlayState;
-import utils.scripting.ScriptState;
+
+import game.states.PlayState;
+import game.states.ScriptState;
 
 var boyfriend:Character;
 var camFollow:FlxObject;

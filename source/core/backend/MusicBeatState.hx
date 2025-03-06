@@ -225,9 +225,7 @@ class MusicBeatState extends FlxUIState
 	public function transitionEnd() {}
 
 	public static function getState():MusicBeatState
-	{
-		return cast(FlxG.state, MusicBeatState);
-	}
+		return cast (FlxG.state, MusicBeatState);
 
 	public function stepHit():Void
 	{

@@ -1,12 +1,13 @@
-import utils.mods.Mods;
+import core.backend.Mods;
 
 import flixel.addons.ui.FlxInputText;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUIDropDownMenu;
 
-import gameplay.states.editors.ChartingState;
-import gameplay.states.game.PlayState;
+import game.editors.ChartingState;
+import game.states.PlayState;
+
 import utils.helpers.Difficulty;
 
 import flixel.ui.FlxButton;
