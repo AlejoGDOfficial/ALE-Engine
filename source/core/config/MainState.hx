@@ -7,7 +7,7 @@ import utils.debug.FPSCounter;
 
 import flixel.util.FlxSave;
 
-#if cpp import utils.cpp.WindowsCPP; #end
+#if cpp import cpp.WindowsCPP; #end
 
 @:access(utils.helpers.CoolVars)
 class MainState extends MusicBeatState

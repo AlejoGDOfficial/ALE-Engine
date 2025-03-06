@@ -3,14 +3,13 @@ package utils.scripting.substates;
 import flixel.FlxBasic;
 import visuals.objects.Character;
 import utils.scripting.states.LuaUtils;
-import game.substates.ScriptSubState;
 
 import core.music.Song;
 import utils.save.WeekData;
 
 import openfl.Lib;
 
-#if (windows && cpp) import utils.cpp.*; #end
+#if (windows && cpp) import cpp.*; #end
 
 import utils.save.Highscore;
 
@@ -256,7 +255,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if cpp WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

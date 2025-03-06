@@ -1,19 +1,23 @@
 import haxe.ds.StringMap;
+
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.group.FlxTypedGroup;
+
 import visuals.objects.MenuCharacter;
-import tjson.TJSON as Json;
-import utils.mods.Mods;
 import visuals.objects.AttachedSprite;
 
+import tjson.TJSON as Json;
+import core.backend.Mods;
+
 import utils.helpers.Difficulty;
-import utils.helpers.Highscore;
-import gameplay.states.game.LoadingState;
-import gameplay.states.game.PlayState;
-import core.gameplay.stages.WeekData;
-import core.backend.Song;
+import utils.save.Highscore;
+
+import game.states.LoadingState;
+import game.states.PlayState;
+import utils.save.WeekData;
+import core.music.Song;
 
 var weeksSelInt:Int = existsGlobalVar('storyMenuStateweeksSelInt') ? getGlobalVar('storyMenuStateweeksSelInt') : 0;
 var difficultiesSelInt:Int = existsGlobalVar('storyMenuStateDifficultiesSelInt') ? getGlobalVar('storyMenuStateDifficultiesSelInt') : 0;

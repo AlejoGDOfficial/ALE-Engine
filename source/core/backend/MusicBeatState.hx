@@ -39,14 +39,14 @@ class MusicBeatState extends FlxUIState
 
 	public static var instance:MusicBeatState;
 
-	var _psychCameraInitialized:Bool = false;
+	var _aleCameraInitialized:Bool = false;
 
 	override function create() {
 		instance = this;
 
 		CoolVars.setGameData();
 
-		if(!_psychCameraInitialized) initALECamera();
+		if(!_aleCameraInitialized) initALECamera();
 
 		if (game.substates.ScriptTransition.instance != null) game.substates.ScriptTransition.instance.close();
 
@@ -96,7 +96,7 @@ class MusicBeatState extends FlxUIState
 		var camera = new ALECamera();
 		FlxG.cameras.reset(camera);
 		FlxG.cameras.setDefaultDrawTarget(camera, true);
-		_psychCameraInitialized = true;
+		_aleCameraInitialized = true;
 		
 		return camera;
 	}
@@ -224,8 +224,9 @@ class MusicBeatState extends FlxUIState
 
 	public function transitionEnd() {}
 
-	public static function getState():MusicBeatState {
-		return cast (FlxG.state, MusicBeatState);
+	public static function getState():MusicBeatState
+	{
+		return cast(FlxG.state, MusicBeatState);
 	}
 
 	public function stepHit():Void

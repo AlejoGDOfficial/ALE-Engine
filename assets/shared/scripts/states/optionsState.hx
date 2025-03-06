@@ -1,14 +1,15 @@
 import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
 
-import utils.mods.Mods;
+import core.backend.Mods;
 
 import visuals.objects.AttachedSprite;
 import visuals.objects.AttachedText;
 
-import gameplay.states.game.PlayState;
-import gameplay.states.game.LoadingState;
-import core.gameplay.stages.StageData;
+import game.states.PlayState;
+import game.states.LoadingState;
+
+import utils.helpers.StageData;
 
 import haxe.ds.StringMap;
 import tjson.TJSON as Json;

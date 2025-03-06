@@ -1,4 +1,4 @@
-package visuals.stages;
+package core.backend;
 
 import flixel.FlxBasic;
 import flixel.FlxObject;

@@ -1,4 +1,5 @@
 import haxe.ds.StringMap;
+
 import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
@@ -6,26 +7,25 @@ import flixel.text.FlxTextBorderStyle;
 import flixel.math.FlxRect;
 
 import utils.helpers.Difficulty;
-import utils.helpers.Highscore;
-import gameplay.states.game.LoadingState;
-import gameplay.states.game.PlayState;
-import core.gameplay.stages.WeekData;
-import core.backend.Song;
+
+import utils.save.Highscore;
+import utils.save.WeekData;
+
+import game.states.LoadingState;
+import game.states.PlayState;
+
+import core.music.Song;
 
 import visuals.objects.Alphabet;
 import visuals.objects.AttachedSprite;
 
-import core.gameplay.stages.WeekData;
-
-import utils.mods.Mods;
-
-import utils.helpers.Highscore;
+import core.backend.Mods;
 
 import haxe.ds.StringMap;
 
 import flixel.ui.FlxButton;
 
-import gameplay.states.editors.ChartingState;
+import game.editors.ChartingState;
 
 var bg:FlxSprite;
 var difficultyTextBG:FlxSprite;

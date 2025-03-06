@@ -2,8 +2,10 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
+
 import core.config.DiscordClient;
-import core.config.ClientPrefs;
+import utils.save.ClientPrefs;
+
 import gameplay.states.game.PlayState;
 import utils.scripting.states.LuaUtils;
 

@@ -8,7 +8,7 @@ import flixel.text.FlxTextBorderStyle;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 
-import utils.mods.Mods;
+import core.backend.Mods;
 
 import tjson.TJSON as Json;
 
@@ -199,7 +199,7 @@ function changeShit()
         }
 
         FlxTween.cancelTweensOf(developer.get('text'));
-        FlxTween.tween(developer.get('text'), {y: 300 + 110 * (developers.indexOf(developer) - selInt.developers)}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
+        FlxTween.tween(developer.get('text'), {y: 250 + 110 * (developers.indexOf(developer) - selInt.developers)}, 30 / Conductor.bpm, {ease: FlxEase.cubeOut});
     }
 
     FlxG.sound.play(Paths.sound('scrollMenu'));

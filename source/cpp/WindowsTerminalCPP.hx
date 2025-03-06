@@ -1,4 +1,4 @@
-package utils.cpp;
+package cpp;
 
 /**
  * This file is in charge of providing some Windows terminal functions 

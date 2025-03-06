@@ -1,4 +1,4 @@
-package utils.cpp;
+package cpp;
 
 #if windows
 @:buildXml('

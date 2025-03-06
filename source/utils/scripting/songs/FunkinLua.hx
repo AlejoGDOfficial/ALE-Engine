@@ -36,7 +36,7 @@ import flixel.input.gamepad.FlxGamepadInputID;
 import haxe.Json;
 
 class FunkinLua {
-	public var lua:llua.State = null;
+	public var lua:State = null;
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
 	public var modFolder:String = null;
@@ -1612,7 +1612,7 @@ class FunkinLua {
 	public static function getBool(variable:String) {
 		if(lastCalledScript == null) return false;
 
-		var lua:llua.State = lastCalledScript.lua;
+		var lua:State = lastCalledScript.lua;
 		if(lua == null) return false;
 
 		var result:String = null;

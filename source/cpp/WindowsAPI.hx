@@ -1,4 +1,4 @@
-package utils.cpp;
+package cpp;
 
 enum abstract MessageBoxIcon(Int) {
 	var MSG_ERROR = 0x00000010;

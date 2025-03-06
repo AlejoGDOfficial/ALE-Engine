@@ -28,7 +28,7 @@ import haxe.io.Path;
 #end
 
 #if linux
-@:cppInclude('./utils/cpp/gamemode_client.h')
+@:cppInclude('./cpp/gamemode_client.h')
 @:cppFileCode('
 	#define GAMEMODE_AUTO
 ')

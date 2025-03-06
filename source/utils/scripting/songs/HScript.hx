@@ -10,7 +10,7 @@ import utils.save.WeekData;
 
 import openfl.Lib;
 
-#if (windows && cpp) import utils.cpp.*; #end
+#if (windows && cpp) import cpp.*; #end
 
 #if LUA_ALLOWED
 import utils.scripting.songs.FunkinLua;
@@ -114,7 +114,7 @@ class HScript extends SScript
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
 		set('FlxColor', CustomFlxColor);
-		set('Countdown', visuals.stages.BaseStage.Countdown);
+		set('Countdown', core.backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
@@ -281,7 +281,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp utils.cpp.WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if cpp WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

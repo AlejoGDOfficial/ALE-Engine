@@ -4,21 +4,21 @@
             "name": "Note Colors",
             "stateData": {
                 "script": false,
-                "subState": "options.NotesSubState"
+                "subState": "game.substates.NotesSubState"
             }
         },
         {
             "name": "Controls",
             "stateData": {
                 "script": false,
-                "subState": "options.ControlsSubState"
+                "subState": "game.substates.ControlsSubState"
             }
         },
         {
             "name": "Delay and Combo",
             "stateData": {
                 "script": false,
-                "state": "options.NoteOffsetState"
+                "state": "game.states.NoteOffsetState"
             }
         },
         {

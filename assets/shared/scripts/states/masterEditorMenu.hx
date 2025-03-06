@@ -2,9 +2,11 @@ import flixel.text.FlxText;
 import flixel.text.FlxTextFormat;
 import flixel.text.FlxTextFormatMarkerPair;
 import flixel.text.FlxTextBorderStyle;
+
 import core.config.DiscordClient;
-import utils.mods.Mods;
-import gameplay.states.editors.*;
+
+import core.backend.Mods;
+import game.editors.*;
 
 var texts:Array<Alphabet>;
 

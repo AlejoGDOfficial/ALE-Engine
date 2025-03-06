@@ -164,7 +164,6 @@ class FPSCounter extends Sprite
                     #if cpp
                     case 'memoryField':
                         otherFields[i].text = 'Memory: ' + FlxStringUtil.formatBytes(Gc.memInfo64(Gc.MEM_INFO_USAGE)) + ' / ' + FlxStringUtil.formatBytes(memoryPeak);
-                        otherFields[i].textColor = currentFPS < FlxG.drawFramerate * 0.5 ? FlxColor.PINK : FlxColor.WHITE;
                     #end
                     case 'developerField':
                         otherFields[i].text = (CoolVars.developerMode ? 'DEVELOPER MODE' : '') #if test_build + ' - TEST BUILD - REPORT ITS USE TO @alejogdofficial ON DISCORD' #end;

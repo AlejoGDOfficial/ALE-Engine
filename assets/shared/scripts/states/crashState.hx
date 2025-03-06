@@ -1,10 +1,13 @@
-import gameplay.states.game.PlayState;
+import game.states.PlayState;
+
 import visuals.objects.Alphabet;
+
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxGradient;
 import flixel.ui.FlxButton;
 import flixel.group.FlxTypedGroup;
-import utils.scripting.ScriptSubstate;
+
+import game.states.ScriptSubstate;
 
 import tjson.TJSON as Json;
 
@@ -16,6 +19,8 @@ var uhOhText:Alphabet;
 function onCreate()
 {
     FlxG.sound.playMusic(Paths.music('crash'));
+
+    FlxG.mouse.visible = true;
 
     var errorGradient:FlxSprite = FlxGradient.createGradientFlxSprite(FlxG.width / 2, FlxG.height, [FlxColor.fromRGB(50, 50, 125), FlxColor.fromRGB(125, 50, 50)]);
     errorGradient.scrollFactor.set();

@@ -3,7 +3,7 @@ import core.config.DiscordClient;
 
 import core.music.Conductor;
 
-import visuals.stages.BaseStage;
+import core.backend.BaseStage;
 
 import core.backend.Controls;
 import core.backend.MusicBeatState;
