@@ -78,31 +78,13 @@ var curTime:Float = 0;
 
 var changingState:Bool = false;
 
-var selectingObject:Bool = false;
-var objectScale:Float = 1;
-
 var canSelect = true;
 
 function onUpdate(elapsed:Float)
 {
     curTime += elapsed;
 
-    titleText.scale.x = fpsLerp(titleText.scale.x, objectScale, 0.3);
-    titleText.scale.y = fpsLerp(titleText.scale.y, objectScale, 0.3);
-
-    if (buildTarget == 'android')
-    {
-        if (canSelect && FlxG.mouse.justPressed && FlxG.mouse.overlaps(titleText))
-        {
-            selectingObject = true;
-        } else if (FlxG.mouse.justReleased && !FlxG.mouse.overlaps(titleText) || !FlxG.mouse.overlaps(titleText)) {
-            selectingObject = false;
-        }
-    }
-
-    objectScale = selectingObject ? 1.05 : 1;
-
-    if (canSelect && (controls.ACCEPT || (FlxG.mouse.justReleased && selectingObject)) && !changingState)
+    if (canSelect && controls.ACCEPT && !changingState)
     {
         if (skippedIntro)
         {
@@ -120,7 +102,6 @@ function onUpdate(elapsed:Float)
                 MusicBeatState.switchState(new ScriptState('mainMenuState', true));
             });
 
-            selectingObject = false;
             canSelect = false;
         } else {
             FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : FlxColor.BLACK, ClientPrefs.data.flashing ? 3 : 1);

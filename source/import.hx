@@ -60,7 +60,7 @@ import flxanimate.*;
 #end
 
 #if mobile
-import utils.helpers.StorageUtil;
+import utils.storage.StorageUtil;
 #end
 
 using StringTools;

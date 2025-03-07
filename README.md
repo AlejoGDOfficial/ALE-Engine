@@ -10,7 +10,6 @@
 >[!IMPORTANT]
 > * Mods created in **Psych  0.7.3** aren't fully compatible with **ALE Engine**
 > * There are very few new features yet
-> * The script states don't work as well as Psych hardcoded States
 
 <details><summary><h2>How to install mods</h2></summary>
   

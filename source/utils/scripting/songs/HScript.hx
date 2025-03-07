@@ -281,7 +281,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if (windows && cpp) WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

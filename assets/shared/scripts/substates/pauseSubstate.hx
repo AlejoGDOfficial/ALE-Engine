@@ -97,7 +97,8 @@ function onCreatePost()
 	bg.alpha = 0;
 
 	skipText = new AttachedFlxText();
-	skipText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
+	if (FlxG.sound.music != null)
+		skipText.text = FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false) + ' / ' + FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false);
 	skipText.scrollFactor.set();
 	skipText.setFormat(Paths.font('vcr.ttf'), 64, null, 'right');
 	skipText.updateHitbox();

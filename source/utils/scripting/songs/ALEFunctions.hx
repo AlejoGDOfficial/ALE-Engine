@@ -107,6 +107,8 @@ class ALEFunctions
 		});
 		Lua_helper.add_callback(lua, 'loadWeek', function (songs:Array<String>, diffInt:Int)
 		{
+			PlayState.storyWeek = null;
+
 			PlayState.storyPlaylist = songs;
 		
 			Difficulty.loadFromWeek();
@@ -160,7 +162,7 @@ class ALEFunctions
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:#if cpp WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		Lua_helper.add_callback(lua, 'showMessageBox', function(message:String, caption:String, icon:#if (cpp && windows) WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

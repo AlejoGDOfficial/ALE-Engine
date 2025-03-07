@@ -136,16 +136,25 @@ function onCreate()
     add(new FlxText(metaValueInput.x, metaValueInput.y - 15, 0, 'Meta Value:'));
 
     var addMetaButton = new FlxButton(700, 550, 'Add Meta', () -> {
-        if (metaNameInput.text != '') Reflect.setField(metaData, metaNameInput.text, metaValueInput.text);
-        metaText.text = 'MetaData: ' + Std.string(metaData);
+        if (metaNameInput.text != '')
+            Reflect.setField(metaData, metaNameInput.text, metaValueInput.text);
+
+        metaText.text = 'MetaData: ' + metaData;
     });
     addMetaButton.scrollFactor.set(1, 1);
     addMetaButton.antialiasing = ClientPrefs.data.antialiasing;
     add(addMetaButton);
 
     var deleteMetaButton = new FlxButton(900, 550, 'Remove Meta', () -> {
-        if (metaNameInput.text != '' && Reflect.hasField(metaData, metaNameInput.text)) metaData = shittyDeleteField(metaData, metaNameInput.text);
-        metaText.text = 'MetaData: ' + Std.string(metaData);
+        if (metaNameInput.text != '' && Reflect.hasField(metaData, metaNameInput.text))
+            metaData = shittyDeleteField(metaData, metaNameInput.text);
+
+        var metaArray:Array<String> = [];
+
+        for (field in Reflect.fields(metaData))
+            metaArray.push(field + ': ' + Reflect.field(metaData, field));
+
+        metaText.text = 'MetaData: ' + metaData);
     });
     deleteMetaButton.scrollFactor.set(1, 1);
     deleteMetaButton.antialiasing = ClientPrefs.data.antialiasing;
@@ -163,7 +172,7 @@ function shittyDeleteField(object:Dynamic, removeField:String)
 
 function onUpdatePost()
 {
-    if (controls.BACK)
+    if (FlxG.keys.justPressed.ESCAPE)
     {
         close();
     }
@@ -192,7 +201,8 @@ function onUpdate()
                 stage: stageDropDown.selectedLabel
             };
 
-            if (metaData != {} && metaData != null) Reflect.setField(songData, 'metadata', metaData);
+            if (metaData != {} && metaData != null)
+                Reflect.setField(songData, 'metadata', metaData);
     
             PlayState.SONG = songData;
 

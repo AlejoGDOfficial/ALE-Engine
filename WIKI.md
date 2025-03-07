@@ -232,4 +232,10 @@
 * `getJsonPref(variable)`
     - Lua Example: `getJsonPref('framerate')`
 
+#### Used to Create Backdrops w/ Lua
+
+* `addBackdrop(tag, image)`
+
+    - Lua Example: `addBackdrop('backdropTag', 'icons/bf')`
+
 </details>

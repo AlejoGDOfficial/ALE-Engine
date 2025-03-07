@@ -137,18 +137,20 @@ class HScript extends SScript
             FlxG.state.openSubState(new ScriptSubState(substate));
         });
 
-		set('loadSong', function(daSong:String, diffInt:Int)
+		set('loadSong', function(song:String, difficulty:Int)
 		{
-			var songLowerCase:String = Paths.formatToSongPath(daSong);
-
-			Difficulty.loadFromWeek();
-
-			var diffic = Difficulty.getFilePath(diffInt);
-			if (diffic == null) diffic = '';
-
-			PlayState.SONG = Song.loadFromJson(daSong.toLowerCase() + diffic, daSong.toLowerCase());
-			PlayState.storyDifficulty = diffInt;
-			
+			try
+			{
+				var songLowercase:String = Paths.formatToSongPath(song);
+				var poop:String = Highscore.formatSong(songLowercase, difficulty);
+		
+				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+				PlayState.storyDifficulty = difficulty;
+			} catch(e:Dynamic) {
+				throw 'ERROR!' + e;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
+		
 			LoadingState.loadAndSwitchState(new PlayState());
 		});
 		set('loadWeek', function (songs:Array<String>, diffInt:Int)
@@ -255,7 +257,7 @@ class HScript extends SScript
 			WindowsCPP.windowsScreenShot(path); #end
 		});
 	
-		set('showMessageBox', function(message:String, caption:String, icon:#if cpp WindowsAPI.MessageBoxIcon #else Dynamic #end)
+		set('showMessageBox', function(message:String, caption:String, icon:#if (windows && cpp) WindowsAPI.MessageBoxIcon #else Dynamic #end)
 		{
 			#if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title);
 			WindowsCPP.showMessageBox(caption, message, icon); #end

@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package game.states;
+package core.config;
 
 import lime.utils.Assets as LimeAssets;
 import openfl.utils.Assets as OpenFLAssets;

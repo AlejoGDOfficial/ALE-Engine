@@ -192,10 +192,6 @@ function weekUnlocked(week:Dynamic):Bool
     if (Highscore.weekCompleted.exists(week.weekBefore) && Highscore.weekCompleted.get(week.weekBefore)) return true;
 }
 
-var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
-
-var changed = {songs: true, difficulties: true}
-
 var changedSong:Bool = false;
 
 function onUpdate(elapsed:Float)
@@ -237,51 +233,6 @@ function onUpdate(elapsed:Float)
             }
         }
 
-        if (FlxG.mouse.pressed && buildTarget == 'android') {
-            var deltaX = FlxG.mouse.screenX - mouseData.prevX;
-            var deltaY = FlxG.mouse.screenY - mouseData.prevY;
-    
-            if (Math.abs(deltaY) >= 75)
-            {
-                if (deltaY < 0)
-                {
-                    if (songsSelInt < songs.length - 1) songsSelInt += 1;
-                    else if (songsSelInt == songs.length - 1) songsSelInt = 0;
-                } else {
-                    if (songsSelInt > 0) songsSelInt -= 1;
-                    else if (songsSelInt == 0) songsSelInt = songs.length - 1;
-                }
-
-                mouseData.prevY = FlxG.mouse.screenY;
-
-                changed.songs = true;
-    
-                changeSongShit();
-                changeDifficultyShit();
-            }
-
-            if (Math.abs(deltaX) >= 150)
-            {
-                if (deltaX > 0)
-                {
-                    if (difficultiesSelInt > 0) difficultiesSelInt -= 1;
-                    else if (difficultiesSelInt == 0) difficultiesSelInt = difficulties.length - 1;
-                } else {
-                    if (difficultiesSelInt < difficulties.length - 1) difficultiesSelInt += 1;
-                    else if (difficultiesSelInt == difficulties.length - 1) difficultiesSelInt = 0;
-                }
-
-                mouseData.prevX = FlxG.mouse.screenX;
-
-                changed.difficulties = true;
-
-                changeDifficultyShit();
-            }
-        } else {
-            mouseData.prevX = FlxG.mouse.screenX;
-            mouseData.prevY = FlxG.mouse.screenY;
-        }
-
         if (difficulties.length > 1)
         {
             if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
@@ -307,48 +258,43 @@ function onUpdate(elapsed:Float)
             }
         }
 
-        if (controls.ACCEPT || (FlxG.mouse.justReleased && buildTarget == 'android'))
+        if (controls.ACCEPT)
         {
-            if ((FlxG.mouse.justReleased && !changed.songs && !changed.difficulties) || controls.ACCEPT)
+            setGlobalVar('freeplayStateSongsSelInt', songsSelInt);
+            setGlobalVar('freeplayStateDifficultiesSelInt', difficultiesSelInt);
+
+            for (song in songs)
             {
-                setGlobalVar('freeplayStateSongsSelInt', songsSelInt);
-                setGlobalVar('freeplayStateDifficultiesSelInt', difficultiesSelInt);
-    
-                for (song in songs)
+                if (songs.indexOf(song) == songsSelInt)
                 {
-                    if (songs.indexOf(song) == songsSelInt)
+                    if (song.get('locked'))
                     {
-                        if (song.get('locked'))
+                        FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+                    } else {
+                        if (ClientPrefs.data.flashing)
                         {
-                            FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
-                        } else {
-                            if (ClientPrefs.data.flashing)
-                            {
-                                FlxFlicker.flicker(song.get('text'), 0, 0.05);
-                                FlxFlicker.flicker(song.get('icon'), 0, 0.05);
-                            }
-    
-                            if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
-        
-                            FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-                            
-                            PlayState.storyWeek = WeekData.weeksList.indexOf(song.get('week'));
-    
-                            new FlxTimer().start(1, function(tmr:FlxTimer)
-                            {
-                                loadSong(song.get('name'), difficultiesSelInt);
-                            });
+                            FlxFlicker.flicker(song.get('text'), 0, 0.05);
+                            FlxFlicker.flicker(song.get('icon'), 0, 0.05);
                         }
-                    } else if (!songs[songsSelInt].get('locked')) {
-                        FlxTween.tween(song.get('text'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
-                        FlxTween.tween(song.get('icon'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
-                    }
-                }
+
+                        if (FlxG.sound.music != null) FlxG.sound.music.volume = 0;
     
-                if (!songs[songsSelInt].get('locked')) canSelect = false;
+                        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+                        
+                        PlayState.storyWeek = WeekData.weeksList.indexOf(song.get('week'));
+
+                        new FlxTimer().start(1, function(tmr:FlxTimer)
+                        {
+                            loadSong(song.get('name'), difficultiesSelInt);
+                        });
+                    }
+                } else if (!songs[songsSelInt].get('locked')) {
+                    FlxTween.tween(song.get('text'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
+                    FlxTween.tween(song.get('icon'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
+                }
             }
 
-            changed.songs = changed.difficulties = false;
+            if (!songs[songsSelInt].get('locked')) canSelect = false;
         }
 
         if (controls.BACK)

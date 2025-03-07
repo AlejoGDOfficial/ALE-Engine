@@ -428,10 +428,15 @@ class FunkinLua {
 			#end
 		});
 
-		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:Int)
+		Lua_helper.add_callback(lua, "loadSong", function(song:String, difficulty:Int, ?isStory:Bool = false)
 		{
 			try
 			{
+				PlayState.isStoryMode = isStory;
+				PlayState.storyWeek = null;
+				
+				Difficulty.loadFromWeek();
+
 				var songLowercase:String = Paths.formatToSongPath(song);
 				var poop:String = Highscore.formatSong(songLowercase, difficulty);
 		

@@ -7,7 +7,7 @@ import utils.debug.FPSCounter;
 
 import flixel.util.FlxSave;
 
-#if cpp import cpp.WindowsCPP; #end
+#if (cpp && windows) import cpp.WindowsCPP; #end
 
 @:access(utils.helpers.CoolVars)
 class MainState extends MusicBeatState
@@ -43,12 +43,10 @@ class MainState extends MusicBeatState
 		DiscordClient.prepare();
 		#end
 
-        #if cpp
         fpsVar = new FPSCounter();
         FlxG.game.addChild(fpsVar);
         Lib.current.stage.align = "tl";
         Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-        #end
 
         if (Reflect.hasField(CoolVars.gameData, 'title')) lime.app.Application.current.window.title = CoolVars.gameData.title;
         #if (windows && cpp) WindowsCPP.reDefineMainWindowTitle(lime.app.Application.current.window.title); #end

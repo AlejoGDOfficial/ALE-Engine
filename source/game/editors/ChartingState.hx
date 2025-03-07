@@ -1348,12 +1348,32 @@ class ChartingState extends MusicBeatState
 	var gameOverEndInputText:FlxUIInputText;
 	var noteSkinInputText:FlxUIInputText;
 	var noteSplashesInputText:FlxUIInputText;
+	var metaNameInput:FlxUIInputText;
+	var metaValueInput:FlxUIInputText;
+	var addMetaButton:FlxButton;
+	var deleteMetaButton:FlxButton;
+
+	var metaText:FlxText;
+
 	function addDataUI()
 	{
 		var tab_group_data = new FlxUI(null, UI_box);
 		tab_group_data.name = 'Data';
 
-		//
+    	metaText = new FlxText(10, 40, FlxG.width / 5, 'MetaData: No MetaData', 12);
+		metaText.scrollFactor.set();
+    	add(metaText);
+		
+		if (_song.metadata != null)
+		{
+			var metaArray:Array<String> = [];
+			
+			for (field in Reflect.fields(_song.metadata))
+				metaArray.push(field + ': ' + Reflect.field(_song.metadata, field));
+	
+			metaText.text = 'MetaData:\n' + metaArray.join('\n');
+		}
+		
 		gameOverCharacterInputText = new FlxUIInputText(10, 25, 150, _song.gameOverChar != null ? _song.gameOverChar : '', 8);
 		blockPressWhileTypingOn.push(gameOverCharacterInputText);
 		
@@ -1365,9 +1385,8 @@ class ChartingState extends MusicBeatState
 		
 		gameOverEndInputText = new FlxUIInputText(10, gameOverLoopInputText.y + 35, 150, _song.gameOverEnd != null ? _song.gameOverEnd : '', 8);
 		blockPressWhileTypingOn.push(gameOverEndInputText);
-		//
 
-		var check_disableNoteRGB:FlxUICheckBox = new FlxUICheckBox(10, 170, null, null, "Disable Note RGB", 100);
+		var check_disableNoteRGB:FlxUICheckBox = new FlxUICheckBox(10, gameOverEndInputText.y + 35, null, null, "Disable Note RGB", 100);
 		check_disableNoteRGB.checked = (_song.disableNoteRGB == true);
 		check_disableNoteRGB.callback = function()
 		{
@@ -1376,7 +1395,52 @@ class ChartingState extends MusicBeatState
 			//trace('CHECKED!');
 		};
 
-		//
+		metaNameInput = new FlxUIInputText(10, check_disableNoteRGB.y + 35, 150, '', 8);
+		blockPressWhileTypingOn.push(metaNameInput);
+		
+		metaValueInput = new FlxUIInputText(10, metaNameInput.y + 35, 150, '', 8);
+		blockPressWhileTypingOn.push(metaValueInput);
+
+		addMetaButton = new FlxButton(metaNameInput.x + 170, metaNameInput.y - 2, 'Set Meta', () -> {
+			if (!Reflect.hasField(_song, 'metadata'))
+				Reflect.setField(_song, 'metadata', {});
+
+			if (metaNameInput.text != '')
+				Reflect.setField(_song.metadata, metaNameInput.text, metaValueInput.text);
+	
+			if (_song.metadata == null)
+			{
+				metaText.text = 'MetaData: No MetaData';
+			} else {
+				var metaArray:Array<String> = [];
+				
+				for (field in Reflect.fields(_song.metadata))
+					metaArray.push(field + ': ' + Reflect.field(_song.metadata, field));
+		
+				metaText.text = 'MetaData:\n' + metaArray.join('\n');
+			}
+		});
+
+		deleteMetaButton = new FlxButton(metaValueInput.x + 170, metaValueInput.y - 2, 'Remove Meta', () -> {
+			if (metaNameInput.text != '' && Reflect.hasField(_song.metadata, metaNameInput.text))
+				Reflect.deleteField(_song.metadata, metaNameInput.text);
+
+			if (Reflect.hasField(_song, 'metadata') && _song.metadata == {})
+				Reflect.deleteField(_song, 'metadata');
+	
+			if (_song.metadata == null)
+			{
+				metaText.text = 'MetaData: No MetaData';
+			} else {
+				var metaArray:Array<String> = [];
+
+				for (field in Reflect.fields(_song.metadata))
+					metaArray.push(field + ': ' + Reflect.field(_song.metadata, field));
+		
+				metaText.text = 'MetaData:\n' + metaArray.join('\n');
+			}
+		});
+
 		noteSkinInputText = new FlxUIInputText(10, 280, 150, _song.arrowSkin != null ? _song.arrowSkin : '', 8);
 		blockPressWhileTypingOn.push(noteSkinInputText);
 
@@ -1387,7 +1451,6 @@ class ChartingState extends MusicBeatState
 			_song.arrowSkin = noteSkinInputText.text;
 			updateGrid();
 		});
-		//
 		
 		tab_group_data.add(gameOverCharacterInputText);
 		tab_group_data.add(gameOverSoundInputText);
@@ -1395,6 +1458,11 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(gameOverEndInputText);
 
 		tab_group_data.add(check_disableNoteRGB);
+		
+		tab_group_data.add(metaNameInput);
+		tab_group_data.add(metaValueInput);
+		tab_group_data.add(addMetaButton);
+		tab_group_data.add(deleteMetaButton);
 		
 		tab_group_data.add(reloadNotesButton);
 		tab_group_data.add(noteSkinInputText);
@@ -1404,6 +1472,8 @@ class ChartingState extends MusicBeatState
 		tab_group_data.add(new FlxText(gameOverSoundInputText.x, gameOverSoundInputText.y - 15, 0, 'Game Over Death Sound (sounds/):'));
 		tab_group_data.add(new FlxText(gameOverLoopInputText.x, gameOverLoopInputText.y - 15, 0, 'Game Over Loop Music (music/):'));
 		tab_group_data.add(new FlxText(gameOverEndInputText.x, gameOverEndInputText.y - 15, 0, 'Game Over Retry Music (music/):'));
+		tab_group_data.add(new FlxText(metaNameInput.x, metaNameInput.y - 15, 0, 'Meta ID'));
+		tab_group_data.add(new FlxText(metaValueInput.x, metaValueInput.y - 15, 0, 'Meta Value'));
 
 		tab_group_data.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_data.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));

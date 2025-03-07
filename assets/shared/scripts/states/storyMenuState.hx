@@ -249,60 +249,10 @@ function changeWeeksShit()
 
 var canSelect:Bool = true;
 
-var mouseData = {prevX: FlxG.mouse.screenX, prevY: FlxG.mouse.screenY}
-
-var changed = {weeks: true, difficulties: true}
-
 function onUpdate(elapsed:Float)
 {
     if (canSelect)
     {
-        if (FlxG.mouse.pressed && buildTarget == 'android')
-        {
-            var deltaX = FlxG.mouse.screenX - mouseData.prevX;
-            var deltaY = FlxG.mouse.screenY - mouseData.prevY;
-    
-            if (Math.abs(deltaY) >= 75)
-            {
-                if (deltaY < 0)
-                {
-                    if (weeksSelInt < weeks.length - 1) weeksSelInt += 1;
-                    else if (weeksSelInt == weeks.length - 1) weeksSelInt = 0;
-                } else {
-                    if (weeksSelInt > 0) weeksSelInt -= 1;
-                    else if (weeksSelInt == 0) weeksSelInt = weeks.length - 1;
-                }
-
-                mouseData.prevY = FlxG.mouse.screenY;
-
-                changed.weeks = true;
-    
-                changeWeeksShit();
-                changeDifficultyShit();
-            }
-
-            if (Math.abs(deltaX) >= 150)
-            {
-                if (deltaX > 0)
-                {
-                    if (difficultiesSelInt > 0) difficultiesSelInt -= 1;
-                    else if (difficultiesSelInt == 0) difficultiesSelInt = difficulties.length - 1;
-                } else {
-                    if (difficultiesSelInt < difficulties.length - 1) difficultiesSelInt += 1;
-                    else if (difficultiesSelInt == difficulties.length - 1) difficultiesSelInt = 0;
-                }
-
-                mouseData.prevX = FlxG.mouse.screenX;
-
-                changed.difficulties = true;
-
-                changeDifficultyShit();
-            }
-        } else {
-            mouseData.prevX = FlxG.mouse.screenX;
-            mouseData.prevY = FlxG.mouse.screenY;
-        }
-
         if (weeks.length > 1)
         {
             if (controls.UI_UP_P || controls.UI_DOWN_P || FlxG.mouse.wheel != 0)
@@ -377,49 +327,44 @@ function onUpdate(elapsed:Float)
             canSelect = false;
         }
 
-        if (controls.ACCEPT || (FlxG.mouse.justReleased && buildTarget == 'android'))
+        if (controls.ACCEPT)
         {
-            if ((FlxG.mouse.justReleased && !changed.weeks && !changed.difficulties) || controls.ACCEPT)
+            setGlobalVar('storyMenuStateweeksSelInt', weeksSelInt);
+            setGlobalVar('storyMenuStateDifficultiesSelInt', difficultiesSelInt);
+            
+            for (week in weeks)
             {
-                setGlobalVar('storyMenuStateweeksSelInt', weeksSelInt);
-                setGlobalVar('storyMenuStateDifficultiesSelInt', difficultiesSelInt);
-                
-                for (week in weeks)
+                if (weeks.indexOf(week) == weeksSelInt)
                 {
-                    if (weeks.indexOf(week) == weeksSelInt)
+                    if (week.get('locked'))
                     {
-                        if (week.get('locked'))
+                        FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
+                    } else {
+                        if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
+    
+                        FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+    
+                        loadWeek(week.get('songs'), difficultiesSelInt);
+                        
+                        for (char in characters.members)
                         {
-                            FlxG.sound.play(Paths.sound('cancelMenu'), 0.7);
-                        } else {
-                            if (ClientPrefs.data.flashing) FlxFlicker.flicker(week.get('image'), 0, 0.05);
-        
-                            FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
-        
-                            loadWeek(week.get('songs'), difficultiesSelInt);
-                            
-                            for (char in characters.members)
+                            if (char.character != '' && char.hasConfirmAnimation)
                             {
-                                if (char.character != '' && char.hasConfirmAnimation)
-                                {
-                                    char.animation.play('confirm');
-                                }
+                                char.animation.play('confirm');
                             }
-        
-                            new FlxTimer().start(1, function(tmr:FlxTimer)
-                            {
-                                LoadingState.loadAndSwitchState(new PlayState(), true);
-                            });
                         }
-                    } else if (!weeks[weeksSelInt].get('locked')) {
-                        FlxTween.tween(week.get('image'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
+    
+                        new FlxTimer().start(1, function(tmr:FlxTimer)
+                        {
+                            LoadingState.loadAndSwitchState(new PlayState(), true);
+                        });
                     }
+                } else if (!weeks[weeksSelInt].get('locked')) {
+                    FlxTween.tween(week.get('image'), {alpha: 0}, 0.5, {ease: FlxEase.cubeIn});
                 }
-
-                if (!weeks[weeksSelInt].get('locked')) canSelect = false;
             }
 
-            changed.weeks = changed.difficulties = false;
+            if (!weeks[weeksSelInt].get('locked')) canSelect = false;
         }
 
         if (FlxG.keys.justPressed.CONTROL && !FlxG.keys.pressed.SHIFT) openScriptSubState('gameplayOptionsSubstate');

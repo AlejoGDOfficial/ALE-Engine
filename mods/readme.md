@@ -31,6 +31,8 @@ If you decide to use ```template.zip```, which is located in the ```mods``` fold
 
 - **pauseMenu**: It's self explanatory, the Script SubState that will be displayed when pausing a song while playing.
 
+- **gameOverScreen**: It's self explanatory, the Script SubState that will be displayed when losing on a song.
+
 - **crashState**: It explains itself, it is the Script State (This one in particular has certain variations, for more information check the source code file ```source/utils/scripting/ScriptCrashState.hx```) to which the game will go once the game crashes.
 
 - **transition**: This will be the SubState Script (with some variations, for more information check the source code file ```source/utils/scripting/ScriptTransition.hx```) that will be displayed when changing menus, like the typical black gradient that covers the screen and shows it again once the game has directed you to the next menu.
@@ -45,6 +47,8 @@ If you decide to use ```template.zip```, which is located in the ```mods``` fold
 
 - **crashStateBpm**: It is the same as the ```bpm``` variable, but with the difference that it will only be applied to the State that is loaded when the game crashes.
 
+- **discordID**: This is the program ID that Discord will connect to in order to display the game in the "Playing" section of your profile.
+
 ---
 
 ## credits.json
@@ -57,6 +61,7 @@ Just like with Psych Engine, credits can be customized without any code, but I'v
 {
     "groups": [
         {
+            "color": "404040"
             "name": "ALE Engine Team",
             "members": [
                 {
@@ -74,6 +79,7 @@ Just like with Psych Engine, credits can be customized without any code, but I'v
             ]
         },
         {
+            "color": "FADC45"
             "name": "Funkin' Crew",
             "members": [
                 {
@@ -97,6 +103,8 @@ Just like with Psych Engine, credits can be customized without any code, but I'v
 At first glance it seems a bit complicated, so I'll explain how everything works.
 
 - **groups**: This variable simply contains the information of all the Developer Groups, each group must go within this set.
+
+    - **color**: This variable contains the color with which the Development Team Name will be displayed.
 
     - **name**: This variable contains the name of the Work Group or Team.
 
