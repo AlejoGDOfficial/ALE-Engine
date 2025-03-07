@@ -28,6 +28,7 @@
 - Memory usage has been significantly reduced  
 - Added the ability to create `FlxBackdrop` with Lua  
 - The song playback speed can now be changed while playing using `Ctrl + Shift + F5` and `Ctrl + Shift + F6` in Developer Mode  
+- A LOT of Bug Fixes
 
 ## 0.3.1
 
