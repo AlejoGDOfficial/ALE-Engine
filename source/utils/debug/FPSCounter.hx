@@ -100,9 +100,12 @@ class FPSCounter extends Sprite
     
     function theUpdate()
     {
+        if (!visible)
+            return;
+
         keyTimer += FlxG.elapsed;
 
-		currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
+        currentFPS = Math.floor(CoolUtil.fpsLerp(currentFPS, FlxG.elapsed == 0 ? 0 : (1 / FlxG.elapsed), 0.25));
         
         if (keyTimer >= 0.1)
         {
@@ -123,7 +126,7 @@ class FPSCounter extends Sprite
                     PlayState.instance.playbackRate -= 0.05;
                 else if (FlxG.keys.justPressed.F6 && Std.is(FlxG.state, PlayState) && CoolVars.developerMode)
                         PlayState.instance.playbackRate += 0.05;
-            }	
+            }   
     
             if (FlxG.keys.justPressed.F3 && !(FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT))
             {
@@ -207,6 +210,31 @@ class FPSCounter extends Sprite
             }
         }
     }
+
+    public function destroy()
+    {
+        FlxG.signals.preUpdate.remove(theUpdate);
+
+        for (field in fields)
+            removeChild(field);
+
+        fields = [];
+
+        for (field in otherFields)
+            removeChild(field);
+
+        otherFields = [];
+
+        for (shape in shapes)
+            removeChild(shape);
+        
+        shapes = [];
+
+        visibility = [];
+        maps = [];
+        otherVisibility = [];
+        otherMaps = [];
+    }
 }
 
 class AttachedShape extends Shape
@@ -226,12 +254,11 @@ class AttachedShape extends Shape
 
     function theUpdate()
     {
-        if (alpha < 0.5)
+        if (alpha < 0.5 || !visible)
             return;
 
         graphics.clear();
         graphics.beginFill(0x000000, Math.max(0, sprTracker.alpha - 0.5));
-        graphics.beginFill(0x000000, sprTracker.alpha - 0.5);
         graphics.drawRect(sprTracker.x - 10, sprTracker.y, sprTracker.width + 20, sprTracker.height);
         graphics.endFill();
     }

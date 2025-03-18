@@ -133,11 +133,11 @@ class ScriptState extends MusicBeatState
 
 	override function stepHit()
 	{
-		super.stepHit();
-
 		if(curStep >= lastStepHit) {
 			return;
 		}
+		
+		super.stepHit();
 
 		lastStepHit = curStep;
 		setOnScripts('curStep', curStep);

@@ -137,7 +137,8 @@ class ModsMenuSubState extends MusicBeatSubState
                 CoolUtil.resetEngine();
         }
     
-        if (Mods.getGlobalMods().length <= 0 && controls.BACK) close();
+        if (Mods.getGlobalMods().length <= 0 && controls.BACK)
+            CoolUtil.resetEngine();
     
         super.update(elapsed);
     }

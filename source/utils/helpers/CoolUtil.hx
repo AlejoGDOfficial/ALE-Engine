@@ -196,20 +196,17 @@ class CoolUtil
 		return [false, curSubState];
 	}
 
-	public static function fpsLerp(v1:Float, v2:Float, ratio:Float)
-	{
+	public static function fpsLerp(v1:Float, v2:Float, ratio:Float):Float
 		return FlxMath.lerp(v1, v2, getFPSRatio(ratio));
-	}
 
-	public static function getFPSRatio(ratio:Float)
-	{
+	public static function getFPSRatio(ratio:Float):Float
 		return FlxMath.bound(ratio * FlxG.elapsed * 60, 0, 1);
-	}
 
     public static function getNestedValue(array:Dynamic, path:String):Dynamic 
 	{
         var indices = path.split(' ').filter(function(s) return s != "");
         var result:Dynamic = array;
+
         for (index in indices) 
 		{
             if (Std.isOfType(result, Array)) 
@@ -219,6 +216,7 @@ class CoolUtil
                 return null;
             }
         }
+
         return result;
     }
 
@@ -282,6 +280,7 @@ class CoolUtil
 
 		FlxG.game.removeChild(MainState.fpsVar);
 
+		MainState.fpsVar.destroy();
 		MainState.fpsVar = null;
 
 		for (key in CoolVars.globalVars.keys()) CoolVars.globalVars.remove(key);
